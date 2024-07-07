@@ -1,0 +1,11 @@
+node_modules
+build
+
+state.json
+preferences.json
+
+# Cypress output
+cypress/videos
+cypress/screenshots
+
+.DS_Store
