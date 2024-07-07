@@ -10,6 +10,8 @@ const {
 } = require("../src/storage/browser");
 const cliStorage = require("../src/storage/cli");
 const { STATE_JSON_FILENAME, PREFERENCES_JSON_FILENAME } = cliStorage;
+// TODO: Rewrite storage tests to use memfs instead, so that mock-fs can be discarded
+// (mock-fs is redundant now that memfs is being used, also junit test results are passing through mock-fs atm when they're being written. Best to remove it out of the equation at this point.)
 const mockFs = require("mock-fs");
 const fs = require("fs");
 const {

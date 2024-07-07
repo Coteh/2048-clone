@@ -12,10 +12,15 @@ jest.mock("fs");
 jest.mock("../src/manager/spawn");
 
 describe("core game logic", () => {
+    let startingDir;
     let eventHandlerStub;
 
     beforeAll(() => {
+        startingDir = process.cwd();
         process.chdir('/');
+    });
+    afterAll(() => {
+        process.chdir(startingDir);
     });
     beforeEach(async () => {
         eventHandlerStub = sinon.stub();
