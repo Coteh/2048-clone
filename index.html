@@ -1,0 +1,261 @@
+<html>
+    <head>
+        <title>2048 Clone</title>
+        <meta name="theme-color" content="#000">
+        <meta name="description" content="A clone of the popular 2048 game">
+        <meta name="robots" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="index.css">
+        <link href="https://coteh.github.io/2048-clone" rel="canonical">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="manifest" href="manifest.json">
+        <link rel="apple-touch-icon" href="icon152.png">
+        <!-- <script
+            src="https://js.sentry-cdn.com/ff7ad2773fc84f6694b683181248006a.min.js"
+            crossorigin="anonymous"
+        ></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.5/mobile-detect.min.js"></script>
+        <script src="https://unpkg.com/feather-icons"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QNNES1C4Y"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+
+        gtag("config", "G-3QNNES1C4Y");
+        </script>
+    </head>
+    <body>
+        <div class="game-wrapper">
+            <nav id="top" class="top-menu">
+                <span class="space"></span>
+                <span class="title">
+                    2048 Clone
+                </span>
+                <span class="space"></span>
+                <div class="icon-bar">
+                    <a class="help-link link-icon" href="#">
+                        <i data-feather="help-circle"></i>
+                    </a>
+                    <a class="settings-link link-icon" href="#">
+                        <i data-feather="settings"></i>
+                    </a>
+                </div>
+            </nav>
+            <div class="game pane">
+                <div class="score-box">
+                    <span class="score-label">Score:</span>
+                    <span class="score" id="score"></span>
+                </div>
+                <div class="commands">
+                    <button id="undo" style="display:none">Undo</button>
+                    <button id="new-game">New Game</button>
+                </div>
+                <div class="space"></div>
+                <div id="middle" class="game-space">
+                    <div class="back-rows">
+
+                    </div>
+                    <div class="wordle-rows">
+
+                    </div>
+                </div>
+                <div class="space"></div>
+                <div id="bottom" class="keyboard-view"></div>
+                <noscript>
+                    <div class="pane-overlay">
+                        <h3>Please enable JavaScript to play this game.</h3>
+                    </div>
+                </noscript>
+            </div>
+            <div class="settings pane" style="display:none">
+                <h1>Settings</h1>
+                <button class="close"><i data-feather="x"></i></button>
+                <div class="space"></div>
+                <div class="settings-item-group">
+                    <div class="settings-item setting theme-switch">
+                        <div class="settings-item-column">
+                            <span>Theme</span>
+                        </div>
+                        <div class="settings-item-column">
+                            <span class="toggle">Dark</span>
+                        </div>
+                    </div>
+                    <div class="settings-item setting animations">
+                        <div class="settings-item-column">
+                            <span>Animations</span>
+                        </div>
+                        <div class="settings-item-column">
+                            <div class="knob">
+                                <div class="knob-inside">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-item setting sound">
+                        <div class="settings-item-column">
+                            <span>Sound</span>
+                        </div>
+                        <div class="settings-item-column">
+                            <i data-feather="volume-x"></i>
+                            <div class="slider">
+                                <div class="slider-inside">
+                                </div>
+                            </div>
+                            <i data-feather="volume-2"></i>
+                        </div>
+                    </div>
+                </div>
+                <span class="space"></span>
+                <div class="settings-item-group">
+                    <div class="settings-item">
+                        <a href="https://github.com/Coteh/wordle-clone/releases" target="_blank">
+                            <span class="version-number">v1.2.6</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="space"></div>
+                <div class="footer">
+                    <span>
+                        &copy 2022-2023 <a class="author-link" href="https://www.jamescote.ca/" target="_blank">James Cote</a>
+                    </span><br/>
+                    <span class="snow-theme-credits">
+                        Snow effect from <a href="https://embed.im/snow/" target="_blank">embed.im</a>
+                    </span>
+                </div>
+                <div class="space"></div>
+            </div>
+        </div>
+        <div class="notification-area"></div>
+        <div class="overlay-back"></div>
+        <!-- TODO: Swipe area touch event should work when it's here, otherwise other UI elements won't be accessible if it were moved to the top -->
+        <div id="swipeArea">Swipe Here</div>
+        <div id="landscape-overlay" style="display:none">
+            <div class="overlay-content">
+                <p>Please rotate your device to portrait mode to play the game.</p>
+                <img src="images/rotate-device.png" alt="Rotate device">
+            </div>
+        </div>
+        <template id="dialog">
+            <div class="dialog">
+                <button class="close"><i data-feather="x"></i></button>
+                <div class="dialog-content">
+                </div>
+            </div>
+        </template>
+        <template id="notification">
+            <div class="notification">
+                <div class="notification-content">
+                    <span class="notification-message"></span>
+                </div>
+            </div>
+        </template>
+        <template id="win-dialog-content">
+            <span>You win!</span>
+            <button class="button share-button">
+                <i data-feather="share-2"></i>
+                <span>Share</span>
+            </button>
+            <!-- TODO: renderDialog should add close event listener to all close buttons, not just the first -->
+            <!-- <button class="close">Continue</button> -->
+        </template>
+        <template id="lose-dialog-content">
+            <span>You lose!</span><br/>
+            <!-- TODO: should New Game be here as well? Or should player just close the dialog and click New Game from there? -->
+            <!-- <button id="new-game">New Game</button> -->
+        </template>
+        <template id="how-to-play">
+            <span class="how-to-play">
+                <h2>How to play</h2>
+                <span class="text">Guess a five-letter word in six tries.</span>
+                <hr/>
+                <br/>
+                <div class="meaning">
+                    <div class="sample">
+                        <div class="box correct"><span class="box-letter">c</span></div>
+                        <div class="box standard"><span class="box-letter">l</span></div>
+                        <div class="box standard"><span class="box-letter">o</span></div>
+                        <div class="box standard"><span class="box-letter">n</span></div>
+                        <div class="box standard"><span class="box-letter">e</span></div>
+                    </div>
+                    <span class="text">The letter C is in the correct place.</span>
+                </div>
+                <br/>
+                <div class="meaning">
+                    <div class="sample">
+                        <div class="box standard"><span class="box-letter">s</span></div>
+                        <div class="box within"><span class="box-letter">p</span></div>
+                        <div class="box standard"><span class="box-letter">i</span></div>
+                        <div class="box standard"><span class="box-letter">c</span></div>
+                        <div class="box standard"><span class="box-letter">e</span></div>
+                    </div>
+                    <span class="text">The letter P is in the word but in the wrong place.</span>
+                </div>
+                <br/>
+                <div class="meaning">
+                    <div class="sample">
+                        <div class="box standard"><span class="box-letter">h</span></div>
+                        <div class="box standard"><span class="box-letter">e</span></div>
+                        <div class="box standard"><span class="box-letter">a</span></div>
+                        <div class="box incorrect"><span class="box-letter">r</span></div>
+                        <div class="box standard"><span class="box-letter">t</span></div>
+                    </div>
+                    <span class="text">The letter R is not in the word in any place.</span>
+                </div>
+                <br/>
+                <span class="text">Good luck!</span>
+            </span>
+        </template>
+        <template id="error-dialog-content">
+            <span>
+                The following error occurred:
+            </span>
+            <span class="error-text"></span>
+            <span>
+                Please refresh the page and try again later.<br/>
+                If this persists, please reach out to me on <a href="https://github.com/Coteh/wordle-clone/issues/new?assignees=&labels=&template=bug_report.md" target="_blank">GitHub</a> or <a href="mailto:james.cote.730@gmail.com" target="_blank">email</a> with more information and I'll take a look.
+            </span>
+        </template>
+        <script src="src/manager/spawn.js"></script>
+        <script src="src/consts.js"></script>
+        <script src="src/render.js"></script>
+        <script src="src/datetime.js"></script>
+        <script src="src/game.js"></script>
+        <script src="src/storage/index.js"></script>
+        <script src="src/storage/browser.js"></script>
+        <script charset="UTF-8" src="src/share/index.js"></script>
+        <script src="src/share/browser.js"></script>
+        <script src="src/preferences.js"></script>
+        <script src="src/index.js"></script>
+        <script src="vendor/snow.js" defer></script>
+        <script>
+            if (typeof feather !== "undefined") {
+                feather.replace();
+            } else {
+                document.querySelector("[data-feather='help-circle']").innerText = "?";
+                document.querySelector("[data-feather='settings']").innerText = "⚙";
+                document.querySelector(".settings [data-feather='x']").innerText = "X";
+            }
+            
+            if (typeof Sentry !== "undefined") {
+                Sentry.onLoad(() => {
+                    Sentry.init({
+                        release: "wordle-clone@1.2.6",
+                        beforeSend(event) {
+                            if (event.request.url.includes("localhost") || event.request.url.includes("127.0.0.1")) {
+                                return null;
+                            }
+                            return event;
+                        }
+                    });
+                });
+            }
+
+            gtag("event", "game_open", {
+                "version": "1.2.6",
+            });
+        </script>
+    </body>
+</html>
