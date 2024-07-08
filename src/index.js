@@ -265,7 +265,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("diff x/y", diffX, diffY);
 
-        // TODO: Add an option to configure this
         const sensitivity = 100;
 
         if (Math.abs(diffX) > Math.abs(diffY)) {

@@ -15,6 +15,13 @@ describe("core game logic", () => {
     let startingDir;
     let eventHandlerStub;
 
+    async function setupGame(gameState) {
+        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
+        console.log(stateFilename);
+        vol.writeFileSync(stateFilename, JSON.stringify(gameState));
+        await initGame(eventHandlerStub);
+    }
+
     beforeAll(() => {
         startingDir = process.cwd();
         process.chdir('/');
@@ -39,7 +46,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -51,11 +58,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -76,7 +79,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -88,11 +91,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -114,7 +113,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -126,11 +125,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[3][0], 2);
@@ -152,7 +147,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [0, 0, 0, 2],
                 [0, 0, 0, 0],
@@ -164,11 +159,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][3], 2);
@@ -190,7 +181,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 0, 0, 2],
                 [0, 0, 0, 0],
@@ -202,11 +193,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -227,7 +214,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -239,11 +226,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -264,7 +247,7 @@ describe("core game logic", () => {
             return 2;
         });
         
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -276,11 +259,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -303,7 +282,7 @@ describe("core game logic", () => {
             return 4;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [ 2, 2,  4,  8   ],
                 [ 0, 4,  2,  16  ],
@@ -315,11 +294,7 @@ describe("core game logic", () => {
             won: false,
             score: 2224,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -353,7 +328,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [ 2, 2,  4,  8   ],
                 [ 0, 4,  2,  16  ],
@@ -365,11 +340,7 @@ describe("core game logic", () => {
             won: false,
             score: 2224,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -403,7 +374,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 0, 0, 0],
                 [2, 0, 0, 0],
@@ -415,11 +386,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -445,7 +412,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [2, 2, 2, 8],
                 [0, 0, 0, 0],
@@ -457,11 +424,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -487,7 +450,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [8, 0, 0, 0],
                 [2, 0, 0, 0],
@@ -499,11 +462,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
@@ -529,7 +488,7 @@ describe("core game logic", () => {
             return 2;
         });
 
-        let expectedGameState = {
+        await setupGame({
             board: [
                 [8, 2, 2, 2],
                 [0, 0, 0, 0],
@@ -541,11 +500,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             did_undo: false,
-        };
-        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
-        console.log(stateFilename);
-        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
-        await initGame(eventHandlerStub);
+        });
         let gameState = getGameState();
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
