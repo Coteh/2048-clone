@@ -392,7 +392,7 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[0][1], 0);
         assert.strictEqual(gameState.ended, false);
     });
-    it("should resolve merges bottom-up", async () => {
+    it("should resolve merges bottom-up when moving down", async () => {
         mockDetermineNextBlockLocation.mockImplementation(() => {
             return {
                 x: 1,
@@ -433,5 +433,131 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[1][0], 2);
         assert.strictEqual(gameState.board[2][0], 4);
         assert.strictEqual(gameState.board[3][0], 8);
+    });
+    it("should resolve merges bottom-up when moving right", async () => {
+        mockDetermineNextBlockLocation.mockImplementation(() => {
+            return {
+                x: 1,
+                y: 1,
+            };
+        });
+        mockDetermineNextBlockValue.mockImplementation(() => {
+            return 2;
+        });
+
+        let expectedGameState = {
+            board: [
+                [2, 2, 2, 8],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ],
+            ended: false,
+            highscore: 0,
+            won: false,
+            score: 0,
+            did_undo: false,
+        };
+        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
+        console.log(stateFilename);
+        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
+        await initGame(eventHandlerStub);
+        let gameState = getGameState();
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 2);
+        assert.strictEqual(gameState.board[0][1], 2);
+        assert.strictEqual(gameState.board[0][2], 2);
+        assert.strictEqual(gameState.board[0][3], 8);
+        move(DIRECTION_RIGHT);
+        gameState = getGameState();
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 0);
+        assert.strictEqual(gameState.board[0][1], 2);
+        assert.strictEqual(gameState.board[0][2], 4);
+        assert.strictEqual(gameState.board[0][3], 8);
+    });
+    it("should resolve merges top-down when moving up", async () => {
+        mockDetermineNextBlockLocation.mockImplementation(() => {
+            return {
+                x: 1,
+                y: 1,
+            };
+        });
+        mockDetermineNextBlockValue.mockImplementation(() => {
+            return 2;
+        });
+
+        let expectedGameState = {
+            board: [
+                [8, 0, 0, 0],
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+            ],
+            ended: false,
+            highscore: 0,
+            won: false,
+            score: 0,
+            did_undo: false,
+        };
+        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
+        console.log(stateFilename);
+        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
+        await initGame(eventHandlerStub);
+        let gameState = getGameState();
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 8);
+        assert.strictEqual(gameState.board[1][0], 2);
+        assert.strictEqual(gameState.board[2][0], 2);
+        assert.strictEqual(gameState.board[3][0], 2);
+        move(DIRECTION_UP);
+        gameState = getGameState();
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 8);
+        assert.strictEqual(gameState.board[1][0], 4);
+        assert.strictEqual(gameState.board[2][0], 2);
+        assert.strictEqual(gameState.board[3][0], 0);
+    });
+    it("should resolve merges top-down when moving left", async () => {
+        mockDetermineNextBlockLocation.mockImplementation(() => {
+            return {
+                x: 1,
+                y: 1,
+            };
+        });
+        mockDetermineNextBlockValue.mockImplementation(() => {
+            return 2;
+        });
+
+        let expectedGameState = {
+            board: [
+                [8, 2, 2, 2],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ],
+            ended: false,
+            highscore: 0,
+            won: false,
+            score: 0,
+            did_undo: false,
+        };
+        const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
+        console.log(stateFilename);
+        vol.writeFileSync(stateFilename, JSON.stringify(expectedGameState));
+        await initGame(eventHandlerStub);
+        let gameState = getGameState();
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 8);
+        assert.strictEqual(gameState.board[0][1], 2);
+        assert.strictEqual(gameState.board[0][2], 2);
+        assert.strictEqual(gameState.board[0][3], 2);
+        move(DIRECTION_LEFT);
+        gameState = getGameState();
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 8);
+        assert.strictEqual(gameState.board[0][1], 4);
+        assert.strictEqual(gameState.board[0][2], 2);
+        assert.strictEqual(gameState.board[0][3], 0);
     });
 });

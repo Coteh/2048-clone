@@ -215,8 +215,20 @@ const move = (direction) => {
             prevBoard.push(gameState.board[i].slice());
         }
         console.log("prev board is now", prevBoard);
-        for (let i = gameState.board.length - 1; i >= 0; i--) {
-            for (let j = gameState.board[i].length - 1; j >= 0; j--) {
+        let iStart = 0, iEnd = (i) => i < gameState.board.length, iStep = 1
+        let jStart = 0, jEnd = (j) => j < gameState.board[0].length, jStep = 1;
+        if (yDir > 0) {
+            iStart = gameState.board.length - 1;
+            iEnd = (i) => i >= 0;
+            iStep = -1;
+        }
+        if (xDir > 0) {
+            jStart = gameState.board[0].length - 1;
+            jEnd = (j) => j >= 0;
+            jStep = -1;
+        }
+        for (let i = iStart; iEnd(i); i += iStep) {
+            for (let j = jStart; jEnd(j); j += jStep) {
                 const newX = j + xDir;
                 const newY = i + yDir;
                 if (
