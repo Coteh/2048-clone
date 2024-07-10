@@ -10,6 +10,7 @@ if (typeof process !== "undefined") {
     loadGame = storage.loadGame;
 
     SpawnManager = require("./manager/spawn");
+    AnimationManager = require("./manager/animation");
 
     debugEnabled = process.env.DEBUG === "true";
 }
@@ -50,6 +51,7 @@ let gameState = {};
 let eventHandler = () => {};
 let boardStack = [];
 let spawnManager;
+let animationManager;
 
 const newState = () => {
     boardStack = [];
@@ -64,9 +66,6 @@ const newState = () => {
         won: false,
         score: 0,
         didUndo: false,
-        newBlocks: [],
-        movedBlocks: new Array(4).fill(0).map(_ => new Array(4)),
-        mergedBlocks: [],
     };
 };
 
@@ -90,6 +89,7 @@ const initState = () => {
         location = spawnManager.determineNextBlockLocation();
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
+    animationManager = new AnimationManager(gameState);
 };
 
 const initGame = async (_eventHandler) => {
@@ -101,19 +101,7 @@ const initGame = async (_eventHandler) => {
 
     if (debugEnabled) console.log(gameState);
 
-    // START - for animations
-    gameState.newBlocks = [];
-    for (let i = 0; i < gameState.board.length; i++) {
-        for (let j = 0; j < gameState.board[i].length; j++) {
-            if (gameState.board[i][j]) {
-                gameState.newBlocks.push({
-                    x: j,
-                    y: i,
-                });
-            }
-        }
-    }
-    // END - for animations
+    animationManager.initNewBlocks();
 
     // TODO: Should game state be passed into the draw?
     eventHandler("draw", { gameState });
@@ -127,23 +115,13 @@ const newGame = () => {
     const location = spawnManager.determineNextBlockLocation();
     spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
 
+    animationManager = new AnimationManager(gameState);
+
     eventHandler("init", { gameState });
 
     if (debugEnabled) console.log(gameState);
 
-    // START - for animations
-    gameState.newBlocks = [];
-    for (let i = 0; i < gameState.board.length; i++) {
-        for (let j = 0; j < gameState.board[i].length; j++) {
-            if (gameState.board[i][j]) {
-                gameState.newBlocks.push({
-                    x: j,
-                    y: i,
-                });
-            }
-        }
-    }
-    // END - for animations
+    animationManager.initNewBlocks();
 
     // TODO: Should game state be passed into the draw?
     eventHandler("draw", { gameState });
@@ -202,9 +180,7 @@ const move = (direction) => {
     console.log("prev board is now", prevBoard);
     boardStack.push(prevBoard);
 
-    // These are for animation purposes
-    gameState.movedBlocks = new Array(4).fill(0).map(_ => new Array(4));
-    gameState.mergedBlocks = [];
+    animationManager.resetState();
 
     // Keep looping through movement until no more moves can be made
     prevBoard = null;
@@ -253,51 +229,13 @@ const move = (direction) => {
                         gameState.won = true;
                         eventHandler("win");
                     }
-                    // START animation stuff
-                    if (!gameState.movedBlocks[newY][newX]) {
-                        let oldMovedValue = gameState.movedBlocks[i][j];
-                        if (!oldMovedValue) {
-                            oldMovedValue = {
-                                x: j,
-                                y: i,
-                            };
-                        }
-                        gameState.movedBlocks[i][j] = undefined;
-                        gameState.movedBlocks[newY][newX] = oldMovedValue;
-                        const movedBlockIndex = gameState.mergedBlocks.findIndex(mergedBlock => mergedBlock.x === j && mergedBlock.y === i)
-                        if (movedBlockIndex >= 0) {
-                            gameState.mergedBlocks.splice(movedBlockIndex, 1);
-                        }
-                    }
-                    gameState.mergedBlocks.push({
-                        x: newX,
-                        y: newY,
-                    });
-                    // END animation stuff
+                    animationManager.updateBlocks(j, i, newX, newY);
                 } else {
                     if (newVal === 0) {
                         gameState.board[newY][newX] = currVal;
-                        // START animation stuff
                         if (currVal) {
-                            let oldMovedValue = gameState.movedBlocks[i][j];
-                            if (!oldMovedValue) {
-                                oldMovedValue = {
-                                    x: j,
-                                    y: i,
-                                };
-                            }
-                            gameState.movedBlocks[i][j] = undefined;
-                            gameState.movedBlocks[newY][newX] = oldMovedValue;
-                            const movedBlockIndex = gameState.mergedBlocks.findIndex(mergedBlock => mergedBlock.x === j && mergedBlock.y === i)
-                            if (movedBlockIndex >= 0) {
-                                gameState.mergedBlocks.splice(movedBlockIndex, 1);
-                                gameState.mergedBlocks.push({
-                                    x: newX,
-                                    y: newY,
-                                });
-                            }
+                            animationManager.updateBlocksNonMerge(j, i, newX, newY);
                         }
-                        // END animation stuff
                     } else {
                         gameState.board[i][j] = currVal;
                     }
@@ -309,14 +247,11 @@ const move = (direction) => {
         numMoves++;
     }
 
-    console.log("moved blocks", gameState.movedBlocks);
-
-    gameState.newBlocks = [];
     if (numMoves > 1) {
         console.log("spawn next block and check game conditions");
         
         const location = spawnManager.determineNextBlockLocation();
-        gameState.newBlocks.push(location);
+        animationManager.addNewBlock(location);
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
     eventHandler("draw", { gameState });

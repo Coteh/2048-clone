@@ -2,9 +2,11 @@ const KEY_HOLD_TIMEOUT_MS = 500;
 
 const renderBoard = (parentElem, gameState) => {
     const board = gameState.board;
-    const newBlocks = gameState.newBlocks;
-    const movedBlocks = gameState.movedBlocks;
-    const mergedBlocks = gameState.mergedBlocks;
+    // TODO: Maybe not a good idea to rely on animationManager being global, it should probably be passed in
+    // console.log(animationManager);
+    const newBlocks = animationManager.newBlocks;
+    const movedBlocks = animationManager.movedBlocks;
+    const mergedBlocks = animationManager.mergedBlocks;
     console.log("rendering new blocks", newBlocks)
     console.log("rendering merged blocks", mergedBlocks)
     const rowsBackElem = parentElem.querySelector(".back-rows");
