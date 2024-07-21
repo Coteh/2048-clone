@@ -1,19 +1,18 @@
-const mockDetermineNextBlockLocation = jest.fn(() => {
+import jest from "jest-mock";
+
+export const mockDetermineNextBlockLocation = jest.fn(() => {
     return {
         x: 0,
         y: 0,
     };
 });
 
-const mockDetermineNextBlockValue = jest.fn(() => 2);
+export const mockDetermineNextBlockValue = jest.fn(() => 2);
 
-class MockSpawnManager {
+export class MockSpawnManager {
     constructor(gameState) {
         this.determineNextBlockLocation = mockDetermineNextBlockLocation;
         this.determineNextBlockValue = mockDetermineNextBlockValue;
+        this.setGameState = jest.fn();
     }
 }
-
-module.exports = MockSpawnManager;
-module.exports.mockDetermineNextBlockLocation = mockDetermineNextBlockLocation;
-module.exports.mockDetermineNextBlockValue = mockDetermineNextBlockValue;

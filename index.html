@@ -112,14 +112,14 @@
                 <div class="settings-item-group">
                     <div class="settings-item">
                         <a href="https://github.com/Coteh/wordle-clone/releases" target="_blank">
-                            <span class="version-number">v1.2.6</span>
+                            <span class="version-number">v0.0.0</span>
                         </a>
                     </div>
                 </div>
                 <div class="space"></div>
                 <div class="footer">
                     <span>
-                        &copy 2022-2023 <a class="author-link" href="https://www.jamescote.ca/" target="_blank">James Cote</a>
+                        &copy; 2022-2023 <a class="author-link" href="https://www.jamescote.ca/" target="_blank">James Cote</a>
                     </span><br/>
                     <span class="snow-theme-credits">
                         Snow effect from <a href="https://embed.im/snow/" target="_blank">embed.im</a>
@@ -217,45 +217,7 @@
                 If this persists, please reach out to me on <a href="https://github.com/Coteh/wordle-clone/issues/new?assignees=&labels=&template=bug_report.md" target="_blank">GitHub</a> or <a href="mailto:james.cote.730@gmail.com" target="_blank">email</a> with more information and I'll take a look.
             </span>
         </template>
-        <script src="src/manager/animation.js"></script>
-        <script src="src/manager/spawn.js"></script>
-        <script src="src/consts.js"></script>
-        <script src="src/render.js"></script>
-        <script src="src/datetime.js"></script>
-        <script src="src/game.js"></script>
-        <script src="src/storage/index.js"></script>
-        <script src="src/storage/browser.js"></script>
-        <script charset="UTF-8" src="src/share/index.js"></script>
-        <script src="src/share/browser.js"></script>
-        <script src="src/preferences.js"></script>
-        <script src="src/index.js"></script>
+        <script src="src/index.js" type="module"></script>
         <script src="vendor/snow.js" defer></script>
-        <script>
-            if (typeof feather !== "undefined") {
-                feather.replace();
-            } else {
-                document.querySelector("[data-feather='help-circle']").innerText = "?";
-                document.querySelector("[data-feather='settings']").innerText = "⚙";
-                document.querySelector(".settings [data-feather='x']").innerText = "X";
-            }
-            
-            if (typeof Sentry !== "undefined") {
-                Sentry.onLoad(() => {
-                    Sentry.init({
-                        release: "wordle-clone@1.2.6",
-                        beforeSend(event) {
-                            if (event.request.url.includes("localhost") || event.request.url.includes("127.0.0.1")) {
-                                return null;
-                            }
-                            return event;
-                        }
-                    });
-                });
-            }
-
-            gtag("event", "game_open", {
-                "version": "1.2.6",
-            });
-        </script>
     </body>
 </html>

@@ -1,5 +1,9 @@
-class SpawnManager {
-    constructor(gameState) {
+export class SpawnManager {
+    constructor() {
+
+    }
+
+    setGameState(gameState) {
         this.gameState = gameState;
     }
 
@@ -23,8 +27,4 @@ class SpawnManager {
     determineNextBlockValue() {
         return Math.round(Math.random()) == 0 ? 2 : 4;
     }
-}
-
-if (typeof process !== "undefined") {
-    module.exports = SpawnManager;
 }

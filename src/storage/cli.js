@@ -1,32 +1,34 @@
-const {
+import {
     BOARD_KEY,
     SCORE_KEY,
     HIGH_SCORE_KEY,
     WON_KEY,
     ENDED_KEY,
     DID_UNDO_KEY,
-} = require("./index");
-const fs = require("fs");
-const path = require("path");
+} from "./index";
+import fs from "fs";
+import path from "path";
 
-const STATE_JSON_FILENAME = "state.json";
-const PREFERENCES_JSON_FILENAME = "preferences.json";
+export const STATE_JSON_FILENAME = "state.json";
+export const PREFERENCES_JSON_FILENAME = "preferences.json";
 
-const saveGame = (highscore) => {
+export const saveGame = (highscore) => {
     overwriteState({
         [HIGH_SCORE_KEY]: highscore,
     });
 };
 
-const savePreferences = (preferences) => {
+export const savePreferences = (preferences) => {
     fs.writeFileSync(PREFERENCES_JSON_FILENAME, JSON.stringify(preferences));
 };
 
-const gameExists = () => {
-    return fs.existsSync(STATE_JSON_FILENAME);
+export const gameExists = () => {
+    const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
+    console.log("teh gameExists", stateFilename, fs.existsSync(stateFilename))
+    return fs.existsSync(stateFilename);
 };
 
-const loadGame = () => {
+export const loadGame = () => {
     const stateFilename = path.join(process.cwd(), STATE_JSON_FILENAME);
     if (fs.existsSync(stateFilename)) {
         const jsonStr = fs.readFileSync(stateFilename);
@@ -50,7 +52,7 @@ const loadGame = () => {
     };
 };
 
-const loadPreferences = () => {
+export const loadPreferences = () => {
     if (fs.existsSync(PREFERENCES_JSON_FILENAME)) {
         const jsonStr = fs.readFileSync(PREFERENCES_JSON_FILENAME);
         try {
@@ -66,11 +68,11 @@ const loadPreferences = () => {
     return {};
 };
 
-const clearGame = () => {
+export const clearGame = () => {
     fs.writeFileSync(STATE_JSON_FILENAME, "{}");
 };
 
-const clearPreferences = () => {
+export const clearPreferences = () => {
     fs.writeFileSync(PREFERENCES_JSON_FILENAME, "{}");
 };
 
@@ -86,17 +88,3 @@ const overwriteState = (newState) => {
     const jsonStr = JSON.stringify(json);
     fs.writeFileSync(STATE_JSON_FILENAME, jsonStr);
 };
-
-if (typeof process !== "undefined") {
-    module.exports = {
-        STATE_JSON_FILENAME,
-        PREFERENCES_JSON_FILENAME,
-        saveGame,
-        savePreferences,
-        gameExists,
-        loadGame,
-        loadPreferences,
-        clearGame,
-        clearPreferences,
-    };
-}

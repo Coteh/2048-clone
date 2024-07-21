@@ -1,6 +1,6 @@
-const KEY_HOLD_TIMEOUT_MS = 500;
+import feather from "feather-icons";
 
-const renderBoard = (parentElem, gameState) => {
+export const renderBoard = (parentElem, gameState, animationManager) => {
     const board = gameState.board;
     // TODO: Maybe not a good idea to rely on animationManager being global, it should probably be passed in
     // console.log(animationManager);
@@ -23,7 +23,7 @@ const renderBoard = (parentElem, gameState) => {
 
         for (let x = 0; x < row.length; x++) {
             const numberBox = renderNumberBox(rowContainer, row[x]);
-            if (isAnimationEnabled) {
+            if (animationManager.isAnimationEnabled) {
                 if (newBlocks && newBlocks.some(newBlock => newBlock.x === x && newBlock.y === y)) {
                     numberBox.style.transform = "scale(0.1)";
                     setTimeout(() => {
@@ -56,7 +56,7 @@ const renderBoard = (parentElem, gameState) => {
     console.log("--------");
 };
 
-const renderBackRow = (parentElem, rowLength) => {
+export const renderBackRow = (parentElem, rowLength) => {
     const container = document.createElement("div");
     container.className = "back-row";
 
@@ -69,7 +69,7 @@ const renderBackRow = (parentElem, rowLength) => {
     return container;
 };
 
-const renderNumberBox = (parentElem, number) => {
+export const renderNumberBox = (parentElem, number) => {
     const numberBox = document.createElement("div");
     numberBox.classList.add("box");
     const letterElem = document.createElement("span");
@@ -84,7 +84,7 @@ const renderNumberBox = (parentElem, number) => {
     return numberBox;
 };
 
-const renderDialog = (content, fadeIn, closable = true) => {
+export const renderDialog = (content, fadeIn, closable = true) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
@@ -124,14 +124,11 @@ const renderDialog = (content, fadeIn, closable = true) => {
 
     overlayBackElem.style.display = "block";
 
-    if (typeof feather !== "undefined") {
-        feather.replace();
-    } else {
-        document.querySelector(".dialog [data-feather='x']").innerText = "X";
-    }
+    document.querySelector(".dialog [data-feather='x']").innerText = "X";
+    feather.replace();
 };
 
-const renderNotification = (msg) => {
+export const renderNotification = (msg) => {
     const template = document.querySelector("#notification");
     const clone = template.content.cloneNode(true);
 
@@ -156,7 +153,7 @@ const renderNotification = (msg) => {
     }, 1000);
 };
 
-const createDialogContentFromTemplate = (tmplContentId) => {
+export const createDialogContentFromTemplate = (tmplContentId) => {
     const contentTmpl = document.querySelector(tmplContentId);
     const contentClone = contentTmpl.content.cloneNode(true);
 

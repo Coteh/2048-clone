@@ -1,23 +1,31 @@
-const sinon = require("sinon");
-const assert = require("assert");
-const {
+import sinon from "sinon";
+import assert from "assert";
+import {
     saveGame,
     savePreferences,
     loadGame,
     loadPreferences,
     clearGame,
     clearPreferences,
-} = require("../src/storage/browser");
-const cliStorage = require("../src/storage/cli");
-const { STATE_JSON_FILENAME, PREFERENCES_JSON_FILENAME } = cliStorage;
+} from "../src/storage/browser";
+import {
+    saveGame as cliSaveGame,
+    savePreferences as cliSavePreferences,
+    loadGame as cliLoadGame,
+    loadPreferences as cliLoadPreferences,
+    clearGame as cliClearGame,
+    clearPreferences as cliClearPreferences,
+    STATE_JSON_FILENAME,
+    PREFERENCES_JSON_FILENAME
+} from "../src/storage/cli";
 // TODO: Rewrite storage tests to use memfs instead, so that mock-fs can be discarded
 // (mock-fs is redundant now that memfs is being used, also junit test results are passing through mock-fs atm when they're being written. Best to remove it out of the equation at this point.)
-const mockFs = require("mock-fs");
-const fs = require("fs");
-const {
+import mockFs from "mock-fs";
+import fs from "fs";
+import {
     HIGH_SCORE_KEY,
     PREFERENCES_KEY,
-} = require("../src/storage");
+} from "../src/storage";
 
 global.window = {};
 
@@ -102,7 +110,7 @@ describe("game storage - CLI", () => {
             [HIGH_SCORE_KEY]: HIGHSCORE,
         };
 
-        cliStorage.saveGame(HIGHSCORE);
+        cliSaveGame(HIGHSCORE);
 
         let stateContents = fs.readFileSync(STATE_JSON_FILENAME, {
             encoding: "utf-8",
@@ -122,7 +130,7 @@ describe("game storage - CLI", () => {
             }),
         });
 
-        const state = cliStorage.loadGame();
+        const state = cliLoadGame();
 
         assert.deepStrictEqual(state, expectedState);
     });
@@ -138,13 +146,13 @@ describe("game storage - CLI", () => {
             }),
         });
 
-        let state = cliStorage.loadGame();
+        let state = cliLoadGame();
 
         assert.notDeepStrictEqual(state, expectedState);
 
-        cliStorage.clearGame();
+        cliClearGame();
 
-        state = cliStorage.loadGame();
+        state = cliLoadGame();
 
         assert.deepStrictEqual(state, expectedState);
     });
@@ -161,7 +169,7 @@ describe("game storage - CLI", () => {
     //         [HIGH_SCORE_KEY]: HIGHSCORE,
     //     };
 
-    //     cliStorage.saveGame(HIGHSCORE);
+    //     cliSaveGame(HIGHSCORE);
 
     //     let stateContents = fs.readFileSync(STATE_JSON_FILENAME, {
     //         encoding: "utf-8",
@@ -177,7 +185,7 @@ describe("game storage - CLI", () => {
 
         mockFs();
 
-        let state = cliStorage.loadGame();
+        let state = cliLoadGame();
 
         assert.deepStrictEqual(state, expectedState);
     });
@@ -286,7 +294,7 @@ describe("preferences storage - CLI", () => {
             "test-key": "test-value",
         };
 
-        cliStorage.savePreferences(preferences);
+        cliSavePreferences(preferences);
 
         const preferencesFileContents = fs.readFileSync(PREFERENCES_JSON_FILENAME, {
             encoding: "utf-8",
@@ -304,7 +312,7 @@ describe("preferences storage - CLI", () => {
             [PREFERENCES_JSON_FILENAME]: JSON.stringify(expectedPreferences),
         });
 
-        preferences = cliStorage.loadPreferences();
+        preferences = cliLoadPreferences();
 
         assert.deepStrictEqual(preferences, expectedPreferences);
     });
@@ -324,7 +332,7 @@ describe("preferences storage - CLI", () => {
 
         assert.deepStrictEqual(JSON.parse(preferencesFileContents), expectedPreferences);
 
-        cliStorage.clearPreferences();
+        cliClearPreferences();
 
         preferencesFileContents = fs.readFileSync(PREFERENCES_JSON_FILENAME, {
             encoding: "utf-8",
@@ -340,7 +348,7 @@ describe("preferences storage - CLI", () => {
             [PREFERENCES_JSON_FILENAME]: '"a string"',
         });
 
-        preferences = cliStorage.loadPreferences();
+        preferences = cliLoadPreferences();
 
         assert.deepStrictEqual(preferences, expectedPreferences);
     });
@@ -352,7 +360,7 @@ describe("preferences storage - CLI", () => {
             [PREFERENCES_JSON_FILENAME]: "invalid state",
         });
 
-        preferences = cliStorage.loadPreferences();
+        preferences = cliLoadPreferences();
 
         assert.deepStrictEqual(preferences, expectedPreferences);
     });
@@ -362,7 +370,7 @@ describe("preferences storage - CLI", () => {
 
         mockFs({});
 
-        preferences = cliStorage.loadPreferences();
+        preferences = cliLoadPreferences();
 
         assert.deepStrictEqual(preferences, expectedPreferences);
     });

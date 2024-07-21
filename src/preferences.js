@@ -1,32 +1,20 @@
-if (typeof process !== "undefined") {
-    const storage = require("./storage");
-    savePreferences = storage.savePreferences;
-    loadPreferences = storage.loadPreferences;
-    clearPreferences = storage.clearPreferences;
-}
+import { savePreferences, loadPreferences, clearPreferences } from "./storage/browser";
 
 let preferences = {};
 
-const initPreferences = () => {
+export const initPreferences = () => {
     preferences = loadPreferences();
 };
 
-const getPreferenceValue = (key) => {
+export const getPreferenceValue = (key) => {
     return preferences[key];
 };
 
-const savePreferenceValue = (key, value) => {
+export const savePreferenceValue = (key, value) => {
     preferences[key] = value;
     savePreferences(preferences);
 };
 
-const resetPreferences = () => {
+export const resetPreferences = () => {
     clearPreferences();
 };
-
-if (typeof process !== "undefined") {
-    module.exports.initPreferences = initPreferences;
-    module.exports.getPreferenceValue = getPreferenceValue;
-    module.exports.savePreferenceValue = savePreferenceValue;
-    module.exports.resetPreferences = resetPreferences;
-}

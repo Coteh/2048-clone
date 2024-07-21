@@ -1,3 +1,11 @@
+import { initGame, move, undo, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, setStorageFuncs } from "./game";
+import { getPreferenceValue, initPreferences } from "./preferences";
+import { createDialogContentFromTemplate, renderBackRow, renderBoard, renderDialog } from "./render";
+import feather from "feather-icons";
+import { clearGame, gameExists, loadGame, saveGame } from "./storage/browser";
+import { AnimationManager } from "./manager/animation";
+import { SpawnManager } from "./manager/spawn";
+
 const LIGHT_MODE = "light";
 const DARK_MODE = "dark";
 const SNOW_THEME = "snow";
@@ -14,8 +22,9 @@ const SETTING_DISABLED = "disabled";
 
 const LANDSCAPE_CLASS_NAME = "landscape";
 
-debugEnabled = true;
 let isAnimationEnabled = false;
+
+setStorageFuncs(gameExists, clearGame, saveGame, loadGame);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle");
@@ -23,20 +32,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let gameState;
     let gameLoaded = false;
-
-    const renderer = {
-        renderWin() {},
-        renderGameOver(word) {},
-    };
+    let spawnManager = new SpawnManager();
+    let animationManager = new AnimationManager();
 
     const eventHandler = (event, data) => {
         switch (event) {
             case "init":
                 gameState = data.gameState;
+                animationManager.isAnimationEnabled = isAnimationEnabled;
                 break;
             case "draw":
                 gameState = data.gameState;
-                renderBoard(middleElem, gameState);
+                renderBoard(middleElem, gameState, animationManager);
                 document.querySelector("#score").innerText = gameState.score.toString();
                 break;
             case "error":
@@ -185,6 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
                 const knob = setting.querySelector(".knob");
                 enabled = isAnimationEnabled = !isAnimationEnabled;
+                animationManager.isAnimationEnabled = isAnimationEnabled;
                 savePreferenceValue(
                     ANIMATIONS_PREFERENCE_NAME,
                     isAnimationEnabled ? SETTING_ENABLED : SETTING_DISABLED
@@ -300,7 +308,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         undo();
     });
-    if (debugEnabled) {
+    if (import.meta.env.DEV) {
         undoButton.style.display = "";
     }
 
@@ -309,8 +317,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         newGame();
     });
 
+    document.querySelector("[data-feather='help-circle']").innerText = "?";
+    document.querySelector("[data-feather='settings']").innerText = "⚙";
+    document.querySelector(".settings [data-feather='x']").innerText = "X";
+    feather.replace();
+
+    const versionElem = document.querySelector(".version-number");
+    versionElem.innerText = `v${GAME_VERSION}`;
+
+    if (typeof Sentry !== "undefined") {
+        Sentry.onLoad(() => {
+            Sentry.init({
+                release: `wordle-clone@${GAME_VERSION}`,
+                beforeSend(event) {
+                    if (event.request.url.includes("localhost") || event.request.url.includes("127.0.0.1")) {
+                        return null;
+                    }
+                    return event;
+                }
+            });
+        });
+    }
+
+    gtag("event", "game_open", {
+        "version": GAME_VERSION,
+    });
+
     try {
-        await initGame(eventHandler);
+        await initGame(eventHandler, spawnManager, animationManager);
     } catch (e) {
         if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");

@@ -1,7 +1,11 @@
-class AnimationManager {
-    constructor(gameState) {
-        this.gameState = gameState;
+export class AnimationManager {
+    constructor() {
+        this.isAnimationEnabled = false;
         this.resetState();
+    }
+
+    setGameState(gameState) {
+        this.gameState = gameState;
     }
 
     resetState() {
@@ -70,8 +74,4 @@ class AnimationManager {
             });
         }
     }
-}
-
-if (typeof process !== "undefined") {
-    module.exports = AnimationManager;
 }

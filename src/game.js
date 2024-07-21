@@ -1,28 +1,26 @@
-let fs;
-let debugEnabled;
-if (typeof process !== "undefined") {
-    fs = require("fs");
+let gameExists;
+let clearGame;
+let saveGame;
+let loadGame;
 
-    const storage = require("./storage/cli");
-    gameExists = storage.gameExists;
-    clearGame = storage.clearGame;
-    saveGame = storage.saveGame;
-    loadGame = storage.loadGame;
+// TODO: Find a better way to inject either browser or cli storage depending on where game is played from. May require refactoring.
+export const setStorageFuncs = (_gameExists, _clearGame, _saveGame, _loadGame) => {
+    gameExists = _gameExists;
+    clearGame = _clearGame;
+    saveGame = _saveGame;
+    loadGame = _loadGame;
+};
 
-    SpawnManager = require("./manager/spawn");
-    AnimationManager = require("./manager/animation");
-
-    debugEnabled = process.env.DEBUG === "true";
-}
+let debugEnabled = import.meta?.env?.DEV ?? false;
 
 const GAME_IS_OVER_ERROR_ID = "GameIsOver";
 
-const DIRECTION_LEFT = 1;
-const DIRECTION_RIGHT = 2;
-const DIRECTION_UP = 3;
-const DIRECTION_DOWN = 4;
+export const DIRECTION_LEFT = 1;
+export const DIRECTION_RIGHT = 2;
+export const DIRECTION_UP = 3;
+export const DIRECTION_DOWN = 4;
 
-const getErrorMessage = (error, userInput) => {
+export const getErrorMessage = (error, userInput) => {
     switch (error.error) {
         // case WORDS_DIFFERENT_LENGTH_ERROR_ID:
         //     if (userInput && userInput.length > 5) {
@@ -77,11 +75,11 @@ const initState = () => {
     if (gameExists()) {
         gameState = loadGame();
 
-        spawnManager = new SpawnManager(gameState);
+        spawnManager.setGameState(gameState);
     } else {
         gameState = newState();
 
-        spawnManager = new SpawnManager(gameState);
+        spawnManager.setGameState(gameState);
 
         let location = spawnManager.determineNextBlockLocation();
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
@@ -89,13 +87,15 @@ const initState = () => {
         location = spawnManager.determineNextBlockLocation();
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
-    animationManager = new AnimationManager(gameState);
+    animationManager.setGameState(gameState);
 };
 
-const initGame = async (_eventHandler) => {
-    initState();
-
+export const initGame = async (_eventHandler, _spawnManager, _animationManager) => {
     eventHandler = _eventHandler;
+    spawnManager = _spawnManager;
+    animationManager = _animationManager;
+    
+    initState();
 
     eventHandler("init", { gameState });
 
@@ -107,7 +107,7 @@ const initGame = async (_eventHandler) => {
     eventHandler("draw", { gameState });
 };
 
-const newGame = () => {
+export const newGame = () => {
     gameState = newState();
 
     spawnManager = new SpawnManager(gameState);
@@ -143,7 +143,7 @@ const isBoardSame = (board1, board2) => {
     return true;
 };
 
-const undo = () => {
+export const undo = () => {
     if (!boardStack.length) {
         console.log("No more moves to undo");
         return;
@@ -153,7 +153,7 @@ const undo = () => {
     eventHandler("draw", { gameState });
 };
 
-const move = (direction) => {
+export const move = (direction) => {
     let xDir = 0;
     let yDir = 0;
     switch (direction) {
@@ -184,7 +184,7 @@ const move = (direction) => {
 
     // Keep looping through movement until no more moves can be made
     prevBoard = null;
-    numMoves = 0;
+    let numMoves = 0;
     while (!isBoardSame(gameState.board, prevBoard)) {
         prevBoard = [];
         for (let i = 0; i < gameState.board.length; i++) {
@@ -290,28 +290,16 @@ outerLoop:
     }
 };
 
-const spawnBlock = (x, y, number) => {
+export const spawnBlock = (x, y, number) => {
     const board = gameState.board;
     board[y][x] = number;
     console.log("spawned");
 };
 
-if (typeof process !== "undefined") {
-    const getGameState = () => {
-        return gameState;
-    };
+export const getGameState = () => {
+    return gameState;
+};
 
-    module.exports = {
-        initGame,
-        getGameState,
-        newGame,
-        undo,
-        move,
-        getErrorMessage,
-        spawnBlock,
-        DIRECTION_LEFT,
-        DIRECTION_RIGHT,
-        DIRECTION_UP,
-        DIRECTION_DOWN,
-    };
-}
+export const getAnimationManager = () => {
+    return animationManager;
+};

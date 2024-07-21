@@ -1,22 +1,18 @@
-if (typeof process !== "undefined") {
-    const storage = require("./index");
-    HIGH_SCORE_KEY = storage.HIGH_SCORE_KEY;
-    PREFERENCES_KEY = storage.PREFERENCES_KEY;
-}
+import { HIGH_SCORE_KEY, PREFERENCES_KEY } from "./index";
 
-const saveGame = (highscore) => {
-    window.localStorage.setItem(storage.HIGH_SCORE_KEY, highscore);
+export const saveGame = (highscore) => {
+    window.localStorage.setItem(HIGH_SCORE_KEY, highscore);
 };
 
-const savePreferences = (preferences) => {
+export const savePreferences = (preferences) => {
     window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
 };
 
-const gameExists = () => {
+export const gameExists = () => {
     return window.localStorage.getItem(HIGH_SCORE_KEY) != null;
 };
 
-const loadGame = () => {
+export const loadGame = () => {
     let highscore = parseInt(window.localStorage.getItem(HIGH_SCORE_KEY));
     if (highscore == null || isNaN(highscore)) {
         highscore = 0;
@@ -26,7 +22,7 @@ const loadGame = () => {
     };
 };
 
-const loadPreferences = () => {
+export const loadPreferences = () => {
     try {
         const preferences = JSON.parse(window.localStorage.getItem(PREFERENCES_KEY));
         if (!preferences || typeof preferences !== "object") {
@@ -40,21 +36,10 @@ const loadPreferences = () => {
     }
 };
 
-const clearGame = () => {
+export const clearGame = () => {
     window.localStorage.removeItem(HIGH_SCORE_KEY);
 };
 
-const clearPreferences = () => {
+export const clearPreferences = () => {
     window.localStorage.removeItem(PREFERENCES_KEY);
 };
-
-if (typeof process !== "undefined") {
-    module.exports = {
-        saveGame,
-        savePreferences,
-        loadGame,
-        loadPreferences,
-        clearGame,
-        clearPreferences,
-    };
-}
