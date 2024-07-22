@@ -110,12 +110,14 @@ export const initGame = async (_eventHandler, _spawnManager, _animationManager) 
 export const newGame = () => {
     gameState = newState();
 
-    spawnManager = new SpawnManager(gameState);
+    spawnManager.setGameState(gameState);
+    animationManager.setGameState(gameState);
 
-    const location = spawnManager.determineNextBlockLocation();
+    let location = spawnManager.determineNextBlockLocation();
     spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
-
-    animationManager = new AnimationManager(gameState);
+    
+    location = spawnManager.determineNextBlockLocation();
+    spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
 
     eventHandler("init", { gameState });
 

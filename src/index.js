@@ -1,5 +1,5 @@
-import { initGame, move, undo, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, setStorageFuncs } from "./game";
-import { getPreferenceValue, initPreferences } from "./preferences";
+import { initGame, newGame, move, undo, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, setStorageFuncs } from "./game";
+import { getPreferenceValue, initPreferences, savePreferenceValue } from "./preferences";
 import { createDialogContentFromTemplate, renderBackRow, renderBoard, renderDialog } from "./render";
 import feather from "feather-icons";
 import { clearGame, gameExists, loadGame, saveGame } from "./storage/browser";
