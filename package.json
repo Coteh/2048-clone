@@ -17,6 +17,7 @@
   "author": "James Cote (Coteh)",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "cypress": "^12.17.2",
     "cypress-real-events": "^1.11.0",
     "cypress-wait-until": "^1.7.2",
@@ -25,11 +26,14 @@
     "memfs": "^4.9.3",
     "mock-fs": "^5.2.0",
     "sinon": "^15.2.0",
+    "ts-jest": "^29.2.3",
+    "typescript": "^5.5.3",
     "vite": "^5.3.3"
   },
   "dependencies": {
     "clipboardy": "^3.0.0",
-    "feather-icons": "^4.29.2"
+    "feather-icons": "^4.29.2",
+    "mobile-detect": "^1.4.5"
   },
   "overrides": {
     "cypress-real-events": {

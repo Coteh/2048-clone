@@ -1,17 +1,44 @@
-let gameExists;
-let clearGame;
-let saveGame;
-let loadGame;
+import { ISpawnManager, SpawnManager } from "./manager/spawn";
+import { AnimationManager, IAnimationManager } from "./manager/animation";
+
+export class GameState {
+    board: number[][];
+    ended: boolean;
+    won: boolean;
+    score: number;
+    highscore: number;
+    didUndo: boolean;
+}
+
+export class Position {
+    x: number;
+    y: number;
+}
+
+let gameExists: () => boolean;
+let clearGame: () => void;
+let saveGame: (highscore: number) => void;
+let loadGame: () => GameState;
 
 // TODO: Find a better way to inject either browser or cli storage depending on where game is played from. May require refactoring.
-export const setStorageFuncs = (_gameExists, _clearGame, _saveGame, _loadGame) => {
+export const setStorageFuncs = (
+    _gameExists: () => boolean,
+    _clearGame: () => void,
+    _saveGame: (highscore: number) => void,
+    _loadGame: () => GameState
+) => {
     gameExists = _gameExists;
     clearGame = _clearGame;
     saveGame = _saveGame;
     loadGame = _loadGame;
 };
 
-let debugEnabled = import.meta?.env?.DEV ?? false;
+let debugEnabled = false;
+// @ts-ignore TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
+// TODO: Fix "SyntaxError: Cannot use 'import.meta' outside a module" when trying to run in Jest
+// Either restrict the usage of import.meta to the browser code only, bring in debugEnabled from there into game.ts
+// or, might have to bring in Babel.
+// let debugEnabled = import.meta?.env?.DEV ?? false;
 
 const GAME_IS_OVER_ERROR_ID = "GameIsOver";
 
@@ -20,8 +47,8 @@ export const DIRECTION_RIGHT = 2;
 export const DIRECTION_UP = 3;
 export const DIRECTION_DOWN = 4;
 
-export const getErrorMessage = (error, userInput) => {
-    switch (error.error) {
+export const getErrorMessage = (errorID: string) => {
+    switch (errorID) {
         // case WORDS_DIFFERENT_LENGTH_ERROR_ID:
         //     if (userInput && userInput.length > 5) {
         //         return "Too many letters";
@@ -45,13 +72,15 @@ export const getErrorMessage = (error, userInput) => {
     }
 };
 
-let gameState = {};
-let eventHandler = () => {};
-let boardStack = [];
-let spawnManager;
-let animationManager;
+export type EventHandler = (eventID: string, data?: any) => void;
 
-const newState = () => {
+let gameState: GameState = {} as GameState;
+let eventHandler: EventHandler = () => {};
+let boardStack: number[][][] = [];
+let spawnManager: ISpawnManager;
+let animationManager: IAnimationManager;
+
+const newState: () => GameState = () => {
     boardStack = [];
     return {
         board: [
@@ -63,6 +92,7 @@ const newState = () => {
         ended: false,
         won: false,
         score: 0,
+        highscore: 0,
         didUndo: false,
     };
 };
@@ -83,18 +113,22 @@ const initState = () => {
 
         let location = spawnManager.determineNextBlockLocation();
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
-        
+
         location = spawnManager.determineNextBlockLocation();
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
     animationManager.setGameState(gameState);
 };
 
-export const initGame = async (_eventHandler, _spawnManager, _animationManager) => {
+export const initGame = async (
+    _eventHandler: EventHandler,
+    _spawnManager: ISpawnManager,
+    _animationManager: IAnimationManager
+) => {
     eventHandler = _eventHandler;
     spawnManager = _spawnManager;
     animationManager = _animationManager;
-    
+
     initState();
 
     eventHandler("init", { gameState });
@@ -115,7 +149,7 @@ export const newGame = () => {
 
     let location = spawnManager.determineNextBlockLocation();
     spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
-    
+
     location = spawnManager.determineNextBlockLocation();
     spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
 
@@ -150,7 +184,7 @@ export const undo = () => {
         console.log("No more moves to undo");
         return;
     }
-    gameState.board = boardStack.pop();
+    gameState.board = boardStack.pop()!;
     gameState.didUndo = true;
     eventHandler("draw", { gameState });
 };
@@ -174,8 +208,8 @@ export const move = (direction) => {
         default:
             console.error("invalid direction");
     }
-    
-    let prevBoard = [];
+
+    let prevBoard: number[][] | null = [];
     for (let i = 0; i < gameState.board.length; i++) {
         prevBoard.push(gameState.board[i].slice());
     }
@@ -193,8 +227,12 @@ export const move = (direction) => {
             prevBoard.push(gameState.board[i].slice());
         }
         console.log("prev board is now", prevBoard);
-        let iStart = 0, iEnd = (i) => i < gameState.board.length, iStep = 1
-        let jStart = 0, jEnd = (j) => j < gameState.board[0].length, jStep = 1;
+        let iStart = 0,
+            iEnd = (i) => i < gameState.board.length,
+            iStep = 1;
+        let jStart = 0,
+            jEnd = (j) => j < gameState.board[0].length,
+            jStep = 1;
         if (yDir > 0) {
             iStart = gameState.board.length - 1;
             iEnd = (i) => i >= 0;
@@ -251,14 +289,14 @@ export const move = (direction) => {
 
     if (numMoves > 1) {
         console.log("spawn next block and check game conditions");
-        
+
         const location = spawnManager.determineNextBlockLocation();
         animationManager.addNewBlock(location);
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
     eventHandler("draw", { gameState });
     let allBlocksFilled = true;
-outerLoop: for (let i = 0; i < gameState.board.length; i++) {
+    outerLoop: for (let i = 0; i < gameState.board.length; i++) {
         for (let j = 0; j < gameState.board[i].length; j++) {
             if (gameState.board[i][j] == 0) {
                 allBlocksFilled = false;
@@ -269,15 +307,15 @@ outerLoop: for (let i = 0; i < gameState.board.length; i++) {
     if (allBlocksFilled) {
         // Check if any moves can still be made with the blocks that are on the board
         let canMakeMove = false;
-outerLoop:
-        for (let i = 0; i < gameState.board.length; i++) {
+        outerLoop: for (let i = 0; i < gameState.board.length; i++) {
             for (let j = 0; j < gameState.board[i].length; j++) {
                 if (gameState.board[i][j] != 0) {
                     const val = gameState.board[i][j];
-                    if (i > 0 && val === gameState.board[i - 1][j]
-                        || i < gameState.board.length - 1 && val === gameState.board[i + 1][j]
-                        || j > 0 && val === gameState.board[i][j - 1]
-                        || j < gameState.board[i].length - 1 && val === gameState.board[i][j + 1]
+                    if (
+                        (i > 0 && val === gameState.board[i - 1][j]) ||
+                        (i < gameState.board.length - 1 && val === gameState.board[i + 1][j]) ||
+                        (j > 0 && val === gameState.board[i][j - 1]) ||
+                        (j < gameState.board[i].length - 1 && val === gameState.board[i][j + 1])
                     ) {
                         canMakeMove = true;
                         break outerLoop;
@@ -298,10 +336,6 @@ export const spawnBlock = (x, y, number) => {
     console.log("spawned");
 };
 
-export const getGameState = () => {
+export const getGameState: () => GameState = () => {
     return gameState;
-};
-
-export const getAnimationManager = () => {
-    return animationManager;
 };

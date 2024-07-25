@@ -1,10 +1,26 @@
-import { initGame, newGame, move, undo, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, setStorageFuncs } from "./game";
+import {
+    initGame,
+    newGame,
+    move,
+    undo,
+    DIRECTION_DOWN,
+    DIRECTION_LEFT,
+    DIRECTION_RIGHT,
+    DIRECTION_UP,
+    setStorageFuncs,
+} from "./game";
 import { getPreferenceValue, initPreferences, savePreferenceValue } from "./preferences";
-import { createDialogContentFromTemplate, renderBackRow, renderBoard, renderDialog } from "./render";
+import {
+    createDialogContentFromTemplate,
+    renderBackRow,
+    renderBoard,
+    renderDialog,
+} from "./render";
 import feather from "feather-icons";
 import { clearGame, gameExists, loadGame, saveGame } from "./storage/browser";
 import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
+import MobileDetect from "mobile-detect";
 
 const LIGHT_MODE = "light";
 const DARK_MODE = "dark";
@@ -27,8 +43,8 @@ let isAnimationEnabled = false;
 setStorageFuncs(gameExists, clearGame, saveGame, loadGame);
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const middleElem = document.querySelector("#middle");
-    const bottomElem = document.querySelector("#bottom");
+    const middleElem = document.querySelector("#middle") as HTMLElement;
+    const bottomElem = document.querySelector("#bottom") as HTMLElement;
 
     let gameState;
     let gameLoaded = false;
@@ -44,7 +60,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             case "draw":
                 gameState = data.gameState;
                 renderBoard(middleElem, gameState, animationManager);
-                document.querySelector("#score").innerText = gameState.score.toString();
+                (document.querySelector("#score") as HTMLElement).innerText =
+                    gameState.score.toString();
                 break;
             case "error":
                 break;
@@ -105,17 +122,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleKeyInput(e.key.toLowerCase());
     });
 
-    const helpLink = document.querySelector(".help-link");
+    const helpLink = document.querySelector(".help-link") as HTMLElement;
     helpLink.addEventListener("click", (e) => {
         e.preventDefault();
         renderDialog(createDialogContentFromTemplate("#how-to-play"), true);
         helpLink.blur();
     });
 
-    const gamePane = document.querySelector(".game");
-    const settingsPane = document.querySelector(".settings");
-    const settingsLink = document.querySelector(".settings-link");
-    const swipeArea = document.getElementById('swipeArea');
+    const gamePane = document.querySelector(".game") as HTMLElement;
+    const settingsPane = document.querySelector(".settings") as HTMLElement;
+    const settingsLink = document.querySelector(".settings-link") as HTMLElement;
+    const swipeArea = document.getElementById("swipeArea") as HTMLElement;
 
     const toggleSettings = () => {
         settingsLink.blur();
@@ -135,13 +152,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         toggleSettings();
     });
 
-    const settingsClose = settingsPane.querySelector(".close");
+    const settingsClose = settingsPane.querySelector(".close") as HTMLElement;
     settingsClose.addEventListener("click", (e) => {
         e.preventDefault();
         toggleSettings();
     });
 
-    const overlayBackElem = document.querySelector(".overlay-back");
+    const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
     overlayBackElem.addEventListener("click", (e) => {
         const dialog = document.querySelector(".dialog");
         closeDialog(dialog, overlayBackElem);
@@ -173,15 +190,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (snowEmbed) snowEmbed.style.display = "initial";
                 break;
         }
-        document.querySelector("meta[name='theme-color']").content = themeColor;
+        (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
+            themeColor;
         selectedTheme = theme;
     };
 
     const settings = document.querySelectorAll(".setting");
     settings.forEach((setting) => {
         setting.addEventListener("click", (e) => {
-            const elem = e.target;
-            const toggle = setting.querySelector(".toggle");
+            const elem = e.target as HTMLElement;
+            const toggle = setting.querySelector(".toggle") as HTMLElement;
             let enabled = false;
             if (elem.classList.contains(THEME_SETTING_NAME)) {
                 const themeIndex = selectableThemes.indexOf(selectedTheme);
@@ -190,7 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 savePreferenceValue(THEME_PREFERENCE_NAME, nextTheme);
                 toggle.innerText = nextTheme;
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
-                const knob = setting.querySelector(".knob");
+                const knob = setting.querySelector(".knob") as HTMLElement;
                 enabled = isAnimationEnabled = !isAnimationEnabled;
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 savePreferenceValue(
@@ -208,28 +226,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     initPreferences();
     switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
-    const themeSetting = document.querySelector(".setting.theme-switch");
-    themeSetting.querySelector(".toggle").innerText = selectedTheme;
+    const themeSetting = document.querySelector(".setting.theme-switch") as HTMLElement;
+    (themeSetting.querySelector(".toggle") as HTMLElement).innerText = selectedTheme;
     if (getPreferenceValue(ANIMATIONS_PREFERENCE_NAME) === SETTING_ENABLED) {
         isAnimationEnabled = true;
-        const setting = document.querySelector(".setting.animations");
-        const knob = setting.querySelector(".knob");
+        const setting = document.querySelector(".setting.animations") as HTMLElement;
+        const knob = setting.querySelector(".knob") as HTMLElement;
         knob.classList.add("enabled");
     }
 
     const landscapeQuery = window.matchMedia("(orientation: landscape)");
 
     const checkForOrientation = (mediaQueryEvent) => {
-        const md =
-            typeof MobileDetect !== "undefined" && new MobileDetect(window.navigator.userAgent);
+        const md = new MobileDetect(window.navigator.userAgent);
+        const landscapeOverlay = document.getElementById("landscape-overlay") as HTMLElement;
         if (md && mediaQueryEvent.matches && md.mobile()) {
-            document.getElementById("landscape-overlay").style.display = "block";
+            landscapeOverlay.style.display = "block";
             document.body.classList.add(LANDSCAPE_CLASS_NAME);
             // Have the snow element appear on top of the landscape overlay
             // (will only be visible if the "display" attribute is set, though)
             if (snowEmbed) snowEmbed.style.zIndex = "99999";
         } else {
-            document.getElementById("landscape-overlay").style.display = "none";
+            landscapeOverlay.style.display = "none";
             document.body.classList.remove(LANDSCAPE_CLASS_NAME);
             if (snowEmbed) snowEmbed.style.zIndex = "";
         }
@@ -251,17 +269,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     let touchEndX = 0;
     let touchEndY = 0;
 
-    swipeArea.addEventListener('touchstart', (event) => {
+    swipeArea.addEventListener("touchstart", (event) => {
         touchStartX = event.changedTouches[0].screenX;
         touchStartY = event.changedTouches[0].screenY;
     });
 
-    swipeArea.addEventListener('touchmove', (event) => {
+    swipeArea.addEventListener("touchmove", (event) => {
         // Prevent default behavior to avoid scrolling
         event.preventDefault();
     });
 
-    swipeArea.addEventListener('touchend', (event) => {
+    swipeArea.addEventListener("touchend", (event) => {
         touchEndX = event.changedTouches[0].screenX;
         touchEndY = event.changedTouches[0].screenY;
         handleGesture();
@@ -277,78 +295,87 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (Math.abs(diffX) > Math.abs(diffY)) {
             if (diffX > sensitivity) {
-                console.log('Swiped right');
+                console.log("Swiped right");
                 move(DIRECTION_RIGHT);
-                swipeArea.innerText = 'Swiped right';
+                swipeArea.innerText = "Swiped right";
                 return;
             } else if (diffX < -sensitivity) {
-                console.log('Swiped left');
+                console.log("Swiped left");
                 move(DIRECTION_LEFT);
-                swipeArea.innerText = 'Swiped left';
+                swipeArea.innerText = "Swiped left";
                 return;
             }
         } else {
             if (diffY > sensitivity) {
-                console.log('Swiped down');
+                console.log("Swiped down");
                 move(DIRECTION_DOWN);
-                swipeArea.innerText = 'Swiped down';
+                swipeArea.innerText = "Swiped down";
                 return;
             } else if (diffY < -sensitivity) {
-                console.log('Swiped up');
+                console.log("Swiped up");
                 move(DIRECTION_UP);
-                swipeArea.innerText = 'Swiped up';
+                swipeArea.innerText = "Swiped up";
                 return;
             }
         }
-        swipeArea.innerText = 'No swipe';
+        swipeArea.innerText = "No swipe";
     }
 
-    const undoButton = document.querySelector("#undo");
+    const undoButton = document.querySelector("#undo") as HTMLElement;
     undoButton.addEventListener("click", (e) => {
         e.preventDefault();
         undo();
     });
-    if (import.meta.env.DEV) {
+    // @ts-ignore TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
+    if (import.meta?.env?.DEV) {
         undoButton.style.display = "";
     }
 
-    document.querySelector("#new-game").addEventListener("click", (e) => {
+    (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {
         e.preventDefault();
         newGame();
     });
 
-    document.querySelector("[data-feather='help-circle']").innerText = "?";
-    document.querySelector("[data-feather='settings']").innerText = "⚙";
-    document.querySelector(".settings [data-feather='x']").innerText = "X";
+    (document.querySelector("[data-feather='help-circle']") as HTMLElement).innerText = "?";
+    (document.querySelector("[data-feather='settings']") as HTMLElement).innerText = "⚙";
+    (document.querySelector(".settings [data-feather='x']") as HTMLElement).innerText = "X";
     feather.replace();
 
-    const versionElem = document.querySelector(".version-number");
+    const versionElem = document.querySelector(".version-number") as HTMLElement;
+    // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
     versionElem.innerText = `v${GAME_VERSION}`;
 
-    if (typeof Sentry !== "undefined") {
-        Sentry.onLoad(() => {
-            Sentry.init({
-                release: `wordle-clone@${GAME_VERSION}`,
-                beforeSend(event) {
-                    if (event.request.url.includes("localhost") || event.request.url.includes("127.0.0.1")) {
-                        return null;
-                    }
-                    return event;
-                }
-            });
-        });
-    }
+    // TODO: Add Sentry to the project
+    // if (typeof Sentry !== "undefined") {
+    //     Sentry.onLoad(() => {
+    //         Sentry.init({
+    //             // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
+    //             release: `wordle-clone@${GAME_VERSION}`,
+    //             beforeSend(event) {
+    //                 if (
+    //                     event.request.url.includes("localhost") ||
+    //                     event.request.url.includes("127.0.0.1")
+    //                 ) {
+    //                     return null;
+    //                 }
+    //                 return event;
+    //             },
+    //         });
+    //     });
+    // }
 
-    gtag("event", "game_open", {
-        "version": GAME_VERSION,
-    });
+    // TODO: Add Google Analytics to the project
+    // gtag("event", "game_open", {
+    //     version: GAME_VERSION,
+    // });
 
     try {
         await initGame(eventHandler, spawnManager, animationManager);
     } catch (e) {
-        if (typeof Sentry !== "undefined") Sentry.captureException(e);
+        // TODO: Add Sentry to the project
+        // if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");
-        const errorContent = elem.querySelector(".error-text");
+        const errorContent = elem.querySelector(".error-text") as HTMLElement;
 
         console.error("Unknown error occurred", e);
         errorContent.innerText = e.message;

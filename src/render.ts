@@ -1,16 +1,20 @@
 import feather from "feather-icons";
+import { AnimationManager } from "./manager/animation";
+import { GameState } from "./game";
 
-export const renderBoard = (parentElem, gameState, animationManager) => {
+export const renderBoard = (
+    parentElem: HTMLElement,
+    gameState: GameState,
+    animationManager: AnimationManager
+) => {
     const board = gameState.board;
-    // TODO: Maybe not a good idea to rely on animationManager being global, it should probably be passed in
-    // console.log(animationManager);
     const newBlocks = animationManager.newBlocks;
     const movedBlocks = animationManager.movedBlocks;
     const mergedBlocks = animationManager.mergedBlocks;
-    console.log("rendering new blocks", newBlocks)
-    console.log("rendering merged blocks", mergedBlocks)
-    const rowsBackElem = parentElem.querySelector(".back-rows");
-    const rowsBaseElem = parentElem.querySelector(".wordle-rows");
+    console.log("rendering new blocks", newBlocks);
+    console.log("rendering merged blocks", mergedBlocks);
+    const rowsBackElem = parentElem.querySelector(".back-rows") as HTMLElement;
+    const rowsBaseElem = parentElem.querySelector(".wordle-rows") as HTMLElement;
     rowsBackElem.innerHTML = "";
     rowsBaseElem.innerHTML = "";
     console.log("--------");
@@ -24,22 +28,28 @@ export const renderBoard = (parentElem, gameState, animationManager) => {
         for (let x = 0; x < row.length; x++) {
             const numberBox = renderNumberBox(rowContainer, row[x]);
             if (animationManager.isAnimationEnabled) {
-                if (newBlocks && newBlocks.some(newBlock => newBlock.x === x && newBlock.y === y)) {
+                if (
+                    newBlocks &&
+                    newBlocks.some((newBlock) => newBlock.x === x && newBlock.y === y)
+                ) {
                     numberBox.style.transform = "scale(0.1)";
                     setTimeout(() => {
                         numberBox.style.transform = "";
                     }, 0);
                 }
-                if (movedBlocks[y][x]) {
-                    const oldBlockPos = movedBlocks[y][x];
-                    numberBox.style.top = `${(48 * -(y - oldBlockPos.y))}px`;
-                    numberBox.style.left = `${(48 * -(x - oldBlockPos.x))}px`;
+                const oldBlockPos = movedBlocks[y][x];
+                if (oldBlockPos) {
+                    numberBox.style.top = `${48 * -(y - oldBlockPos.y)}px`;
+                    numberBox.style.left = `${48 * -(x - oldBlockPos.x)}px`;
                     setTimeout(() => {
                         numberBox.style.top = "0px";
                         numberBox.style.left = "0px";
                     }, 0);
                 }
-                if (mergedBlocks && mergedBlocks.some(mergedBlock => mergedBlock.x === x && mergedBlock.y === y)) {
+                if (
+                    mergedBlocks &&
+                    mergedBlocks.some((mergedBlock) => mergedBlock.x === x && mergedBlock.y === y)
+                ) {
                     numberBox.style.transform = "scale(0.1)";
                     setTimeout(() => {
                         numberBox.style.transform = "scale(1.5)";
@@ -56,7 +66,7 @@ export const renderBoard = (parentElem, gameState, animationManager) => {
     console.log("--------");
 };
 
-export const renderBackRow = (parentElem, rowLength) => {
+export const renderBackRow = (parentElem: HTMLElement, rowLength: number) => {
     const container = document.createElement("div");
     container.className = "back-row";
 
@@ -69,7 +79,7 @@ export const renderBackRow = (parentElem, rowLength) => {
     return container;
 };
 
-export const renderNumberBox = (parentElem, number) => {
+export const renderNumberBox = (parentElem: HTMLElement, number: number) => {
     const numberBox = document.createElement("div");
     numberBox.classList.add("box");
     const letterElem = document.createElement("span");
@@ -84,21 +94,21 @@ export const renderNumberBox = (parentElem, number) => {
     return numberBox;
 };
 
-export const renderDialog = (content, fadeIn, closable = true) => {
+export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: boolean = true) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
 
-    const template = document.querySelector("#dialog");
-    const clone = template.content.cloneNode(true);
+    const template = document.querySelector("#dialog") as HTMLTemplateElement;
+    const clone = template.content.cloneNode(true) as HTMLElement;
 
-    const overlayBackElem = document.querySelector(".overlay-back");
+    const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
 
-    const closeBtn = clone.querySelector("button.close");
+    const closeBtn = clone.querySelector("button.close") as HTMLElement;
     if (closable) {
         closeBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            const dialog = document.querySelector(".dialog");
+            const dialog = document.querySelector(".dialog") as HTMLElement;
             dialog.remove();
             overlayBackElem.style.display = "none";
         });
@@ -106,15 +116,15 @@ export const renderDialog = (content, fadeIn, closable = true) => {
         closeBtn.style.display = "none";
     }
 
-    const dialogContent = clone.querySelector(".dialog-content");
+    const dialogContent = clone.querySelector(".dialog-content") as HTMLElement;
     dialogContent.appendChild(content);
 
     if (fadeIn) {
-        const dialog = clone.querySelector(".dialog");
-        dialog.style.opacity = 0;
+        const dialog = clone.querySelector(".dialog") as HTMLElement;
+        dialog.style.opacity = "0";
         dialog.style.top = "100%";
         setTimeout(() => {
-            const dialog = document.querySelector(".dialog");
+            const dialog = document.querySelector(".dialog") as HTMLElement;
             dialog.style.opacity = "";
             dialog.style.top = "";
         }, 10);
@@ -124,28 +134,28 @@ export const renderDialog = (content, fadeIn, closable = true) => {
 
     overlayBackElem.style.display = "block";
 
-    document.querySelector(".dialog [data-feather='x']").innerText = "X";
+    (document.querySelector(".dialog [data-feather='x']") as HTMLElement).innerText = "X";
     feather.replace();
 };
 
-export const renderNotification = (msg) => {
-    const template = document.querySelector("#notification");
-    const clone = template.content.cloneNode(true);
+export const renderNotification = (msg: string) => {
+    const template = document.querySelector("#notification") as HTMLTemplateElement;
+    const clone = template.content.cloneNode(true) as HTMLElement;
 
-    const message = clone.querySelector(".notification-message");
+    const message = clone.querySelector(".notification-message") as HTMLElement;
     message.innerText = msg;
 
-    const notificationArea = document.querySelector(".notification-area");
+    const notificationArea = document.querySelector(".notification-area") as HTMLElement;
     notificationArea.appendChild(clone);
 
     // The original reference is a DocumentFragment, need to find the notification element in the DOM tree to continue using it
     const notificationList = notificationArea.querySelectorAll(
         ".notification-area > .notification"
-    );
+    ) as NodeListOf<HTMLElement>;
     const notification = notificationList[notificationList.length - 1];
 
     setTimeout(() => {
-        notification.style.opacity = 0;
+        notification.style.opacity = "0";
 
         setTimeout(() => {
             notification.remove();
@@ -153,9 +163,9 @@ export const renderNotification = (msg) => {
     }, 1000);
 };
 
-export const createDialogContentFromTemplate = (tmplContentId) => {
-    const contentTmpl = document.querySelector(tmplContentId);
-    const contentClone = contentTmpl.content.cloneNode(true);
+export const createDialogContentFromTemplate = (tmplContentId: string) => {
+    const contentTmpl = document.querySelector(tmplContentId) as HTMLTemplateElement;
+    const contentClone = contentTmpl.content.cloneNode(true) as HTMLElement;
 
     return contentClone;
 };

@@ -1,25 +1,39 @@
-import { jest } from '@jest/globals';
-import { initGame, move, DIRECTION_DOWN, DIRECTION_RIGHT, DIRECTION_LEFT, DIRECTION_UP, getGameState, setStorageFuncs } from "../src/game";
-import assert from "assert";
-import sinon from "sinon";
-import { MockSpawnManager } from '../src/manager/__mocks__/spawn';
-import { MockAnimationManager } from '../src/manager/__mocks__/animation';
+import { jest } from "@jest/globals";
+import {
+    initGame,
+    move,
+    DIRECTION_DOWN,
+    DIRECTION_RIGHT,
+    DIRECTION_LEFT,
+    DIRECTION_UP,
+    getGameState,
+    setStorageFuncs,
+    GameState,
+} from "../src/game";
+import * as assert from "assert";
+import { MockSpawnManager } from "../src/manager/__mocks__/spawn";
+import { MockAnimationManager } from "../src/manager/__mocks__/animation";
 
 describe("core game logic", () => {
     let eventHandlerStub;
     let mockSpawnManager = new MockSpawnManager();
     let mockAnimationManager = new MockAnimationManager();
 
-    async function setupGame(gameState) {
-        setStorageFuncs(() => true, () => { }, () => { }, () => {
-            return JSON.parse(JSON.stringify(gameState));
-        });
+    async function setupGame(gameState: GameState): Promise<GameState> {
+        setStorageFuncs(
+            () => true,
+            () => {},
+            () => {},
+            () => {
+                return JSON.parse(JSON.stringify(gameState));
+            }
+        );
         await initGame(eventHandlerStub, mockSpawnManager, mockAnimationManager);
         return getGameState();
     }
 
     beforeEach(async () => {
-        eventHandlerStub = sinon.stub();
+        eventHandlerStub = jest.fn();
         mockSpawnManager.determineNextBlockLocation.mockClear();
         mockSpawnManager.determineNextBlockValue.mockClear();
     });
@@ -45,7 +59,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -77,13 +91,13 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
         assert.strictEqual(gameState.board[0][3], 0);
         move(DIRECTION_RIGHT);
-        console.log(gameState)
+        console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 0);
         assert.strictEqual(gameState.board[0][3], 2);
     });
@@ -109,7 +123,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[3][0], 2);
@@ -141,7 +155,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][3], 2);
@@ -173,7 +187,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -204,7 +218,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -223,7 +237,7 @@ describe("core game logic", () => {
         mockSpawnManager.determineNextBlockValue.mockImplementation(() => {
             return 2;
         });
-        
+
         const gameState = await setupGame({
             board: [
                 [2, 0, 0, 0],
@@ -235,7 +249,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -259,16 +273,16 @@ describe("core game logic", () => {
 
         const gameState = await setupGame({
             board: [
-                [ 2, 2,  4,  8   ],
-                [ 0, 4,  2,  16  ],
-                [ 4, 16, 32, 8   ],
-                [ 2, 32, 64, 256 ],
+                [2, 2, 4, 8],
+                [0, 4, 2, 16],
+                [4, 16, 32, 8],
+                [2, 32, 64, 256],
             ],
             ended: false,
             highscore: 2224,
             won: false,
             score: 2224,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -301,16 +315,16 @@ describe("core game logic", () => {
 
         const gameState = await setupGame({
             board: [
-                [ 2, 2,  4,  8   ],
-                [ 0, 4,  2,  16  ],
-                [ 4, 16, 32, 8   ],
-                [ 2, 32, 64, 256 ],
+                [2, 2, 4, 8],
+                [0, 4, 2, 16],
+                [4, 16, 32, 8],
+                [2, 32, 64, 256],
             ],
             ended: false,
             highscore: 2224,
             won: false,
             score: 2224,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -318,14 +332,14 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[0][1], 2);
         assert.strictEqual(gameState.ended, false);
         move(DIRECTION_DOWN);
-        console.log(gameState)
+        console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
         assert.strictEqual(gameState.board[1][0], 2);
         assert.strictEqual(gameState.board[0][1], 2);
         assert.strictEqual(gameState.ended, false);
         // Should still be able to make a move at this point
         move(DIRECTION_RIGHT);
-        console.log(gameState)
+        console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
         assert.strictEqual(gameState.board[1][0], 2);
         assert.strictEqual(gameState.board[0][1], 0);
@@ -353,7 +367,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -389,7 +403,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -425,7 +439,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
@@ -461,7 +475,7 @@ describe("core game logic", () => {
             highscore: 0,
             won: false,
             score: 0,
-            did_undo: false,
+            didUndo: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
