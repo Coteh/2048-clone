@@ -88,6 +88,12 @@ const newState: () => GameState = () => {
             [0, 0, 0, 0],
             [0, 0, 0, 0],
             [0, 0, 0, 0],
+            // Temporary, to make the game lose for testing purposes
+            // TODO: Add a debug method to create a game that will lose
+            // [2, 16, 2, 32],
+            // [4, 2, 8, 0],
+            // [16, 4, 16, 32],
+            // [4, 32, 0, 2],
         ],
         ended: false,
         won: false,

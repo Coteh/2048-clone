@@ -122,11 +122,13 @@ export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: bo
     if (fadeIn) {
         const dialog = clone.querySelector(".dialog") as HTMLElement;
         dialog.style.opacity = "0";
-        dialog.style.top = "100%";
+        // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
+        // have it base itself off of a computed transform property
+        dialog.style.transform = "translate(-50%, -50%) scale(0.5)";
         setTimeout(() => {
             const dialog = document.querySelector(".dialog") as HTMLElement;
             dialog.style.opacity = "";
-            dialog.style.top = "";
+            dialog.style.transform = "translate(-50%, -50%)";
         }, 10);
     }
 

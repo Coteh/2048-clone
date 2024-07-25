@@ -67,6 +67,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "lose":
                 renderDialog(createDialogContentFromTemplate("#lose-dialog-content"), true);
+                (document.querySelector(".button.new-game") as HTMLElement).addEventListener("click", (e) => {
+                    e.preventDefault();
+                    newGame();
+                    const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
+                    const dialog = document.querySelector(".dialog") as HTMLElement;
+                    closeDialog(dialog, overlayBackElem);
+                });
                 break;
             case "win":
                 renderDialog(createDialogContentFromTemplate("#win-dialog-content"), true);
@@ -74,10 +81,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
-    const closeDialog = (dialog, overlayBackElem) => {
+    const closeDialog = (dialog: HTMLElement, overlayBackElem: HTMLElement) => {
         if (dialog) {
             // Check if dialog is closable first before closing (close button would be visible, if so)
-            const closeBtn = dialog.querySelector("button.close");
+            const closeBtn = dialog.querySelector("button.close") as HTMLElement;
             if (closeBtn.style.display === "none") {
                 return;
             }
@@ -90,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     const handleKeyInput = (key) => {
-        const dialog = document.querySelector(".dialog");
+        const dialog = document.querySelector(".dialog") as HTMLElement;
         if (dialog && (key === "enter" || key === "escape")) {
             return closeDialog(dialog, overlayBackElem);
         }
@@ -160,7 +167,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
     overlayBackElem.addEventListener("click", (e) => {
-        const dialog = document.querySelector(".dialog");
+        const dialog = document.querySelector(".dialog") as HTMLElement;
         closeDialog(dialog, overlayBackElem);
     });
 
