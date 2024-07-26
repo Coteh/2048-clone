@@ -342,7 +342,7 @@ describe("core game logic", () => {
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
         assert.strictEqual(gameState.board[1][0], 2);
-        assert.strictEqual(gameState.board[0][1], 0);
+        assert.strictEqual(gameState.board[0][1], 4);
         assert.strictEqual(gameState.ended, false);
     });
     it("should resolve merges bottom-up when moving down", async () => {
@@ -488,5 +488,41 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[0][1], 4);
         assert.strictEqual(gameState.board[0][2], 2);
         assert.strictEqual(gameState.board[0][3], 0);
+    });
+    it("should allow blocks to merge only once per move", async () => {
+        mockSpawnManager.determineNextBlockLocation.mockImplementation(() => {
+            return {
+                x: 1,
+                y: 1,
+            };
+        });
+        mockSpawnManager.determineNextBlockValue.mockImplementation(() => {
+            return 2;
+        });
+
+        const gameState = await setupGame({
+            board: [
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+            ],
+            ended: false,
+            highscore: 0,
+            won: false,
+            score: 0,
+            didUndo: false,
+        });
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 2);
+        assert.strictEqual(gameState.board[1][0], 2);
+        assert.strictEqual(gameState.board[2][0], 2);
+        assert.strictEqual(gameState.board[3][0], 2);
+        move(DIRECTION_DOWN);
+        console.log(gameState);
+        assert.strictEqual(gameState.board[0][0], 0);
+        assert.strictEqual(gameState.board[1][0], 0);
+        assert.strictEqual(gameState.board[2][0], 4);
+        assert.strictEqual(gameState.board[3][0], 4);
     });
 });

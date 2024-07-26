@@ -224,6 +224,9 @@ export const move = (direction) => {
 
     animationManager.resetState();
 
+    // Tracks whether a block has merged before in the same move, prevents it from merging again in that case
+    const mergedStatuses: boolean[][] = new Array(4).fill(0).map(_ => new Array(4).fill(0).map(_ => false))
+
     // Keep looping through movement until no more moves can be made
     prevBoard = null;
     let numMoves = 0;
@@ -266,10 +269,12 @@ export const move = (direction) => {
                 const currVal = gameState.board[i][j];
                 const newVal = gameState.board[newY][newX];
                 gameState.board[i][j] = 0;
-                if (currVal == newVal && currVal > 0) {
+                // Only merge if the values are nonzero, they match, and they haven't been merged prior
+                if (currVal == newVal && currVal > 0 && !mergedStatuses[i][j] && !mergedStatuses[newY][newX]) {
                     const combinedVal = currVal + newVal;
                     gameState.board[newY][newX] = combinedVal;
                     gameState.score += combinedVal;
+                    mergedStatuses[newY][newX] = true;
                     // TODO: Generalize the endgame condition check so that other game types besides 2048 (2s) can be added in the future
                     if (combinedVal === 2048 && !gameState.won) {
                         gameState.won = true;
@@ -282,6 +287,9 @@ export const move = (direction) => {
                         if (currVal) {
                             animationManager.updateBlocksNonMerge(j, i, newX, newY);
                         }
+                        // Transfer the merged status of the block as well
+                        mergedStatuses[newY][newX] = mergedStatuses[i][j];
+                        mergedStatuses[i][j] = false;
                     } else {
                         gameState.board[i][j] = currVal;
                     }
