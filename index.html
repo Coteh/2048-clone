@@ -49,6 +49,7 @@
                 </div>
                 <div class="commands">
                     <button id="undo" style="display:none">Undo</button>
+                    <button id="debug" style="display:none">Debug</button>
                     <button id="new-game">New Game</button>
                 </div>
                 <div class="space"></div>
@@ -150,7 +151,8 @@
             </div>
         </template>
         <template id="win-dialog-content">
-            <span>You win!</span>
+            <h3>You win!</h3>
+            <span>You can keep playing by closing this dialog box. But you can also click the button below to share your score!</span>
             <button class="button share-button">
                 <i data-feather="share-2"></i>
                 <span>Share</span>
@@ -213,6 +215,11 @@
                 Please refresh the page and try again later.<br/>
                 If this persists, please reach out to me on <a href="https://github.com/Coteh/wordle-clone/issues/new?assignees=&labels=&template=bug_report.md" target="_blank">GitHub</a> or <a href="mailto:james.cote.730@gmail.com" target="_blank">email</a> with more information and I'll take a look.
             </span>
+        </template>
+        <template id="debug-dialog-content">
+            <h3>Debug</h3><br/>
+            <button class="button new-win-game">New Winning Game</button>
+            <button class="button new-lose-game">New Losing Game</button>
         </template>
         <script src="src/index.ts" type="module"></script>
         <script src="vendor/snow.js" defer></script>

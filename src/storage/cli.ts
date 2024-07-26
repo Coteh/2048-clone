@@ -1,6 +1,6 @@
 import { BOARD_KEY, SCORE_KEY, HIGH_SCORE_KEY, WON_KEY, ENDED_KEY, DID_UNDO_KEY } from "./index";
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 import { GameState } from "../game";
 import { Preferences } from "../preferences";
 

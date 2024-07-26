@@ -38,7 +38,7 @@ let debugEnabled = false;
 // TODO: Fix "SyntaxError: Cannot use 'import.meta' outside a module" when trying to run in Jest
 // Either restrict the usage of import.meta to the browser code only, bring in debugEnabled from there into game.ts
 // or, might have to bring in Babel.
-// let debugEnabled = import.meta?.env?.DEV ?? false;
+// let debugEnabled = import.meta.env.DEV ?? false;
 
 const GAME_IS_OVER_ERROR_ID = "GameIsOver";
 
@@ -88,12 +88,6 @@ const newState: () => GameState = () => {
             [0, 0, 0, 0],
             [0, 0, 0, 0],
             [0, 0, 0, 0],
-            // Temporary, to make the game lose for testing purposes
-            // TODO: Add a debug method to create a game that will lose
-            // [2, 16, 2, 32],
-            // [4, 2, 8, 0],
-            // [16, 4, 16, 32],
-            // [4, 32, 0, 2],
         ],
         ended: false,
         won: false,
@@ -147,17 +141,23 @@ export const initGame = async (
     eventHandler("draw", { gameState });
 };
 
-export const newGame = () => {
+export const newGame = (debugState?: GameState) => {
     gameState = newState();
+
+    if (debugState) {
+        gameState = debugState;
+    }
 
     spawnManager.setGameState(gameState);
     animationManager.setGameState(gameState);
 
-    let location = spawnManager.determineNextBlockLocation();
-    spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
+    if (!debugState) {
+        let location = spawnManager.determineNextBlockLocation();
+        spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
 
-    location = spawnManager.determineNextBlockLocation();
-    spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
+        location = spawnManager.determineNextBlockLocation();
+        spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
+    }
 
     eventHandler("init", { gameState });
 

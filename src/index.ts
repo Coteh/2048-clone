@@ -67,13 +67,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "lose":
                 renderDialog(createDialogContentFromTemplate("#lose-dialog-content"), true);
-                (document.querySelector(".button.new-game") as HTMLElement).addEventListener("click", (e) => {
-                    e.preventDefault();
-                    newGame();
-                    const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
-                    const dialog = document.querySelector(".dialog") as HTMLElement;
-                    closeDialog(dialog, overlayBackElem);
-                });
+                (document.querySelector(".button.new-game") as HTMLElement).addEventListener(
+                    "click",
+                    (e) => {
+                        e.preventDefault();
+                        newGame();
+                        const overlayBackElem = document.querySelector(
+                            ".overlay-back"
+                        ) as HTMLElement;
+                        const dialog = document.querySelector(".dialog") as HTMLElement;
+                        closeDialog(dialog, overlayBackElem);
+                    }
+                );
                 break;
             case "win":
                 renderDialog(createDialogContentFromTemplate("#win-dialog-content"), true);
@@ -328,14 +333,66 @@ document.addEventListener("DOMContentLoaded", async () => {
         swipeArea.innerText = "No swipe";
     }
 
-    const undoButton = document.querySelector("#undo") as HTMLElement;
+    const undoButton = document.querySelector("button#undo") as HTMLElement;
     undoButton.addEventListener("click", (e) => {
         e.preventDefault();
         undo();
     });
-    // @ts-ignore TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
-    if (import.meta?.env?.DEV) {
+
+    const debugButton = document.querySelector("button#debug") as HTMLElement;
+    debugButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), true);
+        const closeDialogAndOverlay = () => {
+            const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
+            const dialog = document.querySelector(".dialog") as HTMLElement;
+            closeDialog(dialog, overlayBackElem);
+        };
+        (document.querySelector(".button.new-win-game") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                newGame({
+                    board: [
+                        [1024, 0, 0, 1024],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                    ],
+                    ended: false,
+                    won: false,
+                    score: 0,
+                    highscore: 0,
+                    didUndo: false,
+                });
+                closeDialogAndOverlay();
+            }
+        );
+        (document.querySelector(".button.new-lose-game") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                newGame({
+                    board: [
+                        [2, 16, 2, 32],
+                        [4, 512, 8, 128],
+                        [16, 4, 16, 32],
+                        [4, 32, 1024, 2],
+                    ],
+                    ended: false,
+                    won: false,
+                    score: 0,
+                    highscore: 0,
+                    didUndo: false,
+                });
+                closeDialogAndOverlay();
+            }
+        );
+    });
+
+    if (import.meta.env.DEV) {
         undoButton.style.display = "";
+        debugButton.style.display = "";
     }
 
     (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {

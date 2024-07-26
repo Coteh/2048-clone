@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import assert from "assert";
+import * as assert from "assert";
 import {
     saveGame,
     savePreferences,
@@ -21,11 +21,12 @@ import {
 // TODO: Rewrite storage tests to use memfs instead, so that mock-fs can be discarded
 // (mock-fs is redundant now that memfs is being used, also junit test results are passing through mock-fs atm when they're being written. Best to remove it out of the equation at this point.)
 import mockFs from "mock-fs";
-import fs from "fs";
+import * as fs from "fs";
 import { HIGH_SCORE_KEY, PREFERENCES_KEY } from "../src/storage";
 
 global.window = {} as Window & typeof globalThis;
 
+// TODO: Resolve "ReferenceError: Storage is not defined"
 class MockStorage extends Storage {}
 MockStorage.prototype.setItem = (keyName, keyValue) => {};
 MockStorage.prototype.getItem = (keyName) => "";
