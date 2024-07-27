@@ -86,6 +86,7 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number) => {
     letterElem.classList.add("box-letter");
     if (number > 0) {
         letterElem.innerText = number.toString();
+        numberBox.classList.add(`number-block`);
         numberBox.classList.add(`block-${number}`);
     }
     letterElem.style.fontSize = "16px";

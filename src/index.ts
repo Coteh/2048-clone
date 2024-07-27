@@ -38,6 +38,8 @@ const SETTING_DISABLED = "disabled";
 
 const LANDSCAPE_CLASS_NAME = "landscape";
 
+const CLASSIC_THEME_LABEL = "2048Clone";
+
 let isAnimationEnabled = false;
 
 setStorageFuncs(gameExists, clearGame, saveGame, loadGame);
@@ -181,7 +183,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let selectedTheme = LIGHT_MODE;
 
-    const selectableThemes = [DARK_MODE, LIGHT_MODE, SNOW_THEME, CLASSIC_THEME];
+    const selectableThemes = [DARK_MODE, LIGHT_MODE, CLASSIC_THEME];
 
     const switchTheme = (theme) => {
         if (!theme || !selectableThemes.includes(theme)) {
@@ -218,7 +220,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const nextTheme = selectableThemes[(themeIndex + 1) % selectableThemes.length];
                 switchTheme(nextTheme);
                 savePreferenceValue(THEME_PREFERENCE_NAME, nextTheme);
-                toggle.innerText = nextTheme;
+                toggle.innerText = nextTheme === "classic" ? CLASSIC_THEME_LABEL : nextTheme;
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
                 const knob = setting.querySelector(".knob") as HTMLElement;
                 enabled = isAnimationEnabled = !isAnimationEnabled;
@@ -239,7 +241,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     initPreferences();
     switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
     const themeSetting = document.querySelector(".setting.theme-switch") as HTMLElement;
-    (themeSetting.querySelector(".toggle") as HTMLElement).innerText = selectedTheme;
+    (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
+        selectedTheme === "classic" ? CLASSIC_THEME_LABEL : selectedTheme;
     if (getPreferenceValue(ANIMATIONS_PREFERENCE_NAME) === SETTING_ENABLED) {
         isAnimationEnabled = true;
         const setting = document.querySelector(".setting.animations") as HTMLElement;
@@ -378,6 +381,26 @@ document.addEventListener("DOMContentLoaded", async () => {
                         [4, 512, 8, 128],
                         [16, 4, 16, 32],
                         [4, 32, 1024, 2],
+                    ],
+                    ended: false,
+                    won: false,
+                    score: 0,
+                    highscore: 0,
+                    didUndo: false,
+                });
+                closeDialogAndOverlay();
+            }
+        );
+        (document.querySelector(".button.new-all-game") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                newGame({
+                    board: [
+                        [2, 32, 512, 8192],
+                        [4, 64, 1024, 16384],
+                        [8, 128, 2048, 32768],
+                        [16, 256, 4096, 65536],
                     ],
                     ended: false,
                     won: false,

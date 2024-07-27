@@ -1,3 +1,19 @@
+/* Fonts */
+
+@font-face {
+    font-family: "Comic Neue";
+    src: url("./fonts/comicneue/ComicNeue-Regular.woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Comic Neue";
+    src: url("./fonts/comicneue/ComicNeue-Bold.woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
 /* Variables */
 
 :root {
@@ -41,6 +57,8 @@
     --letter-text-color: var(--white);
     --letter-selected-text-color: var(--white);
 
+    --text-font-family: sans-serif;
+
     --notification-background-color: var(--gray-7);
     --notification-text-color: var(--black);
 
@@ -51,10 +69,11 @@
     --block-32-color: #ff6334;
     --block-64-color: #d80202;
     --block-128-color: #fff153;
-    --block-256-color: #ffc296;
-    --block-512-color: #ffc296;
-    --block-1024-color: #ffc296;
-    --block-2048-color: #ffc296;
+    --block-256-color: #f1e66c;
+    --block-512-color: rgb(235, 199, 107);
+    --block-1024-color: rgb(234, 207, 137);
+    --block-2048-color: #ecd800;
+    --block-max-color: #ffea00;
 
     --block-2-text-color: var(--white);
     --block-4-text-color: var(--black);
@@ -63,10 +82,13 @@
     --block-32-text-color: var(--white);
     --block-64-text-color: var(--white);
     --block-128-text-color: var(--black);
-    --block-256-text-color: var(--white);
+    --block-256-text-color: var(--black);
     --block-512-text-color: var(--white);
     --block-1024-text-color: var(--white);
     --block-2048-text-color: var(--white);
+    --block-max-text-color: var(--black);
+
+    --classic-checkerboard-color: rgb(128, 128, 128);
 }
 
 .light {
@@ -97,6 +119,41 @@
     --standard-block-color: rgba(0, 0, 0, 0);
 }
 
+.classic {
+    --background-color: rgb(169, 169, 169);
+
+    --standard-block-color: rgb(0, 0, 0, 0);
+
+    --text-font-family: "Comic Sans MS", "Comic Neue", sans-serif;
+
+    --block-2-color: rgb(102, 102, 213);
+    --block-4-color: rgb(104, 104, 211);
+    --block-8-color: rgb(108, 108, 207);
+    --block-16-color: rgb(116, 116, 199);
+    --block-32-color: rgb(132, 132, 183);
+    --block-64-color: rgb(164, 164, 151);
+    --block-128-color: rgb(228, 228, 87);
+    /* These values are as calculated from 2048Clone's "Modern" color theme */
+    --block-256-color: rgb(356, 356, -41);
+    --block-512-color: rgb(612, 612, -297);
+    --block-1024-color: rgb(1124, 1124, -809);
+    --block-2048-color: rgb(2148, 2148, -1833);
+    --block-max-color: rgb(4196, 4196, -3881);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--black);
+}
+
 .high-contrast {
     --correct-color: var(--orange);
     --within-color: var(--blue);
@@ -106,7 +163,7 @@
 
 html {
     font-size: 125%;
-    font-family: sans-serif;
+    font-family: var(--text-font-family);
 }
 
 body {
@@ -114,6 +171,10 @@ body {
     background: var(--background-color);
     margin: 0;
     overflow: hidden;
+}
+
+body.classic {
+    background-image: url("/images/CheckerboardTiles.png");
 }
 
 svg {
@@ -126,12 +187,12 @@ svg {
     border-bottom: 1px solid var(--standard-color);
     padding: 1rem;
     font-size: 1rem;
-    font-family: sans-serif;
+    font-family: var(--text-font-family);
     text-transform: uppercase;
     color: var(--text-color);
     display: flex;
     justify-content: space-between;
-    height: 64px;
+    height: 160px;
     box-sizing: border-box;
 }
 
@@ -149,6 +210,15 @@ svg {
     margin-right: 0;
 }
 
+body.classic .top-menu > .title {
+    display: none;
+}
+
+body.classic .top-menu > .classic-logo {
+    display: block !important;
+    width: 200px;
+}
+
 .game-space {
     width: 100%;
     display: flex;
@@ -161,6 +231,12 @@ svg {
     padding: 2px;
     background-color: goldenrod;
     transform: translateY(-50%);
+}
+
+body.classic .back-rows {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid black;
+    padding: 0px;
 }
 
 .wordle-rows {
@@ -488,102 +564,115 @@ a {
     transition: transform 0.25s ease, top 0.1s ease, left 0.1s ease;
 }
 
+body.classic .box {
+    margin: 0px;
+    border: 1px solid black;
+}
+
 .box .box-letter {
     display: block;
     position: absolute;
     line-height: normal;
     font-size: 2rem;
     font-weight: bold;
-    font-family: sans-serif;
+    font-family: var(--text-font-family);
     text-transform: uppercase;
     color: var(--letter-text-color);
 }
 
-.box.block-2 {
+.box.number-block {
+    background-color: var(--block-max-color);
+}
+
+.box.number-block > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+.box.number-block.block-2 {
     background-color: var(--block-2-color);
 }
 
-.box.block-2 > .box-letter {
+.box.number-block.block-2 > .box-letter {
     color: var(--block-2-text-color);
 }
 
-.box.block-4 {
+.box.number-block.block-4 {
     background-color: var(--block-4-color);
 }
 
-.box.block-4 > .box-letter {
+.box.number-block.block-4 > .box-letter {
     color: var(--block-4-text-color);
 }
 
-.box.block-8 {
+.box.number-block.block-8 {
     background-color: var(--block-8-color);
 }
 
-.box.block-8 > .box-letter {
+.box.number-block.block-8 > .box-letter {
     color: var(--block-8-text-color);
 }
 
-.box.block-16 {
+.box.number-block.block-16 {
     background-color: var(--block-16-color);
 }
 
-.box.block-16 > .box-letter {
+.box.number-block.block-16 > .box-letter {
     color: var(--block-16-text-color);
 }
 
-.box.block-32 {
+.box.number-block.block-32 {
     background-color: var(--block-32-color);
 }
 
-.box.block-32 > .box-letter {
+.box.number-block.block-32 > .box-letter {
     color: var(--block-32-text-color);
 }
 
-.box.block-64 {
+.box.number-block.block-64 {
     background-color: var(--block-64-color);
 }
 
-.box.block-64 > .box-letter {
+.box.number-block.block-64 > .box-letter {
     color: var(--block-64-text-color);
 }
 
-.box.block-128 {
+.box.number-block.block-128 {
     background-color: var(--block-128-color);
 }
 
-.box.block-128 > .box-letter {
+.box.number-block.block-128 > .box-letter {
     color: var(--block-128-text-color);
 }
 
-.box.block-256 {
+.box.number-block.block-256 {
     background-color: var(--block-256-color);
 }
 
-.box.block-256 > .box-letter {
+.box.number-block.block-256 > .box-letter {
     color: var(--block-256-text-color);
 }
 
-.box.block-512 {
+.box.number-block.block-512 {
     background-color: var(--block-512-color);
 }
 
-.box.block-512 > .box-letter {
+.box.number-block.block-512 > .box-letter {
     color: var(--block-512-text-color);
 }
 
-.box.block-1024 {
+.box.number-block.block-1024 {
     background-color: var(--block-1024-color);
 }
 
-.box.block-1024 > .box-letter {
+.box.number-block.block-1024 > .box-letter {
     color: var(--block-1024-text-color);
 }
 
-.box.block-2048 {
+.box.number-block.block-2048 {
     background-color: var(--block-2048-color);
 }
 
-.box.block-2048 > .box-letter {
+.box.number-block.block-2048 > .box-letter {
     color: var(--block-2048-text-color);
 }
 
