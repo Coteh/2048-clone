@@ -196,12 +196,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         let themeColor = "#000";
         if (snowEmbed) snowEmbed.style.display = "none";
         switch (theme) {
+            case DARK_MODE:
+                themeColor = "bisque";
+                break;
             case LIGHT_MODE:
                 themeColor = "#FFF";
                 break;
             case SNOW_THEME:
                 themeColor = "#020024";
                 if (snowEmbed) snowEmbed.style.display = "initial";
+                break;
+            case CLASSIC_THEME:
+                themeColor = "rgb(128, 128, 128)";
                 break;
         }
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
