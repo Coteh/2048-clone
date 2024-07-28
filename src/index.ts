@@ -22,10 +22,17 @@ import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
 
-const LIGHT_MODE = "light";
-const DARK_MODE = "dark";
+const STANDARD_THEME = "standard";
+const LIGHT_THEME = "light";
+const DARK_THEME = "dark";
 const SNOW_THEME = "snow";
 const CLASSIC_THEME = "classic";
+
+const STANDARD_STANDARD_TILSET = "standard";
+const LIGHT_LIGHT_TILESET = "light";
+const DARK_DARK_TILESET = "dark";
+const SNOW_SNOW_TILESET = "snow";
+const CLASSIC_MODERN_TILESET = "modern";
 
 const THEME_PREFERENCE_NAME = "theme";
 const ANIMATIONS_PREFERENCE_NAME = "animations";
@@ -181,25 +188,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     let snowEmbed = document.getElementById("embedim--snow");
     if (snowEmbed) snowEmbed.style.display = "none";
 
-    let selectedTheme = LIGHT_MODE;
+    let selectedTheme = STANDARD_THEME;
+    let selectedTileset = STANDARD_STANDARD_TILSET;
 
-    const selectableThemes = [DARK_MODE, LIGHT_MODE, CLASSIC_THEME];
+    const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, CLASSIC_THEME];
+    const selectableTilesets = {
+        [STANDARD_THEME]: [STANDARD_STANDARD_TILSET],
+        [LIGHT_THEME]: [LIGHT_LIGHT_TILESET],
+        [DARK_THEME]: [DARK_DARK_TILESET],
+        [CLASSIC_THEME]: [CLASSIC_MODERN_TILESET],
+    }
 
     const switchTheme = (theme) => {
         if (!theme || !selectableThemes.includes(theme)) {
-            theme = "dark";
+            theme = STANDARD_THEME;
         }
         document.body.classList.remove(selectedTheme);
-        if (theme !== "dark") {
+        document.body.classList.remove(`tileset-${selectedTileset}`);
+        if (theme !== STANDARD_THEME) {
             document.body.classList.add(theme);
         }
         let themeColor = "#000";
         if (snowEmbed) snowEmbed.style.display = "none";
         switch (theme) {
-            case DARK_MODE:
+            case STANDARD_THEME:
                 themeColor = "bisque";
                 break;
-            case LIGHT_MODE:
+            case LIGHT_THEME:
                 themeColor = "#FFF";
                 break;
             case SNOW_THEME:
@@ -213,6 +228,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
             themeColor;
         selectedTheme = theme;
+        // TODO: Add ability for user to configure the tileset for each theme
+        selectedTileset = selectableTilesets[theme][0];
+        document.body.classList.add(`tileset-${selectedTileset}`);
     };
 
     const settings = document.querySelectorAll(".setting");
@@ -365,8 +383,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     board: [
                         [1024, 0, 0, 1024],
                         [0, 0, 0, 0],
-                        [0, 0, 0, 0],
-                        [0, 0, 0, 0],
+                        [512, 0, 0, 512],
+                        [512, 0, 0, 512],
                     ],
                     ended: false,
                     won: false,
