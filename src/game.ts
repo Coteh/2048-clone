@@ -136,7 +136,7 @@ export const initGame = async (
     initState();
     initPersistentState();
 
-    eventHandler("init", { gameState });
+    eventHandler("init", { gameState, persistentState });
 
     if (debugEnabled) console.log(gameState);
 
@@ -164,7 +164,7 @@ export const newGame = (debugState?: GameState) => {
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
 
-    eventHandler("init", { gameState });
+    eventHandler("init", { gameState, persistentState });
 
     if (debugEnabled) console.log(gameState);
 
@@ -294,7 +294,8 @@ export const move = (direction) => {
                     // TODO: Generalize the endgame condition check so that other game types besides 2048 (2s) can be added in the future
                     if (combinedVal === 2048 && !gameState.won) {
                         gameState.won = true;
-                        eventHandler("win");
+                        persistentState.unlockables.classic = true;
+                        eventHandler("win", { persistentState });
                     }
                     animationManager.updateBlocks(j, i, newX, newY);
                 } else {

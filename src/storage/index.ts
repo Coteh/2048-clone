@@ -7,6 +7,7 @@ export interface IGameStorage {
     savePreferences: (preferences: Preferences) => void;
     gameExists: () => boolean;
     persistentStateExists: () => boolean;
+    preferencesExists: () => boolean;
     loadGame: () => GameState;
     loadPersistentState: () => GamePersistentState;
     loadPreferences: () => Preferences;

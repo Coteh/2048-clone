@@ -29,6 +29,10 @@ export class CLIGameStorage implements IGameStorage {
         return this.fileExists(this.resolvedFilename(PERSISTENT_STATE_JSON_FILENAME));
     };
 
+    preferencesExists = () => {
+        return this.fileExists(this.resolvedFilename(PREFERENCES_JSON_FILENAME));
+    };
+
     loadGame: () => GameState = () => {
         return this.loadFile(this.resolvedFilename(GAME_STATE_JSON_FILENAME));
     };

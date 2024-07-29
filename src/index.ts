@@ -16,6 +16,7 @@ import {
     renderBackRow,
     renderBoard,
     renderDialog,
+    renderNotification,
 } from "./render";
 import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
@@ -56,18 +57,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let gameState: GameState;
     let persistentState: GamePersistentState;
-    let gameLoaded = false;
     let spawnManager = new SpawnManager();
     let animationManager = new AnimationManager();
     let gameStorage = new BrowserGameStorage();
+    let unlockedClassic = false;
 
     const eventHandler = (event, data) => {
         switch (event) {
             case "init":
                 gameState = data.gameState;
+                persistentState = data.persistentState;
                 animationManager.isAnimationEnabled = isAnimationEnabled;
+                unlockedClassic = persistentState.unlockables.classic;
                 break;
             case "draw":
+                // TODO: I don't think I need to set these here because they're references, just setting them in init should be enough
                 gameState = data.gameState;
                 persistentState = data.persistentState;
                 renderBoard(middleElem, gameState, animationManager);
@@ -95,6 +99,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "win":
                 renderDialog(createDialogContentFromTemplate("#win-dialog-content"), true);
+                if (!unlockedClassic && data.persistentState.unlockables.classic) {
+                    renderNotification("2048Clone theme unlocked");
+                    unlockedClassic = true;
+                }
+                persistentState = data.persistentState;
                 break;
         }
     };
@@ -245,7 +254,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             let enabled = false;
             if (elem.classList.contains(THEME_SETTING_NAME)) {
                 const themeIndex = selectableThemes.indexOf(selectedTheme);
-                const nextTheme = selectableThemes[(themeIndex + 1) % selectableThemes.length];
+                let nextTheme = selectableThemes[(themeIndex + 1) % selectableThemes.length];
+                // If classic theme isn't unlocked yet, skip to next theme
+                console.log("persistent state", persistentState);
+                if (nextTheme === CLASSIC_THEME && !persistentState.unlockables.classic) {
+                    nextTheme = selectableThemes[(themeIndex + 2) % selectableThemes.length];
+                }
                 switchTheme(nextTheme);
                 savePreferenceValue(THEME_PREFERENCE_NAME, nextTheme);
                 toggle.innerText = nextTheme === "classic" ? CLASSIC_THEME_LABEL : nextTheme;
@@ -266,7 +280,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    initPreferences(gameStorage);
+    initPreferences(gameStorage, {
+        [ANIMATIONS_PREFERENCE_NAME]: SETTING_ENABLED,
+    });
     switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
     const themeSetting = document.querySelector(".setting.theme-switch") as HTMLElement;
     (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
@@ -494,6 +510,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         renderDialog(elem, true, false);
     }
-
-    gameLoaded = true;
 });

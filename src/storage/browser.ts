@@ -26,6 +26,10 @@ export class BrowserGameStorage implements IGameStorage {
     persistentStateExists = () => {
         return this.stateExists(PERSISTENT_STATE_KEY);
     };
+    
+    preferencesExists = () => {
+        return this.stateExists(PREFERENCES_KEY);
+    };
 
     loadGame: () => GameState = () => {
         return this.loadState(GAME_STATE_KEY);
