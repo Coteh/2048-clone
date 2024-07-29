@@ -1,7 +1,16 @@
-export const BOARD_KEY = "board";
-export const SCORE_KEY = "score";
-export const HIGH_SCORE_KEY = "highscore";
-export const WON_KEY = "won";
-export const ENDED_KEY = "ended";
-export const DID_UNDO_KEY = "didUndo";
-export const PREFERENCES_KEY = "preferences";
+import { GamePersistentState, GameState } from "../game";
+import { Preferences } from "../preferences";
+
+export interface IGameStorage {
+    saveGame: (gameState: GameState) => void;
+    savePersistentState: (persistentState: GamePersistentState) => void;
+    savePreferences: (preferences: Preferences) => void;
+    gameExists: () => boolean;
+    persistentStateExists: () => boolean;
+    loadGame: () => GameState;
+    loadPersistentState: () => GamePersistentState;
+    loadPreferences: () => Preferences;
+    clearGame: () => void;
+    clearPersistentState: () => void;
+    clearPreferences: () => void;
+}

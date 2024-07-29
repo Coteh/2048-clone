@@ -1,13 +1,15 @@
-import { savePreferences, loadPreferences, clearPreferences } from "./storage/browser";
+import { IGameStorage } from "./storage";
 
 export class Preferences {
     [key: string]: any;
 }
 
 let preferences: Preferences = {};
+let gameStorage: IGameStorage;
 
-export const initPreferences = () => {
-    preferences = loadPreferences();
+export const initPreferences = (_gameStorage: IGameStorage) => {
+    gameStorage = _gameStorage;
+    preferences = gameStorage.loadPreferences();
 };
 
 export const getPreferenceValue = (key: string) => {
@@ -16,9 +18,9 @@ export const getPreferenceValue = (key: string) => {
 
 export const savePreferenceValue = (key: string, value: any) => {
     preferences[key] = value;
-    savePreferences(preferences);
+    gameStorage.savePreferences(preferences);
 };
 
 export const resetPreferences = () => {
-    clearPreferences();
+    gameStorage.clearPreferences();
 };

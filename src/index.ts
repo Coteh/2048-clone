@@ -7,7 +7,8 @@ import {
     DIRECTION_LEFT,
     DIRECTION_RIGHT,
     DIRECTION_UP,
-    setStorageFuncs,
+    GameState,
+    GamePersistentState,
 } from "./game";
 import { getPreferenceValue, initPreferences, savePreferenceValue } from "./preferences";
 import {
@@ -17,10 +18,10 @@ import {
     renderDialog,
 } from "./render";
 import feather from "feather-icons";
-import { clearGame, gameExists, loadGame, saveGame } from "./storage/browser";
 import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
+import { BrowserGameStorage } from "./storage/browser";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -28,7 +29,7 @@ const DARK_THEME = "dark";
 const SNOW_THEME = "snow";
 const CLASSIC_THEME = "classic";
 
-const STANDARD_STANDARD_TILSET = "standard";
+const STANDARD_STANDARD_TILESET = "standard";
 const LIGHT_LIGHT_TILESET = "light";
 const DARK_DARK_TILESET = "dark";
 const SNOW_SNOW_TILESET = "snow";
@@ -49,16 +50,16 @@ const CLASSIC_THEME_LABEL = "2048Clone";
 
 let isAnimationEnabled = false;
 
-setStorageFuncs(gameExists, clearGame, saveGame, loadGame);
-
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle") as HTMLElement;
     const bottomElem = document.querySelector("#bottom") as HTMLElement;
 
-    let gameState;
+    let gameState: GameState;
+    let persistentState: GamePersistentState;
     let gameLoaded = false;
     let spawnManager = new SpawnManager();
     let animationManager = new AnimationManager();
+    let gameStorage = new BrowserGameStorage();
 
     const eventHandler = (event, data) => {
         switch (event) {
@@ -68,9 +69,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "draw":
                 gameState = data.gameState;
+                persistentState = data.persistentState;
                 renderBoard(middleElem, gameState, animationManager);
                 (document.querySelector("#score") as HTMLElement).innerText =
                     gameState.score.toString();
+                (document.querySelector("#highscore") as HTMLElement).innerText =
+                    persistentState.highscore.toString();
                 break;
             case "error":
                 break;
@@ -189,15 +193,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (snowEmbed) snowEmbed.style.display = "none";
 
     let selectedTheme = STANDARD_THEME;
-    let selectedTileset = STANDARD_STANDARD_TILSET;
+    let selectedTileset = STANDARD_STANDARD_TILESET;
 
     const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, CLASSIC_THEME];
     const selectableTilesets = {
-        [STANDARD_THEME]: [STANDARD_STANDARD_TILSET],
+        [STANDARD_THEME]: [STANDARD_STANDARD_TILESET],
         [LIGHT_THEME]: [LIGHT_LIGHT_TILESET],
         [DARK_THEME]: [DARK_DARK_TILESET],
         [CLASSIC_THEME]: [CLASSIC_MODERN_TILESET],
-    }
+    };
 
     const switchTheme = (theme) => {
         if (!theme || !selectableThemes.includes(theme)) {
@@ -262,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    initPreferences();
+    initPreferences(gameStorage);
     switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
     const themeSetting = document.querySelector(".setting.theme-switch") as HTMLElement;
     (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
@@ -389,7 +393,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ended: false,
                     won: false,
                     score: 0,
-                    highscore: 0,
                     didUndo: false,
                 });
                 closeDialogAndOverlay();
@@ -409,7 +412,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ended: false,
                     won: false,
                     score: 0,
-                    highscore: 0,
                     didUndo: false,
                 });
                 closeDialogAndOverlay();
@@ -429,7 +431,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ended: false,
                     won: false,
                     score: 0,
-                    highscore: 0,
                     didUndo: false,
                 });
                 closeDialogAndOverlay();
@@ -481,7 +482,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // });
 
     try {
-        await initGame(eventHandler, spawnManager, animationManager);
+        await initGame(eventHandler, spawnManager, animationManager, gameStorage);
     } catch (e) {
         // TODO: Add Sentry to the project
         // if (typeof Sentry !== "undefined") Sentry.captureException(e);

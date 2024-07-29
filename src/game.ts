@@ -1,37 +1,27 @@
 import { ISpawnManager, SpawnManager } from "./manager/spawn";
 import { AnimationManager, IAnimationManager } from "./manager/animation";
+import { IGameStorage as IGameStorage } from "./storage";
 
 export class GameState {
     board: number[][];
     ended: boolean;
     won: boolean;
     score: number;
-    highscore: number;
     didUndo: boolean;
+}
+
+// Game state to last between games
+export class GamePersistentState {
+    highscore: number;
+    unlockables: {
+        [key: string]: boolean;
+    };
 }
 
 export class Position {
     x: number;
     y: number;
 }
-
-let gameExists: () => boolean;
-let clearGame: () => void;
-let saveGame: (highscore: number) => void;
-let loadGame: () => GameState;
-
-// TODO: Find a better way to inject either browser or cli storage depending on where game is played from. May require refactoring.
-export const setStorageFuncs = (
-    _gameExists: () => boolean,
-    _clearGame: () => void,
-    _saveGame: (highscore: number) => void,
-    _loadGame: () => GameState
-) => {
-    gameExists = _gameExists;
-    clearGame = _clearGame;
-    saveGame = _saveGame;
-    loadGame = _loadGame;
-};
 
 let debugEnabled = false;
 // @ts-ignore TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
@@ -75,10 +65,12 @@ export const getErrorMessage = (errorID: string) => {
 export type EventHandler = (eventID: string, data?: any) => void;
 
 let gameState: GameState = {} as GameState;
+let persistentState: GamePersistentState = {} as GamePersistentState;
 let eventHandler: EventHandler = () => {};
 let boardStack: number[][][] = [];
 let spawnManager: ISpawnManager;
 let animationManager: IAnimationManager;
+let gameStorage: IGameStorage;
 
 const newState: () => GameState = () => {
     boardStack = [];
@@ -92,18 +84,17 @@ const newState: () => GameState = () => {
         ended: false,
         won: false,
         score: 0,
-        highscore: 0,
         didUndo: false,
     };
 };
 
 const loadState = () => {
-    return loadGame();
+    return gameStorage.loadGame();
 };
 
 const initState = () => {
-    if (gameExists()) {
-        gameState = loadGame();
+    if (gameStorage.gameExists()) {
+        gameState = gameStorage.loadGame();
 
         spawnManager.setGameState(gameState);
     } else {
@@ -120,16 +111,30 @@ const initState = () => {
     animationManager.setGameState(gameState);
 };
 
+const initPersistentState = () => {
+    if (gameStorage.persistentStateExists()) {
+        persistentState = gameStorage.loadPersistentState();
+    } else {
+        persistentState = {
+            highscore: 0,
+            unlockables: {},
+        };
+    }
+};
+
 export const initGame = async (
     _eventHandler: EventHandler,
     _spawnManager: ISpawnManager,
-    _animationManager: IAnimationManager
+    _animationManager: IAnimationManager,
+    _gameStorage: IGameStorage
 ) => {
     eventHandler = _eventHandler;
     spawnManager = _spawnManager;
     animationManager = _animationManager;
+    gameStorage = _gameStorage;
 
     initState();
+    initPersistentState();
 
     eventHandler("init", { gameState });
 
@@ -138,7 +143,7 @@ export const initGame = async (
     animationManager.initNewBlocks();
 
     // TODO: Should game state be passed into the draw?
-    eventHandler("draw", { gameState });
+    eventHandler("draw", { gameState, persistentState });
 };
 
 export const newGame = (debugState?: GameState) => {
@@ -166,7 +171,7 @@ export const newGame = (debugState?: GameState) => {
     animationManager.initNewBlocks();
 
     // TODO: Should game state be passed into the draw?
-    eventHandler("draw", { gameState });
+    eventHandler("draw", { gameState, persistentState });
 };
 
 const isBoardSame = (board1, board2) => {
@@ -192,7 +197,7 @@ export const undo = () => {
     }
     gameState.board = boardStack.pop()!;
     gameState.didUndo = true;
-    eventHandler("draw", { gameState });
+    eventHandler("draw", { gameState, persistentState });
 };
 
 export const move = (direction) => {
@@ -225,7 +230,9 @@ export const move = (direction) => {
     animationManager.resetState();
 
     // Tracks whether a block has merged before in the same move, prevents it from merging again in that case
-    const mergedStatuses: boolean[][] = new Array(4).fill(0).map(_ => new Array(4).fill(0).map(_ => false))
+    const mergedStatuses: boolean[][] = new Array(4)
+        .fill(0)
+        .map((_) => new Array(4).fill(0).map((_) => false));
 
     // Keep looping through movement until no more moves can be made
     prevBoard = null;
@@ -270,10 +277,19 @@ export const move = (direction) => {
                 const newVal = gameState.board[newY][newX];
                 gameState.board[i][j] = 0;
                 // Only merge if the values are nonzero, they match, and they haven't been merged prior
-                if (currVal == newVal && currVal > 0 && !mergedStatuses[i][j] && !mergedStatuses[newY][newX]) {
+                if (
+                    currVal == newVal &&
+                    currVal > 0 &&
+                    !mergedStatuses[i][j] &&
+                    !mergedStatuses[newY][newX]
+                ) {
                     const combinedVal = currVal + newVal;
                     gameState.board[newY][newX] = combinedVal;
                     gameState.score += combinedVal;
+                    if (gameState.score > persistentState.highscore) {
+                        persistentState.highscore = gameState.score;
+                        gameStorage.savePersistentState(persistentState);
+                    }
                     mergedStatuses[newY][newX] = true;
                     // TODO: Generalize the endgame condition check so that other game types besides 2048 (2s) can be added in the future
                     if (combinedVal === 2048 && !gameState.won) {
@@ -308,7 +324,7 @@ export const move = (direction) => {
         animationManager.addNewBlock(location);
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
-    eventHandler("draw", { gameState });
+    eventHandler("draw", { gameState, persistentState });
     let allBlocksFilled = true;
     outerLoop: for (let i = 0; i < gameState.board.length; i++) {
         for (let j = 0; j < gameState.board[i].length; j++) {

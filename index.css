@@ -145,6 +145,7 @@
 
     --background-color: var(--black);
 
+    --dialog-background-color: var(--gray-2);
     --text-color: var(--white);
 
     --back-layer-color: var(--white);
@@ -185,6 +186,8 @@
 
 .classic {
     --background-color: rgb(169, 169, 169);
+
+    --dialog-background-color: var(--gray-7);
 
     --standard-block-color: rgb(0, 0, 0, 0);
 
@@ -252,12 +255,15 @@ svg {
     padding: 1rem;
     font-size: 1rem;
     font-family: var(--text-font-family);
-    text-transform: uppercase;
     color: var(--text-color);
     display: flex;
     justify-content: space-between;
     height: 160px;
     box-sizing: border-box;
+}
+
+.top-menu > .title {
+    text-transform: uppercase;
 }
 
 .top-menu > .icon-bar {
@@ -274,6 +280,12 @@ svg {
     margin-right: 0;
 }
 
+.top-menu > .menu-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
 body.classic .top-menu > .title {
     display: none;
 }
@@ -281,6 +293,10 @@ body.classic .top-menu > .title {
 body.classic .top-menu > .classic-logo {
     display: block !important;
     width: 200px;
+}
+
+body.classic .top-menu > .menu-options {
+    background-color: rgba(255, 165, 0);
 }
 
 .game-space {
@@ -304,18 +320,8 @@ body.classic .back-rows {
 }
 
 .wordle-rows {
-    position: absolute;
     padding: 2px;
     transform: translateY(-50%);
-}
-
-.keyboard-view {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    height: max-content;
 }
 
 .game-wrapper {
@@ -634,6 +640,10 @@ a {
 
 body.classic .box {
     margin: 0px;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+body.classic .box.number-block {
     border: 1px solid black;
 }
 

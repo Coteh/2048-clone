@@ -34,25 +34,31 @@
                 </span>
                 <img class="classic-logo" alt="2048 Clone" style="display:none" src="/images/Logo.png"/>
                 <span class="space"></span>
-                <div class="icon-bar">
-                    <a class="help-link link-icon" href="#">
-                        <i data-feather="help-circle"></i>
-                    </a>
-                    <a class="settings-link link-icon" href="#">
-                        <i data-feather="settings"></i>
-                    </a>
+                <div class="menu-options">
+                    <div class="icon-bar">
+                        <a class="help-link link-icon" href="#">
+                            <i data-feather="help-circle"></i>
+                        </a>
+                        <a class="settings-link link-icon" href="#">
+                            <i data-feather="settings"></i>
+                        </a>
+                    </div>
+                    <div class="score-box">
+                        <span class="score-label">Score:</span>
+                        <span class="score" id="score"></span>
+                    </div>
+                    <div class="highscore-box">
+                        <span class="score-label">Highscore:</span>
+                        <span class="highscore" id="highscore"></span>
+                    </div>
+                    <div class="commands">
+                        <button class="button" id="undo" style="display:none">Undo</button>
+                        <button class="button" id="debug" style="display:none">Debug</button>
+                        <button class="button" id="new-game">New Game</button>
+                    </div>
                 </div>
             </nav>
             <div class="game pane">
-                <div class="score-box">
-                    <span class="score-label">Score:</span>
-                    <span class="score" id="score"></span>
-                </div>
-                <div class="commands">
-                    <button class="button" id="undo" style="display:none">Undo</button>
-                    <button class="button" id="debug" style="display:none">Debug</button>
-                    <button class="button" id="new-game">New Game</button>
-                </div>
                 <div class="space"></div>
                 <div id="middle" class="game-space">
                     <div class="back-rows">
@@ -63,7 +69,6 @@
                     </div>
                 </div>
                 <div class="space"></div>
-                <div id="bottom" class="keyboard-view"></div>
                 <noscript>
                     <div class="pane-overlay">
                         <h3>Please enable JavaScript to play this game.</h3>

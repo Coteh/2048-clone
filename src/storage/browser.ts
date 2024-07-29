@@ -1,50 +1,78 @@
-import { GameState } from "../game";
+import { IGameStorage } from ".";
+import { GamePersistentState, GameState } from "../game";
 import { Preferences } from "../preferences";
-import { HIGH_SCORE_KEY, PREFERENCES_KEY } from "./index";
 
-export const saveGame = (highscore: number) => {
-    window.localStorage.setItem(HIGH_SCORE_KEY, highscore.toString());
-};
+export const GAME_STATE_KEY = "game-state";
+export const PERSISTENT_STATE_KEY = "persistent-state";
+export const PREFERENCES_KEY = "preferences";
 
-export const savePreferences = (preferences) => {
-    window.localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences));
-};
+export class BrowserGameStorage implements IGameStorage {
+    saveGame = (gameState: GameState) => {
+        this.saveState(GAME_STATE_KEY, gameState);
+    };
 
-export const gameExists = () => {
-    return window.localStorage.getItem(HIGH_SCORE_KEY) != null;
-};
+    savePersistentState = (persistentState: GamePersistentState) => {
+        this.saveState(PERSISTENT_STATE_KEY, persistentState);
+    };
 
-export const loadGame: () => GameState = () => {
-    let highscore = parseInt(window.localStorage.getItem(HIGH_SCORE_KEY)!);
-    if (highscore == null || isNaN(highscore)) {
-        highscore = 0;
-    }
-    // TODO: Add the remaining fields for game state and remove the typecase
-    return {
-        highscore,
-    } as GameState;
-};
+    savePreferences = (preferences: Preferences) => {
+        this.saveState(PREFERENCES_KEY, preferences);
+    };
 
-export const loadPreferences = () => {
-    try {
-        const preferences = JSON.parse(
-            window.localStorage.getItem(PREFERENCES_KEY)!
-        ) as Preferences;
-        if (!preferences || typeof preferences !== "object") {
+    gameExists = () => {
+        return this.stateExists(GAME_STATE_KEY);
+    };
+
+    persistentStateExists = () => {
+        return this.stateExists(PERSISTENT_STATE_KEY);
+    };
+
+    loadGame: () => GameState = () => {
+        return this.loadState(GAME_STATE_KEY);
+    };
+
+    loadPersistentState: () => GamePersistentState = () => {
+        return this.loadState(PERSISTENT_STATE_KEY);
+    };
+
+    loadPreferences: () => Preferences = () => {
+        return this.loadState(PREFERENCES_KEY);
+    };
+
+    clearGame = () => {
+        this.clearState(GAME_STATE_KEY);
+    };
+
+    clearPersistentState = () => {
+        this.clearState(PERSISTENT_STATE_KEY);
+    };
+
+    clearPreferences = () => {
+        this.clearState(PREFERENCES_KEY);
+    };
+
+    stateExists = (key: string) => {
+        return window.localStorage.getItem(key) != null;
+    };
+
+    saveState = <T>(key: string, obj: T) => {
+        window.localStorage.setItem(key, JSON.stringify(obj));
+    };
+
+    loadState: <T>(key: string) => T = (key) => {
+        try {
+            const preferences = JSON.parse(window.localStorage.getItem(key)!);
+            if (!preferences || typeof preferences !== "object") {
+                return {};
+            }
+            return preferences;
+        } catch (e) {
+            console.error(`Could not load state for key '${key}', ${e}`);
             return {};
         }
-        return preferences;
-    } catch {
-        const fallback = {};
-        savePreferences(fallback);
-        return fallback;
-    }
-};
+    };
 
-export const clearGame = () => {
-    window.localStorage.removeItem(HIGH_SCORE_KEY);
-};
-
-export const clearPreferences = () => {
-    window.localStorage.removeItem(PREFERENCES_KEY);
-};
+    clearState = (key: string) => {
+        window.localStorage.removeItem(key);
+    };
+}
