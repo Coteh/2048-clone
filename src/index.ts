@@ -156,12 +156,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleKeyInput(e.key.toLowerCase());
     });
 
-    const helpLink = document.querySelector(".help-link") as HTMLElement;
-    helpLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        renderDialog(createDialogContentFromTemplate("#how-to-play"), true);
-        helpLink.blur();
-    });
+    // const helpLink = document.querySelector(".help-link") as HTMLElement;
+    // helpLink.addEventListener("click", (e) => {
+    //     e.preventDefault();
+    //     renderDialog(createDialogContentFromTemplate("#how-to-play"), true);
+    //     helpLink.blur();
+    // });
 
     const gamePane = document.querySelector(".game") as HTMLElement;
     const settingsPane = document.querySelector(".settings") as HTMLElement;
@@ -464,7 +464,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         newGame();
     });
 
-    (document.querySelector("[data-feather='help-circle']") as HTMLElement).innerText = "?";
+    // (document.querySelector("[data-feather='help-circle']") as HTMLElement).innerText = "?";
     (document.querySelector("[data-feather='settings']") as HTMLElement).innerText = "⚙";
     (document.querySelector(".settings [data-feather='x']") as HTMLElement).innerText = "X";
     feather.replace();
