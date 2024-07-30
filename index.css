@@ -260,18 +260,16 @@ svg {
     text-transform: uppercase;
 }
 
-.top-menu > .icon-bar {
-    position: absolute;
-    right: 20px;
-}
-
-.top-menu > .icon-bar > a.link-icon {
+.top-menu .icon-bar > a.link-icon {
     text-decoration: none;
-    margin-right: 4px;
 }
 
-.top-menu > .icon-bar > a.link-icon:last-child {
-    margin-right: 0;
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic .top-menu .icon-bar > a.link-icon:hover > svg {
+        color: var(--hovered-color);
+    }
 }
 
 .top-menu > .menu-options {
@@ -309,7 +307,7 @@ body.classic .top-menu > .menu-options {
 
 body.classic .back-rows {
     background-color: rgba(0, 0, 0, 0);
-    border: 1px solid black;
+    border: 2px solid black;
     padding: 0px;
 }
 

@@ -88,10 +88,6 @@ const newState: () => GameState = () => {
     };
 };
 
-const loadState = () => {
-    return gameStorage.loadGame();
-};
-
 const initState = () => {
     if (gameStorage.gameExists()) {
         gameState = gameStorage.loadGame();
@@ -172,6 +168,8 @@ export const newGame = (debugState?: GameState) => {
 
     // TODO: Should game state be passed into the draw?
     eventHandler("draw", { gameState, persistentState });
+
+    gameStorage.clearGame();
 };
 
 const isBoardSame = (board1, board2) => {
@@ -359,6 +357,7 @@ export const move = (direction) => {
             eventHandler("lose");
         }
     }
+    gameStorage.saveGame(gameState);
 };
 
 export const spawnBlock = (x, y, number) => {
