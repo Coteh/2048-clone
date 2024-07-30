@@ -31,6 +31,8 @@
     "vite": "^5.3.3"
   },
   "dependencies": {
+    "@types/canvas-confetti": "^1.6.4",
+    "canvas-confetti": "^1.9.3",
     "clipboardy": "^3.0.0",
     "feather-icons": "^4.29.2",
     "mobile-detect": "^1.4.5"

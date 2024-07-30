@@ -24,6 +24,7 @@ import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
 import { BrowserGameStorage } from "./storage/browser";
 import { copyShareText, triggerShare } from "./share/browser";
+import confetti from "canvas-confetti";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -142,6 +143,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                     e.preventDefault();
                     copyShareText(shareText);
                 });
+                setTimeout(() => {
+                    // TODO: Refine the particle effects a bit more
+                    confetti({
+                        particleCount: 50,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                    });
+                    confetti({
+                        particleCount: 50,
+                        spread: 100,
+                        origin: { y: 0.6 },
+                    });
+                }, 100);
                 break;
             }
         }
