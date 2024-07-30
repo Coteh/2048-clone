@@ -7,28 +7,44 @@ import {
     DIRECTION_LEFT,
     DIRECTION_UP,
     getGameState,
-    setStorageFuncs,
     GameState,
+    GamePersistentState,
 } from "../src/game";
 import * as assert from "assert";
 import { MockSpawnManager } from "../src/manager/__mocks__/spawn";
 import { MockAnimationManager } from "../src/manager/__mocks__/animation";
+import { IGameStorage } from "../src/storage";
+import { Preferences } from "../src/preferences";
+
+class MockGameStorage implements IGameStorage {
+    gameState: GameState;
+    constructor(gameState: GameState) {
+        this.gameState = gameState;
+    }
+    saveGame = (gameState: GameState) => {};
+    savePersistentState = (persistentState: GamePersistentState) => {};
+    savePreferences = (preferences: Preferences) => {};
+    gameExists = () => true;
+    persistentStateExists = () => false;
+    preferencesExists = () => false;
+    loadGame: () => GameState = () => {
+        return JSON.parse(JSON.stringify(this.gameState));
+    };
+    loadPersistentState: () => GamePersistentState;
+    loadPreferences: () => Preferences;
+    clearGame: () => void;
+    clearPersistentState: () => void;
+    clearPreferences: () => void;
+}
 
 describe("core game logic", () => {
     let eventHandlerStub;
-    let mockSpawnManager = new MockSpawnManager();
-    let mockAnimationManager = new MockAnimationManager();
+    const mockSpawnManager = new MockSpawnManager();
+    const mockAnimationManager = new MockAnimationManager();
 
     async function setupGame(gameState: GameState): Promise<GameState> {
-        setStorageFuncs(
-            () => true,
-            () => {},
-            () => {},
-            () => {
-                return JSON.parse(JSON.stringify(gameState));
-            }
-        );
-        await initGame(eventHandlerStub, mockSpawnManager, mockAnimationManager);
+        const mockGameStorage = new MockGameStorage(gameState);
+        await initGame(eventHandlerStub, mockSpawnManager, mockAnimationManager, mockGameStorage);
         return getGameState();
     }
 
@@ -56,7 +72,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -88,7 +103,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -120,7 +134,6 @@ describe("core game logic", () => {
                 [2, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -152,7 +165,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -184,7 +196,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -215,7 +226,6 @@ describe("core game logic", () => {
                 [2, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -246,7 +256,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -279,7 +288,6 @@ describe("core game logic", () => {
                 [2, 32, 64, 256],
             ],
             ended: false,
-            highscore: 2224,
             won: false,
             score: 2224,
             didUndo: false,
@@ -321,7 +329,6 @@ describe("core game logic", () => {
                 [2, 32, 64, 256],
             ],
             ended: false,
-            highscore: 2224,
             won: false,
             score: 2224,
             didUndo: false,
@@ -364,7 +371,6 @@ describe("core game logic", () => {
                 [8, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -400,7 +406,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -436,7 +441,6 @@ describe("core game logic", () => {
                 [2, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -472,7 +476,6 @@ describe("core game logic", () => {
                 [0, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
@@ -508,7 +511,6 @@ describe("core game logic", () => {
                 [2, 0, 0, 0],
             ],
             ended: false,
-            highscore: 0,
             won: false,
             score: 0,
             didUndo: false,
