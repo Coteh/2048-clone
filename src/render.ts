@@ -14,7 +14,7 @@ export const renderBoard = (
     console.log("rendering new blocks", newBlocks);
     console.log("rendering merged blocks", mergedBlocks);
     const rowsBackElem = parentElem.querySelector(".back-rows") as HTMLElement;
-    const rowsBaseElem = parentElem.querySelector(".wordle-rows") as HTMLElement;
+    const rowsBaseElem = parentElem.querySelector(".base-rows") as HTMLElement;
     rowsBackElem.innerHTML = "";
     rowsBaseElem.innerHTML = "";
     console.log("--------");

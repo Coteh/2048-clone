@@ -37,11 +37,9 @@
 
     --standard-color: var(--gray-5);
     --standard-block-color: var(--gray-4);
-    --correct-color: var(--green);
-    --within-color: var(--yellow);
-    --incorrect-color: var(--gray-2);
-    --pressed-color: var(--gray-4);
-    --held-color: var(--gray-6);
+
+    --hovered-color: var(--yellow);
+    --enabled-color: var(--green);
 
     --box-border-color: var(--gray-3);
     --box-border-color-highlighted: var(--gray-5);
@@ -97,9 +95,6 @@
 .light {
     --standard-color: var(--gray-5);
     --standard-block-color: var(--white);
-    --correct-color: var(--green);
-    --within-color: var(--yellow);
-    --incorrect-color: var(--gray-3);
 
     --box-border-color: var(--gray-7);
     --box-border-color-highlighted: var(--gray-5);
@@ -186,6 +181,9 @@
 }
 
 .classic {
+    --yellow: rgba(255, 255, 0);
+    --hovered-color: var(--yellow);
+
     --background-color: rgb(169, 169, 169);
 
     --dialog-background-color: var(--gray-7);
@@ -220,11 +218,6 @@
     --block-1024-text-color: var(--black);
     --block-2048-text-color: var(--black);
     --block-max-text-color: var(--black);
-}
-
-.high-contrast {
-    --correct-color: var(--orange);
-    --within-color: var(--blue);
 }
 
 /* Main Content */
@@ -320,7 +313,7 @@ body.classic .back-rows {
     padding: 0px;
 }
 
-.wordle-rows {
+.base-rows {
     padding: 2px;
     transform: translateY(-50%);
 }
@@ -388,6 +381,10 @@ h5 {
     text-align: center;
 }
 
+body.classic .pane > .footer a:hover {
+    color: var(--hovered-color);
+}
+
 button {
     border: none;
     cursor: pointer;
@@ -404,8 +401,21 @@ button.close {
     color: var(--text-color);
 }
 
+body.classic button.close:hover > svg {
+    color: var(--hovered-color);
+}
+
 button.button {
+    font-family: var(--text-font-family);
     padding: 8px;
+}
+
+body.classic button.button {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+body.classic button.button:hover {
+    color: var(--hovered-color);
 }
 
 /* Settings */
@@ -445,6 +455,14 @@ button.button {
 
 .settings .settings-item > a {
     text-decoration: none;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic .settings .settings-item:hover > * {
+        color: var(--hovered-color);
+    }
 }
 
 .settings .settings-item .settings-item-column {
@@ -524,12 +542,12 @@ button.button {
 
 /* Specific Dialogs */
 
-button.button.share-button,
-button.button.clipboard-button {
+body button.button.share-button,
+body button.button.clipboard-button {
     padding: 0.5em 0.5em 0.5em 0.5em;
     margin: 0.5em 0em 0.5em 0em;
     border-radius: 8em;
-    background-color: var(--correct-color);
+    background-color: var(--green);
 }
 
 button.button.share-button > *,
@@ -819,6 +837,16 @@ body a > .version-number {
     z-index: 1001;
 }
 
+/* Settings Pane */
+
+.settings.pane {
+    font-family: var(--text-font-family);
+}
+
+body.classic .settings.pane {
+    font-weight: 300;
+}
+
 /* Settings Knob */
 
 .knob {
@@ -833,7 +861,7 @@ body a > .version-number {
 }
 
 .knob.enabled {
-    background-color: var(--correct-color);
+    background-color: var(--enabled-color);
 }
 
 .knob > .knob-inside {
