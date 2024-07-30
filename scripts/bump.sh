@@ -15,3 +15,5 @@ npm version $NEW_VERSION_NUMBER --no-git-tag-version
 git add package.json package-lock.json
 
 git commit -m "Version bump"
+
+git tag "v$NEW_VERSION_NUMBER"
