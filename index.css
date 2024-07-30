@@ -56,6 +56,7 @@
     --text-color: var(--black);
     --letter-text-color: var(--white);
     --letter-selected-text-color: var(--white);
+    --letter-selected-inverted-text-color: var(--white);
 
     --text-font-family: sans-serif;
 
@@ -523,12 +524,18 @@ button.button {
 
 /* Specific Dialogs */
 
-.dialog button.share-button {
+button.button.share-button,
+button.button.clipboard-button {
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    margin: 0.5em 0em 0.5em 0em;
+    border-radius: 8em;
     background-color: var(--correct-color);
 }
 
-.dialog button.share-button > * {
-    color: var(--letter-selected-text-color);
+button.button.share-button > *,
+button.button.clipboard-button > * {
+    color: var(--letter-selected-inverted-text-color);
+    font-weight: bold;
 }
 
 .dialog > .dialog-content > .how-to-play {

@@ -23,6 +23,7 @@ import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
 import { BrowserGameStorage } from "./storage/browser";
+import { copyShareText, triggerShare } from "./share/browser";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -82,8 +83,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "error":
                 break;
-            case "lose":
-                renderDialog(createDialogContentFromTemplate("#lose-dialog-content"), true);
+            case "lose": {
+                const loseElem = createDialogContentFromTemplate("#lose-dialog-content");
+                const shareButton = loseElem.querySelector(".share-button") as HTMLElement;
+                const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
+                renderDialog(loseElem, true);
                 (document.querySelector(".button.new-game") as HTMLElement).addEventListener(
                     "click",
                     (e) => {
@@ -96,15 +100,50 @@ document.addEventListener("DOMContentLoaded", async () => {
                         closeDialog(dialog, overlayBackElem);
                     }
                 );
+                const shareText = generateShareText(gameState);
+                shareButton.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    if (!(await triggerShare(shareText))) {
+                        console.log(
+                            "Triggering share not successful, swapping out for copy to clipboard button..."
+                        );
+                        copyButton.style.display = "";
+                        shareButton.style.display = "none";
+                    }
+                });
+                copyButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    copyShareText(shareText);
+                });
                 break;
-            case "win":
-                renderDialog(createDialogContentFromTemplate("#win-dialog-content"), true);
+            }
+            case "win": {
+                const winElem = createDialogContentFromTemplate("#win-dialog-content");
+                const shareButton = winElem.querySelector(".share-button") as HTMLElement;
+                const copyButton = winElem.querySelector(".clipboard-button") as HTMLElement;
+                renderDialog(winElem, true);
                 if (!unlockedClassic && data.persistentState.unlockables.classic) {
                     renderNotification("2048Clone theme unlocked");
                     unlockedClassic = true;
                 }
                 persistentState = data.persistentState;
+                const shareText = generateShareText(gameState);
+                shareButton.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    if (!(await triggerShare(shareText))) {
+                        console.log(
+                            "Triggering share not successful, swapping out for copy to clipboard button..."
+                        );
+                        copyButton.style.display = "";
+                        shareButton.style.display = "none";
+                    }
+                });
+                copyButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    copyShareText(shareText);
+                });
                 break;
+            }
         }
     };
 
@@ -256,7 +295,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const themeIndex = selectableThemes.indexOf(selectedTheme);
                 let nextTheme = selectableThemes[(themeIndex + 1) % selectableThemes.length];
                 // If classic theme isn't unlocked yet, skip to next theme
-                console.log("persistent state", persistentState);
                 if (nextTheme === CLASSIC_THEME && !persistentState.unlockables.classic) {
                     nextTheme = selectableThemes[(themeIndex + 2) % selectableThemes.length];
                 }
@@ -293,6 +331,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const knob = setting.querySelector(".knob") as HTMLElement;
         knob.classList.add("enabled");
     }
+
+    const generateShareText = (gameState: GameState) => {
+        return `I got a score of ${gameState.score} in 2048-clone${
+            gameState.won ? ", and I achieved 2048!" : "."
+        } Play it here: https://coteh.github.io/2048-clone/`;
+    };
 
     const landscapeQuery = window.matchMedia("(orientation: landscape)");
 

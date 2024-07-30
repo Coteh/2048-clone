@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import path from "path";
+import * as fs from "fs";
 import { version } from "./package.json";
 
 export default defineConfig({
@@ -20,5 +21,11 @@ export default defineConfig({
     },
     server: {
         host: true,
+        https: process.env.HTTPS
+            ? {
+                  key: fs.readFileSync("./ssl/localhost+2-key.pem"),
+                  cert: fs.readFileSync("./ssl/localhost+2.pem"),
+              }
+            : undefined,
     },
 });
