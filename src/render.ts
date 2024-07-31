@@ -73,6 +73,10 @@ export const renderBoard = (
                             }, 100);
                         }, 0);
                     }
+                } else {
+                    if (options.theme === "classic") {
+                        applyClassicThemeBlockStyles(numberBox, x, y, row, board);
+                    }
                 }
             }
         }
