@@ -76,7 +76,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // TODO: I don't think I need to set these here because they're references, just setting them in init should be enough
                 gameState = data.gameState;
                 persistentState = data.persistentState;
-                renderBoard(middleElem, gameState, animationManager);
+                renderBoard(middleElem, gameState, animationManager, {
+                    theme: selectedTheme,
+                });
                 (document.querySelector("#score") as HTMLElement).innerText =
                     gameState.score.toString();
                 (document.querySelector("#highscore") as HTMLElement).innerText =
@@ -297,6 +299,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         // TODO: Add ability for user to configure the tileset for each theme
         selectedTileset = selectableTilesets[theme][0];
         document.body.classList.add(`tileset-${selectedTileset}`);
+        // Redraw the board to remove any theme-specific modifiers on any of the DOM elements
+        if (gameState) {
+            animationManager.resetState();
+            renderBoard(middleElem, gameState, animationManager, {
+                theme: selectedTheme,
+            });
+        }
     };
 
     const settings = document.querySelectorAll(".setting");

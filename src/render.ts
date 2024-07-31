@@ -2,10 +2,15 @@ import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
 import { GameState } from "./game";
 
+interface RenderBoardOptions {
+    theme?: string;
+}
+
 export const renderBoard = (
     parentElem: HTMLElement,
     gameState: GameState,
-    animationManager: AnimationManager
+    animationManager: AnimationManager,
+    options: RenderBoardOptions
 ) => {
     const board = gameState.board;
     const newBlocks = animationManager.newBlocks;
@@ -27,36 +32,47 @@ export const renderBoard = (
 
         for (let x = 0; x < row.length; x++) {
             const numberBox = renderNumberBox(rowContainer, row[x]);
-            if (animationManager.isAnimationEnabled) {
-                if (
-                    newBlocks &&
-                    newBlocks.some((newBlock) => newBlock.x === x && newBlock.y === y)
-                ) {
-                    numberBox.style.transform = "scale(0.1)";
-                    setTimeout(() => {
-                        numberBox.style.transform = "";
-                    }, 0);
-                }
-                const oldBlockPos = movedBlocks[y][x];
-                if (oldBlockPos) {
-                    numberBox.style.top = `${48 * -(y - oldBlockPos.y)}px`;
-                    numberBox.style.left = `${48 * -(x - oldBlockPos.x)}px`;
-                    setTimeout(() => {
-                        numberBox.style.top = "0px";
-                        numberBox.style.left = "0px";
-                    }, 0);
-                }
-                if (
-                    mergedBlocks &&
-                    mergedBlocks.some((mergedBlock) => mergedBlock.x === x && mergedBlock.y === y)
-                ) {
-                    numberBox.style.transform = "scale(0.1)";
-                    setTimeout(() => {
-                        numberBox.style.transform = "scale(1.5)";
+            if (row[x] > 0) {
+                if (animationManager.isAnimationEnabled) {
+                    if (
+                        newBlocks &&
+                        newBlocks.some((newBlock) => newBlock.x === x && newBlock.y === y)
+                    ) {
+                        numberBox.style.transform = "scale(0.1)";
                         setTimeout(() => {
                             numberBox.style.transform = "";
-                        }, 100);
-                    }, 0);
+                        }, 0);
+                    }
+                    const oldBlockPos = movedBlocks[y][x];
+                    if (oldBlockPos) {
+                        numberBox.style.top = `${48 * -(y - oldBlockPos.y)}px`;
+                        numberBox.style.left = `${48 * -(x - oldBlockPos.x)}px`;
+                        setTimeout(() => {
+                            numberBox.style.top = "0px";
+                            numberBox.style.left = "0px";
+                            if (options.theme === "classic") {
+                                applyClassicThemeBlockStyles(numberBox, x, y, row, board);
+                            }
+                        }, 0);
+                    } else {
+                        if (options.theme === "classic") {
+                            applyClassicThemeBlockStyles(numberBox, x, y, row, board);
+                        }
+                    }
+                    if (
+                        mergedBlocks &&
+                        mergedBlocks.some(
+                            (mergedBlock) => mergedBlock.x === x && mergedBlock.y === y
+                        )
+                    ) {
+                        numberBox.style.transform = "scale(0.1)";
+                        setTimeout(() => {
+                            numberBox.style.transform = "scale(1.5)";
+                            setTimeout(() => {
+                                numberBox.style.transform = "";
+                            }, 100);
+                        }, 0);
+                    }
                 }
             }
         }
@@ -171,4 +187,26 @@ export const createDialogContentFromTemplate = (tmplContentId: string) => {
     const contentClone = contentTmpl.content.cloneNode(true) as HTMLElement;
 
     return contentClone;
+};
+
+const applyClassicThemeBlockStyles = (
+    numberBox: HTMLElement,
+    x,
+    y: number,
+    row: number[],
+    board: number[][]
+) => {
+    const invisibleBorder = "1px solid rgba(0,0,0,0)";
+    if (x === row.length - 1) {
+        numberBox.style.borderRight = invisibleBorder;
+    }
+    if (x === 0 || (x > 0 && row[x - 1] !== 0)) {
+        numberBox.style.borderLeft = invisibleBorder;
+    }
+    if (y === 0 || (y > 0 && board[y - 1][x] !== 0)) {
+        numberBox.style.borderTop = invisibleBorder;
+    }
+    if (y === board.length - 1) {
+        numberBox.style.borderBottom = invisibleBorder;
+    }
 };
