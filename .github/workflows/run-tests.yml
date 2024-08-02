@@ -9,8 +9,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Run node -v
         run: node -v
-      - name: Run npm install
-        run: npm install
+      - name: Run npm clean install
+        run: npm ci --legacy-peer-deps
       - name: Run test
         run: npm run test-ci
       - name: Upload test results
@@ -27,6 +27,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
+        with:
+          install-command: npm ci --legacy-peer-deps
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
