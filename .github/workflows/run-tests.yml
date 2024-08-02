@@ -37,7 +37,7 @@ jobs:
           path: ./results/cypress-test-results-*.xml
   publish-test-results:
     if: always()
-    needs: [test-game-logic] #, cypress-run]
+    needs: [test-game-logic, cypress-run]
     runs-on: ubuntu-latest
     permissions:
       # TODO: Remove this permission upon making repo public
