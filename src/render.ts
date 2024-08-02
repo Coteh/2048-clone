@@ -195,7 +195,7 @@ export const createDialogContentFromTemplate = (tmplContentId: string) => {
 
 const applyClassicThemeBlockStyles = (
     numberBox: HTMLElement,
-    x,
+    x: number,
     y: number,
     row: number[],
     board: number[][]

@@ -1,27 +1,24 @@
 /// <reference types="cypress" />
 
-const DAY_MS = 86400000;
-// March 23 2022 - initial release date
-const FIRST_DAY_MS = 1647993600000;
+import { GamePersistentState } from "../../../src/game";
 
-describe("dialogs", () => {
+// TODO: Implement these tests
+describe.skip("dialogs", () => {
     beforeEach(() => {
-        // only mock the "Date" object, otherwise events that use setTimeout like dialog messages won't work
-        // https://github.com/cypress-io/cypress/issues/7455#issuecomment-635278631
-        cy.clock(FIRST_DAY_MS + DAY_MS * 1 + (DAY_MS * 1) / 2, ["Date"]);
-        cy.intercept("/words.txt", {
-            fixture: "words.txt",
-        });
         cy.clearBrowserCache();
         cy.visit("/", {
             onBeforeLoad: () => {
-                window.localStorage.setItem("played_before", true);
+                const persistentState: GamePersistentState = {
+                    highscore: 0,
+                    unlockables: {},
+                    hasPlayedBefore: true,
+                };
+                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
             },
         });
-        cy.waitForGameReady();
 
-        // The How to Play dialog is an example of a closable dialog that can be triggered in normal usage
-        cy.get(".help-link").click();
+        // The Debug dialog is an example of a closable dialog that can be triggered in normal usage (during debug mode)
+        cy.get("button#debug").click();
     });
 
     describe("general dialog behaviour", () => {
@@ -30,53 +27,17 @@ describe("dialogs", () => {
             cy.get(".overlay-back").should("be.visible");
         });
 
-        [
-            {
-                name: "backspace",
-                input: "backspace",
-            },
-            {
-                name: "f key",
-                input: "f",
-            },
-            {
-                name: "enter key",
-                input: "enter",
-            },
-        ].forEach((def) => {
-            it(`prevents inputs from being made on touch keyboard - case '${def.name}'`, (done) => {
-                cy.keyboardItem(def.input).shouldNotBeActionable(done);
-            });
-        });
-
         it("prevents player from making any more inputs with physical keyboard", () => {
-            for (let i = 1; i <= 6; i++) {
-                cy.inputRowShouldBeEmpty(i);
-            }
+            // TODO: Verify the game board at this point
 
-            cy.get("body").type("{backspace}");
+            cy.get("body").type("{rightArrow}");
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{leftArrow}");
+            cy.get("body").type("{upArrow}");
 
-            for (let i = 1; i <= 6; i++) {
-                cy.inputRowShouldBeEmpty(i);
-            }
+            // TODO: Verify the game board did not change
 
-            cy.get("body").type("f");
-
-            for (let i = 1; i <= 6; i++) {
-                cy.inputRowShouldBeEmpty(i);
-            }
-
-            cy.inputRow(1).should("have.id", "current-input");
-            cy.inputRow(2).should("not.have.id", "current-input");
-
-            cy.get("body").type("{enter}");
-
-            for (let i = 1; i <= 6; i++) {
-                cy.inputRowShouldBeEmpty(i);
-            }
-
-            cy.inputRow(1).should("have.id", "current-input");
-            cy.inputRow(2).should("not.have.id", "current-input");
+            throw new Error("TODO: Verify the game board did not change after doing some inputs");
         });
 
         // NTS: If dialog does not appear on the screen for some reason, which should never happen anyway under normal operation, then player can make physical key inputs.
@@ -98,32 +59,34 @@ describe("dialogs", () => {
             cy.get(".dialog").should("be.visible");
             cy.get(".overlay-back").should("be.visible");
 
-            cy.get("body").click({
-                position: "left",
-            });
+            cy.get("body").click("left");
 
             cy.get(".dialog").should("not.exist");
             cy.get(".overlay-back").should("not.be.visible");
         });
 
         it("allows inputs to be made again after closing", () => {
-            cy.get("body").type("b");
+            // TODO: Verify the game board at this point
 
-            for (let i = 1; i <= 6; i++) {
-                cy.inputRowShouldBeEmpty(i);
-            }
+            cy.get("body").type("{rightArrow}");
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{leftArrow}");
+            cy.get("body").type("{upArrow}");
+
+            // TODO: Verify the game board did not change
 
             cy.get(".dialog > .close").click();
 
-            cy.get("body").type("b");
+            // TODO: Verify the game board at this point
 
-            cy.inputRow(1).inputCell(1).inputLetter().should("have.text", "b");
-            for (let i = 2; i <= 5; i++) {
-                cy.inputRow(1).inputCell(i).inputLetter().should("be.empty");
-            }
-            for (let i = 2; i <= 6; i++) {
-                cy.inputRowShouldBeEmpty(i);
-            }
+            cy.get("body").type("{rightArrow}");
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{leftArrow}");
+            cy.get("body").type("{upArrow}");
+
+            // TODO: Verify the game board did change
+
+            throw new Error("TODO: Verify the game board did change after closing");
         });
 
         it("can be closed by pressing enter key", () => {
@@ -171,9 +134,7 @@ describe("dialogs", () => {
         it("can not be closed by clicking elsewhere besides the dialog", () => {
             cy.get(".dialog").should("be.visible");
 
-            cy.get("body").click({
-                position: "left",
-            });
+            cy.get("body").click("left");
 
             cy.get(".dialog").should("be.visible");
         });

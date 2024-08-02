@@ -18,24 +18,25 @@
   "author": "James Cote (Coteh)",
   "license": "MIT",
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
+    "@types/feather-icons": "^4.29.4",
     "@types/jest": "^29.5.12",
-    "cypress": "^12.17.2",
-    "cypress-real-events": "^1.11.0",
+    "canvas-confetti": "^1.9.3",
+    "cypress": "^13.8.1",
+    "cypress-real-events": "^1.12.0",
     "cypress-wait-until": "^1.7.2",
+    "feather-icons": "^4.29.2",
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
     "memfs": "^4.9.3",
+    "mobile-detect": "^1.4.5",
     "sinon": "^15.2.0",
     "ts-jest": "^29.2.3",
     "typescript": "^5.5.3",
     "vite": "^5.3.3"
   },
   "dependencies": {
-    "@types/canvas-confetti": "^1.6.4",
-    "canvas-confetti": "^1.9.3",
-    "clipboardy": "^3.0.0",
-    "feather-icons": "^4.29.2",
-    "mobile-detect": "^1.4.5"
+    "clipboardy": "^3.0.0"
   },
   "overrides": {
     "cypress-real-events": {

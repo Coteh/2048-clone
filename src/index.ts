@@ -13,7 +13,6 @@ import {
 import { getPreferenceValue, initPreferences, savePreferenceValue } from "./preferences";
 import {
     createDialogContentFromTemplate,
-    renderBackRow,
     renderBoard,
     renderDialog,
     renderNotification,
@@ -64,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let gameStorage = new BrowserGameStorage();
     let unlockedClassic = false;
 
-    const eventHandler = (event, data) => {
+    const eventHandler = (event: string, data: any) => {
         switch (event) {
             case "init":
                 gameState = data.gameState;
@@ -178,7 +177,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         overlayBackElem.style.display = "none";
     };
 
-    const handleKeyInput = (key) => {
+    const handleKeyInput = (key: string) => {
         const dialog = document.querySelector(".dialog") as HTMLElement;
         if (dialog && (key === "enter" || key === "escape")) {
             return closeDialog(dialog, overlayBackElem);
@@ -260,14 +259,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     let selectedTileset = STANDARD_STANDARD_TILESET;
 
     const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, CLASSIC_THEME];
-    const selectableTilesets = {
+    const selectableTilesets: { [key: string]: string[] } = {
         [STANDARD_THEME]: [STANDARD_STANDARD_TILESET],
         [LIGHT_THEME]: [LIGHT_LIGHT_TILESET],
         [DARK_THEME]: [DARK_DARK_TILESET],
         [CLASSIC_THEME]: [CLASSIC_MODERN_TILESET],
     };
 
-    const switchTheme = (theme) => {
+    const switchTheme = (theme: string) => {
         if (!theme || !selectableThemes.includes(theme)) {
             theme = STANDARD_THEME;
         }
@@ -363,7 +362,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const landscapeQuery = window.matchMedia("(orientation: landscape)");
 
-    const checkForOrientation = (mediaQueryEvent) => {
+    const checkForOrientation = (mediaQueryEvent: MediaQueryListEvent | MediaQueryList) => {
         const md = new MobileDetect(window.navigator.userAgent);
         const landscapeOverlay = document.getElementById("landscape-overlay") as HTMLElement;
         if (md && mediaQueryEvent.matches && md.mobile()) {
@@ -412,6 +411,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     function handleGesture() {
+        if (gameState.ended) {
+            return;
+        }
+
         const diffX = touchEndX - touchStartX;
         const diffY = touchEndY - touchStartY;
 
@@ -566,7 +569,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         await initGame(eventHandler, spawnManager, animationManager, gameStorage);
-    } catch (e) {
+    } catch (e: any) {
         // TODO: Add Sentry to the project
         // if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");

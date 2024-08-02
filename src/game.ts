@@ -16,6 +16,7 @@ export class GamePersistentState {
     unlockables: {
         [key: string]: boolean;
     };
+    hasPlayedBefore: boolean;
 }
 
 export class Position {

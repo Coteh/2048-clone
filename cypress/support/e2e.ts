@@ -14,10 +14,11 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands";
+import "./commands/commands";
+import "./commands/game";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
 import "cypress-real-events/support";
-import 'cypress-wait-until';
+import "cypress-wait-until";

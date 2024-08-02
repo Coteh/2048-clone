@@ -19,20 +19,20 @@ jobs:
         with:
           name: unit-test-results
           path: ./results/unit-test-results.xml
-  # cypress-run:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v4
-  #     - name: Run Cypress tests
-  #       uses: cypress-io/github-action@v6
-  #     - name: Upload test results
-  #       if: always()
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: cypress-test-results
-  #         path: ./results/cypress-test-results-*.xml
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-test-results
+          path: ./results/cypress-test-results-*.xml
   publish-test-results:
     if: always()
     needs: [test-game-logic] #, cypress-run]
