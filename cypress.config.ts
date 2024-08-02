@@ -20,4 +20,8 @@ export default defineConfig({
     video: process.env.CI === undefined,
     videoCompression: 0,
     blockHosts: ["*.google-analytics.com"],
+    reporter: "junit",
+    reporterOptions: {
+        mochaFile: "results/cypress-test-results-[hash].xml",
+    },
 });
