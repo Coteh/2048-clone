@@ -1,4 +1,4 @@
-Cypress.Commands.add("verifyBoard", (expectedBoard: number[][]) => {
+Cypress.Commands.add("verifyBoard", (expectedBoard: (number | undefined)[][]) => {
     cy.get(".base-rows > .input-row").should("have.length", expectedBoard.length);
     for (let i = 0; i < expectedBoard.length; i++) {
         cy.get(".base-rows > .input-row")

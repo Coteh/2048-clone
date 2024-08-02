@@ -13,17 +13,22 @@ import { IGameStorage } from "../src/storage";
 global.window = {} as Window & typeof globalThis;
 
 class MockStorage {
-    setItem: (key: string, value: any) => void;
-    getItem: (key: string) => string;
-    removeItem: (key: string) => void;
+    setItem: (key: string, value: any) => void = (_keyName, _keyValue) => {};
+    getItem: (key: string) => string = (_keyName) => "";
+    removeItem: (key: string) => void = (_keyName) => {};
+    clear: () => void = () => {};
+    key: (index: number) => string | null = (_index) => null;
+    readonly length: number = 0;
 }
-MockStorage.prototype.setItem = (keyName, keyValue) => {};
-MockStorage.prototype.getItem = (keyName) => "";
-MockStorage.prototype.removeItem = (keyName) => {};
+MockStorage.prototype.setItem = (_keyName, _keyValue) => {};
+MockStorage.prototype.getItem = (_keyName) => "";
+MockStorage.prototype.removeItem = (_keyName) => {};
+MockStorage.prototype.clear = () => {};
+MockStorage.prototype.key = (_index) => null;
 
 describe("browser storage", () => {
     let gameStorage: IGameStorage;
-    let stubbedLocalStorage;
+    let stubbedLocalStorage: sinon.SinonStubbedInstance<MockStorage>;
 
     beforeEach(() => {
         gameStorage = new BrowserGameStorage();
@@ -115,6 +120,7 @@ describe("browser storage", () => {
                 unlockables: {
                     classic: true,
                 },
+                hasPlayedBefore: false,
             };
             gameStorage.savePersistentState(initialPersistentState);
             sinon.assert.callCount(stubbedLocalStorage.setItem, 1);
@@ -133,6 +139,7 @@ describe("browser storage", () => {
                 unlockables: {
                     classic: true,
                 },
+                hasPlayedBefore: false,
             };
             getItemStub
                 .withArgs(PERSISTENT_STATE_KEY)

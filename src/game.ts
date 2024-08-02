@@ -1,28 +1,30 @@
-import { ISpawnManager, SpawnManager } from "./manager/spawn";
-import { AnimationManager, IAnimationManager } from "./manager/animation";
+import { ISpawnManager } from "./manager/spawn";
+import { IAnimationManager } from "./manager/animation";
 import { IGameStorage as IGameStorage } from "./storage";
 
-export class GameState {
-    board: number[][];
+export type GameBoard = number[][];
+
+export type GameState = {
+    board: GameBoard;
     ended: boolean;
     won: boolean;
     score: number;
     didUndo: boolean;
-}
+};
 
 // Game state to last between games
-export class GamePersistentState {
+export type GamePersistentState = {
     highscore: number;
     unlockables: {
         [key: string]: boolean;
     };
     hasPlayedBefore: boolean;
-}
+};
 
-export class Position {
+export type Position = {
     x: number;
     y: number;
-}
+};
 
 let debugEnabled = false;
 // @ts-ignore TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
@@ -37,6 +39,12 @@ export const DIRECTION_LEFT = 1;
 export const DIRECTION_RIGHT = 2;
 export const DIRECTION_UP = 3;
 export const DIRECTION_DOWN = 4;
+
+export type Direction =
+    | typeof DIRECTION_LEFT
+    | typeof DIRECTION_RIGHT
+    | typeof DIRECTION_UP
+    | typeof DIRECTION_DOWN;
 
 export const getErrorMessage = (errorID: string) => {
     switch (errorID) {
@@ -68,7 +76,7 @@ export type EventHandler = (eventID: string, data?: any) => void;
 let gameState: GameState = {} as GameState;
 let persistentState: GamePersistentState = {} as GamePersistentState;
 let eventHandler: EventHandler = () => {};
-let boardStack: number[][][] = [];
+let boardStack: GameBoard[] = [];
 let spawnManager: ISpawnManager;
 let animationManager: IAnimationManager;
 let gameStorage: IGameStorage;
@@ -115,6 +123,7 @@ const initPersistentState = () => {
         persistentState = {
             highscore: 0,
             unlockables: {},
+            hasPlayedBefore: false,
         };
     }
 };
@@ -173,14 +182,20 @@ export const newGame = (debugState?: GameState) => {
     gameStorage.clearGame();
 };
 
-const isBoardSame = (board1, board2) => {
-    if (!board1 || !board2 || !board1.length || !board2.length || board1.length !== board2.length) {
+const isBoardSame = (board: GameBoard | null, otherBoard: GameBoard | null) => {
+    if (
+        !board ||
+        !otherBoard ||
+        !board.length ||
+        !otherBoard.length ||
+        board.length !== otherBoard.length
+    ) {
         return false;
     }
 
-    for (let i = 0; i < board1.length; i++) {
-        for (let j = 0; j < board1[i].length; j++) {
-            if (board1[i][j] !== board2[i][j]) {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            if (board[i][j] !== otherBoard[i][j]) {
                 return false;
             }
         }
@@ -199,7 +214,7 @@ export const undo = () => {
     eventHandler("draw", { gameState, persistentState });
 };
 
-export const move = (direction) => {
+export const move = (direction: Direction) => {
     let xDir = 0;
     let yDir = 0;
     switch (direction) {
@@ -219,7 +234,7 @@ export const move = (direction) => {
             console.error("invalid direction");
     }
 
-    let prevBoard: number[][] | null = [];
+    let prevBoard: GameBoard | null = [];
     for (let i = 0; i < gameState.board.length; i++) {
         prevBoard.push(gameState.board[i].slice());
     }
@@ -243,10 +258,10 @@ export const move = (direction) => {
         }
         console.log("prev board is now", prevBoard);
         let iStart = 0,
-            iEnd = (i) => i < gameState.board.length,
+            iEnd = (i: number) => i < gameState.board.length,
             iStep = 1;
         let jStart = 0,
-            jEnd = (j) => j < gameState.board[0].length,
+            jEnd = (j: number) => j < gameState.board[0].length,
             jStep = 1;
         if (yDir > 0) {
             iStart = gameState.board.length - 1;
@@ -361,7 +376,7 @@ export const move = (direction) => {
     gameStorage.saveGame(gameState);
 };
 
-export const spawnBlock = (x, y, number) => {
+export const spawnBlock = (x: number, y: number, number: number) => {
     const board = gameState.board;
     board[y][x] = number;
     console.log("spawned");

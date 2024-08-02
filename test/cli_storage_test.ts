@@ -144,6 +144,7 @@ describe("CLI storage", () => {
             unlockables: {
                 classic: true,
             },
+            hasPlayedBefore: false,
         };
 
         beforeEach(() => {

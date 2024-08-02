@@ -15,30 +15,35 @@ import { MockSpawnManager } from "../src/manager/__mocks__/spawn";
 import { MockAnimationManager } from "../src/manager/__mocks__/animation";
 import { IGameStorage } from "../src/storage";
 import { Preferences } from "../src/preferences";
+import { Mock } from "jest-mock";
 
 class MockGameStorage implements IGameStorage {
     gameState: GameState;
     constructor(gameState: GameState) {
         this.gameState = gameState;
     }
-    saveGame = (gameState: GameState) => {};
-    savePersistentState = (persistentState: GamePersistentState) => {};
-    savePreferences = (preferences: Preferences) => {};
+    saveGame = (_gameState: GameState) => {};
+    savePersistentState = (_persistentState: GamePersistentState) => {};
+    savePreferences = (_preferences: Preferences) => {};
     gameExists = () => true;
     persistentStateExists = () => false;
     preferencesExists = () => false;
     loadGame: () => GameState = () => {
         return JSON.parse(JSON.stringify(this.gameState));
     };
-    loadPersistentState: () => GamePersistentState;
-    loadPreferences: () => Preferences;
-    clearGame: () => void;
-    clearPersistentState: () => void;
-    clearPreferences: () => void;
+    loadPersistentState: () => GamePersistentState = () => ({
+        highscore: 0,
+        unlockables: {},
+        hasPlayedBefore: false,
+    });
+    loadPreferences: () => Preferences = () => ({});
+    clearGame: () => void = () => {};
+    clearPersistentState: () => void = () => {};
+    clearPreferences: () => void = () => {};
 }
 
 describe("core game logic", () => {
-    let eventHandlerStub;
+    let eventHandlerStub: Mock;
     const mockSpawnManager = new MockSpawnManager();
     const mockAnimationManager = new MockAnimationManager();
 

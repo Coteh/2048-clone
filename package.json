@@ -21,6 +21,7 @@
     "@types/canvas-confetti": "^1.6.4",
     "@types/feather-icons": "^4.29.4",
     "@types/jest": "^29.5.12",
+    "@types/sinon": "^17.0.3",
     "canvas-confetti": "^1.9.3",
     "cypress": "^13.8.1",
     "cypress-real-events": "^1.12.0",
@@ -37,10 +38,5 @@
   },
   "dependencies": {
     "clipboardy": "^3.0.0"
-  },
-  "overrides": {
-    "cypress-real-events": {
-      "cypress": "^12.2.0"
-    }
   }
 }

@@ -1,6 +1,6 @@
 import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
-import { GameState } from "./game";
+import { GameBoard, GameState } from "./game";
 
 interface RenderBoardOptions {
     theme?: string;
@@ -198,7 +198,7 @@ const applyClassicThemeBlockStyles = (
     x: number,
     y: number,
     row: number[],
-    board: number[][]
+    board: GameBoard
 ) => {
     const invisibleBorder = "1px solid rgba(0,0,0,0)";
     if (x === row.length - 1) {
