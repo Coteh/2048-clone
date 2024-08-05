@@ -3,8 +3,7 @@
 import { GamePersistentState, GameState } from "../../../src/game";
 import { Preferences } from "../../../src/preferences";
 
-// TODO: Implement these tests
-describe.skip("theme", () => {
+describe("theme", () => {
     beforeEach(() => {
         cy.clearBrowserCache();
         cy.visit("/", {
@@ -23,11 +22,11 @@ describe.skip("theme", () => {
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
-                    unlockables: {},
+                    unlockables: { classic: true },
                     hasPlayedBefore: true,
                 };
                 const preferences: Preferences = {
-                    theme: "dark",
+                    theme: "standard",
                 };
                 window.localStorage.setItem("game-state", JSON.stringify(gameState));
                 window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
@@ -39,23 +38,77 @@ describe.skip("theme", () => {
     it("should be able to select from any of the available themes", () => {
         cy.get(".settings-link").click();
 
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "light");
+        cy.get("body").should("have.class", "tileset-light");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "dark");
+        cy.get("body").should("have.class", "tileset-dark");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "classic");
+        cy.get("body").should("have.class", "tileset-modern");
 
         cy.get(".setting.theme-switch").click();
 
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
+    });
+
+    it("should not be able to select classic theme if it's locked", () => {
+        cy.visit("/", {
+            onBeforeLoad: () => {
+                const persistentState: GamePersistentState = {
+                    highscore: 0,
+                    unlockables: {},
+                    hasPlayedBefore: true,
+                };
+                const preferences: Preferences = {
+                    theme: "standard",
+                };
+                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("preferences", JSON.stringify(preferences));
+            },
+        });
+
+        cy.get(".settings-link").click();
+
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
+
+        cy.get(".setting.theme-switch").click();
+
+        cy.get("body").should("have.class", "light");
+        cy.get("body").should("have.class", "tileset-light");
+
+        cy.get(".setting.theme-switch").click();
+
+        cy.get("body").should("have.class", "dark");
+        cy.get("body").should("have.class", "tileset-dark");
+
+        cy.get(".setting.theme-switch").click();
+
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
     });
 
     it("should set the standard theme on page reload if it's enabled in local storage", () => {
@@ -70,7 +123,11 @@ describe.skip("theme", () => {
 
         cy.reload();
 
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
     });
 
     it("should set the light theme on page reload if it's enabled in local storage", () => {
@@ -134,17 +191,29 @@ describe.skip("theme", () => {
     // });
 
     it("should default to standard theme if no entry exists in local storage for theme", () => {
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
 
         window.localStorage.removeItem("preferences");
 
         cy.reload();
 
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
     });
 
     it("should default to standard theme if theme is set to invalid value in local storage", () => {
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
 
         window.localStorage.setItem(
             "preferences",
@@ -155,6 +224,10 @@ describe.skip("theme", () => {
 
         cy.reload();
 
-        cy.get("body").should("have.class", "");
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.length).to.equal(1);
+            expect(classList.contains("tileset-standard")).to.be.true;
+        });
     });
 });
