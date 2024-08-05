@@ -68,7 +68,7 @@ describe("theme", () => {
         });
     });
 
-    it("should not be able to select classic theme if it's locked", () => {
+    it("should not be able to select 2048Clone theme if it's locked", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
                 const persistentState: GamePersistentState = {

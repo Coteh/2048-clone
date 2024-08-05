@@ -309,6 +309,7 @@ export const move = (direction: Direction) => {
                     if (combinedVal === 2048 && !gameState.won) {
                         gameState.won = true;
                         persistentState.unlockables.classic = true;
+                        gameStorage.savePersistentState(persistentState);
                         eventHandler("win", { persistentState });
                     }
                     animationManager.updateBlocks(j, i, newX, newY);

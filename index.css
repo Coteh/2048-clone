@@ -835,6 +835,17 @@ body a > .version-number {
     z-index: 1001;
 }
 
+.pointing-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    opacity: 1;
+
+    transition: top 1s, left 1s, opacity 1s;
+}
+
 /* Settings Pane */
 
 .settings.pane {

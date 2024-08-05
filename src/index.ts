@@ -24,6 +24,7 @@ import MobileDetect from "mobile-detect";
 import { BrowserGameStorage } from "./storage/browser";
 import { copyShareText, triggerShare } from "./share/browser";
 import confetti from "canvas-confetti";
+import pointingHand from "../images/PointingHand.png";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -42,6 +43,7 @@ const ANIMATIONS_PREFERENCE_NAME = "animations";
 
 const THEME_SETTING_NAME = "theme-switch";
 const ANIMATIONS_SETTING_NAME = "animations";
+const CLEAR_DATA_SETTING_NAME = "clear-all-data";
 
 const SETTING_ENABLED = "enabled";
 const SETTING_DISABLED = "disabled";
@@ -63,6 +65,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     let gameStorage = new BrowserGameStorage();
     let unlockedClassic = false;
 
+    let howToPlayTimeout1: NodeJS.Timeout,
+        howToPlayTimeout2: NodeJS.Timeout,
+        howToPlayTimeout3: NodeJS.Timeout,
+        howToPlayTimeout4: NodeJS.Timeout,
+        howToPlayTimeout5: NodeJS.Timeout,
+        howToPlayTimeout6: NodeJS.Timeout;
+
     const eventHandler = (event: string, data: any) => {
         switch (event) {
             case "init":
@@ -70,6 +79,64 @@ document.addEventListener("DOMContentLoaded", async () => {
                 persistentState = data.persistentState;
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 unlockedClassic = persistentState.unlockables.classic;
+                if (!persistentState.hasPlayedBefore) {
+                    // TODO: Move all this into a separate component
+                    const howToPlay1ID = "how-to-play-1";
+                    const howToPlay2ID = "how-to-play-2";
+                    let howToPlay: HTMLImageElement = document.getElementById(
+                        howToPlay1ID
+                    ) as HTMLImageElement;
+                    let howToPlay2: HTMLImageElement = document.getElementById(
+                        howToPlay2ID
+                    ) as HTMLImageElement;
+                    if (!howToPlay) {
+                        howToPlay = document.createElement("img");
+                        howToPlay.src = pointingHand;
+                        howToPlay.className = "pointing-hand";
+                        howToPlay.style.top = "25%";
+                        howToPlay.id = howToPlay1ID;
+                        document.body.appendChild(howToPlay);
+                    }
+                    howToPlay.style.opacity = "1";
+                    if (!howToPlay2) {
+                        howToPlay2 = document.createElement("img");
+                        howToPlay2.src = pointingHand;
+                        howToPlay2.className = "pointing-hand";
+                        howToPlay2.style.left = "25%";
+                        howToPlay2.style.opacity = "0";
+                        howToPlay2.id = howToPlay2ID;
+                        document.body.appendChild(howToPlay2);
+                    }
+
+                    clearTimeout(howToPlayTimeout1);
+                    clearTimeout(howToPlayTimeout2);
+                    clearTimeout(howToPlayTimeout3);
+                    clearTimeout(howToPlayTimeout4);
+                    clearTimeout(howToPlayTimeout5);
+                    clearTimeout(howToPlayTimeout6);
+                    howToPlayTimeout1 = setTimeout(() => {
+                        howToPlay.style.top = "75%";
+                        howToPlayTimeout2 = setTimeout(() => {
+                            howToPlay.style.opacity = "0";
+                            howToPlayTimeout3 = setTimeout(() => {
+                                howToPlay2.style.opacity = "1";
+                                howToPlayTimeout4 = setTimeout(() => {
+                                    howToPlay2.style.left = "75%";
+                                    howToPlayTimeout5 = setTimeout(() => {
+                                        howToPlay2.style.opacity = "0";
+                                        howToPlay.style.top = "25%";
+                                        howToPlayTimeout6 = setTimeout(() => {
+                                            howToPlay2.style.left = "25%";
+                                        }, 1000);
+                                    }, 1000);
+                                });
+                            }, 1000);
+                        }, 1000);
+                    });
+
+                    persistentState.hasPlayedBefore = true;
+                    gameStorage.savePersistentState(persistentState);
+                }
                 break;
             case "draw":
                 // TODO: I don't think I need to set these here because they're references, just setting them in init should be enough
@@ -336,6 +403,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 } else {
                     knob.classList.remove("enabled");
                 }
+            } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
+                // TODO: Prompt player if they really want to clear their data, which will make them lose their progress
+                gameStorage.clearPersistentState();
+                gameStorage.clearGame();
+                gameStorage.clearPreferences();
+                window.location.reload();
             }
         });
     });
