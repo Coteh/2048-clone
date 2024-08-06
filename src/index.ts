@@ -16,6 +16,7 @@ import {
     renderBoard,
     renderDialog,
     renderNotification,
+    renderPromptDialog,
 } from "./render";
 import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
@@ -53,6 +54,8 @@ const LANDSCAPE_CLASS_NAME = "landscape";
 const CLASSIC_THEME_LABEL = "2048Clone";
 
 let isAnimationEnabled = false;
+
+let isPrompted = false;
 
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle") as HTMLElement;
@@ -190,6 +193,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const handleKeyInput = (key: string) => {
         const dialog = document.querySelector(".dialog") as HTMLElement;
         if (dialog && (key === "enter" || key === "escape")) {
+            // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
+            if (isPrompted) {
+                return;
+            }
             return closeDialog(dialog, overlayBackElem);
         }
         if (dialog || gameState.ended) {
@@ -220,10 +227,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleKeyInput(e.key.toLowerCase());
     });
 
+    // TODO: Fix animation issues with how to play if this button is clicked in the middle of it
     // const helpLink = document.querySelector(".help-link") as HTMLElement;
     // helpLink.addEventListener("click", (e) => {
     //     e.preventDefault();
-    //     renderDialog(createDialogContentFromTemplate("#how-to-play"), true);
+    //     tutorial.renderHowToPlay();
     //     helpLink.blur();
     // });
 
@@ -258,6 +266,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
     overlayBackElem.addEventListener("click", (e) => {
+        // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
+        if (isPrompted) {
+            return;
+        }
         const dialog = document.querySelector(".dialog") as HTMLElement;
         closeDialog(dialog, overlayBackElem);
     });
@@ -347,11 +359,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                     knob.classList.remove("enabled");
                 }
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
-                // TODO: Prompt player if they really want to clear their data, which will make them lose their progress
-                gameStorage.clearPersistentState();
-                gameStorage.clearGame();
-                gameStorage.clearPreferences();
-                window.location.reload();
+                renderPromptDialog(
+                    createDialogContentFromTemplate("#prompt-dialog-content"),
+                    true,
+                    () => {
+                        isPrompted = false;
+                        gameStorage.clearPersistentState();
+                        gameStorage.clearGame();
+                        gameStorage.clearPreferences();
+                        window.location.reload();
+                    },
+                    () => {
+                        isPrompted = false;
+                    }
+                );
+                isPrompted = true;
             }
         });
     });
@@ -538,6 +560,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 closeDialogAndOverlay();
             }
         );
+        debugButton.blur();
     });
 
     if (import.meta.env.DEV) {

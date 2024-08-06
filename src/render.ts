@@ -161,6 +161,63 @@ export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: bo
     feather.replace();
 };
 
+export const renderPromptDialog = (
+    content: HTMLElement,
+    fadeIn: boolean,
+    onConfirm?: Function,
+    onCancel?: Function
+) => {
+    // Close any currently existing dialogs
+    const dialogElem = document.querySelector(".dialog");
+    if (dialogElem) dialogElem.remove();
+
+    const template = document.querySelector("#dialog") as HTMLTemplateElement;
+    const clone = template.content.cloneNode(true) as HTMLElement;
+
+    const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
+
+    const dialogContent = clone.querySelector(".dialog-content") as HTMLElement;
+    dialogContent.appendChild(content);
+
+    if (fadeIn) {
+        const dialog = clone.querySelector(".dialog") as HTMLElement;
+        dialog.style.opacity = "0";
+        // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
+        // have it base itself off of a computed transform property
+        dialog.style.transform = "translate(-50%, -50%) scale(0.5)";
+        setTimeout(() => {
+            const dialog = document.querySelector(".dialog") as HTMLElement;
+            dialog.style.opacity = "";
+            dialog.style.transform = "translate(-50%, -50%)";
+        }, 10);
+    }
+
+    const cancelBtn = clone.querySelector("button.cancel") as HTMLElement;
+    cancelBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const dialog = document.querySelector(".dialog") as HTMLElement;
+        dialog.remove();
+        overlayBackElem.style.display = "none";
+        if (onCancel) {
+            onCancel();
+        }
+    });
+    const confirmBtn = clone.querySelector("button.confirm") as HTMLElement;
+    confirmBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const dialog = document.querySelector(".dialog") as HTMLElement;
+        dialog.remove();
+        overlayBackElem.style.display = "none";
+        if (onConfirm) {
+            onConfirm();
+        }
+    });
+
+    document.body.appendChild(clone);
+
+    overlayBackElem.style.display = "block";
+};
+
 export const renderNotification = (msg: string) => {
     const template = document.querySelector("#notification") as HTMLTemplateElement;
     const clone = template.content.cloneNode(true) as HTMLElement;

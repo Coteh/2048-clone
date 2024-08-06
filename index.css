@@ -554,24 +554,6 @@ button.button.clipboard-button > * {
     font-weight: bold;
 }
 
-.dialog > .dialog-content > .how-to-play {
-    height: 100%;
-    top: -20px;
-    position: relative;
-}
-
-.dialog > .dialog-content > .how-to-play > h2 {
-    text-transform: uppercase;
-}
-
-.dialog > .dialog-content > .how-to-play div.sample {
-    display: flex;
-}
-
-.dialog > .dialog-content > .how-to-play > div.meaning > span.text {
-    font-size: 0.75em;
-}
-
 /* Notification */
 
 .notification-area {
