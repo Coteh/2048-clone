@@ -395,7 +395,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const generateShareText = (gameState: GameState) => {
         return `I got a score of ${gameState.score} in 2048-clone${
             gameState.won ? ", and I achieved 2048!" : "."
-        } Play it here: https://coteh.github.io/2048-clone/`;
+        } Play it here: ${
+            import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/"
+        }`;
     };
 
     const landscapeQuery = window.matchMedia("(orientation: landscape)");

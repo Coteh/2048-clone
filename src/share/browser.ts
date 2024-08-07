@@ -6,7 +6,7 @@ const isiOS = () => {
 
 // Use legacy document.execCommand API for older browsers that do not have navigator.clipboard
 // https://stackoverflow.com/a/30810322
-const fallbackCopyShareText = (shareText) => {
+const fallbackCopyShareText = (shareText: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = shareText;
 
@@ -55,7 +55,7 @@ const fallbackCopyShareText = (shareText) => {
     return successful;
 };
 
-export const copyShareText = async (shareText) => {
+export const copyShareText = async (shareText: string) => {
     if (!navigator.clipboard) {
         return fallbackCopyShareText(shareText);
     }
@@ -70,7 +70,7 @@ export const copyShareText = async (shareText) => {
     return true;
 };
 
-export const triggerShare = async (shareText) => {
+export const triggerShare = async (shareText: string) => {
     const data = {
         text: shareText,
     };
@@ -90,7 +90,7 @@ export const triggerShare = async (shareText) => {
     }
     try {
         await navigator.share(data);
-    } catch (err) {
+    } catch (err: any) {
         if (err.name === "NotAllowedError") {
             console.log("Sharing was not allowed by the user or platform");
             // Fallback to copy to clipboard

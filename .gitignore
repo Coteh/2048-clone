@@ -4,6 +4,9 @@ build
 state.json
 preferences.json
 
+*.env*
+!*.env.example
+
 # Cypress output
 cypress/videos
 cypress/screenshots
