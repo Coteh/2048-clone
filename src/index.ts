@@ -38,11 +38,15 @@ const LIGHT_LIGHT_TILESET = "light";
 const DARK_DARK_TILESET = "dark";
 const SNOW_SNOW_TILESET = "snow";
 const CLASSIC_MODERN_TILESET = "modern";
+const CLASSIC_CLASSIC_TILESET = "classic";
+const CLASSIC_COLORFUL_TILESET = "colorful";
 
 const THEME_PREFERENCE_NAME = "theme";
+const TILESET_PREFERENCE_NAME = "tileset";
 const ANIMATIONS_PREFERENCE_NAME = "animations";
 
 const THEME_SETTING_NAME = "theme-switch";
+const TILESET_SETTING_NAME = "tileset-switch";
 const ANIMATIONS_SETTING_NAME = "animations";
 const CLEAR_DATA_SETTING_NAME = "clear-all-data";
 
@@ -285,7 +289,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         [STANDARD_THEME]: [STANDARD_STANDARD_TILESET],
         [LIGHT_THEME]: [LIGHT_LIGHT_TILESET],
         [DARK_THEME]: [DARK_DARK_TILESET],
-        [CLASSIC_THEME]: [CLASSIC_MODERN_TILESET],
+        [CLASSIC_THEME]: [
+            CLASSIC_MODERN_TILESET,
+            CLASSIC_CLASSIC_TILESET,
+            CLASSIC_COLORFUL_TILESET,
+        ],
     };
 
     const switchTheme = (theme: string) => {
@@ -317,7 +325,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
             themeColor;
         selectedTheme = theme;
-        // TODO: Add ability for user to configure the tileset for each theme
         selectedTileset = selectableTilesets[theme][0];
         document.body.classList.add(`tileset-${selectedTileset}`);
         // Redraw the board to remove any theme-specific modifiers on any of the DOM elements
@@ -327,6 +334,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                 theme: selectedTheme,
             });
         }
+    };
+
+    const switchTileset = (theme: string, tileset: string) => {
+        const selectableTilesetsForTheme = selectableTilesets[theme];
+        if (!tileset || !selectableTilesetsForTheme.includes(tileset)) {
+            tileset = selectableTilesetsForTheme[0];
+        }
+        document.body.classList.remove(`tileset-${selectedTileset}`);
+        selectedTileset = tileset;
+        document.body.classList.add(`tileset-${selectedTileset}`);
     };
 
     const settings = document.querySelectorAll(".setting");
@@ -345,6 +362,36 @@ document.addEventListener("DOMContentLoaded", async () => {
                 switchTheme(nextTheme);
                 savePreferenceValue(THEME_PREFERENCE_NAME, nextTheme);
                 toggle.innerText = nextTheme === "classic" ? CLASSIC_THEME_LABEL : nextTheme;
+                // If player has a tileset selected for this theme, use it. Otherwise, it will default to the first one for the theme.
+                if (tilesetPreferences && tilesetPreferences[selectedTheme]) {
+                    switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
+                }
+                const tilesetSettingItem = document.querySelector(
+                    ".settings-item.setting.tileset-switch"
+                ) as HTMLElement;
+                if (selectableTilesets[selectedTheme].length > 1) {
+                    tilesetSettingItem.style.display = "";
+                    const tilesetToggle = tilesetSettingItem.querySelector(
+                        ".toggle"
+                    ) as HTMLElement;
+                    tilesetToggle.innerText = selectedTileset;
+                } else {
+                    tilesetSettingItem.style.display = "none";
+                }
+            } else if (elem.classList.contains(TILESET_SETTING_NAME)) {
+                const selectableTilesetsForTheme = selectableTilesets[selectedTheme];
+                const tilesetIndex = selectableTilesetsForTheme.indexOf(selectedTileset);
+                let nextTileset =
+                    selectableTilesetsForTheme[
+                        (tilesetIndex + 1) % selectableTilesetsForTheme.length
+                    ];
+                switchTileset(selectedTheme, nextTileset);
+                if (!tilesetPreferences) {
+                    tilesetPreferences = {};
+                }
+                tilesetPreferences[selectedTheme] = nextTileset;
+                savePreferenceValue(TILESET_PREFERENCE_NAME, tilesetPreferences);
+                toggle.innerText = nextTileset;
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
                 const knob = setting.querySelector(".knob") as HTMLElement;
                 enabled = isAnimationEnabled = !isAnimationEnabled;
@@ -385,6 +432,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const themeSetting = document.querySelector(".setting.theme-switch") as HTMLElement;
     (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
         selectedTheme === "classic" ? CLASSIC_THEME_LABEL : selectedTheme;
+    let tilesetPreferences = getPreferenceValue(TILESET_PREFERENCE_NAME);
+    if (tilesetPreferences) {
+        switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
+    }
+    const tilesetSettingItem = document.querySelector(
+        ".settings-item.setting.tileset-switch"
+    ) as HTMLElement;
+    if (selectableTilesets[selectedTheme].length > 1) {
+        tilesetSettingItem.style.display = "";
+        const tilesetToggle = tilesetSettingItem.querySelector(".toggle") as HTMLElement;
+        tilesetToggle.innerText = selectedTileset;
+    } else {
+        tilesetSettingItem.style.display = "none";
+    }
     if (getPreferenceValue(ANIMATIONS_PREFERENCE_NAME) === SETTING_ENABLED) {
         isAnimationEnabled = true;
         const setting = document.querySelector(".setting.animations") as HTMLElement;

@@ -220,6 +220,63 @@
     --block-max-text-color: var(--black);
 }
 
+.classic.tileset-classic {
+    --block-2-color: rgb(198, 148, 102);
+    --block-4-color: rgb(196, 146, 104);
+    --block-8-color: rgb(192, 142, 108);
+    --block-16-color: rgb(184, 134, 116);
+    --block-32-color: rgb(168, 118, 132);
+    --block-64-color: rgb(136, 86, 164);
+    --block-128-color: rgb(72, 22, 228);
+    /* These values are as calculated from 2048Clone's "Classic" color theme */
+    --block-256-color: rgb(-56, -106, 356);
+    --block-512-color: rgb(-312, -362, 612);
+    --block-1024-color: rgb(-824, -874, 1124);
+    --block-2048-color: rgb(-1848, -1898, 2148);
+    --block-max-color: rgb(-3896, -3946, 4196);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--white);
+    --block-256-text-color: var(--white);
+    --block-512-text-color: var(--white);
+    --block-1024-text-color: var(--white);
+    --block-2048-text-color: var(--white);
+    --block-max-text-color: var(--white);
+}
+
+.classic.tileset-colorful {
+    --block-2-color: rgb(0, 128, 0);
+    --block-4-color: rgb(64, 224, 208);
+    --block-8-color: rgb(173, 216, 230);
+    --block-16-color: rgb(240, 248, 255);
+    --block-32-color: rgb(0, 0, 255);
+    --block-64-color: rgb(128, 0, 128);
+    --block-128-color: rgb(255, 192, 203);
+    --block-256-color: rgb(255, 255, 0);
+    --block-512-color: rgb(255, 165, 0);
+    --block-1024-color: rgb(255, 69, 0);
+    --block-2048-color: rgb(255, 0, 0);
+    --block-max-color: rgb(0, 0, 0);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--white);
+    --block-64-text-color: var(--white);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--white);
+}
+
 /* Main Content */
 
 html {
