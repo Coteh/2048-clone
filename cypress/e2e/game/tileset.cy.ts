@@ -99,4 +99,8 @@ describe.skip("tileset", () => {
     it("should default to the first tileset for a theme if tileset is set to invalid value in local storage", () => {
         throw new Error("TODO: Implement test");
     });
+
+    it("should hide the tileset option if a theme has just one tileset", () => {
+        throw new Error("TODO: Implement test");
+    });
 });
