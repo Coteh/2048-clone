@@ -26,6 +26,7 @@ import { BrowserGameStorage } from "./storage/browser";
 import { copyShareText, triggerShare } from "./share/browser";
 import confetti from "canvas-confetti";
 import { Tutorial } from "./component/tutorial";
+import * as Sentry from "@sentry/browser";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -645,24 +646,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
     versionElem.innerText = `v${GAME_VERSION}`;
 
-    // TODO: Add Sentry to the project
-    // if (typeof Sentry !== "undefined") {
-    //     Sentry.onLoad(() => {
-    //         Sentry.init({
-    //             // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
-    //             release: `wordle-clone@${GAME_VERSION}`,
-    //             beforeSend(event) {
-    //                 if (
-    //                     event.request.url.includes("localhost") ||
-    //                     event.request.url.includes("127.0.0.1")
-    //                 ) {
-    //                     return null;
-    //                 }
-    //                 return event;
-    //             },
-    //         });
-    //     });
-    // }
+    Sentry.onLoad(() => {
+        Sentry.init({
+            // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
+            release: `2048-clone@${GAME_VERSION}`,
+            dsn: "https://4063de3fbf0774707bcc061c87c7e0f1@o518258.ingest.us.sentry.io/4507397529927680",
+            integrations: [
+                Sentry.replayIntegration({
+                    maskAllText: false,
+                    blockAllMedia: false,
+                }),
+            ],
+            // Session Replay
+            replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+            replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+            beforeSend(event) {
+                if (
+                    event.request &&
+                    event.request.url &&
+                    (event.request.url.includes("localhost") ||
+                        event.request.url.includes("127.0.0.1"))
+                ) {
+                    return null;
+                }
+                return event;
+            },
+        });
+    });
 
     // TODO: Add Google Analytics to the project
     // gtag("event", "game_open", {
@@ -672,8 +682,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         await initGame(eventHandler, spawnManager, animationManager, gameStorage);
     } catch (e: any) {
-        // TODO: Add Sentry to the project
-        // if (typeof Sentry !== "undefined") Sentry.captureException(e);
+        if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");
         const errorContent = elem.querySelector(".error-text") as HTMLElement;
 
