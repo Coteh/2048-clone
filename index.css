@@ -314,7 +314,26 @@ svg {
 }
 
 .top-menu > .title {
+    border: 2px solid goldenrod;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+
+    text-align: center;
     text-transform: uppercase;
+}
+
+.top-menu > .title > span {
+    font-family: "Arial", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #8b4513;
+}
+
+.top-menu > .title > span:first-child {
+    font-size: 40px;
+    font-weight: bold;
+    color: #d4af37;
 }
 
 .top-menu .icon-bar > a.link-icon {
