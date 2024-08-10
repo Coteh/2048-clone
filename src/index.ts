@@ -27,6 +27,7 @@ import { copyShareText, triggerShare } from "./share/browser";
 import confetti from "canvas-confetti";
 import { Tutorial } from "./component/tutorial";
 import * as Sentry from "@sentry/browser";
+import posthog from "posthog-js";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -674,10 +675,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    // TODO: Add Google Analytics to the project
-    // gtag("event", "game_open", {
-    //     version: GAME_VERSION,
-    // });
+    posthog.init("phc_lRFukmeGIBhfg2uSxJJmVE91B6Y44Qf7cj14tlClHnl", {
+        api_host: "https://us.i.posthog.com",
+        person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+    });
+
+    // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
+    posthog.capture("game open", { version: GAME_VERSION });
 
     try {
         await initGame(eventHandler, spawnManager, animationManager, gameStorage);
