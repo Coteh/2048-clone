@@ -19,7 +19,7 @@ export default defineConfig({
     screenshotOnRunFailure: process.env.CI === undefined,
     video: process.env.CI === undefined,
     videoCompression: 0,
-    blockHosts: ["*.google-analytics.com"],
+    blockHosts: ["*.posthog.com"],
     reporter: "junit",
     reporterOptions: {
         mochaFile: "results/cypress-test-results-[hash].xml",
