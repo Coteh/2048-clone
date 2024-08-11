@@ -584,6 +584,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     score: 0,
                     didUndo: false,
                 });
+                if (settingsPane.style.display !== "none") {
+                    toggleSettings();
+                }
                 closeDialogAndOverlay();
             }
         );
@@ -603,6 +606,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     score: 0,
                     didUndo: false,
                 });
+                if (settingsPane.style.display !== "none") {
+                    toggleSettings();
+                }
                 closeDialogAndOverlay();
             }
         );
@@ -622,6 +628,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     score: 0,
                     didUndo: false,
                 });
+                if (settingsPane.style.display !== "none") {
+                    toggleSettings();
+                }
                 closeDialogAndOverlay();
             }
         );
@@ -636,6 +645,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {
         e.preventDefault();
         newGame();
+        if (settingsPane.style.display !== "none") {
+            toggleSettings();
+        }
     });
 
     // (document.querySelector("[data-feather='help-circle']") as HTMLElement).innerText = "?";
@@ -661,6 +673,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Session Replay
             replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
             replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+            // @ts-ignore TODO: Fix type issue with event param
             beforeSend(event) {
                 if (
                     event.request &&
