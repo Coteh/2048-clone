@@ -150,6 +150,10 @@ export const initGame = async (
 
     // TODO: Should game state be passed into the draw?
     eventHandler("draw", { gameState, persistentState });
+
+    if (gameState.ended) {
+        eventHandler("lose");
+    }
 };
 
 export const newGame = (debugState?: GameState) => {

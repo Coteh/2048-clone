@@ -37,11 +37,17 @@ describe.skip("retrieving saved progress", () => {
     });
 
     it("should load saved state", () => {
+        // TODO: Implement these test cases
+        
         // First check to see if game state loads up
 
         // Then check if persistent state loads up
 
         // Finally check if preferences are loaded
+
+        // Now load up a game state where the player got 2048 and is still going
+
+        // Now load up a game state where the player lost, a lose popup should appear as well.
 
         throw new Error("TODO: Check if all local states load up upon game start");
     });
