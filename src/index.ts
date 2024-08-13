@@ -176,6 +176,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                         origin: { y: 0.6 },
                     });
                 }, 100);
+                // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
+                posthog.capture("2048 achieved", { version: GAME_VERSION });
                 break;
             }
         }
