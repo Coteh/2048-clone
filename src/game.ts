@@ -10,6 +10,7 @@ export type GameState = {
     won: boolean;
     score: number;
     didUndo: boolean;
+    achievedHighscore: boolean;
 };
 
 // Game state to last between games
@@ -94,6 +95,7 @@ const newState: () => GameState = () => {
         won: false,
         score: 0,
         didUndo: false,
+        achievedHighscore: false,
     };
 };
 
@@ -306,6 +308,7 @@ export const move = (direction: Direction) => {
                     gameState.score += combinedVal;
                     if (gameState.score > persistentState.highscore) {
                         persistentState.highscore = gameState.score;
+                        gameState.achievedHighscore = true;
                         gameStorage.savePersistentState(persistentState);
                     }
                     mergedStatuses[newY][newX] = true;

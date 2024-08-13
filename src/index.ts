@@ -109,6 +109,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareButton = loseElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
                 renderDialog(loseElem, true);
+                (document.getElementById("dialog-score") as HTMLElement).innerText =
+                    gameState.score.toString();
+                if (gameState.achievedHighscore) {
+                    (document.getElementById("dialog-highscore") as HTMLElement).style.display = "";
+                }
                 (document.querySelector(".button.new-game") as HTMLElement).addEventListener(
                     "click",
                     (e) => {
@@ -585,6 +590,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     won: false,
                     score: 0,
                     didUndo: false,
+                    achievedHighscore: false,
                 });
                 if (settingsPane.style.display !== "none") {
                     toggleSettings();
@@ -596,6 +602,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             "click",
             (e) => {
                 e.preventDefault();
+                persistentState.highscore = 9000;
+                gameStorage.savePersistentState(persistentState);
                 newGame({
                     board: [
                         [2, 16, 2, 32],
@@ -605,8 +613,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ],
                     ended: false,
                     won: false,
-                    score: 0,
+                    score: 10000,
                     didUndo: false,
+                    achievedHighscore: true,
                 });
                 if (settingsPane.style.display !== "none") {
                     toggleSettings();
@@ -629,6 +638,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     won: false,
                     score: 0,
                     didUndo: false,
+                    achievedHighscore: false,
                 });
                 if (settingsPane.style.display !== "none") {
                     toggleSettings();

@@ -630,6 +630,18 @@ button.button.clipboard-button > * {
     font-weight: bold;
 }
 
+button.button.new-game {
+    padding: 1em 0.5em 1em 0.5em;
+    margin: 0.5em 0em 0.5em 0em;
+    border-radius: 8em;
+    background-color: brown;
+}
+
+button.button.new-game > * {
+    color: var(--letter-selected-inverted-text-color);
+    font-weight: bold;
+}
+
 /* Notification */
 
 .notification-area {

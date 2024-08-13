@@ -80,6 +80,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -111,6 +112,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -142,6 +144,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[3][0], 2);
@@ -173,6 +176,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][3], 2);
@@ -204,6 +208,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -234,6 +239,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -264,6 +270,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -296,6 +303,7 @@ describe("core game logic", () => {
             won: false,
             score: 2224,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -337,6 +345,7 @@ describe("core game logic", () => {
             won: false,
             score: 2224,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -379,6 +388,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -414,6 +424,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -449,6 +460,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
@@ -484,6 +496,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
@@ -519,6 +532,7 @@ describe("core game logic", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);

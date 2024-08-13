@@ -52,6 +52,7 @@ describe("browser storage", () => {
                 won: false,
                 score: 0,
                 didUndo: false,
+                achievedHighscore: false,
             };
             gameStorage.saveGame(initialGameState);
             sinon.assert.callCount(stubbedLocalStorage.setItem, 1);

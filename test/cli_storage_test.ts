@@ -32,6 +32,7 @@ describe("CLI storage", () => {
             won: false,
             score: 0,
             didUndo: false,
+            achievedHighscore: false,
         };
 
         beforeEach(() => {

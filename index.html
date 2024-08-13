@@ -177,6 +177,8 @@
         </template>
         <template id="lose-dialog-content">
             <span>You lose!</span><br/>
+            <span>Your score was <span id="dialog-score"></span></span>
+            <span id="dialog-highscore" style="display:none">You got the high score!</span>
             <button class="button share-button">
                 <i data-feather="share-2"></i>
                 <span>Share</span>
@@ -185,7 +187,7 @@
                 <i data-feather="clipboard"></i>
                 <span>Copy to Clipboard</span>
             </button>
-            <button class="button new-game">New Game</button>
+            <button class="button new-game"><span>New Game</span></button>
         </template>
         <template id="prompt-dialog-content">
             <!-- TODO: Allow for customization of dialog text -->
