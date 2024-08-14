@@ -25,6 +25,9 @@
                 <span class="space"></span>
                 <div class="menu-options">
                     <div class="icon-bar">
+                        <a id="debug" class="debug-link link-icon" href="#" style="display:none">
+                            <i data-feather="tool"></i>
+                        </a>
                         <!-- <a class="help-link link-icon" href="#">
                             <i data-feather="help-circle"></i>
                         </a> -->
@@ -41,13 +44,18 @@
                         <span class="highscore" id="highscore"></span>
                     </div>
                     <div class="commands">
-                        <button class="button" id="undo" style="display:none">Undo</button>
-                        <button class="button" id="debug" style="display:none">Debug</button>
-                        <button class="button" id="new-game">New Game</button>
+                        <button class="button new-game" id="new-game">
+                            <span>New Game</span>
+                        </button>
                     </div>
                 </div>
             </nav>
             <div class="game pane">
+                <div class="commands">
+                    <a id="undo" class="undo-link link-icon disabled" href="#" style="display:none;">
+                        <i data-feather="rewind"></i>
+                    </a>
+                </div>
                 <div class="space"></div>
                 <div id="middle" class="game-space">
                     <div class="back-rows">
@@ -187,7 +195,9 @@
                 <i data-feather="clipboard"></i>
                 <span>Copy to Clipboard</span>
             </button>
-            <button class="button new-game"><span>New Game</span></button>
+            <button class="button new-game">
+                <span>New Game</span>
+            </button>
         </template>
         <template id="prompt-dialog-content">
             <!-- TODO: Allow for customization of dialog text -->

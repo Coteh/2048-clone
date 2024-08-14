@@ -183,7 +183,13 @@ export const newGame = (debugState?: GameState) => {
     animationManager.initNewBlocks();
 
     // TODO: Should game state be passed into the draw?
-    eventHandler("draw", { gameState, persistentState });
+    eventHandler("draw", {
+        gameState,
+        persistentState,
+        undoInfo: {
+            boardStack,
+        },
+    });
 
     gameStorage.clearGame();
 };
@@ -217,7 +223,13 @@ export const undo = () => {
     }
     gameState.board = boardStack.pop()!;
     gameState.didUndo = true;
-    eventHandler("draw", { gameState, persistentState });
+    eventHandler("draw", {
+        gameState,
+        persistentState,
+        undoInfo: {
+            boardStack,
+        },
+    });
 };
 
 export const move = (direction: Direction) => {
@@ -347,7 +359,13 @@ export const move = (direction: Direction) => {
         animationManager.addNewBlock(location);
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
-    eventHandler("draw", { gameState, persistentState });
+    eventHandler("draw", {
+        gameState,
+        persistentState,
+        undoInfo: {
+            boardStack,
+        },
+    });
     let allBlocksFilled = true;
     outerLoop: for (let i = 0; i < gameState.board.length; i++) {
         for (let j = 0; j < gameState.board[i].length; j++) {

@@ -340,6 +340,10 @@ svg {
     text-decoration: none;
 }
 
+a.link-icon.disabled > * {
+    color: grey;
+}
+
 /* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
     Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
 @media (hover) {
@@ -902,7 +906,19 @@ body a > .version-number {
 }
 
 .game.pane > .commands {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
     z-index: 1001;
+}
+
+.game.pane > .commands > * {
+    padding-top: 0.5em;
+}
+
+.game.pane > .commands > *:last-child {
+    padding-right: 0.5em;
 }
 
 .pointing-hand {

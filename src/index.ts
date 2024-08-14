@@ -101,6 +101,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     gameState.score.toString();
                 (document.querySelector("#highscore") as HTMLElement).innerText =
                     persistentState.highscore.toString();
+                if (data.undoInfo) {
+                    if (data.undoInfo.boardStack.length > 0) {
+                        undoButton.classList.remove("disabled");
+                    } else {
+                        undoButton.classList.add("disabled");
+                    }
+                }
                 break;
             case "error":
                 break;
@@ -114,18 +121,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (gameState.achievedHighscore) {
                     (document.getElementById("dialog-highscore") as HTMLElement).style.display = "";
                 }
-                (document.querySelector(".button.new-game") as HTMLElement).addEventListener(
-                    "click",
-                    (e) => {
-                        e.preventDefault();
-                        newGame();
-                        const overlayBackElem = document.querySelector(
-                            ".overlay-back"
-                        ) as HTMLElement;
-                        const dialog = document.querySelector(".dialog") as HTMLElement;
-                        closeDialog(dialog, overlayBackElem);
-                    }
-                );
+                (
+                    document.querySelector(".dialog .button.new-game") as HTMLElement
+                ).addEventListener("click", (e) => {
+                    e.preventDefault();
+                    newGame();
+                    const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
+                    const dialog = document.querySelector(".dialog") as HTMLElement;
+                    closeDialog(dialog, overlayBackElem);
+                });
                 const shareText = generateShareText(gameState);
                 shareButton.addEventListener("click", async (e) => {
                     e.preventDefault();
@@ -560,13 +564,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         swipeArea.innerText = "No swipe";
     }
 
-    const undoButton = document.querySelector("button#undo") as HTMLElement;
+    const undoButton = document.querySelector(".link-icon#undo") as HTMLElement;
     undoButton.addEventListener("click", (e) => {
         e.preventDefault();
         undo();
     });
 
-    const debugButton = document.querySelector("button#debug") as HTMLElement;
+    const debugButton = document.querySelector(".link-icon#debug") as HTMLElement;
     debugButton.addEventListener("click", (e) => {
         e.preventDefault();
         renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), true);
