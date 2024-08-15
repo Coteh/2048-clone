@@ -16,6 +16,7 @@ import { MockAnimationManager } from "../src/manager/__mocks__/animation";
 import { IGameStorage } from "../src/storage";
 import { Preferences } from "../src/preferences";
 import { Mock } from "jest-mock";
+import { UndoManager } from "../src/manager/undo";
 
 class MockGameStorage implements IGameStorage {
     gameState: GameState;
@@ -46,10 +47,17 @@ describe("core game logic", () => {
     let eventHandlerStub: Mock;
     const mockSpawnManager = new MockSpawnManager();
     const mockAnimationManager = new MockAnimationManager();
+    const undoManager = new UndoManager();
 
     async function setupGame(gameState: GameState): Promise<GameState> {
         const mockGameStorage = new MockGameStorage(gameState);
-        await initGame(eventHandlerStub, mockSpawnManager, mockAnimationManager, mockGameStorage);
+        await initGame(
+            eventHandlerStub,
+            mockSpawnManager,
+            mockAnimationManager,
+            undoManager,
+            mockGameStorage
+        );
         return getGameState();
     }
 

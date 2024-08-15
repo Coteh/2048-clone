@@ -1,6 +1,7 @@
 import { ISpawnManager } from "./manager/spawn";
 import { IAnimationManager } from "./manager/animation";
-import { IGameStorage as IGameStorage } from "./storage";
+import { IUndoManager } from "./manager/undo";
+import { IGameStorage } from "./storage";
 
 export type GameBoard = number[][];
 
@@ -77,13 +78,12 @@ export type EventHandler = (eventID: string, data?: any) => void;
 let gameState: GameState = {} as GameState;
 let persistentState: GamePersistentState = {} as GamePersistentState;
 let eventHandler: EventHandler = () => {};
-let boardStack: GameBoard[] = [];
 let spawnManager: ISpawnManager;
 let animationManager: IAnimationManager;
+let undoManager: IUndoManager;
 let gameStorage: IGameStorage;
 
 const newState: () => GameState = () => {
-    boardStack = [];
     return {
         board: [
             [0, 0, 0, 0],
@@ -116,6 +116,7 @@ const initState = () => {
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
     animationManager.setGameState(gameState);
+    undoManager.setGameState(gameState);
 };
 
 const initPersistentState = () => {
@@ -134,11 +135,13 @@ export const initGame = async (
     _eventHandler: EventHandler,
     _spawnManager: ISpawnManager,
     _animationManager: IAnimationManager,
+    _undoManager: IUndoManager,
     _gameStorage: IGameStorage
 ) => {
     eventHandler = _eventHandler;
     spawnManager = _spawnManager;
     animationManager = _animationManager;
+    undoManager = _undoManager;
     gameStorage = _gameStorage;
 
     initState();
@@ -167,6 +170,7 @@ export const newGame = (debugState?: GameState) => {
 
     spawnManager.setGameState(gameState);
     animationManager.setGameState(gameState);
+    undoManager.setGameState(gameState);
 
     if (!debugState) {
         let location = spawnManager.determineNextBlockLocation();
@@ -187,7 +191,7 @@ export const newGame = (debugState?: GameState) => {
         gameState,
         persistentState,
         undoInfo: {
-            boardStack,
+            undoStack: undoManager.getGameStateStack(),
         },
     });
 
@@ -217,17 +221,17 @@ const isBoardSame = (board: GameBoard | null, otherBoard: GameBoard | null) => {
 };
 
 export const undo = () => {
-    if (!boardStack.length) {
+    const poppedGameState = undoManager.popGameState();
+    if (!poppedGameState) {
         console.log("No more moves to undo");
         return;
     }
-    gameState.board = boardStack.pop()!;
     gameState.didUndo = true;
     eventHandler("draw", {
         gameState,
         persistentState,
         undoInfo: {
-            boardStack,
+            undoStack: undoManager.getGameStateStack(),
         },
     });
 };
@@ -257,7 +261,8 @@ export const move = (direction: Direction) => {
         prevBoard.push(gameState.board[i].slice());
     }
     console.log("prev board is now", prevBoard);
-    boardStack.push(prevBoard);
+
+    undoManager.pushGameState();
 
     animationManager.resetState();
 
@@ -363,7 +368,7 @@ export const move = (direction: Direction) => {
         gameState,
         persistentState,
         undoInfo: {
-            boardStack,
+            undoStack: undoManager.getGameStateStack(),
         },
     });
     let allBlocksFilled = true;

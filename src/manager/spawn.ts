@@ -1,13 +1,13 @@
 import { GameState, Position } from "../game";
 
 export interface ISpawnManager {
-    setGameState(gameState: GameState);
+    setGameState(gameState: GameState): void;
     determineNextBlockLocation(): Position;
     determineNextBlockValue(): number;
 }
 
 export class SpawnManager implements ISpawnManager {
-    private gameState: GameState;
+    private gameState: GameState | null = null;
 
     constructor() {}
 
@@ -16,8 +16,12 @@ export class SpawnManager implements ISpawnManager {
     }
 
     determineNextBlockLocation(): Position {
-        let newX,
-            newY,
+        if (!this.gameState) {
+            throw new Error("Game state not set");
+        }
+
+        let newX = -1,
+            newY = -1,
             blockValue = -1;
 
         while (blockValue !== 0) {

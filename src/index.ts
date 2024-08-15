@@ -28,6 +28,7 @@ import confetti from "canvas-confetti";
 import { Tutorial } from "./component/tutorial";
 import * as Sentry from "@sentry/browser";
 import posthog from "posthog-js";
+import { UndoManager } from "./manager/undo";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let persistentState: GamePersistentState;
     let spawnManager = new SpawnManager();
     let animationManager = new AnimationManager();
+    let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
     let unlockedClassic = false;
 
@@ -102,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 (document.querySelector("#highscore") as HTMLElement).innerText =
                     persistentState.highscore.toString();
                 if (data.undoInfo) {
-                    if (data.undoInfo.boardStack.length > 0) {
+                    if (data.undoInfo.undoStack.length > 0) {
                         undoButton.classList.remove("disabled");
                     } else {
                         undoButton.classList.add("disabled");
@@ -713,7 +715,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     posthog.capture("game open", { version: GAME_VERSION });
 
     try {
-        await initGame(eventHandler, spawnManager, animationManager, gameStorage);
+        await initGame(eventHandler, spawnManager, animationManager, undoManager, gameStorage);
     } catch (e: any) {
         if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");
