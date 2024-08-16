@@ -153,6 +153,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const winElem = createDialogContentFromTemplate("#win-dialog-content");
                 const shareButton = winElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = winElem.querySelector(".clipboard-button") as HTMLElement;
+                const undoText = winElem.querySelector("#undo-text") as HTMLElement;
+                if (gameState.didUndo) {
+                    undoText.style.display = "";
+                }
                 renderDialog(winElem, true);
                 if (!unlockedClassic && data.persistentState.unlockables.classic) {
                     renderNotification("2048Clone theme unlocked");
