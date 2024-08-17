@@ -373,6 +373,37 @@ body.classic a.link-icon.disabled::before {
     align-items: flex-end;
 }
 
+.top-menu > .menu-options > .score-wrap-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(255, 165, 0);
+    flex-direction: row;
+    top: 140px;
+    left: 0;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > *:first-child {
+    padding-left: 1em;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > *:last-child {
+    padding-right: 1em;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > .space {
+    flex: 1;
+}
+
+body.classic .top-menu > .menu-options > .commands {
+    margin-top: 40px;
+}
+
 body.classic .top-menu > .title {
     display: none;
 }
@@ -380,10 +411,6 @@ body.classic .top-menu > .title {
 body.classic .top-menu > .classic-logo {
     display: block !important;
     width: 200px;
-}
-
-body.classic .top-menu > .menu-options {
-    background-color: rgba(255, 165, 0);
 }
 
 .game-space {
