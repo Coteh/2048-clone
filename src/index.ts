@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     e.preventDefault();
                     copyShareText(shareText);
                 });
+                undoButton.classList.add("disabled");
                 break;
             }
             case "win": {

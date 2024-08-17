@@ -222,6 +222,10 @@ const isBoardSame = (board: GameBoard | null, otherBoard: GameBoard | null) => {
 };
 
 export const undo = () => {
+    if (gameState.ended) {
+        console.log("Game is over. Cannot undo.");
+        return;
+    }
     const poppedGameState = undoManager.popGameState();
     if (!poppedGameState) {
         console.log("No more moves to undo");
@@ -235,6 +239,7 @@ export const undo = () => {
             undoStack: undoManager.getGameStateStack(),
         },
     });
+    gameStorage.saveGame(gameState);
 };
 
 export const move = (direction: Direction) => {
