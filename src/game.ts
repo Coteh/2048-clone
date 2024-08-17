@@ -185,6 +185,7 @@ export const newGame = (debugState?: GameState) => {
     if (debugEnabled) console.log(gameState);
 
     animationManager.initNewBlocks();
+    undoManager.clear();
 
     // TODO: Should game state be passed into the draw?
     eventHandler("draw", {

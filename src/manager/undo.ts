@@ -5,6 +5,7 @@ export interface IUndoManager {
     getGameStateStack(): readonly GameState[];
     pushGameState(): void;
     popGameState(): GameState | null;
+    clear(): void;
 }
 
 export class UndoManager {
@@ -53,5 +54,9 @@ export class UndoManager {
             this.gameState[key] = gameStateCopy[key];
         });
         return gameStateCopy;
+    }
+
+    clear() {
+        this.gameStateStack = new Array<GameState>(0);
     }
 }
