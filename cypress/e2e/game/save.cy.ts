@@ -20,6 +20,7 @@ describe.skip("retrieving saved progress", () => {
                     won: false,
                     score: 28,
                     didUndo: false,
+                    achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
@@ -38,7 +39,7 @@ describe.skip("retrieving saved progress", () => {
 
     it("should load saved state", () => {
         // TODO: Implement these test cases
-        
+
         // First check to see if game state loads up
 
         // Then check if persistent state loads up

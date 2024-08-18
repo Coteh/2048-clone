@@ -176,6 +176,8 @@ export const renderPromptDialog = (
 
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
 
+    (clone.querySelector("button.close") as HTMLElement).style.display = "none";
+
     const dialogContent = clone.querySelector(".dialog-content") as HTMLElement;
     dialogContent.appendChild(content);
 

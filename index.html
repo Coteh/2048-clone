@@ -204,8 +204,7 @@
             </button>
         </template>
         <template id="prompt-dialog-content">
-            <!-- TODO: Allow for customization of dialog text -->
-            <span>Are you sure you want to clear all game data? Progress will be lost.</span><br/>
+            <span class="prompt-text"></span><br/>
             <button class="button confirm">Yes</button>
             <button class="button cancel">Cancel</button>
         </template>
@@ -224,6 +223,8 @@
             <button class="button new-win-game">New Winning Game</button>
             <button class="button new-lose-game">New Losing Game</button>
             <button class="button new-all-game">New All Blocks Game</button>
+            <button class="button prompt-dialog">Prompt Dialog</button>
+            <button class="button non-closable-dialog">Non-Closable Dialog</button>
         </template>
         <script src="src/index.ts" type="module"></script>
         <!-- <script src="vendor/snow.js" defer></script> -->

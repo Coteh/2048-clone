@@ -20,6 +20,7 @@ describe.skip("tileset", () => {
                     won: false,
                     score: 28,
                     didUndo: false,
+                    achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,

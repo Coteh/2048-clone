@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const handleKeyInput = (key: string) => {
         const dialog = document.querySelector(".dialog") as HTMLElement;
-        if (dialog && (key === "enter" || key === "escape")) {
+        if (dialog && key === "escape") {
             // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
             if (isPrompted) {
                 return;
@@ -426,8 +426,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     knob.classList.remove("enabled");
                 }
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
+                const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
+                (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
+                    "Are you sure you want to clear all game data? Progress will be lost.";
                 renderPromptDialog(
-                    createDialogContentFromTemplate("#prompt-dialog-content"),
+                    dialogElem,
                     true,
                     () => {
                         isPrompted = false;
@@ -655,6 +658,29 @@ document.addEventListener("DOMContentLoaded", async () => {
                     toggleSettings();
                 }
                 closeDialogAndOverlay();
+            }
+        );
+        (document.querySelector(".button.prompt-dialog") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
+                (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Answer?";
+                renderPromptDialog(dialogElem, true, () => {
+                    const dialogElem = document.createElement("span");
+                    dialogElem.innerText = "Confirmed";
+                    renderDialog(dialogElem, true);
+                });
+            }
+        );
+        (document.querySelector(".button.non-closable-dialog") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                const dialogElem = document.createElement("span");
+                dialogElem.innerText =
+                    "Testing a dialog that does not close. You will need to refresh the page.";
+                renderDialog(dialogElem, true, false);
             }
         );
         debugButton.blur();

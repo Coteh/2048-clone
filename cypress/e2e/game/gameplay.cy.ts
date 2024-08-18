@@ -19,6 +19,7 @@ describe("gameplay", () => {
                     won: false,
                     score: 0,
                     didUndo: false,
+                    achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,

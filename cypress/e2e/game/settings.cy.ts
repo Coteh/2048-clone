@@ -22,6 +22,7 @@ describe.skip("settings", () => {
                     won: false,
                     score: 28,
                     didUndo: false,
+                    achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
