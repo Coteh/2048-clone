@@ -42,7 +42,7 @@ describe("dialogs", () => {
 
         it("prevents player from making any more inputs with physical keyboard", () => {
             // Verify starting game board at this point
-            cy.verifyBoard([
+            cy.verifyBoardMatches([
                 [0, 0, 0, 0],
                 [0, 2, 0, 0],
                 [0, 0, 4, 0],
@@ -55,7 +55,7 @@ describe("dialogs", () => {
             cy.get("body").type("{leftArrow}");
 
             // Verify the game board did not change
-            cy.verifyBoard([
+            cy.verifyBoardMatches([
                 [0, 0, 0, 0],
                 [0, 2, 0, 0],
                 [0, 0, 4, 0],
@@ -67,7 +67,7 @@ describe("dialogs", () => {
             cy.get("body").type("{leftArrow}");
 
             // Verify the game board did change
-            cy.verifyBoard([
+            cy.verifyBoardMatches([
                 [undefined, undefined, undefined, undefined],
                 [2, undefined, undefined, undefined],
                 [4, undefined, undefined, undefined],

@@ -4,6 +4,7 @@ declare namespace Cypress {
         shouldNotBeActionable(done: Mocha.Done): Chainable<Element>;
         shouldBeInViewport(): Chainable<any>;
         waitUntilDialogAppears(): Chainable<any>;
-        verifyBoard(expectedBoard: (number | undefined)[][]): Chainable<any>;
+        verifyBoardMatches(expectedBoard: (number | undefined)[][]): Chainable<any>;
+        verifyBoardDoesNotMatch(expectedBoard: (number | undefined)[][]): Chainable<any>;
     }
 }

@@ -67,7 +67,7 @@ Cypress.Commands.add("waitUntilDialogAppears", () => {
     cy.waitUntil(() =>
         cy.window().then((win) => {
             cy.get(".dialog").then(
-                (dialog) => parseInt(win.getComputedStyle(dialog[0]).top) <= win.innerHeight / 2
+                (dialog) => parseInt(win.getComputedStyle(dialog[0]).opacity) === 1
             );
         })
     );

@@ -1,14 +1,13 @@
 /// <reference types="cypress" />
 
-import { GamePersistentState } from "../../../src/game";
+import { GamePersistentState, GameState } from "../../../src/game";
 
 const MOBILE_DEVICE_USER_AGENT =
     "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1";
 const DESKTOP_USER_AGENT =
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0";
 
-// TODO: Implement these tests
-describe.skip("misc", () => {
+describe("misc", () => {
     beforeEach(() => {
         cy.visit("/", {
             onBeforeLoad: () => {
@@ -104,11 +103,25 @@ describe.skip("misc", () => {
                     Object.defineProperty(win.navigator, "userAgent", {
                         value: MOBILE_DEVICE_USER_AGENT,
                     });
+                    const gameState: GameState = {
+                        board: [
+                            [2, 16, 2, 32],
+                            [4, 512, 8, 128],
+                            [16, 4, 16, 32],
+                            [4, 32, 1024, 2],
+                        ],
+                        ended: true,
+                        won: false,
+                        score: 10000,
+                        didUndo: false,
+                        achievedHighscore: true,
+                    };
                     const persistentState: GamePersistentState = {
-                        highscore: 0,
+                        highscore: 9000,
                         unlockables: {},
                         hasPlayedBefore: true,
                     };
+                    window.localStorage.setItem("game-state", JSON.stringify(gameState));
                     window.localStorage.setItem(
                         "persistent-state",
                         JSON.stringify(persistentState)
@@ -120,7 +133,9 @@ describe.skip("misc", () => {
 
             cy.waitUntilDialogAppears();
 
-            cy.contains("How to play").should("not.be.visible");
+            cy.get(".dialog").should("not.be.visible");
+
+            cy.contains("You lose!").should("not.be.visible");
         });
 
         // it("should show the snowflakes when activated while snow theme enabled", () => {

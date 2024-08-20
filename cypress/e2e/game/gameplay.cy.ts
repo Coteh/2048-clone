@@ -40,7 +40,7 @@ describe("gameplay", () => {
     it.skip("should allow player to swipe right to move the blocks", () => {
         cy.viewport("iphone-xr");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -49,7 +49,7 @@ describe("gameplay", () => {
 
         cy.get("#swipeArea").realSwipe("toRight");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, 2],
             [undefined, undefined, undefined, 4],
@@ -61,7 +61,7 @@ describe("gameplay", () => {
     it.skip("should allow player to swipe left to move the blocks", () => {
         cy.viewport("iphone-xr");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -76,7 +76,7 @@ describe("gameplay", () => {
         //     .trigger("touchmove", { touches: [{ pageX: 100, pageY: 200 }] })
         //     .trigger("touchend", { force: true });
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, undefined, undefined, undefined],
             [2, undefined, undefined, undefined],
             [4, undefined, undefined, undefined],
@@ -88,7 +88,7 @@ describe("gameplay", () => {
     it.skip("should allow player to swipe down to move the blocks", () => {
         cy.viewport("iphone-xr");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -97,7 +97,7 @@ describe("gameplay", () => {
 
         cy.get("#swipeArea").realSwipe("toBottom");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, undefined],
@@ -109,7 +109,7 @@ describe("gameplay", () => {
     it.skip("should allow player to swipe up to move the blocks", () => {
         cy.viewport("iphone-xr");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -118,7 +118,7 @@ describe("gameplay", () => {
 
         cy.get("#swipeArea").realSwipe("toTop");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, 2, 4, undefined],
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, undefined],
@@ -127,7 +127,7 @@ describe("gameplay", () => {
     });
 
     it("should allow player to move blocks using right arrow key", () => {
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -136,7 +136,7 @@ describe("gameplay", () => {
 
         cy.get("body").type("{rightArrow}");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, 2],
             [undefined, undefined, undefined, 4],
@@ -145,7 +145,7 @@ describe("gameplay", () => {
     });
 
     it("should allow player to move blocks using left arrow key", () => {
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -154,7 +154,7 @@ describe("gameplay", () => {
 
         cy.get("body").type("{leftArrow}");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, undefined, undefined, undefined],
             [2, undefined, undefined, undefined],
             [4, undefined, undefined, undefined],
@@ -163,7 +163,7 @@ describe("gameplay", () => {
     });
 
     it("should allow player to move blocks using down arrow key", () => {
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -172,7 +172,7 @@ describe("gameplay", () => {
 
         cy.get("body").type("{downArrow}");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, undefined],
@@ -181,7 +181,7 @@ describe("gameplay", () => {
     });
 
     it("should allow player to move blocks using up arrow key", () => {
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [0, 0, 0, 0],
             [0, 2, 0, 0],
             [0, 0, 4, 0],
@@ -190,7 +190,7 @@ describe("gameplay", () => {
 
         cy.get("body").type("{upArrow}");
 
-        cy.verifyBoard([
+        cy.verifyBoardMatches([
             [undefined, 2, 4, undefined],
             [undefined, undefined, undefined, undefined],
             [undefined, undefined, undefined, undefined],
@@ -198,8 +198,52 @@ describe("gameplay", () => {
         ]);
     });
 
-    // TODO: Implement this test
-    it.skip("should allow player to click new game to restart the game", () => {
-        throw new Error("Test not implemented");
+    it("should allow player to click new game to restart the game", () => {
+        cy.visit("/", {
+            onBeforeLoad: () => {
+                const gameState: GameState = {
+                    board: [
+                        [2, 4, 8, 16],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                    ],
+                    ended: false,
+                    won: false,
+                    score: 100,
+                    didUndo: false,
+                    achievedHighscore: true,
+                };
+                const persistentState: GamePersistentState = {
+                    highscore: 100,
+                    unlockables: {},
+                    hasPlayedBefore: true,
+                };
+                window.localStorage.setItem("game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
+            },
+        });
+        
+        cy.verifyBoardMatches([
+            [2, 4, 8, 16],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        cy.contains("Score: 100").should("be.visible");
+        cy.contains("Highscore: 100").should("be.visible");
+        
+        cy.contains("New Game").click();
+        
+        cy.verifyBoardDoesNotMatch([
+            [2, 4, 8, 16],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]);
+        
+        cy.contains("Score: 0").should("be.visible");
+        cy.contains("Highscore: 100").should("be.visible");
     });
 });
