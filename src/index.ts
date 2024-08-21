@@ -251,13 +251,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleKeyInput(e.key.toLowerCase());
     });
 
-    // TODO: Fix animation issues with how to play if this button is clicked in the middle of it
-    // const helpLink = document.querySelector(".help-link") as HTMLElement;
-    // helpLink.addEventListener("click", (e) => {
-    //     e.preventDefault();
-    //     tutorial.renderHowToPlay();
-    //     helpLink.blur();
-    // });
+    const helpLink = document.querySelector(".help-link") as HTMLElement;
+    helpLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        tutorial.renderHowToPlay();
+        helpLink.blur();
+    });
 
     const gamePane = document.querySelector(".game") as HTMLElement;
     const settingsPane = document.querySelector(".settings") as HTMLElement;

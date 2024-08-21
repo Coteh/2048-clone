@@ -1,13 +1,17 @@
 import pointingHand from "../../images/PointingHand.png";
 import { renderNotification } from "../render";
+import { isMobile } from "../util/mobile";
 
 export class Tutorial {
     howToPlayElements: HTMLImageElement[];
 
     timeouts: NodeJS.Timeout[];
+    
+    isMobileTutorialPlaying: boolean = false;
+    isDesktopTutorialPlaying: boolean = false;
 
     constructor() {
-        if ("ontouchstart" in window) {
+        if (isMobile()) {
             this.timeouts = new Array<NodeJS.Timeout>(6);
             this.howToPlayElements = new Array<HTMLImageElement>(2);
         } else {
@@ -17,7 +21,10 @@ export class Tutorial {
     }
 
     renderHowToPlay() {
-        if ("ontouchstart" in window) {
+        if (isMobile()) {
+            if (this.isMobileTutorialPlaying) {
+                return;
+            }
             const howToPlay1ID = "how-to-play-1";
             const howToPlay2ID = "how-to-play-2";
             this.howToPlayElements[0] = document.getElementById(howToPlay1ID) as HTMLImageElement;
@@ -60,15 +67,24 @@ export class Tutorial {
                                 this.howToPlayElements[0].style.top = "25%";
                                 this.timeouts[5] = setTimeout(() => {
                                     this.howToPlayElements[1].style.left = "25%";
+                                    this.isMobileTutorialPlaying = false;
                                 }, 1000);
                             }, 1000);
                         });
                     }, 1000);
                 }, 1000);
             });
+            this.isMobileTutorialPlaying = true;
         } else {
+            if (this.isDesktopTutorialPlaying) {
+                return;
+            }
             // TODO: Render desktop graphic for how to play
             renderNotification("Use arrow keys to play");
+            this.timeouts[0] = setTimeout(() => {
+                this.isDesktopTutorialPlaying = false;
+            }, 1500);
+            this.isDesktopTutorialPlaying = true;
         }
     }
 }
