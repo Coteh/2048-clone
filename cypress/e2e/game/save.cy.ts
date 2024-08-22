@@ -3,8 +3,7 @@
 import { GamePersistentState, GameState } from "../../../src/game";
 import { Preferences } from "../../../src/preferences";
 
-// TODO: Implement these tests
-describe.skip("retrieving saved progress", () => {
+describe("retrieving saved progress", () => {
     beforeEach(() => {
         cy.clearBrowserCache();
         cy.visit("/", {
@@ -23,7 +22,7 @@ describe.skip("retrieving saved progress", () => {
                     achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
-                    highscore: 0,
+                    highscore: 1234,
                     unlockables: {},
                     hasPlayedBefore: true,
                 };
@@ -38,18 +37,32 @@ describe.skip("retrieving saved progress", () => {
     });
 
     it("should load saved state", () => {
-        // TODO: Implement these test cases
-
         // First check to see if game state loads up
+        cy.verifyBoardMatches([
+            [2, 0, 0, 0],
+            [4, 0, 0, 0],
+            [8, 0, 0, 0],
+            [16, 0, 0, 0],
+        ]);
 
         // Then check if persistent state loads up
+        cy.contains("Highscore: 1234").should("be.visible");
 
         // Finally check if preferences are loaded
-
-        // Now load up a game state where the player got 2048 and is still going
+        cy.get("body").should("have.class", "dark");
+        cy.get("body").should("have.class", "tileset-dark");
 
         // Now load up a game state where the player lost, a lose popup should appear as well.
+        cy.contains("You lose!").should("not.exist");
 
-        throw new Error("TODO: Check if all local states load up upon game start");
+        cy.get(".debug-link#debug").click();
+        cy.contains("New Losing Game").click();
+        cy.get("body").type("{rightArrow}");
+
+        cy.contains("You lose!").should("be.visible");
+
+        cy.reload();
+
+        cy.contains("You lose!").should("be.visible");
     });
 });

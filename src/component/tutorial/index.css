@@ -1,0 +1,33 @@
+.pointing-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    opacity: 1;
+
+    transition: top 1s, left 1s, opacity 1s;
+}
+
+.keyboard-button {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    background: #e0e0e0; /* Background color of the button */
+    border: 1px solid hsl(0, 0%, 69%); /* Slight border to give the button an edge */
+    border-radius: 5px; /* Rounded corners for a realistic button feel */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), inset 1px 1px 3px rgba(255, 255, 255, 0.6); /* Outer and inner shadows */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* Text color */
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); /* Slight text shadow for depth */
+    user-select: none; /* Disable text selection */
+    transition: all 0.1s ease-in-out; /* Smooth transition for effects */
+}
+
+.keyboard-button.pressed {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2), inset -1px -1px 5px rgba(0, 0, 0, 0.2); /* Deeper shadow when "active" */
+    transform: translateY(1px); /* Slight movement downwards */
+}

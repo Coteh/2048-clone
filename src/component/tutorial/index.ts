@@ -1,12 +1,14 @@
-import pointingHand from "../../images/PointingHand.png";
-import { renderNotification } from "../render";
-import { isMobile } from "../util/mobile";
+import pointingHand from "../../../images/PointingHand.png";
+import { renderNotification } from "../../render";
+import { isMobile } from "../../util/mobile";
+
+import "./index.css";
 
 export class Tutorial {
     howToPlayElements: HTMLImageElement[];
 
     timeouts: NodeJS.Timeout[];
-    
+
     isMobileTutorialPlaying: boolean = false;
     isDesktopTutorialPlaying: boolean = false;
 
@@ -79,11 +81,51 @@ export class Tutorial {
             if (this.isDesktopTutorialPlaying) {
                 return;
             }
-            // TODO: Render desktop graphic for how to play
-            renderNotification("Use arrow keys to play");
+            renderNotification("Use arrow keys to play", 5000);
+
+            const elem = document.createElement("div");
+            elem.innerHTML = `
+            <div>
+                <div class="keyboard-button" style="opacity: 0;">←</div>
+                <div class="keyboard-button" id="up-arrow">↑</div>
+                <div class="keyboard-button" style="opacity: 0;">→</div>
+            </div>
+            <div>
+                <div class="keyboard-button" id="left-arrow">←</div>
+                <div class="keyboard-button" id="down-arrow">↓</div>
+                <div class="keyboard-button" id="right-arrow">→</div>
+            </div>
+            `;
+            elem.style.position = "fixed";
+            elem.style.top = "25%";
+            elem.style.left = "50%";
+            elem.style.transform = "translate(-50%,-50%)";
+            document.body.appendChild(elem);
+
+            let i = 0;
+            const arrowIDs = ["up-arrow", "left-arrow", "down-arrow", "right-arrow"];
+            const interval = setInterval(() => {
+                if (i / 2 >= arrowIDs.length) {
+                    return;
+                }
+                const arrowElem = document.getElementById(
+                    arrowIDs[Math.floor(i / 2)]
+                ) as HTMLDivElement;
+                if (i % 2 === 0) {
+                    arrowElem.classList.add("pressed");
+                } else {
+                    arrowElem.classList.remove("pressed");
+                }
+                i++;
+            }, 500);
+
+            setTimeout(() => {
+                elem.remove();
+                clearInterval(interval);
+            }, 5000);
             this.timeouts[0] = setTimeout(() => {
                 this.isDesktopTutorialPlaying = false;
-            }, 1500);
+            }, 5500);
             this.isDesktopTutorialPlaying = true;
         }
     }

@@ -220,7 +220,7 @@ export const renderPromptDialog = (
     overlayBackElem.style.display = "block";
 };
 
-export const renderNotification = (msg: string) => {
+export const renderNotification = (msg: string, timeoutMS: number = 1000) => {
     const template = document.querySelector("#notification") as HTMLTemplateElement;
     const clone = template.content.cloneNode(true) as HTMLElement;
 
@@ -242,7 +242,7 @@ export const renderNotification = (msg: string) => {
         setTimeout(() => {
             notification.remove();
         }, 1000);
-    }, 1000);
+    }, timeoutMS);
 };
 
 export const createDialogContentFromTemplate = (tmplContentId: string) => {
