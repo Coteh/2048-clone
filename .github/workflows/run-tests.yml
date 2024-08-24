@@ -25,10 +25,27 @@ jobs:
       - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Install mkcert
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3-tools
+          curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64"
+          chmod +x mkcert-v*-linux-amd64
+          sudo mv mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+      - name: Generate self-signed certificate
+        run: |
+          mkcert -install
+          mkdir ssl
+          cd ssl
+          mkcert localhost 127.0.0.1 ::1
+      - name: Set CA Cert environment variable
+        run: echo NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem" >> $GITHUB_ENV
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          start: npm run dev
+          browser: edge
+          start: npm run devs
+          wait-on: 'https://localhost:5173'
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
