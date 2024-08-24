@@ -342,7 +342,7 @@ export const move = (direction: Direction) => {
                         gameStorage.savePersistentState(persistentState);
                         eventHandler("win", { persistentState });
                     }
-                    animationManager.updateBlocks(j, i, newX, newY);
+                    animationManager.updateBlocks(j, i, newX, newY, combinedVal);
                 } else {
                     if (newVal === 0) {
                         gameState.board[newY][newX] = currVal;

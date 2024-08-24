@@ -23,6 +23,7 @@ export const renderBoard = (
     rowsBackElem.innerHTML = "";
     rowsBaseElem.innerHTML = "";
     console.log("--------");
+    let combinedScoreIncrease = 0;
     board.forEach((row, y) => {
         console.log(row);
         renderBackRow(rowsBackElem, row.length);
@@ -59,19 +60,21 @@ export const renderBoard = (
                             applyClassicThemeBlockStyles(numberBox, x, y, row, board);
                         }
                     }
-                    if (
-                        mergedBlocks &&
-                        mergedBlocks.some(
-                            (mergedBlock) => mergedBlock.x === x && mergedBlock.y === y
-                        )
-                    ) {
-                        numberBox.style.transform = "scale(0.1)";
-                        setTimeout(() => {
-                            numberBox.style.transform = "scale(1.5)";
+                    if (mergedBlocks) {
+                        const mergedBlock = mergedBlocks.find(
+                            (mergedBlock) =>
+                                mergedBlock.position.x === x && mergedBlock.position.y === y
+                        );
+                        if (mergedBlock) {
+                            numberBox.style.transform = "scale(0.1)";
                             setTimeout(() => {
-                                numberBox.style.transform = "";
-                            }, 100);
-                        }, 0);
+                                numberBox.style.transform = "scale(1.5)";
+                                setTimeout(() => {
+                                    numberBox.style.transform = "";
+                                }, 100);
+                            }, 0);
+                            combinedScoreIncrease += mergedBlock.points;
+                        }
                     }
                 } else {
                     if (options.theme === "classic") {
@@ -83,6 +86,25 @@ export const renderBoard = (
 
         rowsBaseElem.appendChild(rowContainer);
     });
+    if (combinedScoreIncrease > 0) {
+        const scoreIncreaseTextElem = document.createElement("span");
+        scoreIncreaseTextElem.innerText = `+${combinedScoreIncrease}`;
+        scoreIncreaseTextElem.style.position = "absolute";
+        scoreIncreaseTextElem.style.top = "0";
+        if (options.theme === "classic") {
+            scoreIncreaseTextElem.style.left = "150px";
+        } else {
+            scoreIncreaseTextElem.style.left = "-60px";
+        }
+        scoreIncreaseTextElem.style.transition = "top 1s, left 1s";
+        setTimeout(() => {
+            scoreIncreaseTextElem.style.top = "-20px";
+            setTimeout(() => {
+                scoreIncreaseTextElem.remove();
+            }, 1000);
+        }, 0);
+        (document.querySelector(".score-box") as HTMLElement).appendChild(scoreIncreaseTextElem);
+    }
     console.log("--------");
 };
 

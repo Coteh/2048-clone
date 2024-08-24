@@ -5,9 +5,14 @@ export interface IAnimationManager {
     resetState(): void;
     initNewBlocks(): void;
     addNewBlock(location: Position): void;
-    updateBlocks(oldX: number, oldY: number, newX: number, newY: number): void;
+    updateBlocks(oldX: number, oldY: number, newX: number, newY: number, points: number): void;
     updateBlocksNonMerge(oldX: number, oldY: number, newX: number, newY: number): void;
 }
+
+export type MergedBlock = {
+    position: Position;
+    points: number;
+};
 
 export class AnimationManager {
     public isAnimationEnabled: boolean;
@@ -16,7 +21,7 @@ export class AnimationManager {
     // @ts-ignore TODO: This field is assigned in the constructor via resetState but TS is not smart enough to realize that
     public movedBlocks: (Position | undefined)[][];
     // @ts-ignore TODO: This field is assigned in the constructor via resetState but TS is not smart enough to realize that
-    public mergedBlocks: Position[];
+    public mergedBlocks: MergedBlock[];
 
     private gameState: GameState | null = null;
 
@@ -58,7 +63,7 @@ export class AnimationManager {
     }
 
     // TODO: Consolidate logic for updateBlocks and updateBlocksNonMerge
-    updateBlocks(oldX: number, oldY: number, newX: number, newY: number) {
+    updateBlocks(oldX: number, oldY: number, newX: number, newY: number, points: number) {
         if (!this.movedBlocks[newY][newX]) {
             let oldMovedValue = this.movedBlocks[oldY][oldX];
             if (!oldMovedValue) {
@@ -70,15 +75,18 @@ export class AnimationManager {
             this.movedBlocks[oldY][oldX] = undefined;
             this.movedBlocks[newY][newX] = oldMovedValue;
             const movedBlockIndex = this.mergedBlocks.findIndex(
-                (mergedBlock) => mergedBlock.x === oldX && mergedBlock.y === oldY
+                (mergedBlock) => mergedBlock.position.x === oldX && mergedBlock.position.y === oldY
             );
             if (movedBlockIndex >= 0) {
                 this.mergedBlocks.splice(movedBlockIndex, 1);
             }
         }
         this.mergedBlocks.push({
-            x: newX,
-            y: newY,
+            points,
+            position: {
+                x: newX,
+                y: newY,
+            },
         });
     }
 
@@ -93,13 +101,17 @@ export class AnimationManager {
         this.movedBlocks[oldY][oldX] = undefined;
         this.movedBlocks[newY][newX] = oldMovedValue;
         const movedBlockIndex = this.mergedBlocks.findIndex(
-            (mergedBlock) => mergedBlock.x === oldX && mergedBlock.y === oldY
+            (mergedBlock) => mergedBlock.position.x === oldX && mergedBlock.position.y === oldY
         );
         if (movedBlockIndex >= 0) {
+            const oldMergedBlock = this.mergedBlocks[movedBlockIndex];
             this.mergedBlocks.splice(movedBlockIndex, 1);
             this.mergedBlocks.push({
-                x: newX,
-                y: newY,
+                points: oldMergedBlock.points,
+                position: {
+                    x: newX,
+                    y: newY,
+                },
             });
         }
     }

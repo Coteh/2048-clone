@@ -7,7 +7,13 @@ export class MockAnimationManager implements IAnimationManager {
     public resetState: () => void;
     public initNewBlocks: () => void;
     public addNewBlock: (location: Position) => void;
-    public updateBlocks: (oldX: number, oldY: number, newX: number, newY: number) => void;
+    public updateBlocks: (
+        oldX: number,
+        oldY: number,
+        newX: number,
+        newY: number,
+        points: number
+    ) => void;
     public updateBlocksNonMerge: (oldX: number, oldY: number, newX: number, newY: number) => void;
 
     public isAnimationEnabled: boolean;

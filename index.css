@@ -413,6 +413,10 @@ body.classic .top-menu > .classic-logo {
     width: 200px;
 }
 
+.score-box {
+    position: relative;
+}
+
 .game-space {
     width: 100%;
     display: flex;
