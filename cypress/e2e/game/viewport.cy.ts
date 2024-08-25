@@ -3,18 +3,17 @@
 import { GameState, GamePersistentState } from "../../../src/game";
 import { Preferences } from "../../../src/preferences";
 
-// TODO: Implement these tests
-describe.skip("viewport", () => {
+describe("viewport", () => {
     beforeEach(() => {
         cy.clearBrowserCache();
         cy.visit("/", {
             onBeforeLoad: () => {
                 const gameState: GameState = {
                     board: [
-                        [2, 0, 0, 0],
-                        [4, 0, 0, 0],
-                        [8, 0, 0, 0],
-                        [16, 0, 0, 0],
+                        [0, 0, 0, 0],
+                        [0, 2, 0, 0],
+                        [0, 0, 4, 0],
+                        [0, 0, 0, 0],
                     ],
                     ended: false,
                     won: false,
@@ -72,15 +71,19 @@ describe.skip("viewport", () => {
         it(`should be playable on a ${def.name}`, () => {
             cy.viewport(def.width, def.height);
 
+            cy.reload();
+
             cy.get(".game").should("be.visible").shouldBeInViewport();
-            cy.contains("Wordle Clone").should("be.visible").shouldBeInViewport();
+            cy.contains("2048 Clone").should("be.visible").shouldBeInViewport();
             cy.get(".help-link").should("be.visible").shouldBeInViewport();
 
-            // TODO: Also consider taking screenshots
+            cy.get("body").type("{rightArrow}");
+            cy.get("body").type("{leftArrow}");
 
-            throw new Error(
-                "TODO: Perform some actions to verify that the game looks presentable in this viewport"
-            );
+            cy.screenshot(`viewport/${def.name}`, {
+                capture: "viewport",
+                overwrite: true,
+            });
         });
     });
 });

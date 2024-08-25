@@ -9,7 +9,10 @@ preferences.json
 
 # Cypress output
 cypress/videos
-cypress/screenshots
+cypress/screenshots/*
+
+# Whitelist manual visual regression screenshot directories
+!cypress/screenshots/viewport
 
 # Test results
 results/*.xml
