@@ -3,30 +3,31 @@
 import { GamePersistentState, GameState } from "../../../src/game";
 import { Preferences } from "../../../src/preferences";
 
-// TODO: Implement these tests
-describe.skip("misc", () => {
+describe("misc", () => {
     beforeEach(() => {
+        cy.clearBrowserCache();
         cy.visit("/", {
             onBeforeLoad: () => {
                 const gameState: GameState = {
                     board: [
-                        [2, 0, 0, 0],
-                        [4, 0, 0, 0],
-                        [8, 0, 0, 0],
-                        [16, 0, 0, 0],
+                        [0, 0, 2, 4],
+                        [0, 2, 8, 16],
+                        [0, 8, 16, 32],
+                        [8, 16, 32, 128],
                     ],
                     ended: false,
                     won: false,
-                    score: 28,
+                    score: 1072,
                     didUndo: false,
+                    achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
-                    highscore: 0,
+                    highscore: 8300,
                     unlockables: {},
                     hasPlayedBefore: true,
                 };
                 const preferences: Preferences = {
-                    theme: "dark",
+                    theme: "standard",
                 };
                 window.localStorage.setItem("game-state", JSON.stringify(gameState));
                 window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
@@ -35,21 +36,12 @@ describe.skip("misc", () => {
         });
     });
 
-    it("gameplay screenshot", () => {
-        cy.viewport("iphone-x");
+    specify("gameplay screenshot", () => {
+        cy.viewport("iphone-6");
 
-        cy.clearBrowserCache();
-        cy.reload();
-
-        cy.wait(1000);
-
-        // TODO: Do some gameplay here
-
-        // cy.get("body").type("{rightArrow}");
-        // cy.get("body").type("{downArrow}");
-        // cy.get("body").type("{leftArrow}");
-        // cy.get("body").type("{upArrow}");
-
-        throw new Error("TODO: Setup gameplay screenshot test here");
+        cy.screenshot("readme/screenshot", {
+            capture: "viewport",
+            overwrite: true,
+        });
     });
 });

@@ -4,9 +4,9 @@
 
 ### [**Click here to play**](https://coteh.github.io/2048-clone)
 
-![Browser Game Screenshot](screenshot.gif "Browser Game Screenshot")
+A clone of [2048](https://play2048.co/), and also a remake of my first side project on GitHub, [2048Clone](https://github.com/Coteh/2048Clone).
 
-A clone of [2048](https://play2048.co/), and also a remake of my first 2048 clone, [2048Clone](https://github.com/Coteh/2048Clone).
+![Browser Game Screenshot](cypress/screenshots/readme/screenshot.png "Browser Game Screenshot")
 
 ## Setup
 
