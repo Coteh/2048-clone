@@ -29,6 +29,7 @@ import { Tutorial } from "./component/tutorial";
 import * as Sentry from "@sentry/browser";
 import posthog from "posthog-js";
 import { UndoManager } from "./manager/undo";
+import { formatTilesetName } from "./util/format";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -43,6 +44,7 @@ const SNOW_SNOW_TILESET = "snow";
 const CLASSIC_MODERN_TILESET = "modern";
 const CLASSIC_CLASSIC_TILESET = "classic";
 const CLASSIC_COLORFUL_TILESET = "colorful";
+const CLASSIC_INITIAL_COMMIT_TILESET = "initial-commit";
 
 const THEME_PREFERENCE_NAME = "theme";
 const TILESET_PREFERENCE_NAME = "tileset";
@@ -74,7 +76,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     let animationManager = new AnimationManager();
     let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
+    // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
+    let unlockedInitialCommit = false;
 
     let tutorial: Tutorial = new Tutorial();
 
@@ -85,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 persistentState = data.persistentState;
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 unlockedClassic = persistentState.unlockables.classic;
+                unlockedInitialCommit = persistentState.unlockables.initialCommit;
                 if (!persistentState.hasPlayedBefore) {
                     tutorial.renderHowToPlay();
 
@@ -160,8 +165,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 renderDialog(winElem, true);
                 if (!unlockedClassic && data.persistentState.unlockables.classic) {
-                    renderNotification("2048Clone theme unlocked");
+                    renderNotification("2048Clone theme unlocked", 2500);
                     unlockedClassic = true;
+                }
+                if (!unlockedInitialCommit && data.persistentState.unlockables.initialCommit) {
+                    renderNotification("Initial Commit tileset unlocked", 2500);
+                    unlockedInitialCommit = true;
                 }
                 persistentState = data.persistentState;
                 const shareText = generateShareText(gameState);
@@ -312,6 +321,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             CLASSIC_MODERN_TILESET,
             CLASSIC_CLASSIC_TILESET,
             CLASSIC_COLORFUL_TILESET,
+            CLASSIC_INITIAL_COMMIT_TILESET,
         ],
     };
 
@@ -361,6 +371,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             tileset = selectableTilesetsForTheme[0];
         }
         document.body.classList.remove(`tileset-${selectedTileset}`);
+        // The "Initial Commit" tileset in 2048Clone theme has a special background and meta theme color
+        if (theme === CLASSIC_THEME) {
+            let themeColor = "rgb(128, 128, 128)";
+            if (tileset === CLASSIC_INITIAL_COMMIT_TILESET) {
+                themeColor = "#6495ed";
+            }
+            (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
+                themeColor;
+        }
         selectedTileset = tileset;
         document.body.classList.add(`tileset-${selectedTileset}`);
     };
@@ -393,7 +412,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const tilesetToggle = tilesetSettingItem.querySelector(
                         ".toggle"
                     ) as HTMLElement;
-                    tilesetToggle.innerText = selectedTileset;
+                    tilesetToggle.innerText = formatTilesetName(selectedTileset);
                 } else {
                     tilesetSettingItem.style.display = "none";
                 }
@@ -404,13 +423,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                     selectableTilesetsForTheme[
                         (tilesetIndex + 1) % selectableTilesetsForTheme.length
                     ];
+                // If classic theme is selected and initial commit tileset is not unlocked, skip to the next tileset
+                if (
+                    selectedTheme === CLASSIC_THEME &&
+                    nextTileset === CLASSIC_INITIAL_COMMIT_TILESET &&
+                    !persistentState.unlockables.initialCommit
+                ) {
+                    nextTileset =
+                        selectableTilesetsForTheme[
+                            (tilesetIndex + 2) % selectableTilesetsForTheme.length
+                        ];
+                }
                 switchTileset(selectedTheme, nextTileset);
                 if (!tilesetPreferences) {
                     tilesetPreferences = {};
                 }
                 tilesetPreferences[selectedTheme] = nextTileset;
                 savePreferenceValue(TILESET_PREFERENCE_NAME, tilesetPreferences);
-                toggle.innerText = nextTileset;
+                toggle.innerText = formatTilesetName(nextTileset);
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
                 const knob = setting.querySelector(".knob") as HTMLElement;
                 enabled = isAnimationEnabled = !isAnimationEnabled;
@@ -464,7 +494,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (selectableTilesets[selectedTheme].length > 1) {
         tilesetSettingItem.style.display = "";
         const tilesetToggle = tilesetSettingItem.querySelector(".toggle") as HTMLElement;
-        tilesetToggle.innerText = selectedTileset;
+        tilesetToggle.innerText = formatTilesetName(selectedTileset);
     } else {
         tilesetSettingItem.style.display = "none";
     }

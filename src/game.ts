@@ -339,6 +339,10 @@ export const move = (direction: Direction) => {
                     if (combinedVal === 2048 && !gameState.won) {
                         gameState.won = true;
                         persistentState.unlockables.classic = true;
+                        const preferences = gameStorage.loadPreferences();
+                        if (preferences["theme"] === "classic") {
+                            persistentState.unlockables.initialCommit = true;
+                        }
                         gameStorage.savePersistentState(persistentState);
                         eventHandler("win", { persistentState });
                     }

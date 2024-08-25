@@ -261,7 +261,8 @@
     --block-512-color: rgb(255, 165, 0);
     --block-1024-color: rgb(255, 69, 0);
     --block-2048-color: rgb(255, 0, 0);
-    --block-max-color: rgb(0, 0, 0);
+    /* Improvisation since the original Colorful tileset did not have a color for this */
+    --block-max-color: rgb(170, 62, 0);
 
     --block-2-text-color: var(--black);
     --block-4-text-color: var(--black);
@@ -275,6 +276,37 @@
     --block-1024-text-color: var(--black);
     --block-2048-text-color: var(--black);
     --block-max-text-color: var(--white);
+}
+
+.classic.tileset-initial-commit {
+    --background-color: #6495ed;
+
+    --block-2-color: #cacaca;
+    --block-4-color: #8c8c8c;
+    --block-8-color: #cb7224;
+    --block-16-color: #435dfb;
+    --block-32-color: #b22ae5;
+    --block-64-color: #ff2727;
+    --block-128-color: #cb24c2;
+    --block-256-color: #1f9f01;
+    /* Improvisation since the original Initial Commit tileset did not have colors for these */
+    --block-512-color: rgb(255, 165, 0);
+    --block-1024-color: rgb(255, 69, 0);
+    --block-2048-color: rgb(255, 255, 0);
+    --block-max-color: rgba(0, 212, 187);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--black);
 }
 
 /* Main Content */
@@ -291,7 +323,7 @@ body {
     overflow: hidden;
 }
 
-body.classic {
+body.classic:not(.tileset-initial-commit) {
     background-image: url("/images/CheckerboardTiles.png");
 }
 
