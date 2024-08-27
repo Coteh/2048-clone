@@ -82,6 +82,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let tutorial: Tutorial = new Tutorial();
 
+    const swipeSensitivity = 50;
+
     const eventHandler = (event: string, data: any) => {
         switch (event) {
             case "init":
@@ -572,34 +574,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("diff x/y", diffX, diffY);
 
-        const sensitivity = 50;
+        (document.querySelector("#diffX") as HTMLSpanElement).innerText = diffX.toString();
+        (document.querySelector("#diffY") as HTMLSpanElement).innerText = diffY.toString();
+
+        const swipeRegistered = document.querySelector("#swipeRegistered") as HTMLSpanElement;
 
         if (Math.abs(diffX) > Math.abs(diffY)) {
-            if (diffX > sensitivity) {
+            if (diffX > swipeSensitivity) {
                 console.log("Swiped right");
                 move(DIRECTION_RIGHT);
-                swipeArea.innerText = "Swiped right";
+                swipeRegistered.innerText = "Swiped right";
+                swipeRegistered.style.color = "limegreen";
                 return;
-            } else if (diffX < -sensitivity) {
+            } else if (diffX < -swipeSensitivity) {
                 console.log("Swiped left");
                 move(DIRECTION_LEFT);
-                swipeArea.innerText = "Swiped left";
+                swipeRegistered.innerText = "Swiped left";
+                swipeRegistered.style.color = "limegreen";
                 return;
             }
         } else {
-            if (diffY > sensitivity) {
+            if (diffY > swipeSensitivity) {
                 console.log("Swiped down");
                 move(DIRECTION_DOWN);
-                swipeArea.innerText = "Swiped down";
+                swipeRegistered.innerText = "Swiped down";
+                swipeRegistered.style.color = "limegreen";
                 return;
-            } else if (diffY < -sensitivity) {
+            } else if (diffY < -swipeSensitivity) {
                 console.log("Swiped up");
                 move(DIRECTION_UP);
-                swipeArea.innerText = "Swiped up";
+                swipeRegistered.innerText = "Swiped up";
+                swipeRegistered.style.color = "limegreen";
                 return;
             }
         }
-        swipeArea.innerText = "No swipe";
+        swipeRegistered.innerText = "No swipe";
+        swipeRegistered.style.color = "red";
     }
 
     const undoButton = document.querySelector(".link-icon#undo") as HTMLElement;
@@ -717,6 +727,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (import.meta.env.DEV) {
         undoButton.style.display = "";
         debugButton.style.display = "";
+        (document.querySelector("#debug-overlay") as HTMLDivElement).style.display = "";
+        (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText =
+            swipeSensitivity.toString();
     }
 
     (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {

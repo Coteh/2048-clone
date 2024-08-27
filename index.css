@@ -1089,3 +1089,24 @@ body.classic .settings.pane {
 .slider.enabled > .slider-inside {
     left: 29px;
 }
+
+.debug-overlay {
+    position: absolute;
+    left: 0;
+    margin: 0.5em;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.debug-overlay > .debug-row {
+    display: flex;
+}
+
+.debug-overlay > .debug-row > * {
+    width: 120px;
+    color: white;
+}
+
+.debug-overlay > .debug-row > *:first-child {
+    width: 160px;
+}
