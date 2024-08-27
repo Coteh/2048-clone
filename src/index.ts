@@ -572,7 +572,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("diff x/y", diffX, diffY);
 
-        const sensitivity = 100;
+        const sensitivity = 50;
 
         if (Math.abs(diffX) > Math.abs(diffY)) {
             if (diffX > sensitivity) {
