@@ -3,6 +3,9 @@ import path from "path";
 import * as fs from "fs";
 import { version } from "./package.json";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
+import * as childProcess from "child_process";
+
+const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString();
 
 // @ts-ignore Resolve type issue with function parameter
 export default defineConfig(({ mode }) => {
@@ -12,6 +15,7 @@ export default defineConfig(({ mode }) => {
     return {
         define: {
             GAME_VERSION: JSON.stringify(version),
+            COMMIT_HASH: JSON.stringify(commitHash),
         },
         build: {
             outDir: path.resolve(__dirname, "build"),

@@ -637,6 +637,15 @@ body.classic button.button:hover {
     text-transform: capitalize;
 }
 
+.settings .settings-item.rows {
+    flex-direction: column;
+    padding: 0.5em 0 0.5em 0;
+}
+
+.settings .settings-item.rows > * {
+    padding: 0.25em;
+}
+
 /* Overlay Backdrop */
 
 .overlay-back {
@@ -967,7 +976,8 @@ body .footer a.author-link {
     text-decoration: none;
 }
 
-body a > .version-number {
+body a > .version-number,
+body a > .commit-hash {
     pointer-events: initial;
 }
 

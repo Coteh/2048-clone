@@ -201,7 +201,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                         origin: { y: 0.6 },
                     });
                 }, 100);
-                // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
                 posthog.capture("2048 achieved", { version: GAME_VERSION });
                 break;
             }
@@ -734,12 +733,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     feather.replace();
 
     const versionElem = document.querySelector(".version-number") as HTMLElement;
-    // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
     versionElem.innerText = `v${GAME_VERSION}`;
+
+    const commitElem = document.querySelector(".commit-hash") as HTMLElement;
+    commitElem.innerText = COMMIT_HASH;
+    (commitElem.parentElement as HTMLAnchorElement).href += COMMIT_HASH;
 
     Sentry.onLoad(() => {
         Sentry.init({
-            // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
             release: `2048-clone@${GAME_VERSION}`,
             dsn: "https://4063de3fbf0774707bcc061c87c7e0f1@o518258.ingest.us.sentry.io/4507397529927680",
             integrations: [
@@ -771,7 +772,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
     });
 
-    // @ts-ignore TODO: Let TypeScript know about the game version coming from Vite config
     posthog.capture("game open", { version: GAME_VERSION });
 
     try {
