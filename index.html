@@ -244,6 +244,28 @@
             <button class="button prompt-dialog">Prompt Dialog</button>
             <button class="button non-closable-dialog">Non-Closable Dialog</button>
         </template>
+        <template id="share-screen">
+            <div class="share-screen" style="opacity: 0; position: absolute; top: 0; left: 0; border: 1px solid black; height: 600px; width: 400px;">
+                <div class="top-menu">
+                    <div class="title">
+                        <span>2048</span><br/>
+                        <span>Clone</span>
+                    </div>
+
+                    <img class="classic-logo" alt="2048 Clone" style="display:none" src="/images/Logo.png"/>
+                </div>
+
+                <div>
+                    <span style="color: var(--text-color)">I scored <span id="share-score">10000</span> points in 2048-clone!</span>
+                </div>
+                <div id="share-game-board">
+
+                </div>
+                <div>
+                    <span style="color: var(--text-color)">Play the game at <span id="share-link"></span></span>
+                </div>
+            </div>
+        </template>
         <script src="src/index.ts" type="module"></script>
         <!-- <script src="vendor/snow.js" defer></script> -->
     </body>

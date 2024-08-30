@@ -316,14 +316,16 @@ html {
     font-family: var(--text-font-family);
 }
 
-body {
+body,
+body .share-screen {
     background: var(--fallback-background-color);
     background: var(--background-color);
     margin: 0;
     overflow: hidden;
 }
 
-body.classic:not(.tileset-initial-commit) {
+body.classic:not(.tileset-initial-commit),
+body.classic:not(.tileset-initial-commit) .share-screen {
     background-image: url("/images/CheckerboardTiles.png");
 }
 

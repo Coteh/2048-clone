@@ -12,7 +12,7 @@ import {
 } from "./game";
 import { getPreferenceValue, initPreferences, savePreferenceValue } from "./preferences";
 import {
-    createDialogContentFromTemplate,
+    createContentFromTemplate,
     renderBoard,
     renderDialog,
     renderNotification,
@@ -30,6 +30,7 @@ import * as Sentry from "@sentry/browser";
 import posthog from "posthog-js";
 import { UndoManager } from "./manager/undo";
 import { formatTilesetName } from "./util/format";
+import { toPng } from "html-to-image";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -65,6 +66,48 @@ const CLASSIC_THEME_LABEL = "2048Clone";
 let isAnimationEnabled = false;
 
 let isPrompted = false;
+
+// TODO: Continue modifying the cloned game screen so that it will display the share text and the url
+// Perhaps make the cloned element a bit smaller too since there would be lots of extra space left
+async function getShareImage(points: number) {
+    try {
+        const elem = createContentFromTemplate("#share-screen");
+        document.body.appendChild(elem);
+
+        const shareElem = document.querySelector(".share-screen") as HTMLDivElement;
+
+        const shareGameBoard = shareElem.querySelector("#share-game-board") as HTMLDivElement;
+        const backRows = document.querySelector(".back-rows") as HTMLElement;
+        const baseRows = document.querySelector(".base-rows") as HTMLElement;
+        const backClone = backRows.cloneNode(true);
+        const baseClone = baseRows.cloneNode(true) as HTMLElement;
+        shareGameBoard.appendChild(backClone);
+        shareGameBoard.appendChild(baseClone);
+        const baseRect = baseClone.getBoundingClientRect();
+        shareGameBoard.style.width = `${baseRect.width}px`;
+        shareGameBoard.style.height = `${baseRect.height}px`;
+        (shareElem.querySelector(".title") as HTMLElement).style.boxShadow = "revert";
+        console.log(shareElem.querySelector(".title") as HTMLElement);
+
+        (shareElem.querySelector("#share-score") as HTMLElement).innerText = points.toString();
+        (shareElem.querySelector("#share-link") as HTMLElement).innerText =
+            import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+
+        const dataUrl = await toPng(shareElem, {
+            style: {
+                opacity: "1",
+            },
+        });
+        var img = new Image();
+        img.src = dataUrl;
+        document.body.appendChild(img);
+        console.log("data url", dataUrl);
+        shareElem.remove();
+        return dataUrl;
+    } catch (err) {
+        console.error("oops, something went wrong!", err);
+    }
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle") as HTMLElement;
@@ -121,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             case "error":
                 break;
             case "lose": {
-                const loseElem = createDialogContentFromTemplate("#lose-dialog-content");
+                const loseElem = createContentFromTemplate("#lose-dialog-content");
                 const shareButton = loseElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
                 renderDialog(loseElem, true);
@@ -142,7 +185,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareText = generateShareText(gameState);
                 shareButton.addEventListener("click", async (e) => {
                     e.preventDefault();
-                    if (!(await triggerShare(shareText))) {
+                    const dataUrl = await getShareImage(gameState.score);
+                    if (!(await triggerShare(shareText, dataUrl || ""))) {
                         console.log(
                             "Triggering share not successful, swapping out for copy to clipboard button..."
                         );
@@ -158,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             }
             case "win": {
-                const winElem = createDialogContentFromTemplate("#win-dialog-content");
+                const winElem = createContentFromTemplate("#win-dialog-content");
                 const shareButton = winElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = winElem.querySelector(".clipboard-button") as HTMLElement;
                 const undoText = winElem.querySelector("#undo-text") as HTMLElement;
@@ -178,7 +222,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareText = generateShareText(gameState);
                 shareButton.addEventListener("click", async (e) => {
                     e.preventDefault();
-                    if (!(await triggerShare(shareText))) {
+                    const dataUrl = await getShareImage(gameState.score);
+                    if (!(await triggerShare(shareText, dataUrl || ""))) {
                         console.log(
                             "Triggering share not successful, swapping out for copy to clipboard button..."
                         );
@@ -456,7 +501,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     knob.classList.remove("enabled");
                 }
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
-                const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
+                const dialogElem = createContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
                     "Are you sure you want to clear all game data? Progress will be lost.";
                 renderPromptDialog(
@@ -621,7 +666,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const debugButton = document.querySelector(".link-icon#debug") as HTMLElement;
     debugButton.addEventListener("click", (e) => {
         e.preventDefault();
-        renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), true);
+        renderDialog(createContentFromTemplate("#debug-dialog-content"), true);
         const closeDialogAndOverlay = () => {
             const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
             const dialog = document.querySelector(".dialog") as HTMLElement;
@@ -702,7 +747,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "click",
             (e) => {
                 e.preventDefault();
-                const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
+                const dialogElem = createContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Answer?";
                 renderPromptDialog(dialogElem, true, () => {
                     const dialogElem = document.createElement("span");
@@ -752,7 +797,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     commitElem.innerText = COMMIT_HASH;
     (commitElem.parentElement as HTMLAnchorElement).href += COMMIT_HASH;
 
-    (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href = import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+    (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
+        import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
 
     Sentry.onLoad(() => {
         Sentry.init({
@@ -793,7 +839,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await initGame(eventHandler, spawnManager, animationManager, undoManager, gameStorage);
     } catch (e: any) {
         if (typeof Sentry !== "undefined") Sentry.captureException(e);
-        const elem = createDialogContentFromTemplate("#error-dialog-content");
+        const elem = createContentFromTemplate("#error-dialog-content");
         const errorContent = elem.querySelector(".error-text") as HTMLElement;
 
         console.error("Unknown error occurred", e);

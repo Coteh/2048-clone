@@ -267,7 +267,7 @@ export const renderNotification = (msg: string, timeoutMS: number = 1000) => {
     }, timeoutMS);
 };
 
-export const createDialogContentFromTemplate = (tmplContentId: string) => {
+export const createContentFromTemplate = (tmplContentId: string) => {
     const contentTmpl = document.querySelector(tmplContentId) as HTMLTemplateElement;
     const contentClone = contentTmpl.content.cloneNode(true) as HTMLElement;
 

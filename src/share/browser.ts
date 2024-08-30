@@ -70,9 +70,25 @@ export const copyShareText = async (shareText: string) => {
     return true;
 };
 
-export const triggerShare = async (shareText: string) => {
-    const data = {
+function dataURLtoFile(dataurl: string, filename: string) {
+    var arr = dataurl.split(","),
+        // @ts-ignore
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+}
+
+export const triggerShare = async (shareText: string, shareImage: string) => {
+    const imageFile = dataURLtoFile(shareImage, "myfile.png");
+    const data: ShareData = {
+        title: "My score!",
         text: shareText,
+        files: [imageFile],
     };
     if (navigator.canShare && !navigator.canShare(data)) {
         console.log(
