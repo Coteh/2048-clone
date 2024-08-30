@@ -500,6 +500,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
             themeColor;
+        // TODO: Alter manifest.json icons as well so that it would work on Android and other platforms too
+        const appleTouchIcon = document.querySelector(
+            "link[rel='apple-touch-icon']"
+        ) as HTMLLinkElement;
+        if (theme === CLASSIC_THEME) {
+            appleTouchIcon.href = "icon152_classic.png";
+        } else {
+            appleTouchIcon.href = "icon152.png";
+        }
         selectedTheme = theme;
         selectedTileset = selectableTilesets[theme][0];
         document.body.classList.add(`tileset-${selectedTileset}`);
