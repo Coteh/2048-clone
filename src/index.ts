@@ -752,6 +752,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     commitElem.innerText = COMMIT_HASH;
     (commitElem.parentElement as HTMLAnchorElement).href += COMMIT_HASH;
 
+    (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href = import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+
     Sentry.onLoad(() => {
         Sentry.init({
             release: `2048-clone@${GAME_VERSION}`,
