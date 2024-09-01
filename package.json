@@ -18,7 +18,7 @@
   "author": "James Cote (Coteh)",
   "license": "MIT",
   "devDependencies": {
-    "@sentry/browser": "^8.24.0",
+    "@sentry/browser": "^8.27.0",
     "@sentry/vite-plugin": "^2.22.0",
     "@types/canvas-confetti": "^1.6.4",
     "@types/feather-icons": "^4.29.4",
