@@ -1,0 +1,1120 @@
+/* Fonts */
+
+@font-face {
+    font-family: "Comic Neue";
+    src: url("./fonts/comicneue/ComicNeue-Regular.woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Comic Neue";
+    src: url("./fonts/comicneue/ComicNeue-Bold.woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Variables */
+
+:root {
+    --green: green;
+    --yellow: #eec039;
+    --orange: #f5793a;
+    --blue: #85c0f9;
+    --black: #000;
+    --white: #fff;
+    --gray-1: rgb(22, 22, 22);
+    --gray-2: #333;
+    --gray-3: #737373;
+    --gray-4: grey;
+    --gray-5: #aaa;
+    --gray-6: rgb(202, 202, 202);
+    --gray-7: lightgrey;
+
+    --beige: bisque;
+    --darkorange: #ff7410;
+    --lightorange: #ffc296;
+
+    --standard-color: var(--gray-5);
+    --standard-block-color: var(--gray-4);
+
+    --hovered-color: var(--yellow);
+    --enabled-color: var(--green);
+
+    --box-border-color: var(--gray-3);
+    --box-border-color-highlighted: var(--gray-5);
+
+    --settings-item-border-color: 1px solid var(--gray-4);
+
+    --background-color: var(--beige);
+    --fallback-background-color: var(--background-color);
+    --item-background-color: rgba(0, 0, 0, 0);
+    --dialog-background-color: var(--beige);
+
+    --text-color: var(--black);
+    --letter-text-color: var(--white);
+    --letter-selected-text-color: var(--white);
+    --letter-selected-inverted-text-color: var(--white);
+
+    --text-font-family: sans-serif;
+
+    --notification-background-color: var(--gray-7);
+    --notification-text-color: var(--black);
+
+    --back-layer-color: goldenrod;
+
+    --block-2-color: var(--gray-7);
+    --block-4-color: var(--lightorange);
+    --block-8-color: var(--darkorange);
+    --block-16-color: #ff6a00;
+    --block-32-color: #ff6334;
+    --block-64-color: #d80202;
+    --block-128-color: #fff153;
+    --block-256-color: #f1e66c;
+    --block-512-color: rgb(235, 199, 107);
+    --block-1024-color: rgb(234, 207, 137);
+    --block-2048-color: #ecd800;
+    --block-max-color: #ffea00;
+
+    --block-2-text-color: var(--white);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--white);
+    --block-16-text-color: var(--white);
+    --block-32-text-color: var(--white);
+    --block-64-text-color: var(--white);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--white);
+    --block-1024-text-color: var(--white);
+    --block-2048-text-color: var(--white);
+    --block-max-text-color: var(--black);
+
+    --classic-checkerboard-color: rgb(128, 128, 128);
+}
+
+.light {
+    --standard-color: var(--gray-5);
+    --standard-block-color: var(--white);
+
+    --box-border-color: var(--gray-7);
+    --box-border-color-highlighted: var(--gray-5);
+
+    --background-color: var(--white);
+    --dialog-background-color: var(--gray-6);
+
+    --text-color: var(--black);
+    --letter-text-color: var(--black);
+    --letter-selected-text-color: var(--white);
+
+    --notification-background-color: var(--black);
+    --notification-text-color: var(--white);
+
+    --block-2-color: var(--gray-7);
+    --block-4-color: var(--gray-7);
+    --block-8-color: var(--gray-7);
+    --block-16-color: var(--gray-7);
+    --block-32-color: var(--gray-7);
+    --block-64-color: var(--gray-7);
+    --block-128-color: var(--gray-7);
+    --block-256-color: var(--gray-7);
+    --block-512-color: var(--gray-7);
+    --block-1024-color: var(--gray-7);
+    --block-2048-color: var(--gray-7);
+    --block-max-color: var(--gray-7);
+
+    --block-2-text-color: var(--gray-2);
+    --block-4-text-color: var(--orange);
+    --block-8-text-color: var(--darkorange);
+    --block-16-text-color: #ff6a00;
+    --block-32-text-color: #ff6334;
+    --block-64-text-color: #d80202;
+    --block-128-text-color: #8f873e;
+    --block-256-text-color: #8d8647;
+    --block-512-text-color: #757044;
+    --block-1024-text-color: #423f22;
+    --block-2048-text-color: #2a2816;
+    --block-max-text-color: #12110a;
+}
+
+.dark {
+    --standard-block-color: var(--black);
+
+    --background-color: var(--black);
+
+    --dialog-background-color: var(--gray-2);
+    --text-color: var(--white);
+
+    --back-layer-color: var(--white);
+
+    --block-2-color: var(--gray-2);
+    --block-4-color: var(--gray-2);
+    --block-8-color: var(--gray-2);
+    --block-16-color: var(--gray-2);
+    --block-32-color: var(--gray-2);
+    --block-64-color: var(--gray-2);
+    --block-128-color: var(--gray-2);
+    --block-256-color: var(--gray-2);
+    --block-512-color: var(--gray-2);
+    --block-1024-color: var(--gray-2);
+    --block-2048-color: var(--gray-2);
+    --block-max-color: var(--gray-2);
+
+    --block-2-text-color: var(--gray-7);
+    --block-4-text-color: var(--lightorange);
+    --block-8-text-color: var(--darkorange);
+    --block-16-text-color: #ff6a00;
+    --block-32-text-color: #ff6334;
+    --block-64-text-color: #d80202;
+    --block-128-text-color: #fff153;
+    --block-256-text-color: #f1e66c;
+    --block-512-text-color: rgb(235, 199, 107);
+    --block-1024-text-color: rgb(234, 207, 137);
+    --block-2048-text-color: #ecd800;
+    --block-max-text-color: #ffea00;
+}
+
+.snow {
+    --background-color: linear-gradient(180deg, rgba(2, 0, 36, 1) 40%, rgba(9, 9, 121, 1) 100%);
+    --fallback-background-color: rgb(2, 0, 36);
+
+    --standard-block-color: rgba(0, 0, 0, 0);
+}
+
+.classic {
+    --yellow: rgba(255, 255, 0);
+    --hovered-color: var(--yellow);
+
+    --background-color: rgb(169, 169, 169);
+
+    --dialog-background-color: var(--gray-7);
+
+    --standard-block-color: rgb(0, 0, 0, 0);
+
+    --text-font-family: "Comic Sans MS", "Comic Neue", sans-serif;
+
+    --block-2-color: rgb(102, 102, 213);
+    --block-4-color: rgb(104, 104, 211);
+    --block-8-color: rgb(108, 108, 207);
+    --block-16-color: rgb(116, 116, 199);
+    --block-32-color: rgb(132, 132, 183);
+    --block-64-color: rgb(164, 164, 151);
+    --block-128-color: rgb(228, 228, 87);
+    /* These values are as calculated from 2048Clone's "Modern" color theme */
+    --block-256-color: rgb(356, 356, -41);
+    --block-512-color: rgb(612, 612, -297);
+    --block-1024-color: rgb(1124, 1124, -809);
+    --block-2048-color: rgb(2148, 2148, -1833);
+    --block-max-color: rgb(4196, 4196, -3881);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--black);
+}
+
+.classic.tileset-classic {
+    --block-2-color: rgb(198, 148, 102);
+    --block-4-color: rgb(196, 146, 104);
+    --block-8-color: rgb(192, 142, 108);
+    --block-16-color: rgb(184, 134, 116);
+    --block-32-color: rgb(168, 118, 132);
+    --block-64-color: rgb(136, 86, 164);
+    --block-128-color: rgb(72, 22, 228);
+    /* These values are as calculated from 2048Clone's "Classic" color theme */
+    --block-256-color: rgb(-56, -106, 356);
+    --block-512-color: rgb(-312, -362, 612);
+    --block-1024-color: rgb(-824, -874, 1124);
+    --block-2048-color: rgb(-1848, -1898, 2148);
+    --block-max-color: rgb(-3896, -3946, 4196);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--white);
+    --block-256-text-color: var(--white);
+    --block-512-text-color: var(--white);
+    --block-1024-text-color: var(--white);
+    --block-2048-text-color: var(--white);
+    --block-max-text-color: var(--white);
+}
+
+.classic.tileset-colorful {
+    --block-2-color: rgb(0, 128, 0);
+    --block-4-color: rgb(64, 224, 208);
+    --block-8-color: rgb(173, 216, 230);
+    --block-16-color: rgb(240, 248, 255);
+    --block-32-color: rgb(0, 0, 255);
+    --block-64-color: rgb(128, 0, 128);
+    --block-128-color: rgb(255, 192, 203);
+    --block-256-color: rgb(255, 255, 0);
+    --block-512-color: rgb(255, 165, 0);
+    --block-1024-color: rgb(255, 69, 0);
+    --block-2048-color: rgb(255, 0, 0);
+    /* Improvisation since the original Colorful tileset did not have a color for this */
+    --block-max-color: rgb(170, 62, 0);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--white);
+    --block-64-text-color: var(--white);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--white);
+}
+
+.classic.tileset-initial-commit {
+    --background-color: #6495ed;
+
+    --block-2-color: #cacaca;
+    --block-4-color: #8c8c8c;
+    --block-8-color: #cb7224;
+    --block-16-color: #435dfb;
+    --block-32-color: #b22ae5;
+    --block-64-color: #ff2727;
+    --block-128-color: #cb24c2;
+    --block-256-color: #1f9f01;
+    /* Improvisation since the original Initial Commit tileset did not have colors for these */
+    --block-512-color: rgb(255, 165, 0);
+    --block-1024-color: rgb(255, 69, 0);
+    --block-2048-color: rgb(255, 255, 0);
+    --block-max-color: rgba(0, 212, 187);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--black);
+}
+
+/* Main Content */
+
+html {
+    font-size: 125%;
+    font-family: var(--text-font-family);
+}
+
+body {
+    background: var(--fallback-background-color);
+    background: var(--background-color);
+    margin: 0;
+    overflow: hidden;
+}
+
+body.classic:not(.tileset-initial-commit) {
+    background-image: url("/images/CheckerboardTiles.png");
+}
+
+svg {
+    color: var(--text-color);
+}
+
+.top-menu {
+    position: relative;
+    background-color: var(--item-background-color);
+    border-bottom: 1px solid var(--standard-color);
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: var(--text-font-family);
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    height: 160px;
+    box-sizing: border-box;
+}
+
+.top-menu > .title {
+    border: 2px solid goldenrod;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.top-menu > .title > span {
+    font-family: "Arial", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #8b4513;
+}
+
+.top-menu > .title > span:first-child {
+    font-size: 40px;
+    font-weight: bold;
+    color: #d4af37;
+}
+
+.top-menu .icon-bar > a.link-icon {
+    text-decoration: none;
+}
+
+a.link-icon {
+    position: relative;
+}
+
+body:not(.classic) a.link-icon.disabled > * {
+    color: grey;
+}
+
+body.classic a.link-icon.disabled::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 45%, red 45%, red 55%, transparent 55%);
+    pointer-events: none;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic a.link-icon:not(.disabled):hover > svg {
+        color: var(--hovered-color);
+    }
+}
+
+.top-menu > .menu-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.top-menu > .menu-options > .score-wrap-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(255, 165, 0);
+    flex-direction: row;
+    top: 140px;
+    left: 0;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > *:first-child {
+    padding-left: 1em;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > *:last-child {
+    padding-right: 1em;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > .space {
+    flex: 1;
+}
+
+body.classic .top-menu > .menu-options > .commands {
+    margin-top: 40px;
+}
+
+body.classic .top-menu > .title {
+    display: none;
+}
+
+body.classic .top-menu > .classic-logo {
+    display: block !important;
+    width: 200px;
+}
+
+.score-box {
+    position: relative;
+}
+
+.game-space {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    transform: translateY(-25%);
+    height: 100%;
+    top: 50%;
+}
+
+.back-rows {
+    position: absolute;
+    padding: 2px;
+    background-color: var(--back-layer-color);
+}
+
+body.classic .back-rows {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    padding: 0px;
+}
+
+.base-rows {
+    position: absolute;
+    padding: 2px;
+}
+
+.game-wrapper {
+    position: relative;
+    left: 50%;
+    width: 50vw;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.input-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 3rem;
+}
+
+.back-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 3rem;
+}
+
+.pane > .space {
+    flex: 1;
+}
+
+.pane .pane-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+@media (max-width: 1028px) {
+    .game-wrapper {
+        width: 100%;
+    }
+}
+
+.pane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    height: calc(100% - 160px);
+    width: 100%;
+    transform-origin: top;
+}
+
+.pane h1,
+h2,
+h3,
+h4,
+h5 {
+    color: var(--text-color);
+}
+
+.pane > .footer {
+    color: var(--text-color);
+    text-align: center;
+}
+
+body.classic .pane > .footer a:hover {
+    color: var(--hovered-color);
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button.close {
+    z-index: 1;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--text-color);
+}
+
+body.classic button.close:hover > svg {
+    color: var(--hovered-color);
+}
+
+button.button {
+    font-family: var(--text-font-family);
+    padding: 8px;
+}
+
+body.classic button.button {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+body.classic button.button:hover {
+    color: var(--hovered-color);
+}
+
+/* Settings */
+
+.settings {
+    position: relative;
+}
+
+.settings > button.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.settings > .settings-item-group {
+    width: 100%;
+}
+
+.settings .settings-item {
+    color: var(--text-color);
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    border-top: var(--settings-item-border-color);
+    border-bottom: none;
+    height: 2em;
+}
+
+.settings .settings-item:last-child {
+    border-bottom: var(--settings-item-border-color);
+}
+
+.settings .settings-item > * {
+    pointer-events: none;
+}
+
+.settings .settings-item > a {
+    text-decoration: none;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic .settings .settings-item:hover > * {
+        color: var(--hovered-color);
+    }
+}
+
+.settings .settings-item .settings-item-column {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.settings .settings-item .settings-item-column:last-child {
+    width: 60%;
+}
+
+.settings .settings-item .settings-item-column > .toggle {
+    text-transform: capitalize;
+}
+
+.settings .settings-item.rows {
+    flex-direction: column;
+    padding: 0.5em 0 0.5em 0;
+}
+
+.settings .settings-item.rows > * {
+    padding: 0.25em;
+}
+
+/* Overlay Backdrop */
+
+.overlay-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 100;
+}
+
+/* Dialog Window */
+
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: 0;
+    bottom: 0;
+    z-index: 101;
+    transform: translate(-50%, -50%);
+
+    background-color: var(--dialog-background-color);
+    color: var(--text-color);
+    border: 1px solid black;
+    width: 300px;
+    height: auto;
+
+    opacity: 1;
+
+    transition: transform 0.5s, opacity 0.75s;
+}
+
+.dialog > div.dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+}
+
+.dialog button > span {
+    margin-left: 8px;
+    color: var(--text-color);
+}
+
+.dialog button.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Specific Dialogs */
+
+body button.button.share-button,
+body button.button.clipboard-button {
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    margin: 0.5em 0em 0.5em 0em;
+    border-radius: 8em;
+    background-color: var(--green);
+}
+
+button.button.share-button > *,
+button.button.clipboard-button > * {
+    color: var(--letter-selected-inverted-text-color);
+    font-weight: bold;
+}
+
+button.button.new-game {
+    padding: 1em 0.5em 1em 0.5em;
+    margin: 0.5em 0em 0.5em 0em;
+    border-radius: 8em;
+    background-color: brown;
+}
+
+button.button.new-game > * {
+    color: var(--letter-selected-inverted-text-color);
+    font-weight: bold;
+}
+
+/* Notification */
+
+.notification-area {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    z-index: 101;
+    transform: translate(-50%, 0);
+
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    width: 60%;
+}
+
+.notification-area > div.notification {
+    background-color: var(--notification-background-color);
+    border: 1px solid var(--notification-background-color);
+    border-radius: 0.25rem;
+    margin: 0.2rem;
+
+    text-align: center;
+
+    opacity: 1;
+    transition: opacity 0.25s;
+}
+
+.notification-area > div.notification > div.notification-content {
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    color: var(--notification-text-color);
+}
+
+/* Landscape Overlay */
+
+#landscape-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-color);
+    text-align: center;
+    font-size: 24px;
+    color: var(--text-color);
+    z-index: 9999;
+}
+
+#landscape-overlay > .overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#landscape-overlay > .overlay-content > img {
+    height: 100px;
+}
+
+/* Error Content */
+
+span.error-text {
+    margin: 1em;
+}
+
+/* Text Content */
+
+a {
+    color: var(--text-color);
+}
+
+/* Boxes */
+
+.box {
+    padding: 1em;
+    margin: 3px;
+    border: 1px solid black;
+    line-height: 1.9em;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.25s ease, top 0.1s ease, left 0.1s ease;
+}
+
+body.classic .box {
+    margin: 0px;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+body.classic .box.number-block {
+    border: 1px solid black;
+}
+
+.box .box-letter {
+    display: block;
+    position: absolute;
+    line-height: normal;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: var(--text-font-family);
+    text-transform: uppercase;
+    color: var(--letter-text-color);
+}
+
+.box.number-block {
+    background-color: var(--block-max-color);
+}
+
+.box.number-block > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+.box.number-block.block-2 {
+    background-color: var(--block-2-color);
+}
+
+.box.number-block.block-2 > .box-letter {
+    color: var(--block-2-text-color);
+}
+
+.box.number-block.block-4 {
+    background-color: var(--block-4-color);
+}
+
+.box.number-block.block-4 > .box-letter {
+    color: var(--block-4-text-color);
+}
+
+.box.number-block.block-8 {
+    background-color: var(--block-8-color);
+}
+
+.box.number-block.block-8 > .box-letter {
+    color: var(--block-8-text-color);
+}
+
+.box.number-block.block-16 {
+    background-color: var(--block-16-color);
+}
+
+.box.number-block.block-16 > .box-letter {
+    color: var(--block-16-text-color);
+}
+
+.box.number-block.block-32 {
+    background-color: var(--block-32-color);
+}
+
+.box.number-block.block-32 > .box-letter {
+    color: var(--block-32-text-color);
+}
+
+.box.number-block.block-64 {
+    background-color: var(--block-64-color);
+}
+
+.box.number-block.block-64 > .box-letter {
+    color: var(--block-64-text-color);
+}
+
+.box.number-block.block-128 {
+    background-color: var(--block-128-color);
+}
+
+.box.number-block.block-128 > .box-letter {
+    color: var(--block-128-text-color);
+}
+
+.box.number-block.block-256 {
+    background-color: var(--block-256-color);
+}
+
+.box.number-block.block-256 > .box-letter {
+    color: var(--block-256-text-color);
+}
+
+.box.number-block.block-512 {
+    background-color: var(--block-512-color);
+}
+
+.box.number-block.block-512 > .box-letter {
+    color: var(--block-512-text-color);
+}
+
+.box.number-block.block-1024 {
+    background-color: var(--block-1024-color);
+}
+
+.box.number-block.block-1024 > .box-letter {
+    color: var(--block-1024-text-color);
+}
+
+.box.number-block.block-2048 {
+    background-color: var(--block-2048-color);
+}
+
+.box.number-block.block-2048 > .box-letter {
+    color: var(--block-2048-text-color);
+}
+
+/* Colours */
+
+.standard {
+    background-color: var(--standard-color);
+}
+
+.box {
+    background-color: var(--standard-block-color);
+    border: 1px solid var(--box-border-color);
+}
+
+.box > .box-letter {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Special */
+
+.embedim-snow {
+    pointer-events: none;
+}
+
+body .footer > .snow-theme-credits {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.snow .footer > .snow-theme-credits {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+body .footer a.author-link {
+    text-decoration: none;
+}
+
+body a > .version-number,
+body a > .commit-hash {
+    pointer-events: initial;
+}
+
+#swipeArea {
+    position: absolute;
+    top: 25vh;
+    opacity: 0;
+    width: 100%;
+    height: 75vh;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    user-select: none;
+}
+
+.game.pane > .commands {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    z-index: 1001;
+}
+
+.game.pane > .commands > * {
+    padding-top: 0.5em;
+}
+
+.game.pane > .commands > *:last-child {
+    padding-right: 0.5em;
+}
+
+/* Settings Pane */
+
+.settings.pane {
+    font-family: var(--text-font-family);
+}
+
+body.classic .settings.pane {
+    font-weight: 300;
+}
+
+/* Settings Knob */
+
+.knob {
+    position: relative;
+
+    width: 50px;
+    height: 22px;
+    border-radius: 8em;
+    background-color: var(--gray-2);
+
+    transition: background-color 0.25s;
+}
+
+.knob.enabled {
+    background-color: var(--enabled-color);
+}
+
+.knob > .knob-inside {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+
+    width: 20px;
+    height: 20px;
+    background-color: var(--gray-7);
+    border-radius: 8em;
+
+    transition: left 0.25s;
+}
+
+.knob.enabled > .knob-inside {
+    left: 29px;
+}
+
+/* Settings Slider */
+
+.slider {
+    position: relative;
+
+    width: 200px;
+    height: 22px;
+    border-radius: 8em;
+    background-color: var(--gray-2);
+
+    transition: background-color 0.25s;
+}
+
+.slider.enabled {
+    background-color: var(--correct-color);
+}
+
+.slider > .slider-inside {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+
+    width: 20px;
+    height: 20px;
+    background-color: var(--gray-7);
+    border-radius: 8em;
+
+    transition: left 0.25s;
+}
+
+.slider.enabled > .slider-inside {
+    left: 29px;
+}
+
+.debug-overlay {
+    position: absolute;
+    left: 0;
+    margin: 0.5em;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.debug-overlay > .debug-row {
+    display: flex;
+}
+
+.debug-overlay > .debug-row > * {
+    width: 120px;
+    color: white;
+}
+
+.debug-overlay > .debug-row > *:first-child {
+    width: 160px;
+}
+
+/* HACK: This will undo the 125% font-size change from html CSS rule.
+    Original font-size for loader block text was 2rem.
+    2rem / 125% = 1.6rem
+*/
+.loader > span {
+    font-size: 1.6rem;
+}

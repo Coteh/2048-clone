@@ -1,4 +1,4 @@
-import pointingHand from "../../../images/PointingHand.png";
+import pointingHand from "../../assets/images/PointingHand.png";
 import { renderNotification } from "../../render";
 import { isMobile } from "../../util/mobile";
 

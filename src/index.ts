@@ -31,6 +31,8 @@ import posthog from "posthog-js";
 import { UndoManager } from "./manager/undo";
 import { formatTilesetName } from "./util/format";
 
+import "./styles/global.css";
+
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
 const DARK_THEME = "dark";
@@ -752,7 +754,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     commitElem.innerText = COMMIT_HASH;
     (commitElem.parentElement as HTMLAnchorElement).href += COMMIT_HASH;
 
-    (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href = import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+    (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
+        import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+
+    (document.querySelector(".loader-wrapper") as HTMLElement).style.display = "none";
 
     Sentry.onLoad(() => {
         Sentry.init({
