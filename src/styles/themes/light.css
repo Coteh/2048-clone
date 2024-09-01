@@ -1,0 +1,43 @@
+.light {
+    --standard-color: var(--gray-5);
+    --standard-block-color: var(--white);
+
+    --box-border-color: var(--gray-7);
+    --box-border-color-highlighted: var(--gray-5);
+
+    --background-color: var(--white);
+    --dialog-background-color: var(--gray-6);
+
+    --text-color: var(--black);
+    --letter-text-color: var(--black);
+    --letter-selected-text-color: var(--white);
+
+    --notification-background-color: var(--black);
+    --notification-text-color: var(--white);
+
+    --block-2-color: var(--gray-7);
+    --block-4-color: var(--gray-7);
+    --block-8-color: var(--gray-7);
+    --block-16-color: var(--gray-7);
+    --block-32-color: var(--gray-7);
+    --block-64-color: var(--gray-7);
+    --block-128-color: var(--gray-7);
+    --block-256-color: var(--gray-7);
+    --block-512-color: var(--gray-7);
+    --block-1024-color: var(--gray-7);
+    --block-2048-color: var(--gray-7);
+    --block-max-color: var(--gray-7);
+
+    --block-2-text-color: var(--gray-2);
+    --block-4-text-color: var(--orange);
+    --block-8-text-color: var(--darkorange);
+    --block-16-text-color: #ff6a00;
+    --block-32-text-color: #ff6334;
+    --block-64-text-color: #d80202;
+    --block-128-text-color: #8f873e;
+    --block-256-text-color: #8d8647;
+    --block-512-text-color: #757044;
+    --block-1024-text-color: #423f22;
+    --block-2048-text-color: #2a2816;
+    --block-max-text-color: #12110a;
+}

@@ -1,0 +1,36 @@
+.dark {
+    --standard-block-color: var(--black);
+
+    --background-color: var(--black);
+
+    --dialog-background-color: var(--gray-2);
+    --text-color: var(--white);
+
+    --back-layer-color: var(--white);
+
+    --block-2-color: var(--gray-2);
+    --block-4-color: var(--gray-2);
+    --block-8-color: var(--gray-2);
+    --block-16-color: var(--gray-2);
+    --block-32-color: var(--gray-2);
+    --block-64-color: var(--gray-2);
+    --block-128-color: var(--gray-2);
+    --block-256-color: var(--gray-2);
+    --block-512-color: var(--gray-2);
+    --block-1024-color: var(--gray-2);
+    --block-2048-color: var(--gray-2);
+    --block-max-color: var(--gray-2);
+
+    --block-2-text-color: var(--gray-7);
+    --block-4-text-color: var(--lightorange);
+    --block-8-text-color: var(--darkorange);
+    --block-16-text-color: #ff6a00;
+    --block-32-text-color: #ff6334;
+    --block-64-text-color: #d80202;
+    --block-128-text-color: #fff153;
+    --block-256-text-color: #f1e66c;
+    --block-512-text-color: rgb(235, 199, 107);
+    --block-1024-text-color: rgb(234, 207, 137);
+    --block-2048-text-color: #ecd800;
+    --block-max-text-color: #ffea00;
+}

@@ -723,6 +723,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderDialog(dialogElem, true, false);
             }
         );
+        (document.querySelector(".button.show-notification") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                renderNotification("This is a test notification", 2500);
+            }
+        );
         debugButton.blur();
     });
 

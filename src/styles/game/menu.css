@@ -1,0 +1,56 @@
+.top-menu {
+    position: relative;
+    background-color: var(--item-background-color);
+    border-bottom: 1px solid var(--standard-color);
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: var(--text-font-family);
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    height: 160px;
+    box-sizing: border-box;
+}
+
+.top-menu > .title {
+    border: 2px solid goldenrod;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.top-menu > .title > span {
+    font-family: "Arial", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #8b4513;
+}
+
+.top-menu > .title > span:first-child {
+    font-size: 40px;
+    font-weight: bold;
+    color: #d4af37;
+}
+
+.top-menu .icon-bar > a.link-icon {
+    text-decoration: none;
+}
+
+.top-menu > .menu-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.top-menu > .menu-options > .score-wrap-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.score-box {
+    position: relative;
+}

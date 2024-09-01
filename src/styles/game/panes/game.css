@@ -1,0 +1,207 @@
+.game-space {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    transform: translateY(-25%);
+    height: 100%;
+    top: 50%;
+}
+
+.back-rows {
+    position: absolute;
+    padding: 2px;
+    background-color: var(--back-layer-color);
+}
+
+.base-rows {
+    position: absolute;
+    padding: 2px;
+}
+
+.game-wrapper {
+    position: relative;
+    left: 50%;
+    width: 50vw;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 1028px) {
+    .game-wrapper {
+        width: 100%;
+    }
+}
+
+.input-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 3rem;
+}
+
+.back-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 3rem;
+}
+
+/* Boxes */
+
+.box {
+    padding: 1em;
+    margin: 3px;
+    border: 1px solid black;
+    line-height: 1.9em;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.25s ease, top 0.1s ease, left 0.1s ease;
+}
+
+.box .box-letter {
+    display: block;
+    position: absolute;
+    line-height: normal;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: var(--text-font-family);
+    text-transform: uppercase;
+    color: var(--letter-text-color);
+}
+
+.box.number-block {
+    background-color: var(--block-max-color);
+}
+
+.box.number-block > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+.box.number-block.block-2 {
+    background-color: var(--block-2-color);
+}
+
+.box.number-block.block-2 > .box-letter {
+    color: var(--block-2-text-color);
+}
+
+.box.number-block.block-4 {
+    background-color: var(--block-4-color);
+}
+
+.box.number-block.block-4 > .box-letter {
+    color: var(--block-4-text-color);
+}
+
+.box.number-block.block-8 {
+    background-color: var(--block-8-color);
+}
+
+.box.number-block.block-8 > .box-letter {
+    color: var(--block-8-text-color);
+}
+
+.box.number-block.block-16 {
+    background-color: var(--block-16-color);
+}
+
+.box.number-block.block-16 > .box-letter {
+    color: var(--block-16-text-color);
+}
+
+.box.number-block.block-32 {
+    background-color: var(--block-32-color);
+}
+
+.box.number-block.block-32 > .box-letter {
+    color: var(--block-32-text-color);
+}
+
+.box.number-block.block-64 {
+    background-color: var(--block-64-color);
+}
+
+.box.number-block.block-64 > .box-letter {
+    color: var(--block-64-text-color);
+}
+
+.box.number-block.block-128 {
+    background-color: var(--block-128-color);
+}
+
+.box.number-block.block-128 > .box-letter {
+    color: var(--block-128-text-color);
+}
+
+.box.number-block.block-256 {
+    background-color: var(--block-256-color);
+}
+
+.box.number-block.block-256 > .box-letter {
+    color: var(--block-256-text-color);
+}
+
+.box.number-block.block-512 {
+    background-color: var(--block-512-color);
+}
+
+.box.number-block.block-512 > .box-letter {
+    color: var(--block-512-text-color);
+}
+
+.box.number-block.block-1024 {
+    background-color: var(--block-1024-color);
+}
+
+.box.number-block.block-1024 > .box-letter {
+    color: var(--block-1024-text-color);
+}
+
+.box.number-block.block-2048 {
+    background-color: var(--block-2048-color);
+}
+
+.box.number-block.block-2048 > .box-letter {
+    color: var(--block-2048-text-color);
+}
+
+/* Colours */
+
+.standard {
+    background-color: var(--standard-color);
+}
+
+.box {
+    background-color: var(--standard-block-color);
+    border: 1px solid var(--box-border-color);
+}
+
+.box > .box-letter {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Special */
+
+.game.pane > .commands {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    z-index: 1001;
+}
+
+.game.pane > .commands > * {
+    padding-top: 0.5em;
+}
+
+.game.pane > .commands > *:last-child {
+    padding-right: 0.5em;
+}

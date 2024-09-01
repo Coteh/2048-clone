@@ -1,0 +1,78 @@
+/* Settings Pane */
+
+.settings.pane {
+    font-family: var(--text-font-family);
+}
+
+/* Settings */
+
+.settings {
+    position: relative;
+}
+
+.settings > button.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.settings > .settings-item-group {
+    width: 100%;
+}
+
+.settings .settings-item {
+    color: var(--text-color);
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    border-top: var(--settings-item-border-color);
+    border-bottom: none;
+    height: 2em;
+}
+
+.settings .settings-item:last-child {
+    border-bottom: var(--settings-item-border-color);
+}
+
+.settings .settings-item > * {
+    pointer-events: none;
+}
+
+.settings .settings-item > a {
+    text-decoration: none;
+}
+
+.settings .settings-item .settings-item-column {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.settings .settings-item .settings-item-column:last-child {
+    width: 60%;
+}
+
+.settings .settings-item .settings-item-column > .toggle {
+    text-transform: capitalize;
+}
+
+.settings .settings-item.rows {
+    flex-direction: column;
+    padding: 0.5em 0 0.5em 0;
+}
+
+.settings .settings-item.rows > * {
+    padding: 0.25em;
+}
+
+/* Settings Footer */
+
+body .footer a.author-link {
+    text-decoration: none;
+}
+
+body a > .version-number,
+body a > .commit-hash {
+    pointer-events: initial;
+}

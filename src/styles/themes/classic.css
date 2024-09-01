@@ -1,0 +1,232 @@
+.classic {
+    --yellow: rgba(255, 255, 0);
+    --hovered-color: var(--yellow);
+
+    --background-color: rgb(169, 169, 169);
+
+    --dialog-background-color: var(--gray-7);
+
+    --standard-block-color: rgb(0, 0, 0, 0);
+
+    --text-font-family: "Comic Sans MS", "Comic Neue", sans-serif;
+
+    --block-2-color: rgb(102, 102, 213);
+    --block-4-color: rgb(104, 104, 211);
+    --block-8-color: rgb(108, 108, 207);
+    --block-16-color: rgb(116, 116, 199);
+    --block-32-color: rgb(132, 132, 183);
+    --block-64-color: rgb(164, 164, 151);
+    --block-128-color: rgb(228, 228, 87);
+    /* These values are as calculated from 2048Clone's "Modern" color theme */
+    --block-256-color: rgb(356, 356, -41);
+    --block-512-color: rgb(612, 612, -297);
+    --block-1024-color: rgb(1124, 1124, -809);
+    --block-2048-color: rgb(2148, 2148, -1833);
+    --block-max-color: rgb(4196, 4196, -3881);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--black);
+}
+
+.classic.tileset-classic {
+    --block-2-color: rgb(198, 148, 102);
+    --block-4-color: rgb(196, 146, 104);
+    --block-8-color: rgb(192, 142, 108);
+    --block-16-color: rgb(184, 134, 116);
+    --block-32-color: rgb(168, 118, 132);
+    --block-64-color: rgb(136, 86, 164);
+    --block-128-color: rgb(72, 22, 228);
+    /* These values are as calculated from 2048Clone's "Classic" color theme */
+    --block-256-color: rgb(-56, -106, 356);
+    --block-512-color: rgb(-312, -362, 612);
+    --block-1024-color: rgb(-824, -874, 1124);
+    --block-2048-color: rgb(-1848, -1898, 2148);
+    --block-max-color: rgb(-3896, -3946, 4196);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--white);
+    --block-256-text-color: var(--white);
+    --block-512-text-color: var(--white);
+    --block-1024-text-color: var(--white);
+    --block-2048-text-color: var(--white);
+    --block-max-text-color: var(--white);
+}
+
+.classic.tileset-colorful {
+    --block-2-color: rgb(0, 128, 0);
+    --block-4-color: rgb(64, 224, 208);
+    --block-8-color: rgb(173, 216, 230);
+    --block-16-color: rgb(240, 248, 255);
+    --block-32-color: rgb(0, 0, 255);
+    --block-64-color: rgb(128, 0, 128);
+    --block-128-color: rgb(255, 192, 203);
+    --block-256-color: rgb(255, 255, 0);
+    --block-512-color: rgb(255, 165, 0);
+    --block-1024-color: rgb(255, 69, 0);
+    --block-2048-color: rgb(255, 0, 0);
+    /* Improvisation since the original Colorful tileset did not have a color for this */
+    --block-max-color: rgb(170, 62, 0);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--white);
+    --block-64-text-color: var(--white);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--white);
+}
+
+.classic.tileset-initial-commit {
+    --background-color: #6495ed;
+
+    --block-2-color: #cacaca;
+    --block-4-color: #8c8c8c;
+    --block-8-color: #cb7224;
+    --block-16-color: #435dfb;
+    --block-32-color: #b22ae5;
+    --block-64-color: #ff2727;
+    --block-128-color: #cb24c2;
+    --block-256-color: #1f9f01;
+    /* Improvisation since the original Initial Commit tileset did not have colors for these */
+    --block-512-color: rgb(255, 165, 0);
+    --block-1024-color: rgb(255, 69, 0);
+    --block-2048-color: rgb(255, 255, 0);
+    --block-max-color: rgba(0, 212, 187);
+
+    --block-2-text-color: var(--black);
+    --block-4-text-color: var(--black);
+    --block-8-text-color: var(--black);
+    --block-16-text-color: var(--black);
+    --block-32-text-color: var(--black);
+    --block-64-text-color: var(--black);
+    --block-128-text-color: var(--black);
+    --block-256-text-color: var(--black);
+    --block-512-text-color: var(--black);
+    --block-1024-text-color: var(--black);
+    --block-2048-text-color: var(--black);
+    --block-max-text-color: var(--black);
+}
+
+body.classic:not(.tileset-initial-commit) {
+    background-image: url("/images/CheckerboardTiles.png");
+}
+
+body.classic a.link-icon.disabled > * {
+    color: revert;
+}
+
+body.classic a.link-icon.disabled::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 45%, red 45%, red 55%, transparent 55%);
+    pointer-events: none;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic a.link-icon:not(.disabled):hover > svg {
+        color: var(--hovered-color);
+    }
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(255, 165, 0);
+    flex-direction: row;
+    top: 140px;
+    left: 0;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > *:first-child {
+    padding-left: 1em;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > *:last-child {
+    padding-right: 1em;
+}
+
+body.classic .top-menu > .menu-options > .score-wrap-box > .space {
+    flex: 1;
+}
+
+body.classic .top-menu > .menu-options > .commands {
+    margin-top: 40px;
+}
+
+body.classic .top-menu > .title {
+    display: none;
+}
+
+body.classic .top-menu > .classic-logo {
+    display: block !important;
+    width: 200px;
+}
+
+body.classic .back-rows {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid black;
+    padding: 0px;
+}
+
+body.classic .pane > .footer a:hover {
+    color: var(--hovered-color);
+}
+
+body.classic button.close:hover > svg {
+    color: var(--hovered-color);
+}
+
+body.classic button.button {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+body.classic button.button:hover {
+    color: var(--hovered-color);
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic .settings .settings-item:hover > * {
+        color: var(--hovered-color);
+    }
+}
+
+body.classic .box {
+    margin: 0px;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+body.classic .box.number-block {
+    border: 1px solid black;
+}
+
+body.classic .settings.pane {
+    font-weight: 300;
+}
