@@ -286,3 +286,7 @@ body.classic .box.number-block.block-65536 > .box-letter {
 body.classic .dialog.game-over {
     background-color: red;
 }
+
+body.classic .dialog.win {
+    background-color: lime;
+}

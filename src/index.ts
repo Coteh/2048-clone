@@ -169,6 +169,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     undoText.style.display = "";
                 }
                 renderDialog(winElem, true);
+                const dialog = document.querySelector(".dialog") as HTMLElement;
+                dialog.classList.add("win");
                 if (!unlockedClassic && data.persistentState.unlockables.classic) {
                     renderNotification("2048Clone theme unlocked", 2500);
                     unlockedClassic = true;
