@@ -268,6 +268,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         tutorial.renderHowToPlay();
         helpLink.blur();
+        if (settingsPane.style.display !== "none") {
+            toggleSettings();
+        }
     });
 
     const gamePane = document.querySelector(".game") as HTMLElement;
