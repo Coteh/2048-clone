@@ -372,6 +372,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 theme: selectedTheme,
             });
         }
+        if (selectedTheme === CLASSIC_THEME) {
+            const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
+            welcomeText.style.display = "block";
+            setTimeout(() => {
+                welcomeText.style.display = "";
+            }, 5000);
+        }
     };
 
     const switchTileset = (theme: string, tileset: string) => {

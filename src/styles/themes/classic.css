@@ -272,3 +272,14 @@ body.classic .box.number-block.block-65536 {
 body.classic .box.number-block.block-65536 > .box-letter {
     color: var(--block-max-text-color);
 }
+
+/* Special */
+
+.classic-welcome-text {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.1em;
+    font-family: var(--text-font-family);
+}
