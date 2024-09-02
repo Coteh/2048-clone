@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         spread: 100,
                         origin: { y: 0.6 },
                     });
-                }, 100);
+                }, 125);
                 posthog.capture("2048 achieved", { version: GAME_VERSION });
                 break;
             }
