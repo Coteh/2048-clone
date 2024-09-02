@@ -346,6 +346,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             case LIGHT_THEME:
                 themeColor = "#FFF";
                 break;
+            case DARK_THEME:
+                themeColor = "#1c1c1c";
+                break;
             case SNOW_THEME:
                 themeColor = "#020024";
                 if (snowEmbed) snowEmbed.style.display = "initial";

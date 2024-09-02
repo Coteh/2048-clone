@@ -53,7 +53,7 @@
     --lightorange: #ffc296;
 
     --standard-color: var(--gray-5);
-    --standard-block-color: var(--gray-4);
+    --standard-block-color: #cdc1b4;
 
     --hovered-color: var(--yellow);
     --enabled-color: var(--green);
@@ -80,31 +80,41 @@
 
     --back-layer-color: goldenrod;
 
-    --block-2-color: var(--gray-7);
-    --block-4-color: var(--lightorange);
-    --block-8-color: var(--darkorange);
-    --block-16-color: #ff6a00;
-    --block-32-color: #ff6334;
-    --block-64-color: #d80202;
-    --block-128-color: #fff153;
-    --block-256-color: #f1e66c;
-    --block-512-color: rgb(235, 199, 107);
-    --block-1024-color: rgb(234, 207, 137);
-    --block-2048-color: #ecd800;
+    --block-2-color: #eee4da;
+    --block-4-color: #ede0c8;
+    --block-8-color: #f2b179;
+    --block-16-color: #f59563;
+    --block-32-color: #f67c5f;
+    --block-64-color: #f65e3b;
+    --block-128-color: #edcf72;
+    --block-256-color: #edcc61;
+    --block-512-color: #edc850;
+    --block-1024-color: #edc53f;
+    --block-2048-color: #edc22e;
+    --block-4096-color: #3da5d9;
+    --block-8192-color: #326589;
+    --block-16384-color: #283552;
+    --block-32768-color: #1c2235;
+    --block-65536-color: #0f111a;
     --block-max-color: #ffea00;
 
-    --block-2-text-color: var(--white);
-    --block-4-text-color: var(--black);
-    --block-8-text-color: var(--white);
-    --block-16-text-color: var(--white);
-    --block-32-text-color: var(--white);
-    --block-64-text-color: var(--white);
-    --block-128-text-color: var(--black);
-    --block-256-text-color: var(--black);
-    --block-512-text-color: var(--white);
-    --block-1024-text-color: var(--white);
-    --block-2048-text-color: var(--white);
-    --block-max-text-color: var(--black);
+    --block-2-text-color: #776e65;
+    --block-4-text-color: #776e65;
+    --block-8-text-color: #f9f6f2;
+    --block-16-text-color: #f9f6f2;
+    --block-32-text-color: #f9f6f2;
+    --block-64-text-color: #f9f6f2;
+    --block-128-text-color: #f9f6f2;
+    --block-256-text-color: #f9f6f2;
+    --block-512-text-color: #f9f6f2;
+    --block-1024-text-color: #f9f6f2;
+    --block-2048-text-color: #f9f6f2;
+    --block-4096-text-color: #f9f6f2;
+    --block-8192-text-color: #f9f6f2;
+    --block-16384-text-color: #f9f6f2;
+    --block-32768-text-color: #f9f6f2;
+    --block-65536-text-color: #f9f6f2;
+    --block-max-text-color: #f9f6f2;
 
     --classic-checkerboard-color: rgb(128, 128, 128);
 }

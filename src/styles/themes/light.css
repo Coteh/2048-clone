@@ -1,8 +1,8 @@
 .light {
     --standard-color: var(--gray-5);
-    --standard-block-color: var(--white);
+    --standard-block-color: #cdc1b4;
 
-    --box-border-color: var(--gray-7);
+    --box-border-color: #8f7a66;
     --box-border-color-highlighted: var(--gray-5);
 
     --background-color: var(--white);
@@ -15,29 +15,41 @@
     --notification-background-color: var(--black);
     --notification-text-color: var(--white);
 
-    --block-2-color: var(--gray-7);
-    --block-4-color: var(--gray-7);
-    --block-8-color: var(--gray-7);
-    --block-16-color: var(--gray-7);
-    --block-32-color: var(--gray-7);
-    --block-64-color: var(--gray-7);
-    --block-128-color: var(--gray-7);
-    --block-256-color: var(--gray-7);
-    --block-512-color: var(--gray-7);
-    --block-1024-color: var(--gray-7);
-    --block-2048-color: var(--gray-7);
-    --block-max-color: var(--gray-7);
+    --back-layer-color: #bbada0;
 
-    --block-2-text-color: var(--gray-2);
-    --block-4-text-color: var(--orange);
-    --block-8-text-color: var(--darkorange);
-    --block-16-text-color: #ff6a00;
-    --block-32-text-color: #ff6334;
-    --block-64-text-color: #d80202;
-    --block-128-text-color: #8f873e;
-    --block-256-text-color: #8d8647;
-    --block-512-text-color: #757044;
-    --block-1024-text-color: #423f22;
-    --block-2048-text-color: #2a2816;
-    --block-max-text-color: #12110a;
+    --block-2-color: #eee4da;
+    --block-4-color: #ede0c8;
+    --block-8-color: #f2b179;
+    --block-16-color: #f59563;
+    --block-32-color: #f67c5f;
+    --block-64-color: #f65e3b;
+    --block-128-color: #edcf72;
+    --block-256-color: #edcc61;
+    --block-512-color: #edc850;
+    --block-1024-color: #edc53f;
+    --block-2048-color: #edc22e;
+    --block-4096-color: #3da5d9;
+    --block-8192-color: #326589;
+    --block-16384-color: #283552;
+    --block-32768-color: #1c2235;
+    --block-65536-color: #0f111a;
+    --block-max-color: #12110a;
+
+    --block-2-text-color: #534f4b;
+    --block-4-text-color: #534f4b;
+    --block-8-text-color: #534f4b;
+    --block-16-text-color: #534f4b;
+    --block-32-text-color: #534f4b;
+    --block-64-text-color: #534f4b;
+    --block-128-text-color: #534f4b;
+    --block-256-text-color: #534f4b;
+    --block-512-text-color: #534f4b;
+    --block-1024-text-color: #534f4b;
+    --block-2048-text-color: #534f4b;
+    --block-4096-text-color: #f9f6f2;
+    --block-8192-text-color: #f9f6f2;
+    --block-16384-text-color: #f9f6f2;
+    --block-32768-text-color: #f9f6f2;
+    --block-65536-text-color: #f9f6f2;
+    --block-max-text-color: #f9f6f2;
 }

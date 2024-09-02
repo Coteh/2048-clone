@@ -230,3 +230,45 @@ body.classic .box.number-block {
 body.classic .settings.pane {
     font-weight: 300;
 }
+
+/* Do not have any colors past 2048 in classic tilesets for now */
+
+body.classic .box.number-block.block-4096 {
+    background-color: var(--block-max-color);
+}
+
+body.classic .box.number-block.block-4096 > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+body.classic .box.number-block.block-8192 {
+    background-color: var(--block-max-color);
+}
+
+body.classic .box.number-block.block-8192 > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+body.classic .box.number-block.block-16384 {
+    background-color: var(--block-max-color);
+}
+
+body.classic .box.number-block.block-16384 > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+body.classic .box.number-block.block-32768 {
+    background-color: var(--block-max-color);
+}
+
+body.classic .box.number-block.block-32768 > .box-letter {
+    color: var(--block-max-text-color);
+}
+
+body.classic .box.number-block.block-65536 {
+    background-color: var(--block-max-color);
+}
+
+body.classic .box.number-block.block-65536 > .box-letter {
+    color: var(--block-max-text-color);
+}
