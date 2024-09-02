@@ -280,6 +280,9 @@ body.classic .box.number-block.block-65536 > .box-letter {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 0.1em;
     font-family: var(--text-font-family);
+}
+
+body.classic .dialog.game-over {
+    background-color: red;
 }

@@ -127,6 +127,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareButton = loseElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
                 renderDialog(loseElem, true);
+                const dialog = document.querySelector(".dialog") as HTMLElement;
+                dialog.classList.add("game-over");
                 (document.getElementById("dialog-score") as HTMLElement).innerText =
                     gameState.score.toString();
                 if (gameState.achievedHighscore) {
@@ -138,7 +140,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     e.preventDefault();
                     newGame();
                     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
-                    const dialog = document.querySelector(".dialog") as HTMLElement;
                     closeDialog(dialog, overlayBackElem);
                 });
                 const shareText = generateShareText(gameState);
@@ -227,18 +228,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     const handleKeyInput = (key: string) => {
+        console.log(key);
         const dialog = document.querySelector(".dialog") as HTMLElement;
-        if (dialog && key === "escape") {
-            // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
-            if (isPrompted) {
-                return;
+        if (dialog) {
+            if (key === "escape") {
+                // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
+                if (isPrompted) {
+                    return;
+                }
+                return closeDialog(dialog, overlayBackElem);
             }
-            return closeDialog(dialog, overlayBackElem);
+            if (key === "r") {
+                // If "r" is pressed, presumably, in the game over dialog, and the game is over, then start new game and close dialog
+                if (gameState.ended && !isPrompted) {
+                    newGame();
+                    return closeDialog(dialog, overlayBackElem);
+                }
+            }
         }
         if (dialog || gameState.ended) {
             return;
         }
-        console.log(key);
         switch (key) {
             case "arrowleft":
                 console.log("going left");
@@ -255,6 +265,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             case "arrowup":
                 console.log("going up");
                 move(DIRECTION_UP);
+                break;
+            case "r":
+                newGame();
+                if (settingsPane.style.display !== "none") {
+                    toggleSettings();
+                }
                 break;
         }
     };
