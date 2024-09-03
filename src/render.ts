@@ -96,12 +96,15 @@ export const renderBoard = (
         } else {
             scoreIncreaseTextElem.style.left = "-60px";
         }
-        scoreIncreaseTextElem.style.transition = "top 1s, left 1s";
+        scoreIncreaseTextElem.style.transition = "top 1s, left 1s, opacity 0.5s";
         setTimeout(() => {
             scoreIncreaseTextElem.style.top = "-20px";
             setTimeout(() => {
-                scoreIncreaseTextElem.remove();
-            }, 1000);
+                scoreIncreaseTextElem.style.opacity = "0";
+                setTimeout(() => {
+                    scoreIncreaseTextElem.remove();
+                }, 1000);
+            }, 500);
         }, 0);
         (document.querySelector(".score-box") as HTMLElement).appendChild(scoreIncreaseTextElem);
     }
