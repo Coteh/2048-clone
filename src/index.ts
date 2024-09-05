@@ -349,6 +349,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         ],
     };
 
+    let classicTimeout: NodeJS.Timeout;
+
     const switchTheme = (theme: string) => {
         if (!theme || !selectableThemes.includes(theme)) {
             theme = STANDARD_THEME;
@@ -390,12 +392,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 theme: selectedTheme,
             });
         }
+        const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
         if (selectedTheme === CLASSIC_THEME) {
-            const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
             welcomeText.style.display = "block";
-            setTimeout(() => {
+            classicTimeout = setTimeout(() => {
                 welcomeText.style.display = "";
             }, 5000);
+        } else {
+            clearTimeout(classicTimeout);
+            welcomeText.style.display = "";
         }
     };
 
@@ -491,7 +496,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
                 const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
-                    "Are you sure you want to clear all game data? Progress will be lost.";
+                    "Are you sure you want to clear all game data? Preferences, high score, and unlockables will all be lost.";
                 renderPromptDialog(
                     dialogElem,
                     true,
