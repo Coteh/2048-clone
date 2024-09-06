@@ -302,6 +302,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             gamePane.style.display = "none";
             settingsPane.style.display = "flex";
             swipeArea.style.display = "none";
+            tutorial.stop();
         } else {
             gamePane.style.display = "flex";
             settingsPane.style.display = "none";

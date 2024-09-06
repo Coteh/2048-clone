@@ -5,9 +5,10 @@ import { isMobile } from "../../util/mobile";
 import "./index.css";
 
 export class Tutorial {
-    howToPlayElements: HTMLImageElement[];
+    howToPlayElements: HTMLElement[];
 
     timeouts: NodeJS.Timeout[];
+    intervals: NodeJS.Timeout[];
 
     isMobileTutorialPlaying: boolean = false;
     isDesktopTutorialPlaying: boolean = false;
@@ -15,11 +16,21 @@ export class Tutorial {
     constructor() {
         if (isMobile()) {
             this.timeouts = new Array<NodeJS.Timeout>(6);
+            this.intervals = new Array<NodeJS.Timeout>(0);
             this.howToPlayElements = new Array<HTMLImageElement>(2);
         } else {
-            this.timeouts = new Array<NodeJS.Timeout>(1);
+            this.timeouts = new Array<NodeJS.Timeout>(2);
+            this.intervals = new Array<NodeJS.Timeout>(1);
             this.howToPlayElements = new Array<HTMLImageElement>(1);
         }
+    }
+
+    stop() {
+        this.howToPlayElements.forEach(elem => elem.remove());
+        this.timeouts.forEach(timeout => clearTimeout(timeout));
+        this.intervals.forEach(interval => clearTimeout(interval));
+        this.isDesktopTutorialPlaying = false;
+        this.isMobileTutorialPlaying = false;
     }
 
     renderHowToPlay() {
@@ -33,7 +44,7 @@ export class Tutorial {
             this.howToPlayElements[1] = document.getElementById(howToPlay2ID) as HTMLImageElement;
             if (!this.howToPlayElements[0]) {
                 this.howToPlayElements[0] = document.createElement("img");
-                this.howToPlayElements[0].src = pointingHand;
+                (this.howToPlayElements[0] as HTMLImageElement).src = pointingHand;
                 this.howToPlayElements[0].className = "pointing-hand";
                 this.howToPlayElements[0].style.top = "25%";
                 this.howToPlayElements[0].id = howToPlay1ID;
@@ -42,7 +53,7 @@ export class Tutorial {
             this.howToPlayElements[0].style.opacity = "1";
             if (!this.howToPlayElements[1]) {
                 this.howToPlayElements[1] = document.createElement("img");
-                this.howToPlayElements[1].src = pointingHand;
+                (this.howToPlayElements[1] as HTMLImageElement).src = pointingHand;
                 this.howToPlayElements[1].className = "pointing-hand";
                 this.howToPlayElements[1].style.left = "25%";
                 this.howToPlayElements[1].style.opacity = "0";
@@ -81,26 +92,35 @@ export class Tutorial {
             if (this.isDesktopTutorialPlaying) {
                 return;
             }
-            renderNotification("Use arrow keys to play", 5000);
 
             const elem = document.createElement("div");
             elem.innerHTML = `
-            <div>
-                <div class="keyboard-button" style="opacity: 0;">←</div>
-                <div class="keyboard-button" id="up-arrow">↑</div>
-                <div class="keyboard-button" style="opacity: 0;">→</div>
+            <div style="background-color: var(--notification-background-color); padding: 2rem; margin: 1rem; border-radius: 0.25rem;">
+                <span>Use arrow keys to play</span>
             </div>
             <div>
-                <div class="keyboard-button" id="left-arrow">←</div>
-                <div class="keyboard-button" id="down-arrow">↓</div>
-                <div class="keyboard-button" id="right-arrow">→</div>
+                <div>
+                    <div class="keyboard-button" style="opacity: 0;">←</div>
+                    <div class="keyboard-button" id="up-arrow">↑</div>
+                    <div class="keyboard-button" style="opacity: 0;">→</div>
+                </div>
+                <div>
+                    <div class="keyboard-button" id="left-arrow">←</div>
+                    <div class="keyboard-button" id="down-arrow">↓</div>
+                    <div class="keyboard-button" id="right-arrow">→</div>
+                </div>
             </div>
             `;
             elem.style.position = "fixed";
             elem.style.top = "25%";
             elem.style.left = "50%";
             elem.style.transform = "translate(-50%,-50%)";
+            elem.style.display = "flex";
+            elem.style.flexDirection = "column";
+            elem.style.alignItems = "center";
             document.body.appendChild(elem);
+
+            this.howToPlayElements[0] = elem;
 
             let i = 0;
             const arrowIDs = ["up-arrow", "left-arrow", "down-arrow", "right-arrow"];
@@ -118,12 +138,13 @@ export class Tutorial {
                 }
                 i++;
             }, 500);
+            this.intervals[0] = interval;
 
-            setTimeout(() => {
+            this.timeouts[0] = setTimeout(() => {
                 elem.remove();
                 clearInterval(interval);
             }, 5000);
-            this.timeouts[0] = setTimeout(() => {
+            this.timeouts[1] = setTimeout(() => {
                 this.isDesktopTutorialPlaying = false;
             }, 5500);
             this.isDesktopTutorialPlaying = true;
