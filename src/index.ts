@@ -248,7 +248,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             }
         }
-        if (dialog || gameState.ended) {
+        if (dialog) {
+            return;
+        }
+        if (key === "r") {
+            promptNewGame();
+            if (settingsPane.style.display !== "none") {
+                toggleSettings();
+            }
+            return;
+        }
+        if (gameState.ended) {
             return;
         }
         switch (key) {
@@ -268,18 +278,25 @@ document.addEventListener("DOMContentLoaded", async () => {
                 console.log("going up");
                 move(DIRECTION_UP);
                 break;
-            case "r":
-                newGame();
-                if (settingsPane.style.display !== "none") {
-                    toggleSettings();
-                }
-                break;
         }
     };
 
     window.addEventListener("keydown", (e) => {
         handleKeyInput(e.key.toLowerCase());
     });
+
+    const promptNewGame = () => {
+        // If game ended, no need to prompt
+        if (gameState.ended) {
+            newGame();
+            return;
+        }
+        const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
+        (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Are you sure you want to start a new game? All progress will be lost.";
+        renderPromptDialog(dialogElem, true, () => {
+            newGame();
+        });
+    };
 
     const helpLink = document.querySelector(".help-link") as HTMLElement;
     helpLink.addEventListener("click", (e) => {
@@ -780,7 +797,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {
         e.preventDefault();
-        newGame();
+        promptNewGame();
         if (settingsPane.style.display !== "none") {
             toggleSettings();
         }
