@@ -235,6 +235,8 @@ describe("gameplay", () => {
         cy.contains("Highscore: 100").should("be.visible");
         
         cy.contains("New Game").click();
+
+        cy.contains("Yes").click();
         
         cy.verifyBoardDoesNotMatch([
             [2, 4, 8, 16],
