@@ -5,7 +5,7 @@
     position: relative;
     transform: translateY(-25%);
     height: 100%;
-    top: 160px;
+    top: 40%;
 }
 
 body.block-style-compact .game-space {
