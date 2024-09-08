@@ -32,7 +32,7 @@ export const renderBoard = (
         rowContainer.className = "input-row";
 
         for (let x = 0; x < row.length; x++) {
-            const numberBox = renderNumberBox(rowContainer, row[x]);
+            const numberBox = renderNumberBox(rowContainer, row[x], options);
             if (row[x] > 0) {
                 if (animationManager.isAnimationEnabled) {
                     if (
@@ -124,7 +124,7 @@ export const renderBackRow = (parentElem: HTMLElement, rowLength: number) => {
     return container;
 };
 
-export const renderNumberBox = (parentElem: HTMLElement, number: number) => {
+export const renderNumberBox = (parentElem: HTMLElement, number: number, options?: RenderBoardOptions) => {
     const numberBox = document.createElement("div");
     numberBox.classList.add("box");
     const letterElem = document.createElement("span");
@@ -135,8 +135,12 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number) => {
         numberBox.classList.add(`block-${number}`);
     }
     let blockFontSize;
-    if (document.body.classList.contains("block-style-compact")) {
-        blockFontSize = "16px";
+    if (document.body.classList.contains("block-style-compact") || (options && options.theme === "classic")) {
+        if (options && options.theme === "classic") {
+            blockFontSize = "12px";
+        } else {
+            blockFontSize = "16px";
+        }
     } else {
         if (number > 512) {
             blockFontSize = "32px";
@@ -147,6 +151,10 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number) => {
         }
     }
     letterElem.style.fontSize = blockFontSize;
+    if (!document.body.classList.contains("block-style-compact") && (options && options.theme === "classic")) {
+        letterElem.style.top = "33%";
+        letterElem.style.left = "33%";
+    }
     numberBox.appendChild(letterElem);
     parentElem.appendChild(numberBox);
     return numberBox;
