@@ -5,6 +5,10 @@
     position: relative;
     transform: translateY(-25%);
     height: 100%;
+    top: 160px;
+}
+
+body.block-style-compact .game-space {
     top: 50%;
 }
 
@@ -37,6 +41,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+body.block-style-compact .input-row {
     max-height: 3rem;
 }
 
@@ -44,13 +51,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+body.block-style-compact .back-row {
     max-height: 3rem;
 }
 
 /* Boxes */
 
 .box {
-    padding: 1em;
+    padding: 3em;
     margin: 3px;
     border: 1px solid black;
     line-height: 1.9em;
@@ -62,6 +72,10 @@
     align-items: center;
 
     transition: transform 0.25s ease, top 0.1s ease, left 0.1s ease;
+}
+
+body.block-style-compact .box {
+    padding: 1em;
 }
 
 .box .box-letter {

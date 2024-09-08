@@ -48,13 +48,18 @@ const CLASSIC_CLASSIC_TILESET = "classic";
 const CLASSIC_COLORFUL_TILESET = "colorful";
 const CLASSIC_INITIAL_COMMIT_TILESET = "initial-commit";
 
+const STANDARD_BLOCK_STYLE = "standard";
+const COMPACT_BLOCK_STYLE = "compact";
+
 const THEME_PREFERENCE_NAME = "theme";
 const TILESET_PREFERENCE_NAME = "tileset";
 const ANIMATIONS_PREFERENCE_NAME = "animations";
+const BLOCK_STYLE_PREFERENCE_NAME = "block";
 
 const THEME_SETTING_NAME = "theme-switch";
 const TILESET_SETTING_NAME = "tileset-switch";
 const ANIMATIONS_SETTING_NAME = "animations";
+const BLOCK_STYLE_SETTING_NAME = "block";
 const CLEAR_DATA_SETTING_NAME = "clear-all-data";
 
 const SETTING_ENABLED = "enabled";
@@ -353,6 +358,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let selectedTheme = STANDARD_THEME;
     let selectedTileset = STANDARD_STANDARD_TILESET;
+    let selectedBlockStyle = STANDARD_BLOCK_STYLE;
 
     const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, CLASSIC_THEME];
     const selectableTilesets: { [key: string]: string[] } = {
@@ -366,6 +372,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             CLASSIC_INITIAL_COMMIT_TILESET,
         ],
     };
+    const selectableBlockStyles = [STANDARD_BLOCK_STYLE, COMPACT_BLOCK_STYLE];
 
     let classicTimeout: NodeJS.Timeout;
 
@@ -441,6 +448,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.body.classList.add(`tileset-${selectedTileset}`);
     };
 
+    const switchBlockStyle = (blockStyle: string) => {
+        if (!blockStyle || !selectableBlockStyles.includes(blockStyle)) {
+            blockStyle = selectableBlockStyles[0];
+        }
+        document.body.classList.remove(`block-style-${selectedBlockStyle}`);
+        selectedBlockStyle = blockStyle;
+        document.body.classList.add(`block-style-${selectedBlockStyle}`);
+    };
+
     const settings = document.querySelectorAll(".setting");
     settings.forEach((setting) => {
         setting.addEventListener("click", (e) => {
@@ -511,6 +527,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 } else {
                     knob.classList.remove("enabled");
                 }
+            } else if (elem.classList.contains(BLOCK_STYLE_SETTING_NAME)) {
+                const blockStyleIndex = selectableBlockStyles.indexOf(selectedBlockStyle);
+                let nextBlockStyle = selectableBlockStyles[(blockStyleIndex + 1) % selectableBlockStyles.length];
+                switchBlockStyle(nextBlockStyle);
+                savePreferenceValue(BLOCK_STYLE_PREFERENCE_NAME, nextBlockStyle);
+                toggle.innerText = nextBlockStyle;
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
                 const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
@@ -538,7 +560,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         [ANIMATIONS_PREFERENCE_NAME]: SETTING_ENABLED,
     });
     switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
-    const themeSetting = document.querySelector(".setting.theme-switch") as HTMLElement;
+    const themeSetting = document.querySelector(`.setting.${THEME_SETTING_NAME}`) as HTMLElement;
     (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
         selectedTheme === "classic" ? CLASSIC_THEME_LABEL : selectedTheme;
     let tilesetPreferences = getPreferenceValue(TILESET_PREFERENCE_NAME);
@@ -546,7 +568,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
     }
     const tilesetSettingItem = document.querySelector(
-        ".settings-item.setting.tileset-switch"
+        `.settings-item.setting.${TILESET_SETTING_NAME}`
     ) as HTMLElement;
     if (selectableTilesets[selectedTheme].length > 1) {
         tilesetSettingItem.style.display = "";
@@ -557,10 +579,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     if (getPreferenceValue(ANIMATIONS_PREFERENCE_NAME) === SETTING_ENABLED) {
         isAnimationEnabled = true;
-        const setting = document.querySelector(".setting.animations") as HTMLElement;
+        const setting = document.querySelector(`.setting.${ANIMATIONS_SETTING_NAME}`) as HTMLElement;
         const knob = setting.querySelector(".knob") as HTMLElement;
         knob.classList.add("enabled");
     }
+    switchBlockStyle(getPreferenceValue(BLOCK_STYLE_PREFERENCE_NAME));
+    const blockStyleSetting = document.querySelector(`.setting.${BLOCK_STYLE_SETTING_NAME}`) as HTMLElement;
+    (blockStyleSetting.querySelector(".toggle") as HTMLElement).innerText = selectedBlockStyle;
 
     const generateShareText = (gameState: GameState) => {
         return `I got a score of ${gameState.score} in 2048-clone${
