@@ -455,6 +455,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.body.classList.remove(`block-style-${selectedBlockStyle}`);
         selectedBlockStyle = blockStyle;
         document.body.classList.add(`block-style-${selectedBlockStyle}`);
+        // Redraw the board to reset the font sizes for the different block styles
+        if (gameState) {
+            animationManager.resetState();
+            renderBoard(middleElem, gameState, animationManager, {
+                theme: selectedTheme,
+            });
+        }
     };
 
     const settings = document.querySelectorAll(".setting");

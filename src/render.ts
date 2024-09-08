@@ -134,7 +134,19 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number) => {
         numberBox.classList.add(`number-block`);
         numberBox.classList.add(`block-${number}`);
     }
-    letterElem.style.fontSize = "16px";
+    let blockFontSize;
+    if (document.body.classList.contains("block-style-compact")) {
+        blockFontSize = "16px";
+    } else {
+        if (number > 512) {
+            blockFontSize = "32px";
+        } else if (number > 64) {
+            blockFontSize = "44px";
+        } else {
+            blockFontSize = "54px";
+        }
+    }
+    letterElem.style.fontSize = blockFontSize;
     numberBox.appendChild(letterElem);
     parentElem.appendChild(numberBox);
     return numberBox;
