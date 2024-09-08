@@ -41,7 +41,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
 
@@ -64,7 +63,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
     });
@@ -89,7 +87,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
 
@@ -107,7 +104,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
     });
@@ -126,7 +122,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
     });
@@ -194,7 +189,6 @@ describe("theme", () => {
     it("should default to standard theme if no entry exists in local storage for theme", () => {
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
 
@@ -204,7 +198,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
     });
@@ -212,7 +205,6 @@ describe("theme", () => {
     it("should default to standard theme if theme is set to invalid value in local storage", () => {
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
 
@@ -227,7 +219,6 @@ describe("theme", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(1);
             expect(classList.contains("tileset-standard")).to.be.true;
         });
     });

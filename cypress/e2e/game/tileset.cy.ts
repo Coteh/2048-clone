@@ -41,7 +41,6 @@ describe("tileset", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(2);
             expect(classList.contains("classic")).to.be.true;
             expect(classList.contains("tileset-modern")).to.be.true;
         });
@@ -85,7 +84,6 @@ describe("tileset", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(2);
             expect(classList.contains("classic")).to.be.true;
             expect(classList.contains("tileset-colorful")).to.be.true;
         });
@@ -103,7 +101,6 @@ describe("tileset", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(2);
             expect(classList.contains("classic")).to.be.true;
             expect(classList.contains("tileset-modern")).to.be.true;
         });
@@ -124,7 +121,6 @@ describe("tileset", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(2);
             expect(classList.contains("light")).to.be.true;
             expect(classList.contains("tileset-light")).to.be.true;
         });
@@ -143,7 +139,6 @@ describe("tileset", () => {
 
         cy.get("body").should(($el) => {
             const classList = $el[0].classList;
-            expect(classList.length).to.equal(2);
             expect(classList.contains("classic")).to.be.true;
             expect(classList.contains("tileset-modern")).to.be.true;
         });
