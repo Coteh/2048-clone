@@ -164,6 +164,7 @@ button.close {
 button.button {
     font-family: var(--text-font-family);
     padding: 8px;
+    margin: 0.5em 0em 0.5em 0em;
 }
 
 /* Overlay Backdrop */
@@ -184,7 +185,6 @@ button.button {
 body button.button.share-button,
 body button.button.clipboard-button {
     padding: 0.5em 0.5em 0.5em 0.5em;
-    margin: 0.5em 0em 0.5em 0em;
     border-radius: 8em;
     background-color: var(--green);
 }
@@ -197,7 +197,6 @@ button.button.clipboard-button > * {
 
 button.button.new-game {
     padding: 1em 0.5em 1em 0.5em;
-    margin: 0.5em 0em 0.5em 0em;
     border-radius: 8em;
     background-color: brown;
 }
