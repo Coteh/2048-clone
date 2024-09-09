@@ -257,10 +257,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
         if (key === "r") {
-            promptNewGame();
-            if (settingsPane.style.display !== "none") {
-                toggleSettings();
-            }
+            promptNewGame(() => {
+                if (settingsPane.style.display !== "none") {
+                    toggleSettings();
+                }
+            });
             return;
         }
         if (gameState.ended) {
@@ -290,16 +291,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleKeyInput(e.key.toLowerCase());
     });
 
-    const promptNewGame = () => {
+    const promptNewGame = (onNewGameStarted?: () => void) => {
         // If game ended, no need to prompt
         if (gameState.ended) {
             newGame();
+            if (onNewGameStarted) {
+                onNewGameStarted()
+            }
             return;
         }
         const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
         (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Are you sure you want to start a new game? All progress will be lost.";
         renderPromptDialog(dialogElem, true, () => {
             newGame();
+            if (onNewGameStarted) {
+                onNewGameStarted()
+            }
         });
     };
 
@@ -829,10 +836,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {
         e.preventDefault();
-        promptNewGame();
-        if (settingsPane.style.display !== "none") {
-            toggleSettings();
-        }
+        promptNewGame(() => {
+            if (settingsPane.style.display !== "none") {
+                toggleSettings();
+            }
+        });
     });
 
     // (document.querySelector("[data-feather='help-circle']") as HTMLElement).innerText = "?";
