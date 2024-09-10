@@ -137,9 +137,9 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number, options
     let blockFontSize;
     if (document.body.classList.contains("block-style-compact") || (options && options.theme === "classic")) {
         if (options && options.theme === "classic") {
-            blockFontSize = "12px";
-        } else {
             blockFontSize = "16px";
+        } else {
+            blockFontSize = "18px";
         }
     } else {
         if (number > 512) {
@@ -152,8 +152,8 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number, options
     }
     letterElem.style.fontSize = blockFontSize;
     if (!document.body.classList.contains("block-style-compact") && (options && options.theme === "classic")) {
-        letterElem.style.top = "33%";
-        letterElem.style.left = "33%";
+        letterElem.style.top = "30%";
+        letterElem.style.left = "30%";
     }
     numberBox.appendChild(letterElem);
     parentElem.appendChild(numberBox);
