@@ -1,5 +1,4 @@
 import pointingHand from "../../assets/images/PointingHand.png";
-import { renderNotification } from "../../render";
 import { isMobile } from "../../util/mobile";
 
 import "./index.css";
@@ -26,9 +25,9 @@ export class Tutorial {
     }
 
     stop() {
-        this.howToPlayElements.forEach(elem => elem.remove());
-        this.timeouts.forEach(timeout => clearTimeout(timeout));
-        this.intervals.forEach(interval => clearTimeout(interval));
+        this.howToPlayElements.forEach((elem) => elem.remove());
+        this.timeouts.forEach((timeout) => clearTimeout(timeout));
+        this.intervals.forEach((interval) => clearTimeout(interval));
         this.isDesktopTutorialPlaying = false;
         this.isMobileTutorialPlaying = false;
     }

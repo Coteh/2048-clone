@@ -327,11 +327,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const helpLink = document.querySelector(".help-link") as HTMLElement;
     helpLink.addEventListener("click", (e) => {
         e.preventDefault();
-        tutorial.renderHowToPlay();
+        renderDialog(createDialogContentFromTemplate("#how-to-play"), true);
         helpLink.blur();
-        if (settingsPane.style.display !== "none") {
-            toggleSettings();
-        }
     });
 
     const gamePane = document.querySelector(".game") as HTMLElement;

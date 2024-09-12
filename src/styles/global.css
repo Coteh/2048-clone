@@ -258,3 +258,72 @@ a {
 .loader > span {
     font-size: 1.6rem;
 }
+
+/* How to play */
+.dialog > .dialog-content > .how-to-play {
+    height: 100%;
+    position: relative;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content {
+    padding: 0 0 8px 0;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content > h2 {
+    text-transform: uppercase;
+    margin: 12px 0;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content div.sample {
+    display: flex;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content > div.meaning {
+    margin: 12px 0;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content > div.meaning > div.sample {
+    margin: 4px 0;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content > div.meaning > span.text {
+    line-height: 1.25;
+    font-size: 0.75em;
+}
+
+.tutorial-space {
+    position: relative;
+    height: 240px;
+}
+
+.tutorial-space .input-row,
+.tutorial-space .back-row {
+    max-height: 3rem;
+}
+
+.tutorial-space .box {
+    padding: 1em;
+}
+
+.tutorial-space > .pointing-hand {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    transform: initial;
+    width: 100px;
+    transition: initial;
+
+    animation: hand-move 5s infinite;
+}
+
+@keyframes hand-move {
+    0% {
+        left: 0px;
+    }
+    50% {
+        left: 100px;
+    }
+    100% {
+        left: 0px;
+    }
+}
