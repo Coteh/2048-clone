@@ -13,6 +13,8 @@
 @import url("./themes/classic.css");
 @import url("./themes/snow.css");
 
+@import url("./block-styles/compact.css");
+
 @import url("./debug.css");
 
 /* Fonts */

@@ -1,0 +1,15 @@
+body.block-style-compact .game-space {
+    top: 50%;
+}
+
+body.block-style-compact .input-row {
+    max-height: 3rem;
+}
+
+body.block-style-compact .back-row {
+    max-height: 3rem;
+}
+
+body.block-style-compact .box {
+    padding: 1.25em;
+}

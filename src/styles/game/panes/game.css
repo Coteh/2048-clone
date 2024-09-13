@@ -8,10 +8,6 @@
     top: 40%;
 }
 
-body.block-style-compact .game-space {
-    top: 50%;
-}
-
 .back-rows {
     position: absolute;
     padding: 2px;
@@ -43,18 +39,10 @@ body.block-style-compact .game-space {
     align-items: center;
 }
 
-body.block-style-compact .input-row {
-    max-height: 3rem;
-}
-
 .back-row {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-body.block-style-compact .back-row {
-    max-height: 3rem;
 }
 
 /* Boxes */
@@ -72,10 +60,6 @@ body.block-style-compact .back-row {
     align-items: center;
 
     transition: transform 0.25s ease, top 0.1s ease, left 0.1s ease;
-}
-
-body.block-style-compact .box {
-    padding: 1.25em;
 }
 
 .box .box-letter {
