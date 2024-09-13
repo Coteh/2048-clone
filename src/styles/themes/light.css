@@ -53,3 +53,21 @@
     --block-65536-text-color: #f9f6f2;
     --block-max-text-color: #f9f6f2;
 }
+
+body.light button.button {
+    background-color: #e5e5e5;
+    border: 2px solid #e0e0e0;
+}
+
+body.light button.button:hover {
+    background-color: #f0f0f0;
+}
+
+body.light button.button > * {
+    color: #5c6bc0;
+    font-weight: bold;
+}
+
+body.light button.button.share-button > * {
+    color: #fff;
+}
