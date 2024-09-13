@@ -6,7 +6,7 @@
 
 A clone of [2048](https://play2048.co/), and also a remake of my first side project on GitHub, [2048Clone](https://github.com/Coteh/2048Clone).
 
-![Browser Game Screenshot](cypress/screenshots/readme/screenshot.png "Browser Game Screenshot")
+![Browser Game Screenshot](screenshot.png "Browser Game Screenshot")
 
 ## Setup
 

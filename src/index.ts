@@ -284,6 +284,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                 console.log("going up");
                 move(DIRECTION_UP);
                 break;
+            case "d":
+                if (import.meta.env.DEV) {
+                    if (debugButton.style.display === "") {
+                        debugButton.style.display = "none";
+                        undoButton.style.display = "none";
+                    } else {
+                        debugButton.style.display = "";
+                        undoButton.style.display = "";
+                    }
+                }
+                break;
         }
     };
 
@@ -296,16 +307,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (gameState.ended) {
             newGame();
             if (onNewGameStarted) {
-                onNewGameStarted()
+                onNewGameStarted();
             }
             return;
         }
         const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
-        (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Are you sure you want to start a new game? All progress will be lost.";
+        (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
+            "Are you sure you want to start a new game? All progress will be lost.";
         renderPromptDialog(dialogElem, true, () => {
             newGame();
             if (onNewGameStarted) {
-                onNewGameStarted()
+                onNewGameStarted();
             }
         });
     };
@@ -543,7 +555,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             } else if (elem.classList.contains(BLOCK_STYLE_SETTING_NAME)) {
                 const blockStyleIndex = selectableBlockStyles.indexOf(selectedBlockStyle);
-                let nextBlockStyle = selectableBlockStyles[(blockStyleIndex + 1) % selectableBlockStyles.length];
+                let nextBlockStyle =
+                    selectableBlockStyles[(blockStyleIndex + 1) % selectableBlockStyles.length];
                 switchBlockStyle(nextBlockStyle);
                 savePreferenceValue(BLOCK_STYLE_PREFERENCE_NAME, nextBlockStyle);
                 toggle.innerText = nextBlockStyle;
@@ -593,12 +606,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     if (getPreferenceValue(ANIMATIONS_PREFERENCE_NAME) === SETTING_ENABLED) {
         isAnimationEnabled = true;
-        const setting = document.querySelector(`.setting.${ANIMATIONS_SETTING_NAME}`) as HTMLElement;
+        const setting = document.querySelector(
+            `.setting.${ANIMATIONS_SETTING_NAME}`
+        ) as HTMLElement;
         const knob = setting.querySelector(".knob") as HTMLElement;
         knob.classList.add("enabled");
     }
     switchBlockStyle(getPreferenceValue(BLOCK_STYLE_PREFERENCE_NAME));
-    const blockStyleSetting = document.querySelector(`.setting.${BLOCK_STYLE_SETTING_NAME}`) as HTMLElement;
+    const blockStyleSetting = document.querySelector(
+        `.setting.${BLOCK_STYLE_SETTING_NAME}`
+    ) as HTMLElement;
     (blockStyleSetting.querySelector(".toggle") as HTMLElement).innerText = selectedBlockStyle;
 
     const generateShareText = (gameState: GameState) => {
@@ -827,9 +844,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     if (import.meta.env.DEV) {
-        undoButton.style.display = "";
         debugButton.style.display = "";
-        (document.querySelector("#debug-overlay") as HTMLDivElement).style.display = "";
+        undoButton.style.display = "";
+        const debugOverlay = document.querySelector("#debug-overlay") as HTMLDivElement;
+        debugOverlay.style.display = "";
+        debugOverlay.addEventListener("click", (e) => {
+            e.preventDefault();
+            debugOverlay.style.opacity = debugOverlay.style.opacity !== "0" ? "0" : "1";
+        });
         (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText =
             swipeSensitivity.toString();
     }

@@ -19,6 +19,7 @@ export default defineConfig({
     screenshotOnRunFailure: process.env.CI === undefined,
     video: process.env.CI === undefined,
     videoCompression: 0,
+    trashAssetsBeforeRuns: false,
     blockHosts: ["*.posthog.com"],
     reporter: "junit",
     reporterOptions: {
