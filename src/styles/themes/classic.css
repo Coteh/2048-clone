@@ -210,6 +210,7 @@ body.classic button.button {
 
 body.classic button.button > * {
     color: black;
+    font-weight: bold;
 }
 
 /* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.

@@ -221,7 +221,7 @@
                 <span>Copy to Clipboard</span>
             </button>
             <!-- TODO: renderDialog should add close event listener to all close buttons, not just the first -->
-            <!-- <button class="close">Continue</button> -->
+            <!-- <button class="close"><span>Continue</span></button> -->
         </template>
         <template id="lose-dialog-content">
             <span>You lose!</span><br/>
@@ -241,8 +241,8 @@
         </template>
         <template id="prompt-dialog-content">
             <span class="prompt-text"></span><br/>
-            <button class="button confirm">Yes</button>
-            <button class="button cancel">Cancel</button>
+            <button class="button confirm"><span>Yes</span></button>
+            <button class="button cancel"><span>Cancel</span></button>
         </template>
         <template id="error-dialog-content">
             <span>
@@ -256,12 +256,12 @@
         </template>
         <template id="debug-dialog-content">
             <h3>Debug</h3><br/>
-            <button class="button new-win-game">New Winning Game</button>
-            <button class="button new-lose-game">New Losing Game</button>
-            <button class="button new-all-game">New All Blocks Game</button>
-            <button class="button prompt-dialog">Prompt Dialog</button>
-            <button class="button non-closable-dialog">Non-Closable Dialog</button>
-            <button class="button show-notification">Show Notification</button>
+            <button class="button new-win-game"><span>New Winning Game</span></button>
+            <button class="button new-lose-game"><span>New Losing Game</span></button>
+            <button class="button new-all-game"><span>New All Blocks Game</span></button>
+            <button class="button prompt-dialog"><span>Prompt Dialog</span></button>
+            <button class="button non-closable-dialog"><span>Non-Closable Dialog</span></button>
+            <button class="button show-notification"><span>Show Notification</span></button>
         </template>
         <script src="src/index.ts" type="module"></script>
         <!-- <script src="vendor/snow.js" defer></script> -->
