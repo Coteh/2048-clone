@@ -254,7 +254,7 @@ body.classic button.button.new-game > * {
 /* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
     Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
 @media (hover) {
-    body.classic .settings .settings-item:hover > * {
+    body.classic .settings .settings-item:hover * {
         color: var(--hovered-color);
     }
 }

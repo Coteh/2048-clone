@@ -39,7 +39,7 @@
     pointer-events: none;
 }
 
-.settings .settings-item > a {
+.settings .settings-item a {
     text-decoration: none;
 }
 
@@ -47,6 +47,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: baseline;
+    gap: 0.5em;
 }
 
 .settings .settings-item .settings-item-column:last-child {
@@ -55,15 +57,6 @@
 
 .settings .settings-item .settings-item-column > .toggle {
     text-transform: capitalize;
-}
-
-.settings .settings-item.rows {
-    flex-direction: column;
-    padding: 0.5em 0 0.5em 0;
-}
-
-.settings .settings-item.rows > * {
-    padding: 0.25em;
 }
 
 /* Settings Footer */
@@ -75,4 +68,8 @@ body .footer a.author-link {
 body a > .version-number,
 body a > .commit-hash {
     pointer-events: initial;
+}
+
+body a > .commit-hash {
+    font-size: 16px;
 }
