@@ -85,10 +85,30 @@ describe("viewport", () => {
                     }
                     cy.get(".help-link").should("be.visible").shouldBeInViewport();
 
-                    cy.screenshot(`viewport/theme/${theme}/block-style/${blockStyle}/${def.name}`, {
-                        capture: "viewport",
-                        overwrite: true,
-                    });
+                    cy.screenshot(
+                        `viewport/theme/${theme}/block-style/${blockStyle}/${def.name} - Gameplay`,
+                        {
+                            capture: "viewport",
+                            overwrite: true,
+                        }
+                    );
+
+                    cy.get(".settings-link").click();
+
+                    cy.contains("Settings").should("be.visible").shouldBeInViewport();
+
+                    cy.get(".settings-item.animations").click();
+
+                    // NTS: Screen is offset slightly vertically when in settings screen on small dimensions. This does not happen when running it outside of Cypress. Put this in for now to recenter it, but perhaps this can be looked at later.
+                    cy.window().then((win) => win.scrollTo(0, 0));
+
+                    cy.screenshot(
+                        `viewport/theme/${theme}/block-style/${blockStyle}/${def.name} - Settings`,
+                        {
+                            capture: "viewport",
+                            overwrite: true,
+                        }
+                    );
                 });
             });
         });
