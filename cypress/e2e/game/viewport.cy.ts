@@ -10,79 +10,86 @@ describe("viewport", () => {
             onBeforeLoad: () => {
                 const gameState: GameState = {
                     board: [
-                        [0, 0, 0, 0],
-                        [0, 2, 0, 0],
-                        [0, 0, 4, 0],
-                        [0, 0, 0, 0],
+                        [0, 0, 2, 4],
+                        [0, 2, 8, 16],
+                        [0, 8, 16, 32],
+                        [8, 16, 32, 128],
                     ],
                     ended: false,
                     won: false,
-                    score: 28,
+                    score: 1072,
                     didUndo: false,
                     achievedHighscore: false,
                 };
                 const persistentState: GamePersistentState = {
-                    highscore: 0,
+                    highscore: 8300,
                     unlockables: {},
                     hasPlayedBefore: true,
                 };
-                const preferences: Preferences = {
-                    theme: "dark",
-                };
                 window.localStorage.setItem("game-state", JSON.stringify(gameState));
                 window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
-                window.localStorage.setItem("preferences", JSON.stringify(preferences));
             },
         });
     });
 
-    [
-        {
-            name: "small mobile device",
-            width: 320,
-            height: 480,
-        },
-        {
-            name: "medium mobile device",
-            width: 375,
-            height: 667,
-        },
-        {
-            name: "large mobile device",
-            width: 375,
-            height: 812,
-        },
-        {
-            name: "huge mobile device",
-            width: 428,
-            height: 926,
-        },
-        {
-            name: "tablet (portrait)",
-            width: 768,
-            height: 1024,
-        },
-        {
-            name: "tablet (landscape)",
-            width: 1024,
-            height: 768,
-        },
-    ].forEach((def) => {
-        it(`should be playable on a ${def.name}`, () => {
-            cy.viewport(def.width, def.height);
+    ["standard", "classic"].forEach((theme) => {
+        ["standard", "compact"].forEach((blockStyle) => {
+            [
+                {
+                    name: "small mobile device",
+                    width: 320,
+                    height: 480,
+                },
+                {
+                    name: "medium mobile device",
+                    width: 375,
+                    height: 667,
+                },
+                {
+                    name: "large mobile device",
+                    width: 375,
+                    height: 812,
+                },
+                {
+                    name: "huge mobile device",
+                    width: 428,
+                    height: 926,
+                },
+                {
+                    name: "tablet (portrait)",
+                    width: 768,
+                    height: 1024,
+                },
+                {
+                    name: "tablet (landscape)",
+                    width: 1024,
+                    height: 768,
+                },
+            ].forEach((def) => {
+                it(`${theme} theme with ${blockStyle} block style should be playable on a ${def.name}`, () => {
+                    cy.viewport(def.width, def.height);
 
-            cy.reload();
+                    const preferences: Preferences = {
+                        theme: theme,
+                        block: blockStyle,
+                    };
+                    window.localStorage.setItem("preferences", JSON.stringify(preferences));
 
-            cy.get(".game").should("be.visible").shouldBeInViewport();
-            cy.contains("2048 Clone").should("be.visible").shouldBeInViewport();
-            cy.get(".help-link").should("be.visible").shouldBeInViewport();
+                    cy.reload();
 
-            cy.get("body").type("{rightArrow}");
-            cy.get("body").type("{leftArrow}");
+                    cy.get(".game").should("be.visible").shouldBeInViewport();
+                    if (theme === "standard") {
+                        cy.contains("2048 Clone").should("be.visible").shouldBeInViewport();
+                    } else {
+                        cy.get(".classic-logo").should("be.visible").shouldBeInViewport();
+                    }
+                    cy.get(".help-link").should("be.visible").shouldBeInViewport();
 
-            cy.screenshot(`viewport/${def.name}`, {
-                capture: "viewport",
-                overwrite: true,
+                    cy.screenshot(`viewport/theme/${theme}/block-style/${blockStyle}/${def.name}`, {
+                        capture: "viewport",
+                        overwrite: true,
+                    });
+                });
             });
         });
     });
