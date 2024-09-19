@@ -154,6 +154,12 @@ body.classic a.link-icon.disabled::before {
     }
 }
 
+@media (max-width: 330px) {
+    body.classic .top-menu {
+        padding: 1rem 0.5rem 1rem 0.5rem;
+    }
+}
+
 body.classic .top-menu > .menu-options > .score-wrap-box {
     position: absolute;
     width: 100%;
