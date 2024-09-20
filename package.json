@@ -3,7 +3,6 @@
   "version": "0.2.0",
   "description": "A clone of the popular 2048 game.",
   "private": true,
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
