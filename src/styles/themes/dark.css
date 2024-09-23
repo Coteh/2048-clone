@@ -50,8 +50,12 @@ body.dark button.button {
     border: 2px solid #606060;
 }
 
-body.dark button.button:hover {
-    background-color: #5c5c5c;
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.dark button.button:hover {
+        background-color: #5c5c5c;
+    }
 }
 
 body.dark button.button > * {

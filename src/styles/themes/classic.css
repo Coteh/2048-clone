@@ -243,9 +243,13 @@ body.classic button.button.clipboard-button > * {
     font-weight: bold;
 }
 
-body.classic button.button.share-button:hover,
-body.classic button.button.clipboard-button:hover {
-    background-color: rgb(0, 82, 0);
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.classic button.button.share-button:hover,
+    body.classic button.button.clipboard-button:hover {
+        background-color: rgb(0, 82, 0);
+    }
 }
 
 body.classic button.button.new-game {

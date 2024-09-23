@@ -196,7 +196,7 @@ button.button > * {
     z-index: 100;
 }
 
-/* Specific Dialogs */
+/* Specific Buttons */
 
 body button.button.share-button,
 body button.button.clipboard-button {
@@ -220,6 +220,19 @@ button.button.new-game {
 button.button.new-game > * {
     color: var(--letter-selected-inverted-text-color);
     font-weight: bold;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    button.button.share-button:hover,
+    button.button.clipboard-button:hover {
+        background-color: rgb(0, 82, 0);
+    }
+
+    button.button.new-game:hover {
+        background-color: rgb(115, 27, 27);
+    }
 }
 
 /* Error Content */
