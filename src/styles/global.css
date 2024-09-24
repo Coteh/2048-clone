@@ -19,6 +19,10 @@
 
 /* Fonts */
 
+/* For the 2048Clone theme, if Comic Sans is not installed on player's device, Comic Neue is used instead. */
+/* Comic Neue is available at https://github.com/crozynski/comicneue and licensed 
+    under the SIL Open Font License (http://scripts.sil.org/OFL) */
+
 @font-face {
     font-family: "Comic Neue";
     src: url("/fonts/comicneue/ComicNeue-Regular.woff2");
