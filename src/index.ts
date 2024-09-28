@@ -32,6 +32,7 @@ import { UndoManager } from "./manager/undo";
 import { formatTilesetName } from "./util/format";
 
 import "./styles/global.css";
+import { AssetManager } from "./manager/asset";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -83,6 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let animationManager = new AnimationManager();
     let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
+    let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
     // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
     let unlockedInitialCommit = false;
@@ -438,7 +440,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
         const scoreLabel = document.querySelector(".score-box > .score-label") as HTMLElement;
-        const highscoreLabel = document.querySelector(".highscore-box > .score-label") as HTMLElement;
+        const highscoreLabel = document.querySelector(
+            ".highscore-box > .score-label"
+        ) as HTMLElement;
         if (selectedTheme === CLASSIC_THEME) {
             welcomeText.style.display = "block";
             classicTimeout = setTimeout(() => {
@@ -886,8 +890,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
         import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
 
-    (document.querySelector(".loader-wrapper") as HTMLElement).style.display = "none";
-
     Sentry.onLoad(() => {
         Sentry.init({
             release: `2048-clone@${GAME_VERSION}`,
@@ -924,13 +926,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     posthog.capture("game open", { version: GAME_VERSION });
 
     try {
+        await assetManager.loadAssets([
+            "/images/CheckerboardTiles.png",
+            "/images/Checkbox_unchecked.png",
+            "/images/Checkbox_checked.png",
+        ]);
+
+        (document.querySelector(".loader-wrapper") as HTMLElement).style.display = "none";
+
         await initGame(eventHandler, spawnManager, animationManager, undoManager, gameStorage);
     } catch (e: any) {
         if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");
         const errorContent = elem.querySelector(".error-text") as HTMLElement;
 
-        console.error("Unknown error occurred", e);
+        console.error("Could not initialize game due to error:", e);
         errorContent.innerText = e.message;
 
         renderDialog(elem, true, false);

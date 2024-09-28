@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.loader-wrapper > .loading-label {
+    padding: 8px;
+}
+
 .loader {
     position: absolute;
     top: calc(50% - 60px);
