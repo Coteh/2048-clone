@@ -437,14 +437,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         }
         const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
+        const scoreLabel = document.querySelector(".score-box > .score-label") as HTMLElement;
+        const highscoreLabel = document.querySelector(".highscore-box > .score-label") as HTMLElement;
         if (selectedTheme === CLASSIC_THEME) {
             welcomeText.style.display = "block";
             classicTimeout = setTimeout(() => {
                 welcomeText.style.display = "";
             }, 5000);
+            scoreLabel.innerText = "Score:";
+            highscoreLabel.innerText = "Highscore:";
         } else {
             clearTimeout(classicTimeout);
             welcomeText.style.display = "";
+            scoreLabel.innerText = "Score";
+            highscoreLabel.innerText = "Best";
         }
     };
 

@@ -62,3 +62,13 @@ body.dark button.button > * {
     color: #f2f2f2;
     font-weight: bold;
 }
+
+body.dark .score-box,
+body.dark .highscore-box {
+    background-color: grey;
+}
+
+body.dark .score-box > .score-label,
+body.dark .highscore-box > .score-label {
+    color: white;
+}
