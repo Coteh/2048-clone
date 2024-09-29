@@ -61,7 +61,7 @@ body:not(.classic) .highscore-box {
     justify-content: center;
     align-items: center;
     padding: 8px;
-    margin: 2px;
+    margin: 1px;
     min-width: 50px;
     border-radius: 4px;
     background-color: #d4b186;
