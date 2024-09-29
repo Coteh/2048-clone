@@ -83,3 +83,13 @@ body.light button.button.share-button > * {
         color: #000;
     }
 }
+
+body.light .score-box,
+body.light .highscore-box {
+    background-color: lightgray;
+}
+
+body.light .score-box > .score-label,
+body.light .highscore-box > .score-label {
+    color: #6b6b6b;
+}

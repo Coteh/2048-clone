@@ -223,7 +223,7 @@ describe("gameplay", () => {
                 window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
             },
         });
-        
+
         cy.verifyBoardMatches([
             [2, 4, 8, 16],
             [0, 0, 0, 0],
@@ -231,21 +231,21 @@ describe("gameplay", () => {
             [0, 0, 0, 0],
         ]);
 
-        cy.contains("Score: 100").should("be.visible");
-        cy.contains("Highscore: 100").should("be.visible");
-        
+        cy.contains("Score 100").should("be.visible");
+        cy.contains("Best 100").should("be.visible");
+
         cy.contains("New Game").click();
 
         cy.contains("Yes").click();
-        
+
         cy.verifyBoardDoesNotMatch([
             [2, 4, 8, 16],
             [0, 0, 0, 0],
             [0, 0, 0, 0],
             [0, 0, 0, 0],
         ]);
-        
-        cy.contains("Score: 0").should("be.visible");
-        cy.contains("Highscore: 100").should("be.visible");
+
+        cy.contains("Score 0").should("be.visible");
+        cy.contains("Best 100").should("be.visible");
     });
 });

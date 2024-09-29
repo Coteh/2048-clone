@@ -94,7 +94,7 @@ export const renderBoard = (
         if (options.theme === "classic") {
             scoreIncreaseTextElem.style.left = "150px";
         } else {
-            scoreIncreaseTextElem.style.left = "-60px";
+            scoreIncreaseTextElem.style.left = "-30px";
         }
         scoreIncreaseTextElem.style.transition = "top 1s, left 1s, opacity 0.5s";
         setTimeout(() => {
@@ -124,7 +124,11 @@ export const renderBackRow = (parentElem: HTMLElement, rowLength: number) => {
     return container;
 };
 
-export const renderNumberBox = (parentElem: HTMLElement, number: number, options?: RenderBoardOptions) => {
+export const renderNumberBox = (
+    parentElem: HTMLElement,
+    number: number,
+    options?: RenderBoardOptions
+) => {
     const numberBox = document.createElement("div");
     numberBox.classList.add("box");
     const letterElem = document.createElement("span");
@@ -135,7 +139,10 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number, options
         numberBox.classList.add(`block-${number}`);
     }
     let blockFontSize;
-    if (document.body.classList.contains("block-style-compact") || (options && options.theme === "classic")) {
+    if (
+        document.body.classList.contains("block-style-compact") ||
+        (options && options.theme === "classic")
+    ) {
         if (options && options.theme === "classic") {
             blockFontSize = "16px";
         } else {
@@ -151,7 +158,11 @@ export const renderNumberBox = (parentElem: HTMLElement, number: number, options
         }
     }
     letterElem.style.fontSize = blockFontSize;
-    if (!document.body.classList.contains("block-style-compact") && (options && options.theme === "classic")) {
+    if (
+        !document.body.classList.contains("block-style-compact") &&
+        options &&
+        options.theme === "classic"
+    ) {
         letterElem.style.top = "30%";
         letterElem.style.left = "30%";
     }

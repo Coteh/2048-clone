@@ -46,7 +46,7 @@ describe("retrieving saved progress", () => {
         ]);
 
         // Then check if persistent state loads up
-        cy.contains("Highscore: 1234").should("be.visible");
+        cy.contains("Best 1234").should("be.visible");
 
         // Finally check if preferences are loaded
         cy.get("body").should("have.class", "dark");
