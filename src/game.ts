@@ -153,8 +153,11 @@ export const initGame = async (
 
     animationManager.initNewBlocks();
 
-    // TODO: Should game state be passed into the draw?
-    eventHandler("draw", { gameState, persistentState });
+    eventHandler("draw", {
+        undoInfo: {
+            undoStack: undoManager.getGameStateStack(),
+        },
+    });
 
     if (gameState.ended) {
         eventHandler("lose");
@@ -162,10 +165,10 @@ export const initGame = async (
 };
 
 export const newGame = (debugState?: GameState) => {
-    gameState = newState();
-
     if (debugState) {
         gameState = debugState;
+    } else {
+        gameState = newState();
     }
 
     spawnManager.setGameState(gameState);
@@ -187,10 +190,7 @@ export const newGame = (debugState?: GameState) => {
     animationManager.initNewBlocks();
     undoManager.clear();
 
-    // TODO: Should game state be passed into the draw?
     eventHandler("draw", {
-        gameState,
-        persistentState,
         undoInfo: {
             undoStack: undoManager.getGameStateStack(),
         },
@@ -233,8 +233,6 @@ export const undo = () => {
     }
     gameState.didUndo = true;
     eventHandler("draw", {
-        gameState,
-        persistentState,
         undoInfo: {
             undoStack: undoManager.getGameStateStack(),
         },
@@ -375,8 +373,6 @@ export const move = (direction: Direction) => {
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
     }
     eventHandler("draw", {
-        gameState,
-        persistentState,
         undoInfo: {
             undoStack: undoManager.getGameStateStack(),
         },

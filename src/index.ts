@@ -109,9 +109,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 break;
             case "draw":
-                // TODO: I don't think I need to set these here because they're references, just setting them in init should be enough
-                gameState = data.gameState;
-                persistentState = data.persistentState;
                 renderBoard(middleElem, gameState, animationManager, {
                     theme: selectedTheme,
                 });
