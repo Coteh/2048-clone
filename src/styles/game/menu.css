@@ -64,7 +64,7 @@ body:not(.classic) .highscore-box {
     margin: 1px;
     min-width: 50px;
     border-radius: 4px;
-    background-color: #d4b186;
+    background-color: #e3bd8f;
 }
 
 body:not(.classic) .score-box > .score-label,
