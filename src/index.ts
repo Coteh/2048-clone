@@ -74,6 +74,8 @@ let isAnimationEnabled = false;
 
 let isPrompted = false;
 
+console.info(`2048-clone v${GAME_VERSION}`);
+
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle") as HTMLElement;
     const bottomElem = document.querySelector("#bottom") as HTMLElement;
