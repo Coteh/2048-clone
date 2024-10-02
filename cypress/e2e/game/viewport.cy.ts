@@ -77,6 +77,14 @@ describe("viewport", () => {
 
                     cy.reload();
 
+                    // Set version number and commit hash to placeholders so that screenshots are consistent
+                    cy.document().then((doc) => {
+                        const versionNumber = doc.querySelector(".version-number") as HTMLElement;
+                        versionNumber.innerText = "vX.X.X";
+                        const commitHash = doc.querySelector(".commit-hash") as HTMLElement;
+                        commitHash.innerText = "aaaaaaa";
+                    });
+
                     cy.get(".game").should("be.visible").shouldBeInViewport();
                     if (theme === "standard") {
                         cy.contains("2048 Clone").should("be.visible").shouldBeInViewport();
