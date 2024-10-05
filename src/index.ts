@@ -852,7 +852,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         debugButton.blur();
     });
 
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV && !import.meta.env.VITE_DEBUG_OFF) {
         debugButton.style.display = "";
         undoButton.style.display = "";
         const debugOverlay = document.querySelector("#debug-overlay") as HTMLDivElement;
