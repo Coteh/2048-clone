@@ -26,13 +26,14 @@ import { BrowserGameStorage } from "./storage/browser";
 import { copyShareText, triggerShare } from "./share/browser";
 import confetti from "canvas-confetti";
 import { Tutorial } from "./component/tutorial";
+import { HowToPlay } from "./component/how-to-play";
 import * as Sentry from "@sentry/browser";
 import posthog from "posthog-js";
 import { UndoManager } from "./manager/undo";
+import { AssetManager } from "./manager/asset";
 import { formatTilesetName } from "./util/format";
 
 import "./styles/global.css";
-import { AssetManager } from "./manager/asset";
 
 const STANDARD_THEME = "standard";
 const LIGHT_THEME = "light";
@@ -93,6 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let unlockedInitialCommit = false;
 
     let tutorial: Tutorial = new Tutorial();
+    let howToPlay: HowToPlay = new HowToPlay();
 
     const swipeSensitivity = 50;
 
@@ -327,7 +329,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const helpLink = document.querySelector(".help-link") as HTMLElement;
     helpLink.addEventListener("click", (e) => {
         e.preventDefault();
-        renderDialog(createDialogContentFromTemplate("#how-to-play"), true);
+        howToPlay.renderHowToPlay();
         helpLink.blur();
     });
 
