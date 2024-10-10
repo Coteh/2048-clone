@@ -72,14 +72,16 @@ body.light button.button > * {
     font-weight: bold;
 }
 
-body.light button.button.share-button > * {
+body.light button.button.share-button > *,
+body.light button.button.clipboard-button > * {
     color: #fff;
 }
 
 /* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
     Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
 @media (hover) {
-    body.light button.button.share-button:hover > * {
+    body.light button.button.share-button:hover > *,
+    body.light button.button.clipboard-button:hover > * {
         color: #000;
     }
 }
