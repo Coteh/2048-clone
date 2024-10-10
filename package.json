@@ -1,6 +1,6 @@
 {
   "name": "2048-clone",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A clone of the popular 2048 game.",
   "private": true,
   "type": "module",
