@@ -210,11 +210,11 @@
             </div>
         </div>
         <template id="dialog">
-            <div class="dialog">
-                <button class="close"><i data-feather="x"></i></button>
+            <dialog class="dialog">
+                <button class="close" autofocus><i data-feather="x"></i></button>
                 <div class="dialog-content">
                 </div>
-            </div>
+            </dialog>
         </template>
         <template id="notification">
             <div class="notification">
@@ -262,42 +262,52 @@
                             <h2>How to Play</h2>
                         </div>
 
-                        <div class="section">
+                        <div class="section" data-step="1">
                             <p class="hybrid-steps">Swipe or use the arrow keys to move the tiles.</p>
                             <!-- TODO: If not mobile device, then only display information for desktop controls, and vice versa. -->
                             <!-- <p class="desktop-steps">Use the arrow keys to move the tiles.</p> -->
                             <div class="tutorial-space">
-                                <div class="back-rows"><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
-                                <div class="base-rows"><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-2" style=""><span class="box-letter" style="font-size: 18px;">2</span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box number-block block-4" style=""><span class="box-letter" style="font-size: 18px;">4</span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
-                                <img class="pointing-hand tutorial-visual" src="/images/PointingHand.png" style="opacity:0"/>
-                                <div class="keyboard-visual tutorial-visual">
-                                    <div>
-                                        <div class="keyboard-button" style="opacity: 0;">←</div>
-                                        <div class="keyboard-button" id="up-arrow">↑</div>
-                                        <div class="keyboard-button" style="opacity: 0;">→</div>
-                                    </div>
-                                    <div>
-                                        <div class="keyboard-button" id="left-arrow">←</div>
-                                        <div class="keyboard-button" id="down-arrow">↓</div>
-                                        <div class="keyboard-button" id="right-arrow">→</div>
+                                <div class="back-rows"></div>
+                                <div class="base-rows"></div>
+                                <div class="overlay-space">
+                                    <img class="pointing-hand tutorial-visual" src="/images/PointingHand.png" style="opacity:0"/>
+                                    <div class="keyboard-visual tutorial-visual" style="opacity:0">
+                                        <div>
+                                            <div class="keyboard-button" style="opacity: 0;">←</div>
+                                            <div class="keyboard-button" id="up-arrow">↑</div>
+                                            <div class="keyboard-button" style="opacity: 0;">→</div>
+                                        </div>
+                                        <div>
+                                            <div class="keyboard-button" id="left-arrow">←</div>
+                                            <div class="keyboard-button" id="down-arrow">↓</div>
+                                            <div class="keyboard-button" id="right-arrow">→</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="section">
+                        <div class="section" data-step="2">
                             <p>When two tiles with the same number touch, they merge into one, doubling their value.</p>
                             <div class="tutorial-space">
-                                <div class="back-rows"><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
-                                <div class="base-rows"><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-4" style=""><span class="box-letter" style="font-size: 18px;">4</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box number-block block-8" style="top: 0px; left: 0px;"><span class="box-letter" style="font-size: 18px;">8</span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
+                                <div class="back-rows"></div>
+                                <div class="base-rows"></div>
                             </div>
                         </div>
 
-                        <div class="section">
+                        <div class="section" data-step="3">
+                            <p>After each move, a new tile will appear in an empty spot, which can be either a 2 or a 4.</p>
+                            <div class="tutorial-space">
+                                <div class="back-rows"></div>
+                                <div class="base-rows"></div>
+                            </div>
+                        </div>
+
+                        <div class="section" data-step="4">
                             <p>Your goal is to create a tile with the number 2048!</p>
                             <div class="tutorial-space">
-                                <div class="back-rows"><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
-                                <div class="base-rows"><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-4"><span class="box-letter" style="font-size: 18px;">4</span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div><div class="box number-block block-2"><span class="box-letter" style="font-size: 18px;">2</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-2"><span class="box-letter" style="font-size: 18px;">2</span></div><div class="box number-block block-16"><span class="box-letter" style="font-size: 18px;">16</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-32"><span class="box-letter" style="font-size: 18px;">32</span></div><div class="box number-block block-512"><span class="box-letter" style="font-size: 18px;">512</span></div><div class="box number-block block-2048" style="top: 0px; left: 0px;"><span class="box-letter" style="font-size: 18px;">2048</span></div></div></div>
+                                <div class="back-rows"></div>
+                                <div class="base-rows"></div>
                             </div>
                         </div>
 
@@ -305,19 +315,19 @@
                             <h3>Tips</h3>
                         </div>
 
-                        <div class="section">
+                        <div class="section" data-step="5">
                             <p>Plan ahead and try to keep your largest tiles in one corner.</p>
                             <div class="tutorial-space">
-                                <div class="back-rows"><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
-                                <div class="base-rows"><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-4"><span class="box-letter" style="font-size: 18px;">4</span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div><div class="box number-block block-2"><span class="box-letter" style="font-size: 18px;">2</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-2"><span class="box-letter" style="font-size: 18px;">2</span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div><div class="box number-block block-32"><span class="box-letter" style="font-size: 18px;">32</span></div></div></div>
+                                <div class="back-rows"></div>
+                                <div class="base-rows"></div>
                             </div>
                         </div>
 
-                        <div class="section">
+                        <div class="section" data-step="6">
                             <p>Don't fill the board—leave space to keep merging!</p>
                             <div class="tutorial-space">
-                                <div class="back-rows"><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="back-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div></div>
-                                <div class="base-rows"><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-2"><span class="box-letter" style="font-size: 18px;">2</span></div><div class="box number-block block-32"><span class="box-letter" style="font-size: 18px;">32</span></div></div><div class="input-row"><div class="box"><span class="box-letter" style="font-size: 18px;"></span></div><div class="box number-block block-8"><span class="box-letter" style="font-size: 18px;">8</span></div><div class="box number-block block-64"><span class="box-letter" style="font-size: 18px;">64</span></div><div class="box number-block block-128"><span class="box-letter" style="font-size: 18px;">128</span></div></div></div>
+                                <div class="back-rows"></div>
+                                <div class="base-rows"></div>
                             </div>
                         </div>
                     </div>
@@ -328,7 +338,7 @@
         <template id="prompt-dialog-content">
             <span class="prompt-text"></span><br/>
             <button class="button confirm"><span>Yes</span></button>
-            <button class="button cancel"><span>Cancel</span></button>
+            <button class="button cancel" autofocus><span>Cancel</span></button>
         </template>
         <template id="error-dialog-content">
             <span>

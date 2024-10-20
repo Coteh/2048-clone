@@ -4,7 +4,7 @@
     position: fixed;
     top: 10%;
     left: 50%;
-    z-index: 101;
+    z-index: 102;
     transform: translate(-50%, 0);
 
     display: flex;
@@ -13,11 +13,14 @@
     width: 60%;
 }
 
-.notification-area > div.notification {
+.notification-area > .notification {
     background-color: var(--notification-background-color);
     border: 1px solid var(--notification-background-color);
     border-radius: 0.25rem;
     margin: 0.2rem;
+
+    /* Need to inherit z-index from parent, otherwise they won't appear on top of dialogs in iOS Safari */
+    z-index: inherit;
 
     text-align: center;
 
@@ -25,7 +28,7 @@
     transition: opacity 0.25s;
 }
 
-.notification-area > div.notification > div.notification-content {
+.notification-area > .notification > div.notification-content {
     padding: 1rem 1.5rem;
     font-weight: bold;
     color: var(--notification-text-color);

@@ -298,6 +298,9 @@ a {
 .tutorial-space {
     position: relative;
     height: 240px;
+
+    display: flex;
+    justify-content: center;
 }
 
 .tutorial-space .input-row,
@@ -309,11 +312,15 @@ a {
     padding: 1em;
 }
 
-.tutorial-space > .tutorial-visual {
+.tutorial-space > .overlay-space {
+    position: relative;
+}
+
+.tutorial-space > .overlay-space > .tutorial-visual {
     transition: opacity 1s;
 }
 
-.tutorial-space > .pointing-hand {
+.tutorial-space > .overlay-space > .pointing-hand {
     position: absolute;
     top: 25%;
     left: 0;
@@ -321,18 +328,15 @@ a {
     width: 100px;
     transition: initial;
 
-    animation: hand-move 5s infinite;
+    animation: hand-move 3s infinite;
 }
 
 @keyframes hand-move {
     0% {
         left: 0px;
     }
-    50% {
-        left: 100px;
-    }
     100% {
-        left: 0px;
+        left: 100px;
     }
 }
 

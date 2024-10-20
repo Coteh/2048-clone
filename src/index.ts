@@ -114,8 +114,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 break;
             case "draw":
-                renderBoard(middleElem, gameState, animationManager, {
+                renderBoard(middleElem, gameState.board, animationManager, {
                     theme: selectedTheme,
+                    blockStyle: selectedBlockStyle,
                 });
                 (document.querySelector("#score") as HTMLElement).innerText =
                     gameState.score.toString();
@@ -136,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareButton = loseElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
                 renderDialog(loseElem, true);
-                const dialog = document.querySelector(".dialog") as HTMLElement;
+                const dialog = document.querySelector(".dialog") as HTMLDialogElement;
                 dialog.classList.add("game-over");
                 (document.getElementById("dialog-score") as HTMLElement).innerText =
                     gameState.score.toString();
@@ -223,13 +224,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
-    const closeDialog = (dialog: HTMLElement, overlayBackElem: HTMLElement) => {
+    const closeDialog = (dialog: HTMLDialogElement, overlayBackElem: HTMLElement) => {
         if (dialog) {
             // Check if dialog is closable first before closing (close button would be visible, if so)
             const closeBtn = dialog.querySelector("button.close") as HTMLElement;
             if (closeBtn.style.display === "none") {
                 return;
             }
+            dialog.close();
             dialog.remove();
         }
         // NTS: Perhaps it'd make more sense if overlay backdrop only disappeared when a valid dialog is passed,
@@ -240,7 +242,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const handleKeyInput = (key: string) => {
         console.log(key);
-        const dialog = document.querySelector(".dialog") as HTMLElement;
+        const dialog = document.querySelector(".dialog") as HTMLDialogElement;
         if (dialog) {
             if (key === "escape") {
                 // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
@@ -369,7 +371,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (isPrompted) {
             return;
         }
-        const dialog = document.querySelector(".dialog") as HTMLElement;
+        const dialog = document.querySelector(".dialog") as HTMLDialogElement;
         closeDialog(dialog, overlayBackElem);
     });
 
@@ -434,8 +436,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Redraw the board to remove any theme-specific modifiers on any of the DOM elements
         if (gameState) {
             animationManager.resetState();
-            renderBoard(middleElem, gameState, animationManager, {
+            renderBoard(middleElem, gameState.board, animationManager, {
                 theme: selectedTheme,
+                blockStyle: selectedBlockStyle,
             });
         }
         const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
@@ -487,8 +490,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Redraw the board to reset the font sizes for the different block styles
         if (gameState) {
             animationManager.resetState();
-            renderBoard(middleElem, gameState, animationManager, {
+            renderBoard(middleElem, gameState.board, animationManager, {
                 theme: selectedTheme,
+                blockStyle: selectedBlockStyle,
             });
         }
     };
@@ -746,7 +750,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), true);
         const closeDialogAndOverlay = () => {
             const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
-            const dialog = document.querySelector(".dialog") as HTMLElement;
+            const dialog = document.querySelector(".dialog") as HTMLDialogElement;
             closeDialog(dialog, overlayBackElem);
         };
         (document.querySelector(".button.new-win-game") as HTMLElement).addEventListener(

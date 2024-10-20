@@ -2,14 +2,14 @@ body.block-style-compact .game-space {
     top: 50%;
 }
 
-body.block-style-compact .input-row {
+body.block-style-compact .game-space .input-row {
     max-height: 3rem;
 }
 
-body.block-style-compact .back-row {
+body.block-style-compact .game-space .back-row {
     max-height: 3rem;
 }
 
-body.block-style-compact .box {
+body.block-style-compact .game-space .box {
     padding: 1.25em;
 }

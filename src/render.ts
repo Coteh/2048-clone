@@ -1,18 +1,18 @@
 import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
-import { GameBoard, GameState } from "./game";
+import { GameBoard } from "./game";
 
 interface RenderBoardOptions {
     theme?: string;
+    blockStyle?: string;
 }
 
 export const renderBoard = (
     parentElem: HTMLElement,
-    gameState: GameState,
+    board: GameBoard,
     animationManager: AnimationManager,
     options: RenderBoardOptions
 ) => {
-    const board = gameState.board;
     const newBlocks = animationManager.newBlocks;
     const movedBlocks = animationManager.movedBlocks;
     const mergedBlocks = animationManager.mergedBlocks;
@@ -139,10 +139,7 @@ export const renderNumberBox = (
         numberBox.classList.add(`block-${number}`);
     }
     let blockFontSize;
-    if (
-        document.body.classList.contains("block-style-compact") ||
-        (options && options.theme === "classic")
-    ) {
+    if (options && (options.blockStyle === "compact" || options.theme === "classic")) {
         if (options && options.theme === "classic") {
             blockFontSize = "16px";
         } else {
@@ -158,11 +155,7 @@ export const renderNumberBox = (
         }
     }
     letterElem.style.fontSize = blockFontSize;
-    if (
-        !document.body.classList.contains("block-style-compact") &&
-        options &&
-        options.theme === "classic"
-    ) {
+    if (options && options.blockStyle !== "compact" && options.theme === "classic") {
         letterElem.style.top = "30%";
         letterElem.style.left = "30%";
     }
@@ -171,7 +164,19 @@ export const renderNumberBox = (
     return numberBox;
 };
 
-export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: boolean = true) => {
+// TODO: Move fade in and closable into here as well
+export type DialogOptions = {
+    width?: string;
+    height?: string;
+    // TODO: Add option for specifying type of transition effect as well
+};
+
+export const renderDialog = (
+    content: HTMLElement,
+    fadeIn: boolean,
+    closable: boolean = true,
+    options?: DialogOptions
+) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
@@ -179,13 +184,16 @@ export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: bo
     const template = document.querySelector("#dialog") as HTMLTemplateElement;
     const clone = template.content.cloneNode(true) as HTMLElement;
 
+    const dialog = clone.querySelector(".dialog") as HTMLDialogElement;
+
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
 
     const closeBtn = clone.querySelector("button.close") as HTMLElement;
     if (closable) {
         closeBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            const dialog = document.querySelector(".dialog") as HTMLElement;
+            const dialog = document.querySelector(".dialog") as HTMLDialogElement;
+            dialog.close();
             dialog.remove();
             overlayBackElem.style.display = "none";
         });
@@ -197,7 +205,6 @@ export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: bo
     dialogContent.appendChild(content);
 
     if (fadeIn) {
-        const dialog = clone.querySelector(".dialog") as HTMLElement;
         dialog.style.opacity = "0";
         // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
         // have it base itself off of a computed transform property
@@ -209,12 +216,23 @@ export const renderDialog = (content: HTMLElement, fadeIn: boolean, closable: bo
         }, 10);
     }
 
+    if (options) {
+        if (options.width) {
+            dialog.style.width = options.width;
+        }
+        if (options.height) {
+            dialog.style.height = options.height;
+        }
+    }
+
     document.body.appendChild(clone);
 
     overlayBackElem.style.display = "block";
 
     (document.querySelector(".dialog [data-feather='x']") as HTMLElement).innerText = "X";
     feather.replace();
+
+    dialog.show();
 };
 
 export const renderPromptDialog = (
@@ -234,11 +252,12 @@ export const renderPromptDialog = (
 
     (clone.querySelector("button.close") as HTMLElement).style.display = "none";
 
+    const dialog = clone.querySelector(".dialog") as HTMLDialogElement;
+
     const dialogContent = clone.querySelector(".dialog-content") as HTMLElement;
     dialogContent.appendChild(content);
 
     if (fadeIn) {
-        const dialog = clone.querySelector(".dialog") as HTMLElement;
         dialog.style.opacity = "0";
         // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
         // have it base itself off of a computed transform property
@@ -253,7 +272,8 @@ export const renderPromptDialog = (
     const cancelBtn = clone.querySelector("button.cancel") as HTMLElement;
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        const dialog = document.querySelector(".dialog") as HTMLElement;
+        const dialog = document.querySelector(".dialog") as HTMLDialogElement;
+        dialog.close();
         dialog.remove();
         overlayBackElem.style.display = "none";
         if (onCancel) {
@@ -263,7 +283,8 @@ export const renderPromptDialog = (
     const confirmBtn = clone.querySelector("button.confirm") as HTMLElement;
     confirmBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        const dialog = document.querySelector(".dialog") as HTMLElement;
+        const dialog = document.querySelector(".dialog") as HTMLDialogElement;
+        dialog.close();
         dialog.remove();
         overlayBackElem.style.display = "none";
         if (onConfirm) {
@@ -274,6 +295,8 @@ export const renderPromptDialog = (
     document.body.appendChild(clone);
 
     overlayBackElem.style.display = "block";
+
+    dialog.show();
 };
 
 export const renderNotification = (msg: string, timeoutMS: number = 1000) => {
@@ -289,7 +312,7 @@ export const renderNotification = (msg: string, timeoutMS: number = 1000) => {
     // The original reference is a DocumentFragment, need to find the notification element in the DOM tree to continue using it
     const notificationList = notificationArea.querySelectorAll(
         ".notification-area > .notification"
-    ) as NodeListOf<HTMLElement>;
+    ) as NodeListOf<HTMLDialogElement>;
     const notification = notificationList[notificationList.length - 1];
 
     setTimeout(() => {
