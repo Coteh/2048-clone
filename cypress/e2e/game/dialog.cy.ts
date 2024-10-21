@@ -106,6 +106,8 @@ describe("dialogs", () => {
             cy.get(".dialog").should("be.visible");
             cy.get(".overlay-back").should("be.visible");
 
+            // Remove focus from the close button first, as pressing enter while it's focused will trigger the close button
+            cy.get(".dialog > button.close").blur();
             cy.get("body").type("{enter}");
 
             cy.get(".dialog").should("be.visible");
@@ -195,8 +197,9 @@ describe("dialogs", () => {
         it("can not be closed using escape key or enter key", () => {
             cy.get(".dialog").should("be.visible");
 
-            cy.get("body").type("{enter}");
-            cy.get("body").type("{esc}");
+            // Need realType rather than type because Cypress does not consider dialog element a typeable element
+            cy.get("body").realType("{enter}");
+            cy.get("body").realType("{esc}");
 
             cy.get(".dialog").should("be.visible");
         });
