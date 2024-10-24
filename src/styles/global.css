@@ -295,7 +295,7 @@ a {
     text-transform: uppercase;
 }
 
-.tutorial-space {
+.sample-space {
     position: relative;
     height: 240px;
 
@@ -303,24 +303,24 @@ a {
     justify-content: center;
 }
 
-.tutorial-space .input-row,
-.tutorial-space .back-row {
+.sample-space .input-row,
+.sample-space .back-row {
     max-height: 3rem;
 }
 
-.tutorial-space .box {
+.sample-space .box {
     padding: 1em;
 }
 
-.tutorial-space > .overlay-space {
+.sample-space > .overlay-space {
     position: relative;
 }
 
-.tutorial-space > .overlay-space > .tutorial-visual {
+.sample-space > .overlay-space > .tutorial-visual {
     transition: opacity 1s;
 }
 
-.tutorial-space > .overlay-space > .pointing-hand {
+.sample-space > .overlay-space > .pointing-hand {
     position: absolute;
     top: 25%;
     left: 0;
@@ -340,12 +340,12 @@ a {
     }
 }
 
-.tutorial-space .keyboard-visual {
+.sample-space .keyboard-visual {
     position: absolute;
     transform: translate(20%, 50%);
 }
 
-.tutorial-space .keyboard-visual .keyboard-button {
+.sample-space .keyboard-visual .keyboard-button {
     display: inline-block;
     box-sizing: border-box;
     padding: 10px 15px;
@@ -370,7 +370,7 @@ a {
     transition: all 0.1s ease-in-out;
 }
 
-.tutorial-space .keyboard-visual .keyboard-button.pressed {
+.sample-space .keyboard-visual .keyboard-button.pressed {
     /* Deeper shadow when "active" */
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2), inset -1px -1px 5px rgba(0, 0, 0, 0.2);
     /* Slight movement downwards */
