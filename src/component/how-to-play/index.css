@@ -1,0 +1,94 @@
+.dialog > .dialog-content > .how-to-play {
+    height: 100%;
+    position: relative;
+}
+
+.dialog > .dialog-content > .how-to-play > .how-to-play-content {
+    padding: 0 0 16px 0;
+}
+
+.how-to-play h1,h2,h3,h4,h5 {
+    text-transform: uppercase;
+}
+
+.sample-space {
+    position: relative;
+    height: 240px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.sample-space .input-row,
+.sample-space .back-row {
+    max-height: 3rem;
+}
+
+.sample-space .box {
+    padding: 1em;
+}
+
+.sample-space > .overlay-space {
+    position: relative;
+}
+
+.sample-space > .overlay-space > .tutorial-visual {
+    transition: opacity 1s;
+}
+
+.sample-space > .overlay-space > .pointing-hand {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    transform: initial;
+    width: 100px;
+    transition: initial;
+
+    animation: hand-move 3s infinite;
+}
+
+@keyframes hand-move {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: 100px;
+    }
+}
+
+.sample-space .keyboard-visual {
+    position: absolute;
+    transform: translate(20%, 50%);
+}
+
+.sample-space .keyboard-visual .keyboard-button {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    /* Background color of the button */
+    background: #e0e0e0;
+    /* Slight border to give the button an edge */
+    border: 1px solid hsl(0, 0%, 69%);
+    /* Rounded corners for a realistic button feel */
+    border-radius: 5px;
+    /* Outer and inner shadows */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), inset 1px 1px 3px rgba(255, 255, 255, 0.6);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    /* Text color */
+    color: #333;
+    /* Slight text shadow for depth */
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    /* Disable text selection */
+    user-select: none;
+    /* Smooth transition for effects */
+    transition: all 0.1s ease-in-out;
+}
+
+.sample-space .keyboard-visual .keyboard-button.pressed {
+    /* Deeper shadow when "active" */
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2), inset -1px -1px 5px rgba(0, 0, 0, 0.2);
+    /* Slight movement downwards */
+    transform: translateY(1px);
+}

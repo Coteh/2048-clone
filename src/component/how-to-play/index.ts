@@ -3,6 +3,8 @@ import { AnimationManager } from "../../manager/animation";
 import { renderDialog, createDialogContentFromTemplate, renderBoard } from "../../render";
 import { isMobile } from "../../util/mobile";
 
+import "./index.css";
+
 export class HowToPlay {
     step1VisualsInterval?: NodeJS.Timeout;
     step1KeyboardInterval?: NodeJS.Timeout;
