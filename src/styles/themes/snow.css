@@ -2,7 +2,114 @@
     --background-color: linear-gradient(180deg, rgba(2, 0, 36, 1) 40%, rgba(9, 9, 121, 1) 100%);
     --fallback-background-color: rgb(2, 0, 36);
 
-    --standard-block-color: rgba(0, 0, 0, 0);
+    --dialog-background-color: var(--gray-2);
+    --text-color: var(--white);
+
+    --standard-block-color: rgb(4, 0, 49);
+
+    --back-layer-color: var(--white);
+
+    --block-2-color: #e0f7fa;
+    --block-4-color: #b3e5fc;
+    --block-8-color: #81d4fa;
+    --block-16-color: #4fc3f7;
+    --block-32-color: #29b6f6;
+    --block-64-color: #03a9f4;
+    --block-128-color: #0277bd;
+    --block-256-color: #01579b;
+    --block-512-color: #ffa726;
+    --block-1024-color: #ffb74d;
+    --block-2048-color: #fdd14b;
+    --block-4096-color: #ffecb3;
+    --block-8192-color: #fff8e1;
+    --block-16384-color: #ffffe0;
+    --block-32768-color: #fffde7;
+    --block-65536-color: #ffffff;
+    --block-max-color: #ffffff;
+
+    --block-2-text-color: #2b3a67;
+    --block-4-text-color: #2b3a67;
+    --block-8-text-color: #2b3a67;
+    --block-16-text-color: #2b3a67;
+    --block-32-text-color: #2b3a67;
+    --block-64-text-color: #2b3a67;
+    --block-128-text-color: #ffffff;
+    --block-256-text-color: #ffffff;
+    --block-512-text-color: #ffffff;
+    --block-1024-text-color: #ffffff;
+    --block-2048-text-color: #ffffff;
+    --block-4096-text-color: #000000;
+    --block-8192-text-color: #000000;
+    --block-16384-text-color: #000000;
+    --block-32768-text-color: #000000;
+    --block-65536-text-color: #000000;
+    --block-max-text-color: #000000;
+}
+
+.snow.tileset-christmas {
+    --block-2-color: #d7ccc8;
+    --block-4-color: #bcaaa4;
+    --block-8-color: #e57373;
+    --block-16-color: #ef5350;
+    --block-32-color: #f44336;
+    --block-64-color: #e53935;
+    --block-128-color: #d32f2f;
+    --block-256-color: #a5d6a7;
+    --block-512-color: #81c784;
+    --block-1024-color: #66bb6a;
+    --block-2048-color: #4caf50;
+    --block-4096-color: #388e3c;
+    --block-8192-color: #2e7d32;
+    --block-16384-color: #1b5e20;
+    --block-32768-color: #0d3e12;
+    --block-65536-color: #06230b;
+    --block-max-color: #06230b;
+
+    --block-2-text-color: #2e1b0e;
+    --block-4-text-color: #2e1b0e;
+    --block-8-text-color: #ffffff;
+    --block-16-text-color: #ffffff;
+    --block-32-text-color: #ffffff;
+    --block-64-text-color: #ffffff;
+    --block-128-text-color: #ffffff;
+    --block-256-text-color: #ffffff;
+    --block-512-text-color: #ffffff;
+    --block-1024-text-color: #ffffff;
+    --block-2048-text-color: #ffffff;
+    --block-4096-text-color: #ffffff;
+    --block-8192-text-color: #ffffff;
+    --block-16384-text-color: #ffffff;
+    --block-32768-text-color: #ffffff;
+    --block-65536-text-color: #ffffff;
+    --block-max-text-color: #ffffff;
+}
+
+body.snow button.button {
+    background-color: #b3e5fc;
+    border: 2px solid #81d4fa;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.snow button.button:hover {
+        background-color: #75d1fb;
+    }
+}
+
+body.snow button.button > * {
+    color: #01579b;
+    font-weight: bold;
+}
+
+body.snow .score-box,
+body.snow .highscore-box {
+    background-color: grey;
+}
+
+body.snow .score-box > .score-label,
+body.snow .highscore-box > .score-label {
+    color: white;
 }
 
 .embedim-snow {

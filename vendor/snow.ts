@@ -1,5 +1,5 @@
 /* https://embed.im/snow */
-/* with some modifications made for wordle-clone:
+/* with some modifications made for 2048-clone:
 - Positions are re-randomized whenever window is resized. 
     This addresses an issue where opening and closing the Inspect pane (when docked the bottom)
     or switching the device orientation from portrait to landscape (or vice versa) causes the 
@@ -16,6 +16,7 @@
     (which have z-index of 100 or over)
     This will allow the snow elements to be dimmed alongside the rest of the elements
     underneath the overlay when it appears.
+- Converted from JavaScript to TypeScript
 */
 const zIndex = -10;
 var embedimSnow = document.getElementById("embedim--snow");
@@ -26,7 +27,7 @@ if (!embedimSnow) {
     const generateSnowflakeElements = () => {
         let snowHTML = "";
         let snowCSS = "";
-        for (i = 1; i < 200; i++) {
+        for (let i = 1; i < 200; i++) {
             snowHTML += '<i class="embedim-snow"></i>';
             var rndX = embRand(0, 1000000) * 0.0001,
                 rndO = embRand(-100000, 100000) * 0.0001,
@@ -78,11 +79,12 @@ if (!embedimSnow) {
             html: snowHTML,
             css: snowCSS,
         };
-    }
+    };
     const setSnowElementInnerHTML = () => {
-        embedimSnow.innerHTML =
+        embedimSnow!.innerHTML =
             `<style>#embedim--snow{position:fixed;left:0;top:0;bottom:0;width:100vw;height:100vh;overflow:hidden;z-index:${zIndex};pointer-events:none}` +
-            baseEmbCSS + snowElements.css +
+            baseEmbCSS +
+            snowElements.css +
             "</style>" +
             snowElements.html;
     };
@@ -94,11 +96,11 @@ if (!embedimSnow) {
     embedimSnow.id = "embedim--snow";
     embedimSnow.style.display = "none";
     setSnowElementInnerHTML();
-    
+
     document.body.appendChild(embedimSnow);
-    
+
     addEventListener("resize", (e) => {
         snowElements = generateSnowflakeElements();
         setSnowElementInnerHTML();
-    })
+    });
 }

@@ -56,6 +56,11 @@ describe("theme", () => {
 
         cy.get(".setting.theme-switch").click();
 
+        cy.get("body").should("have.class", "snow");
+        cy.get("body").should("have.class", "tileset-snow");
+
+        cy.get(".setting.theme-switch").click();
+
         cy.get("body").should("have.class", "classic");
         cy.get("body").should("have.class", "tileset-modern");
 
@@ -99,6 +104,11 @@ describe("theme", () => {
 
         cy.get("body").should("have.class", "dark");
         cy.get("body").should("have.class", "tileset-dark");
+
+        cy.get(".setting.theme-switch").click();
+
+        cy.get("body").should("have.class", "snow");
+        cy.get("body").should("have.class", "tileset-snow");
 
         cy.get(".setting.theme-switch").click();
 
@@ -156,6 +166,21 @@ describe("theme", () => {
         cy.get("body").should("have.class", "dark");
     });
 
+    it("should set the snow theme on page reload if it's enabled in local storage", () => {
+        cy.get("body").should("not.have.class", "snow");
+
+        window.localStorage.setItem(
+            "preferences",
+            JSON.stringify({
+                theme: "snow",
+            })
+        );
+
+        cy.reload();
+
+        cy.get("body").should("have.class", "snow");
+    });
+
     it("should set the 2048Clone theme on page reload if it's enabled in local storage", () => {
         cy.get("body").should("not.have.class", "classic");
 
@@ -170,21 +195,6 @@ describe("theme", () => {
 
         cy.get("body").should("have.class", "classic");
     });
-
-    // it("should set the snow theme on page reload if it's enabled in local storage", () => {
-    //     cy.get("body").should("not.have.class", "snow");
-
-    //     window.localStorage.setItem(
-    //         "preferences",
-    //         JSON.stringify({
-    //             theme: "snow",
-    //         })
-    //     );
-
-    //     cy.reload();
-
-    //     cy.get("body").should("have.class", "snow");
-    // });
 
     it("should default to standard theme if no entry exists in local storage for theme", () => {
         cy.get("body").should(($el) => {

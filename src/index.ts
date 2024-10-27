@@ -44,6 +44,7 @@ const STANDARD_STANDARD_TILESET = "standard";
 const LIGHT_LIGHT_TILESET = "light";
 const DARK_DARK_TILESET = "dark";
 const SNOW_SNOW_TILESET = "snow";
+const SNOW_CHRISTMAS_TILESET = "christmas";
 const CLASSIC_MODERN_TILESET = "modern";
 const CLASSIC_CLASSIC_TILESET = "classic";
 const CLASSIC_COLORFUL_TILESET = "colorful";
@@ -380,11 +381,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     let selectedTileset = STANDARD_STANDARD_TILESET;
     let selectedBlockStyle = STANDARD_BLOCK_STYLE;
 
-    const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, CLASSIC_THEME];
+    const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, SNOW_THEME, CLASSIC_THEME];
     const selectableTilesets: { [key: string]: string[] } = {
         [STANDARD_THEME]: [STANDARD_STANDARD_TILESET],
         [LIGHT_THEME]: [LIGHT_LIGHT_TILESET],
         [DARK_THEME]: [DARK_DARK_TILESET],
+        [SNOW_THEME]: [SNOW_SNOW_TILESET, SNOW_CHRISTMAS_TILESET],
         [CLASSIC_THEME]: [
             CLASSIC_MODERN_TILESET,
             CLASSIC_CLASSIC_TILESET,

@@ -138,69 +138,69 @@ describe("misc", () => {
             cy.contains("You lose!").should("not.be.visible");
         });
 
-        // it("should show the snowflakes when activated while snow theme enabled", () => {
-        //     // Set the screen orientation to landscape
-        //     cy.viewport("iphone-6", "landscape");
+        it("should show the snowflakes when activated while snow theme enabled", () => {
+            // Set the screen orientation to landscape
+            cy.viewport("iphone-6", "landscape");
 
-        //     cy.visit("/", {
-        //         onBeforeLoad: (win) => {
-        //             Object.defineProperty(win.navigator, "userAgent", {
-        //                 value: MOBILE_DEVICE_USER_AGENT,
-        //             });
-        //             window.localStorage.setItem(
-        //                 "preferences",
-        //                 JSON.stringify({
-        //                     theme: "snow",
-        //                 })
-        //             );
-        //         },
-        //     });
+            cy.visit("/", {
+                onBeforeLoad: (win) => {
+                    Object.defineProperty(win.navigator, "userAgent", {
+                        value: MOBILE_DEVICE_USER_AGENT,
+                    });
+                    window.localStorage.setItem(
+                        "preferences",
+                        JSON.stringify({
+                            theme: "snow",
+                        })
+                    );
+                },
+            });
 
-        //     cy.get("#landscape-overlay") // get the rotate device overlay element
-        //         .should("be.visible"); // assert that the overlay is visible
+            cy.get("#landscape-overlay") // get the rotate device overlay element
+                .should("be.visible"); // assert that the overlay is visible
 
-        //     // Cypress checks if element is interactive when doing visibility check
-        //     // This is a workaround to have Cypress see that it's visible.
-        //     cy.get("#embedim--snow").invoke("css", "pointer-events", "auto");
-        //     cy.get("#embedim--snow").should("be.visible");
+            // Cypress checks if element is interactive when doing visibility check
+            // This is a workaround to have Cypress see that it's visible.
+            cy.get("#embedim--snow").invoke("css", "pointer-events", "auto");
+            cy.get("#embedim--snow").should("be.visible");
 
-        //     // Set the screen orientation back to portrait
-        //     cy.viewport("iphone-6", "portrait");
+            // Set the screen orientation back to portrait
+            cy.viewport("iphone-6", "portrait");
 
-        //     cy.get("#landscape-overlay") // get the rotate device overlay element
-        //         .should("not.be.visible"); // assert that the overlay is not visible
+            cy.get("#landscape-overlay") // get the rotate device overlay element
+                .should("not.be.visible"); // assert that the overlay is not visible
 
-        //     cy.get("#embedim--snow").should("be.visible");
-        // });
+            cy.get("#embedim--snow").should("be.visible");
+        });
 
-        // it("should not show snowflakes if snow theme is not enabled", () => {
-        //     // Set the screen orientation to landscape
-        //     cy.viewport("iphone-6", "landscape");
+        it("should not show snowflakes if snow theme is not enabled", () => {
+            // Set the screen orientation to landscape
+            cy.viewport("iphone-6", "landscape");
 
-        //     cy.visit("/", {
-        //         onBeforeLoad: (win) => {
-        //             Object.defineProperty(win.navigator, "userAgent", {
-        //                 value: MOBILE_DEVICE_USER_AGENT,
-        //             });
-        //         },
-        //     });
+            cy.visit("/", {
+                onBeforeLoad: (win) => {
+                    Object.defineProperty(win.navigator, "userAgent", {
+                        value: MOBILE_DEVICE_USER_AGENT,
+                    });
+                },
+            });
 
-        //     cy.get("#landscape-overlay") // get the rotate device overlay element
-        //         .should("be.visible"); // assert that the overlay is visible
+            cy.get("#landscape-overlay") // get the rotate device overlay element
+                .should("be.visible"); // assert that the overlay is visible
 
-        //     // Cypress checks if element is interactive when doing visibility check
-        //     // This is a workaround to have Cypress see that it's visible.
-        //     cy.get("#embedim--snow").invoke("css", "pointer-events", "auto");
-        //     cy.get("#embedim--snow").should("not.be.visible");
+            // Cypress checks if element is interactive when doing visibility check
+            // This is a workaround to have Cypress see that it's visible.
+            cy.get("#embedim--snow").invoke("css", "pointer-events", "auto");
+            cy.get("#embedim--snow").should("not.be.visible");
 
-        //     // Set the screen orientation back to portrait
-        //     cy.viewport("iphone-6", "portrait");
+            // Set the screen orientation back to portrait
+            cy.viewport("iphone-6", "portrait");
 
-        //     cy.get("#landscape-overlay") // get the rotate device overlay element
-        //         .should("not.be.visible"); // assert that the overlay is not visible
+            cy.get("#landscape-overlay") // get the rotate device overlay element
+                .should("not.be.visible"); // assert that the overlay is not visible
 
-        //     cy.get("#embedim--snow").should("not.be.visible");
-        // });
+            cy.get("#embedim--snow").should("not.be.visible");
+        });
     });
 
     describe("noscript", () => {

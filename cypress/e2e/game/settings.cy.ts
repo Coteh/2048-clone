@@ -135,23 +135,32 @@ describe("settings", () => {
         cy.contains(/© .* James Cote/i).should("be.visible");
     });
 
-    // it("should show credits for snow effect at the bottom of the settings pane if snow theme is enabled", () => {
-    //     cy.get(".settings-link").click();
+    it("should show credits for snow effect at the bottom of the settings pane if snow theme is enabled", () => {
+        cy.get(".settings-link").click();
 
-    //     cy.contains("Settings").should("be.visible");
-    //     cy.contains("embed.im").should("not.be.visible");
+        cy.contains("Settings").should("be.visible");
+        cy.contains("embed.im").should("not.be.visible");
 
-    //     cy.get(".setting.theme-switch").click();
-    //     cy.get(".setting.theme-switch").click();
+        window.localStorage.setItem(
+            "preferences",
+            JSON.stringify({
+                theme: "snow",
+            })
+        );
 
-    //     cy.get("body").should("have.class", "snow");
-    //     cy.contains("embed.im").should("be.visible");
+        cy.reload();
 
-    //     cy.get(".setting.theme-switch").click();
+        cy.get("body").should("have.class", "snow");
+        cy.get(".settings-link").click();
 
-    //     cy.get("body").should("not.have.class", "snow");
-    //     cy.contains("embed.im").should("not.be.visible");
-    // });
+        cy.contains("Settings").should("be.visible");
+        cy.contains("embed.im").should("be.visible");
+
+        cy.get(".setting.theme-switch").click();
+
+        cy.get("body").should("not.have.class", "snow");
+        cy.contains("embed.im").should("not.be.visible");
+    });
 
     it("should handle preferences value in local storage being in invalid state", () => {
         window.localStorage.setItem("preferences", "invalid");
