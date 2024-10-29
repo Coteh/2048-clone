@@ -104,12 +104,17 @@ body.snow button.button > * {
 
 body.snow .score-box,
 body.snow .highscore-box {
-    background-color: grey;
+    background-color: #e0f7fa;
 }
 
 body.snow .score-box > .score-label,
 body.snow .highscore-box > .score-label {
-    color: white;
+    color: #01579b;
+}
+
+body.snow .score-box > .score,
+body.snow .highscore-box > .highscore {
+    color: #1c313a;
 }
 
 .embedim-snow {
