@@ -31,7 +31,7 @@ export class Tutorial {
         this.isMobileTutorialPlaying = false;
     }
 
-    renderHowToPlay() {
+    render() {
         if (isMobile()) {
             if (this.isMobileTutorialPlaying) {
                 return;

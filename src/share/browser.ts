@@ -38,17 +38,23 @@ const fallbackCopyShareText = (shareText: string) => {
         if (successful) {
             const message = document.createElement("span");
             message.innerText = "Copied to clipboard!";
-            renderDialog(message, true);
+            renderDialog(message, {
+                fadeIn: true,
+            });
         } else {
             const message = document.createElement("span");
             message.innerText = "Could not copy to clipboard";
-            renderDialog(message, true);
+            renderDialog(message, {
+                fadeIn: true,
+            });
         }
     } catch (e) {
         console.error(e);
         const message = document.createElement("span");
         message.innerText = "Could not copy to clipboard due to error";
-        renderDialog(message, true);
+        renderDialog(message, {
+            fadeIn: true,
+        });
     } finally {
         textArea.remove();
     }

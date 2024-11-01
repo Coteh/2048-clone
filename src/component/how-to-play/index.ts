@@ -53,16 +53,20 @@ export class HowToPlay {
         this.stepIntervals = new Array<NodeJS.Timeout>(3);
     }
 
-    renderHowToPlay() {
+    render() {
         const howToPlayElem = createDialogContentFromTemplate("#how-to-play");
         const keyboardElem = howToPlayElem.querySelector(".keyboard-visual") as HTMLElement;
         const touchscreenElem = howToPlayElem.querySelector(".pointing-hand") as HTMLElement;
         const arrowElems = ["right-arrow"].map(id => howToPlayElem.querySelector(`#${id}`));
         const stepSections = new Array(6).fill(0).map((_, i) => howToPlayElem.querySelector(`.section[data-step='${i + 1}']`) as HTMLElement);
         
-        renderDialog(howToPlayElem, true, true, {
-            width: "75%",
-            height: "75%",
+        renderDialog(howToPlayElem, {
+            fadeIn: true,
+            style: {
+                width: "75%",
+                height: "75%",
+                maxWidth: "600px",
+            }
         });
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
         dialog.addEventListener("close", (e) => {

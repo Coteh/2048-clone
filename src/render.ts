@@ -1,6 +1,7 @@
 import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
 import { GameBoard } from "./game";
+import type * as CSS from 'csstype';
 
 interface RenderBoardOptions {
     theme?: string;
@@ -164,17 +165,14 @@ export const renderNumberBox = (
     return numberBox;
 };
 
-// TODO: Move fade in and closable into here as well
 export type DialogOptions = {
-    width?: string;
-    height?: string;
-    // TODO: Add option for specifying type of transition effect as well
+    fadeIn?: boolean;
+    closable?: boolean;
+    style?: CSS.Properties;
 };
 
 export const renderDialog = (
     content: HTMLElement,
-    fadeIn: boolean,
-    closable: boolean = true,
     options?: DialogOptions
 ) => {
     // Close any currently existing dialogs
@@ -188,40 +186,37 @@ export const renderDialog = (
 
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
 
-    const closeBtn = clone.querySelector("button.close") as HTMLElement;
-    if (closable) {
-        closeBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-            dialog.close();
-            dialog.remove();
-            overlayBackElem.style.display = "none";
-        });
-    } else {
-        closeBtn.style.display = "none";
-    }
-
     const dialogContent = clone.querySelector(".dialog-content") as HTMLElement;
     dialogContent.appendChild(content);
 
-    if (fadeIn) {
-        dialog.style.opacity = "0";
-        // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
-        // have it base itself off of a computed transform property
-        dialog.style.transform = "translate(-50%, -50%) scale(0.5)";
-        setTimeout(() => {
-            const dialog = document.querySelector(".dialog") as HTMLElement;
-            dialog.style.opacity = "";
-            dialog.style.transform = "translate(-50%, -50%)";
-        }, 10);
-    }
-
     if (options) {
-        if (options.width) {
-            dialog.style.width = options.width;
+        if (options.fadeIn) {
+            dialog.style.opacity = "0";
+            // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
+            // have it base itself off of a computed transform property
+            dialog.style.transform = "translate(-50%, -50%) scale(0.5)";
+            setTimeout(() => {
+                const dialog = document.querySelector(".dialog") as HTMLElement;
+                dialog.style.opacity = "";
+                dialog.style.transform = "translate(-50%, -50%)";
+            }, 10);
         }
-        if (options.height) {
-            dialog.style.height = options.height;
+
+        const closeBtn = clone.querySelector("button.close") as HTMLElement;
+        if (options.closable || options.closable == null) {
+            closeBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                const dialog = document.querySelector(".dialog") as HTMLDialogElement;
+                dialog.close();
+                dialog.remove();
+                overlayBackElem.style.display = "none";
+            });
+        } else {
+            closeBtn.style.display = "none";
+        }
+
+        if (options.style) {
+            Object.assign(dialog.style, options.style);
         }
     }
 

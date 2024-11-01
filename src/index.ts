@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 unlockedClassic = persistentState.unlockables.classic;
                 unlockedInitialCommit = persistentState.unlockables.initialCommit;
                 if (!persistentState.hasPlayedBefore) {
-                    tutorial.renderHowToPlay();
+                    tutorial.render();
 
                     persistentState.hasPlayedBefore = true;
                     gameStorage.savePersistentState(persistentState);
@@ -136,7 +136,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const loseElem = createDialogContentFromTemplate("#lose-dialog-content");
                 const shareButton = loseElem.querySelector(".share-button") as HTMLElement;
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
-                renderDialog(loseElem, true);
+                renderDialog(loseElem, {
+                    fadeIn: true,
+                });
                 const dialog = document.querySelector(".dialog") as HTMLDialogElement;
                 dialog.classList.add("game-over");
                 (document.getElementById("dialog-score") as HTMLElement).innerText =
@@ -178,7 +180,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (gameState.didUndo) {
                     undoText.style.display = "";
                 }
-                renderDialog(winElem, true);
+                renderDialog(winElem, {
+                    fadeIn: true,
+                });
                 const dialog = document.querySelector(".dialog") as HTMLElement;
                 dialog.classList.add("win");
                 if (!unlockedClassic && data.persistentState.unlockables.classic) {
@@ -331,7 +335,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const helpLink = document.querySelector(".help-link") as HTMLElement;
     helpLink.addEventListener("click", (e) => {
         e.preventDefault();
-        howToPlay.renderHowToPlay();
+        howToPlay.render();
         helpLink.blur();
     });
 
@@ -747,7 +751,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const debugButton = document.querySelector(".link-icon#debug") as HTMLElement;
     debugButton.addEventListener("click", (e) => {
         e.preventDefault();
-        renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), true);
+        renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), {
+            fadeIn: true,
+        });
         const closeDialogAndOverlay = () => {
             const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
             const dialog = document.querySelector(".dialog") as HTMLDialogElement;
@@ -833,7 +839,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderPromptDialog(dialogElem, true, () => {
                     const dialogElem = document.createElement("span");
                     dialogElem.innerText = "Confirmed";
-                    renderDialog(dialogElem, true);
+                    renderDialog(dialogElem, {
+                        fadeIn: true,
+                    });
                 });
             }
         );
@@ -844,7 +852,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const dialogElem = document.createElement("span");
                 dialogElem.innerText =
                     "Testing a dialog that does not close. You will need to refresh the page.";
-                renderDialog(dialogElem, true, false);
+                renderDialog(dialogElem, {
+                    fadeIn: true,
+                    closable: false,
+                });
             }
         );
         (document.querySelector(".button.show-notification") as HTMLElement).addEventListener(
@@ -947,6 +958,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Could not initialize game due to error:", e);
         errorContent.innerText = e.message;
 
-        renderDialog(elem, true, false);
+        renderDialog(elem, {
+            fadeIn: true,
+            closable: false,
+        });
     }
 });
