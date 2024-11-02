@@ -49,21 +49,21 @@
 .snow.tileset-christmas {
     --block-2-color: #d7ccc8;
     --block-4-color: #bcaaa4;
-    --block-8-color: #e57373;
-    --block-16-color: #ef5350;
-    --block-32-color: #f44336;
-    --block-64-color: #e53935;
-    --block-128-color: #d32f2f;
-    --block-256-color: #a5d6a7;
-    --block-512-color: #81c784;
-    --block-1024-color: #66bb6a;
-    --block-2048-color: #4caf50;
-    --block-4096-color: #388e3c;
-    --block-8192-color: #2e7d32;
-    --block-16384-color: #1b5e20;
-    --block-32768-color: #0d3e12;
-    --block-65536-color: #06230b;
-    --block-max-color: #06230b;
+    --block-8-color: #A5D6A7;
+    --block-16-color: #81C784;
+    --block-32-color: #66BB6A;
+    --block-64-color: #4CAF50;
+    --block-128-color: #78A678;
+    --block-256-color: #D86E6E;
+    --block-512-color: #EF5350;
+    --block-1024-color: #F44336;
+    --block-2048-color: #E53935;
+    --block-4096-color: #D32F2F;
+    --block-8192-color: #B71C1C;
+    --block-16384-color: #9C1B1B;
+    --block-32768-color: #7F1616;
+    --block-65536-color: #5F1010;
+    --block-max-color: #5F1010;
 
     --block-2-text-color: #2e1b0e;
     --block-4-text-color: #2e1b0e;
