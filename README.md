@@ -23,8 +23,12 @@ A clone of [2048](https://play2048.co/), and also a remake of my first side proj
     - Standard
     - Light
     - Dark
+    - Snow
+        - Includes the following tilesets:
+            - Snow
+            - Christmas
     - 2048Clone (unlock by achieving 2048 in any theme)
-        - All tile color sets from 2048Clone return as tilesets for this theme
+        - All tile color sets from 2048Clone return as tilesets for this theme:
             - Modern
             - Classic
             - Colorful
@@ -120,6 +124,5 @@ Features I started but have decided to cut for the initial release. Will come ba
 
 - CLI interface
 - Landscape mode
-- Snow theme
 - Undo feature (currently partially implemented for debugging purposes - enable debug mode when running locally to access)
 - Sound effects
