@@ -130,3 +130,120 @@ body.snow .footer > .snow-theme-credits {
     opacity: 1;
     pointer-events: initial;
 }
+
+/* Christmas Lights */
+
+/* Container Div */
+.christmas-lights-container {
+    display: none;
+}
+
+body.snow.tileset-christmas .christmas-lights-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Bent Green Line */
+body.snow.tileset-christmas .green-line {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: none;
+    /* Green line */
+    border-top: 3px solid #388E3C;
+    /* Curved effect */
+    border-radius: 30px;
+    /* Slight bend */
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Flashing Lights */
+body.snow.tileset-christmas .christmas-light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    animation: flash 7.5s infinite step-end;
+
+    position: relative;
+    /* Above the line */
+    z-index: 2;
+}
+
+/* Keyframes for Flashing Colors */
+@keyframes flash {
+    0% {
+        background-color: red;
+    }
+
+    17% {
+        background-color: lime;
+    }
+
+    34% {
+        background-color: blue;
+    }
+
+    50% {
+        background-color: yellow;
+    }
+
+    67% {
+        background-color: cyan;
+    }
+
+    84% {
+        background-color: magenta;
+    }
+
+    100% {
+        background-color: red;
+    }
+}
+
+@keyframes flash2 {
+    0% {
+        background-color: blue;
+    }
+
+    17% {
+        background-color: yellow;
+    }
+
+    34% {
+        background-color: cyan;
+    }
+
+    50% {
+        background-color: magenta;
+    }
+
+    67% {
+        background-color: red;
+    }
+
+    84% {
+        background-color: lime;
+    }
+
+    100% {
+        background-color: blue;
+    }
+}
+
+/* Alternate between the two animations */
+body.snow.tileset-christmas .christmas-light:nth-child(odd) {
+    animation-name: flash;
+}
+
+body.snow.tileset-christmas .christmas-light:nth-child(even) {
+    animation-name: flash2;
+}
