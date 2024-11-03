@@ -227,12 +227,14 @@ export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
     dialog.show();
 };
 
-export const renderPromptDialog = (
-    content: HTMLElement,
-    fadeIn: boolean,
-    onConfirm?: Function,
-    onCancel?: Function
-) => {
+export type PromptDialogOptions = {
+    fadeIn?: boolean;
+    style?: CSS.Properties;
+    onConfirm?: Function;
+    onCancel?: Function;
+};
+
+export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogOptions) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
@@ -249,16 +251,22 @@ export const renderPromptDialog = (
     const dialogContent = clone.querySelector(".dialog-content") as HTMLElement;
     dialogContent.appendChild(content);
 
-    if (fadeIn) {
-        dialog.style.opacity = "0";
-        // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
-        // have it base itself off of a computed transform property
-        dialog.style.transform = "translate(-50%, -50%) scale(0.5)";
-        setTimeout(() => {
-            const dialog = document.querySelector(".dialog") as HTMLElement;
-            dialog.style.opacity = "";
-            dialog.style.transform = "translate(-50%, -50%)";
-        }, 10);
+    if (options) {
+        if (options.fadeIn) {
+            dialog.style.opacity = "0";
+            // TODO: Instead of copying over "translate(-50%, -50%)" from the css style,
+            // have it base itself off of a computed transform property
+            dialog.style.transform = "translate(-50%, -50%) scale(0.5)";
+            setTimeout(() => {
+                const dialog = document.querySelector(".dialog") as HTMLElement;
+                dialog.style.opacity = "";
+                dialog.style.transform = "translate(-50%, -50%)";
+            }, 10);
+        }
+
+        if (options.style) {
+            Object.assign(dialog.style, options.style);
+        }
     }
 
     const cancelBtn = clone.querySelector("button.cancel") as HTMLElement;
@@ -268,8 +276,8 @@ export const renderPromptDialog = (
         dialog.close();
         dialog.remove();
         overlayBackElem.style.display = "none";
-        if (onCancel) {
-            onCancel();
+        if (options && options.onCancel) {
+            options.onCancel();
         }
     });
     const confirmBtn = clone.querySelector("button.confirm") as HTMLElement;
@@ -279,8 +287,8 @@ export const renderPromptDialog = (
         dialog.close();
         dialog.remove();
         overlayBackElem.style.display = "none";
-        if (onConfirm) {
-            onConfirm();
+        if (options && options.onConfirm) {
+            options.onConfirm();
         }
     });
 

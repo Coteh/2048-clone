@@ -324,11 +324,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
         (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
             "Are you sure you want to start a new game? All progress will be lost.";
-        renderPromptDialog(dialogElem, true, () => {
-            newGame();
-            if (onNewGameStarted) {
-                onNewGameStarted();
-            }
+        renderPromptDialog(dialogElem, {
+            fadeIn: true,
+            onConfirm: () => {
+                newGame();
+                if (onNewGameStarted) {
+                    onNewGameStarted();
+                }
+            },
         });
     };
 
@@ -582,20 +585,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
                     "Are you sure you want to clear all game data? Preferences, high score, and unlockables will all be lost.";
-                renderPromptDialog(
-                    dialogElem,
-                    true,
-                    () => {
+                renderPromptDialog(dialogElem, {
+                    fadeIn: true,
+                    onConfirm: () => {
                         isPrompted = false;
                         gameStorage.clearPersistentState();
                         gameStorage.clearGame();
                         gameStorage.clearPreferences();
                         window.location.reload();
                     },
-                    () => {
+                    onCancel: () => {
                         isPrompted = false;
-                    }
-                );
+                    },
+                });
                 isPrompted = true;
             }
         });
@@ -836,12 +838,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 e.preventDefault();
                 const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Answer?";
-                renderPromptDialog(dialogElem, true, () => {
-                    const dialogElem = document.createElement("span");
-                    dialogElem.innerText = "Confirmed";
-                    renderDialog(dialogElem, {
-                        fadeIn: true,
-                    });
+                renderPromptDialog(dialogElem, {
+                    fadeIn: true,
+                    onConfirm: () => {
+                        const dialogElem = document.createElement("span");
+                        dialogElem.innerText = "Confirmed";
+                        renderDialog(dialogElem, {
+                            fadeIn: true,
+                        });
+                    },
                 });
             }
         );
