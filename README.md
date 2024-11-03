@@ -109,8 +109,6 @@ Features I started but have decided to cut for the initial release. Will come ba
 - Changelog Dialog ([changelog-dialog](https://github.com/Coteh/2048-clone/tree/changelog-dialog))
     - Shows the contents of [CHANGELOG.md](CHANGELOG.md) in a dialog box in-game
     - Uses [marked](https://github.com/markedjs/marked) to parse the changelog markdown file into HTML to be displayed in the dialog
-- How to Play Dialog ([expanded-how-to-play](https://github.com/Coteh/2048-clone/tree/expanded-how-to-play))
-    - Shows a How to Play dialog when clicking help button instead of the tutorial animation
 - Share Image feature ([share-image](https://github.com/Coteh/2048-clone/tree/share-image))
     - Allows player to share an image of their game board upon game over instead of just their score
     - Currently uses [html-to-image](https://github.com/bubkoo/html-to-image) to take a snapshot of the DOM to save as image that is then exported to share sheet
