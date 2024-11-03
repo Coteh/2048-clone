@@ -49,21 +49,21 @@
 .snow.tileset-christmas {
     --block-2-color: #d7ccc8;
     --block-4-color: #bcaaa4;
-    --block-8-color: #A5D6A7;
-    --block-16-color: #81C784;
-    --block-32-color: #66BB6A;
-    --block-64-color: #4CAF50;
-    --block-128-color: #78A678;
-    --block-256-color: #D86E6E;
-    --block-512-color: #EF5350;
-    --block-1024-color: #F44336;
-    --block-2048-color: #E53935;
-    --block-4096-color: #D32F2F;
-    --block-8192-color: #B71C1C;
-    --block-16384-color: #9C1B1B;
-    --block-32768-color: #7F1616;
-    --block-65536-color: #5F1010;
-    --block-max-color: #5F1010;
+    --block-8-color: #a5d6a7;
+    --block-16-color: #81c784;
+    --block-32-color: #66bb6a;
+    --block-64-color: #4caf50;
+    --block-128-color: #78a678;
+    --block-256-color: #d86e6e;
+    --block-512-color: #ef5350;
+    --block-1024-color: #f44336;
+    --block-2048-color: #e53935;
+    --block-4096-color: #d32f2f;
+    --block-8192-color: #b71c1c;
+    --block-16384-color: #9c1b1b;
+    --block-32768-color: #7f1616;
+    --block-65536-color: #5f1010;
+    --block-max-color: #5f1010;
 
     --block-2-text-color: #2e1b0e;
     --block-4-text-color: #2e1b0e;
@@ -104,7 +104,7 @@ body.snow button.button > * {
 
 body.snow .score-box,
 body.snow .highscore-box {
-    background-color: #e0f7fa;
+    background-color: #96dbee;
 }
 
 body.snow .score-box > .score-label,
@@ -115,6 +115,10 @@ body.snow .highscore-box > .score-label {
 body.snow .score-box > .score,
 body.snow .highscore-box > .highscore {
     color: #1c313a;
+}
+
+body.snow .score-box > span {
+    color: #676917;
 }
 
 .embedim-snow {
@@ -136,6 +140,7 @@ body.snow .footer > .snow-theme-credits {
 /* Container Div */
 .christmas-lights-container {
     display: none;
+    pointer-events: none;
 }
 
 body.snow.tileset-christmas .christmas-lights-container {
@@ -158,7 +163,7 @@ body.snow.tileset-christmas .green-line {
     height: 20px;
     background: none;
     /* Green line */
-    border-top: 3px solid #388E3C;
+    border-top: 3px solid #388e3c;
     /* Curved effect */
     border-radius: 30px;
     /* Slight bend */

@@ -1,7 +1,7 @@
 import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
 import { GameBoard } from "./game";
-import type * as CSS from 'csstype';
+import type * as CSS from "csstype";
 
 interface RenderBoardOptions {
     theme?: string;
@@ -171,10 +171,7 @@ export type DialogOptions = {
     style?: CSS.Properties;
 };
 
-export const renderDialog = (
-    content: HTMLElement,
-    options?: DialogOptions
-) => {
+export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
