@@ -211,7 +211,7 @@
         </div>
         <template id="dialog">
             <dialog class="dialog">
-                <button class="close" autofocus><i data-feather="x"></i></button>
+                <button class="close"><i data-feather="x"></i></button>
                 <div class="dialog-content">
                 </div>
             </dialog>
@@ -227,7 +227,7 @@
             <h3>You win!</h3>
             <span id="undo-text" style="display:none">However, you needed to use an undo... 😏</span>
             <span>You can keep playing by closing this dialog box. But you can also click the button below to share your score!</span>
-            <button class="button share-button">
+            <button class="button share-button" autofocus>
                 <i data-feather="share-2"></i>
                 <span>Share</span>
             </button>
@@ -242,7 +242,7 @@
             <span>You lose!</span><br/>
             <span>Your score was <span id="dialog-score"></span></span>
             <span id="dialog-highscore" style="display:none">You got the high score!</span>
-            <button class="button share-button">
+            <button class="button share-button" autofocus>
                 <i data-feather="share-2"></i>
                 <span>Share</span>
             </button>
