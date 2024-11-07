@@ -361,3 +361,18 @@ body.classic .knob.enabled {
 body.classic .knob > .knob-inside {
     display: none;
 }
+
+/* Landscape Overlay */
+
+body.classic .landscape-overlay {
+    background-image: url("/images/CheckerboardTiles.png"); 
+}
+
+body.classic .landscape-overlay > .overlay-content {
+    background-color: rgba(0,0,0,0.5);
+    padding: 12px;
+}
+
+body.classic .landscape-overlay > .overlay-content > * {
+    color: white;
+}
