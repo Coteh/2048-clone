@@ -2,7 +2,7 @@
     --background-color: linear-gradient(180deg, rgba(2, 0, 36, 1) 40%, rgba(9, 9, 121, 1) 100%);
     --fallback-background-color: rgb(2, 0, 36);
 
-    --dialog-background-color: var(--gray-2);
+    --dialog-background-color: #4133ff;
     --text-color: var(--white);
 
     --standard-block-color: rgb(4, 0, 49);
@@ -109,8 +109,8 @@ body.snow button.button.clipboard-button {
     border: 2px solid black;
 }
 
-body.snow button.button.share-button>*,
-body.snow button.button.clipboard-button>* {
+body.snow button.button.share-button > *,
+body.snow button.button.clipboard-button > * {
     color: white;
 }
 
