@@ -102,6 +102,27 @@ body.snow button.button > * {
     font-weight: bold;
 }
 
+/* Specific Buttons */
+
+body.snow button.button.share-button,
+body.snow button.button.clipboard-button {
+    border: 2px solid black;
+}
+
+body.snow button.button.share-button>*,
+body.snow button.button.clipboard-button>* {
+    color: white;
+}
+
+/* NTS: Hover color still appears and won't go away after tapping elsewhere on iOS.
+    Workaround for now to disable hover color on iOS - https://stackoverflow.com/a/40617793 */
+@media (hover) {
+    body.snow button.button.share-button:hover,
+    body.snow button.button.clipboard-button:hover {
+        background-color: var(--share-button-background-color-hover);
+    }
+}
+
 body.snow .score-box,
 body.snow .highscore-box {
     background-color: #96dbee;

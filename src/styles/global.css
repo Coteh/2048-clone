@@ -84,6 +84,9 @@
     --notification-background-color: var(--gray-7);
     --notification-text-color: var(--black);
 
+    --share-button-background-color: var(--green);
+    --share-button-background-color-hover: rgb(0, 82, 0);
+
     --back-layer-color: goldenrod;
 
     --block-2-color: #eee4da;
@@ -206,7 +209,7 @@ body button.button.share-button,
 body button.button.clipboard-button {
     padding: 0.5em 0.5em 0.5em 0.5em;
     border-radius: 8em;
-    background-color: var(--green);
+    background-color: var(--share-button-background-color);
 }
 
 button.button.share-button > *,
@@ -231,7 +234,7 @@ button.button.new-game > * {
 @media (hover) {
     button.button.share-button:hover,
     button.button.clipboard-button:hover {
-        background-color: rgb(0, 82, 0);
+        background-color: var(--share-button-background-color-hover);
     }
 
     button.button.new-game:hover {
