@@ -36,6 +36,11 @@
     overflow: auto;
 }
 
+.dialog > div.dialog-content > div.dialog-text {
+    height: 100%;
+    position: relative;
+}
+
 .dialog button.close {
     position: absolute;
     top: 0;

@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
     // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
     const env = loadEnv(mode, process.cwd(), "");
     return {
+        assetsInclude: ['**/*.md'],
         define: {
             GAME_VERSION: JSON.stringify(version),
             COMMIT_HASH: JSON.stringify(commitHash),

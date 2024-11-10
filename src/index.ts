@@ -32,6 +32,7 @@ import posthog from "posthog-js";
 import { UndoManager } from "./manager/undo";
 import { AssetManager } from "./manager/asset";
 import { formatTilesetName } from "./util/format";
+import * as marked from "marked";
 
 import "./styles/global.css";
 
@@ -71,6 +72,14 @@ const SETTING_DISABLED = "disabled";
 const LANDSCAPE_CLASS_NAME = "landscape";
 
 const CLASSIC_THEME_LABEL = "2048Clone";
+
+let changelogText: string;
+// @ts-ignore TODO: Fix ts error saying that CHANGELOG.md cannot be found
+import("../CHANGELOG.md").then(res => {
+    fetch(res.default)
+        .then(resp => resp.text())
+        .then(text => changelogText = text)
+});
 
 let isAnimationEnabled = false;
 
@@ -909,6 +918,35 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
         import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+    
+    const changelogLink = document.querySelector("#changelog-link") as HTMLAnchorElement;
+    changelogLink.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const dialogElem = createDialogContentFromTemplate("#changelog-content");
+        console.log("changelogText", changelogText);
+        const changelog = await marked.parse(changelogText)
+        console.log("changelog", changelog);
+        const changelogElem = dialogElem.querySelector("#changelog-text") as HTMLElement;
+        changelogElem.innerHTML = changelog;
+        // Capitalize title
+        (changelogElem.children.item(0) as HTMLElement).style.textTransform = "uppercase";
+        // Remove info about Keep a Changelog and Unreleased section
+        changelogElem.children.item(1)?.remove();
+        changelogElem.children.item(1)?.remove();
+        changelogElem.children.item(1)?.remove();
+        // All links in this section should open a new tab
+        changelogElem.querySelectorAll("a").forEach(elem => elem.target = "_blank");
+        console.log(dialogElem);
+        renderDialog(dialogElem, {
+            fadeIn: true,
+            closable: true,
+            style: {
+                width: "75%",
+                height: "75%",
+                maxWidth: "600px",
+            },
+        });
+    });
 
     Sentry.onLoad(() => {
         Sentry.init({

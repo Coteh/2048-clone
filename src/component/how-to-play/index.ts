@@ -66,7 +66,7 @@ export class HowToPlay {
                 width: "75%",
                 height: "75%",
                 maxWidth: "600px",
-            }
+            },
         });
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
         dialog.addEventListener("close", (e) => {
