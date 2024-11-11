@@ -37,6 +37,9 @@ A clone of [2048](https://play2048.co/), and also a remake of my first side proj
     - Standard (default - blocks are relatively large)
     - Compact (blocks are smaller)
 - Confetti animation when player achieves 2048 (using [canvas-confetti](https://github.com/catdad/canvas-confetti) library)
+- Changelog Dialog
+    - Shows the contents of [CHANGELOG.md](CHANGELOG.md) in a dialog box in-game
+    - Uses [marked](https://github.com/markedjs/marked) to parse the changelog markdown file into HTML to be displayed in the dialog
 
 ## Development
 
@@ -106,9 +109,9 @@ npm run cypress run
 
 Features I started but have decided to cut for the initial release. Will come back and finish these whenever I feel like it.
 
-- Changelog Dialog ([changelog-dialog](https://github.com/Coteh/2048-clone/tree/changelog-dialog))
-    - Shows the contents of [CHANGELOG.md](CHANGELOG.md) in a dialog box in-game
-    - Uses [marked](https://github.com/markedjs/marked) to parse the changelog markdown file into HTML to be displayed in the dialog
+- Undo feature
+    - Currently partially implemented for debugging purposes
+    - Enable debug mode when running locally to access
 - Share Image feature ([share-image](https://github.com/Coteh/2048-clone/tree/share-image))
     - Allows player to share an image of their game board upon game over instead of just their score
     - Currently uses [html-to-image](https://github.com/bubkoo/html-to-image) to take a snapshot of the DOM to save as image that is then exported to share sheet
@@ -122,5 +125,4 @@ Features I started but have decided to cut for the initial release. Will come ba
 
 - CLI interface
 - Landscape mode
-- Undo feature (currently partially implemented for debugging purposes - enable debug mode when running locally to access)
 - Sound effects

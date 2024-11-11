@@ -923,20 +923,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     changelogLink.addEventListener("click", async (e) => {
         e.preventDefault();
         const dialogElem = createDialogContentFromTemplate("#changelog-content");
-        console.log("changelogText", changelogText);
         const changelog = await marked.parse(changelogText)
-        console.log("changelog", changelog);
         const changelogElem = dialogElem.querySelector("#changelog-text") as HTMLElement;
         changelogElem.innerHTML = changelog;
         // Capitalize title
         (changelogElem.children.item(0) as HTMLElement).style.textTransform = "uppercase";
-        // Remove info about Keep a Changelog and Unreleased section
+        // Remove Keep a Changelog and Unreleased sections
         changelogElem.children.item(1)?.remove();
         changelogElem.children.item(1)?.remove();
         changelogElem.children.item(1)?.remove();
         // All links in this section should open a new tab
         changelogElem.querySelectorAll("a").forEach(elem => elem.target = "_blank");
-        console.log(dialogElem);
         renderDialog(dialogElem, {
             fadeIn: true,
             closable: true,
