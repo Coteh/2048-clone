@@ -13,7 +13,7 @@ cypress/screenshots/*
 
 # Whitelist manual visual regression screenshot directories
 !cypress/screenshots/viewport.cy.ts
-!cypress/screenshots/readme.cy.ts
+!cypress/screenshots/screenshot.cy.ts
 
 # Test results
 results/*.xml
