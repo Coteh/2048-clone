@@ -32,6 +32,7 @@ export class AnimationManager {
 
     setGameState(gameState: GameState) {
         this.gameState = gameState;
+        this.resetState();
     }
 
     resetState() {
