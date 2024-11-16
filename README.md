@@ -4,15 +4,9 @@
 
 ### [**Click here to play**](https://coteh.github.io/2048-clone)
 
-A clone of [2048](https://play2048.co/), and also a remake of my first side project on GitHub, [2048Clone](https://github.com/Coteh/2048Clone).
+A clone of [2048](https://play2048.co/) created using vanilla JavaScript, HTML, and CSS. This was created as a throwback to my first side project on GitHub, [2048Clone](https://github.com/Coteh/2048Clone).
 
 ![Browser Game Screenshot](screenshot.png "Browser Game Screenshot")
-
-## Setup
-
-### Browser
-
-[Click here to play on the browser](https://coteh.github.io/2048-clone)
 
 ## Features
 
@@ -41,7 +35,7 @@ A clone of [2048](https://play2048.co/), and also a remake of my first side proj
     - Shows the contents of [CHANGELOG.md](CHANGELOG.md) in a dialog box in-game
     - Uses [marked](https://github.com/markedjs/marked) to parse the changelog markdown file into HTML to be displayed in the dialog
 
-## Development
+## Development Setup
 
 Clone this repository, then run the following:
 
