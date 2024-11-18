@@ -40,6 +40,8 @@ jobs:
           mkcert localhost 127.0.0.1 ::1
       - name: Set CA Cert environment variable
         run: echo NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem" >> $GITHUB_ENV
+      - name: Set Cypress browser timeout environment variable
+        run: echo CYPRESS_INTERNAL_BROWSER_CONNECT_TIMEOUT=300000 >> $GITHUB_ENV # 5 minutes
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
