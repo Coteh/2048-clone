@@ -10,6 +10,9 @@
 
     --text-font-family: "Comic Sans MS", "Comic Neue", sans-serif;
 
+    --share-button-background-color: #00d600;
+    --share-button-background-color-hover: #00ae00;
+
     --block-2-color: rgb(102, 102, 213);
     --block-4-color: rgb(104, 104, 211);
     --block-8-color: rgb(108, 108, 207);
@@ -335,7 +338,7 @@ body.classic .box.number-block.block-65536 > .box-letter {
 }
 
 body.classic .dialog.game-over {
-    background-color: red;
+    background-color: #ff612e;
 }
 
 body.classic .dialog.win {
@@ -365,11 +368,11 @@ body.classic .knob > .knob-inside {
 /* Landscape Overlay */
 
 body.classic .landscape-overlay {
-    background-image: url("/images/CheckerboardTiles.png"); 
+    background-image: url("/images/CheckerboardTiles.png");
 }
 
 body.classic .landscape-overlay > .overlay-content {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 12px;
 }
 
