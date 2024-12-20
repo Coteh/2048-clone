@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2024-12-20
+
+Initial Release
+
 ## [0.4.0] - 2024-11-12
 
 Prerelease Version
@@ -23,7 +27,8 @@ Prerelease Version
 
 Initial Prerelease Version
 
-[unreleased]: https://github.com/Coteh/2048-clone/compare/v0.4.0...HEAD
+[unreleased]: https://github.com/Coteh/2048-clone/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/Coteh/2048-clone/compare/v0.4.0...v1.0.0
 [0.4.0]: https://github.com/Coteh/2048-clone/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Coteh/2048-clone/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Coteh/2048-clone/compare/v0.1.0...v0.2.0

@@ -109,11 +109,6 @@ Features I started but have decided to cut for the initial release. Will come ba
 - Share Image feature ([share-image](https://github.com/Coteh/2048-clone/tree/share-image))
     - Allows player to share an image of their game board upon game over instead of just their score
     - Currently uses [html-to-image](https://github.com/bubkoo/html-to-image) to take a snapshot of the DOM to save as image that is then exported to share sheet
-- Custom app icons based on theme([theme-icons](https://github.com/Coteh/2048-clone/tree/theme-icons))
-    - Allow player to install app to home screen with a different app icon based on theme
-    - Still need to sort out OS-specific issues
-        - AFAIK apple-touch-icon for iOS can be dynamically changed easily, but for Android, the `manifest.json` is needed, which is a bit trickier to change on the fly.
-        - Also, AFAIK, iOS web app icon is cached, so players would need to essentially re-add the app and lose their progress if they want to change the icon.
 
 ### Wishlist (Not Started)
 
