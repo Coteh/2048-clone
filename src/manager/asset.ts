@@ -62,8 +62,9 @@ export class AssetManager {
             };
 
             imagesList.forEach((url) => {
-                this.loadingLabel.innerText = "Loading Asset: " + url;
-                this.preloadImage(url).then(onAssetLoaded).catch(onAssetLoadError);
+                const fullUrl = import.meta.env.BASE_URL + url;
+                this.loadingLabel.innerText = "Loading Asset: " + fullUrl;
+                this.preloadImage(fullUrl).then(onAssetLoaded).catch(onAssetLoadError);
             });
         });
     }

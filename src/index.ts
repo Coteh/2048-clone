@@ -982,9 +982,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         await assetManager.loadAssets([
-            "/images/CheckerboardTiles.png",
-            "/images/Checkbox_unchecked.png",
-            "/images/Checkbox_checked.png",
+            "images/CheckerboardTiles.png",
+            "images/Checkbox_unchecked.png",
+            "images/Checkbox_checked.png",
         ]);
 
         (document.querySelector(".loader-wrapper") as HTMLElement).style.display = "none";
