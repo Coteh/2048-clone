@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2024-12-20
+
+### Fixed
+
+- Fix game assets not using correct base url on GitHub Pages deployment
+
 ## [1.0.0] - 2024-12-20
 
 Initial Release
@@ -27,7 +33,8 @@ Prerelease Version
 
 Initial Prerelease Version
 
-[unreleased]: https://github.com/Coteh/2048-clone/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/Coteh/2048-clone/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/Coteh/2048-clone/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/Coteh/2048-clone/compare/v0.4.0...v1.0.0
 [0.4.0]: https://github.com/Coteh/2048-clone/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Coteh/2048-clone/compare/v0.2.0...v0.3.0
