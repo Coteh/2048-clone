@@ -42,7 +42,8 @@ export class Tutorial {
             this.howToPlayElements[1] = document.getElementById(howToPlay2ID) as HTMLImageElement;
             if (!this.howToPlayElements[0]) {
                 this.howToPlayElements[0] = document.createElement("img");
-                (this.howToPlayElements[0] as HTMLImageElement).src = "/images/PointingHand.png";
+                (this.howToPlayElements[0] as HTMLImageElement).src =
+                    import.meta.env.BASE_URL + "images/PointingHand.png";
                 this.howToPlayElements[0].className = "pointing-hand";
                 this.howToPlayElements[0].style.top = "25%";
                 this.howToPlayElements[0].id = howToPlay1ID;
@@ -51,7 +52,8 @@ export class Tutorial {
             this.howToPlayElements[0].style.opacity = "1";
             if (!this.howToPlayElements[1]) {
                 this.howToPlayElements[1] = document.createElement("img");
-                (this.howToPlayElements[1] as HTMLImageElement).src = "/images/PointingHand.png";
+                (this.howToPlayElements[1] as HTMLImageElement).src =
+                    import.meta.env.BASE_URL + "images/PointingHand.png";
                 this.howToPlayElements[1].className = "pointing-hand";
                 this.howToPlayElements[1].style.left = "25%";
                 this.howToPlayElements[1].style.opacity = "0";
