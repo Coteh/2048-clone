@@ -4,7 +4,7 @@
 
 ### [**Click here to play**](https://coteh.github.io/2048-clone)
 
-A clone of [2048](https://play2048.co/) created using vanilla JavaScript, HTML, and CSS. This was created as a throwback to my first side project on GitHub, [2048Clone](https://github.com/Coteh/2048Clone).
+A clone of [2048](https://play2048.co/) created using TypeScript, HTML, and CSS. This was created as a throwback to my first side project on GitHub, [2048Clone](https://github.com/Coteh/2048Clone).
 
 ![Browser Game Screenshot](screenshot.png "Browser Game Screenshot")
 
