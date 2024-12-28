@@ -75,10 +75,10 @@ const CLASSIC_THEME_LABEL = "2048Clone";
 
 let changelogText: string;
 // @ts-ignore TODO: Fix ts error saying that CHANGELOG.md cannot be found
-import("../CHANGELOG.md").then(res => {
+import("../CHANGELOG.md").then((res) => {
     fetch(res.default)
-        .then(resp => resp.text())
-        .then(text => changelogText = text)
+        .then((resp) => resp.text())
+        .then((text) => (changelogText = text));
 });
 
 let isAnimationEnabled = false;
@@ -131,6 +131,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     gameState.score.toString();
                 (document.querySelector("#highscore") as HTMLElement).innerText =
                     persistentState.highscore.toString();
+                (document.querySelector("#moveCount") as HTMLSpanElement).innerText =
+                    gameState.moveCount.toString();
                 if (data.undoInfo) {
                     if (data.undoInfo.undoStack.length > 0) {
                         undoButton.classList.remove("disabled");
@@ -152,6 +154,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 dialog.classList.add("game-over");
                 (document.getElementById("dialog-score") as HTMLElement).innerText =
                     gameState.score.toString();
+                (document.getElementById("dialog-move-count") as HTMLElement).innerText = `${
+                    gameState.moveCount
+                } move${gameState.moveCount === 1 ? "" : "s"}`;
                 if (gameState.achievedHighscore) {
                     (document.getElementById("dialog-highscore") as HTMLElement).style.display = "";
                 }
@@ -649,8 +654,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const generateShareText = (gameState: GameState) => {
         return `I got a score of ${gameState.score} in 2048-clone${
-            gameState.won ? ", and I achieved 2048!" : "."
-        } Play it here: ${
+            gameState.won ? ", and I achieved 2048" : ""
+        } in ${gameState.moveCount} move${gameState.moveCount === 1 ? "" : "s"}. Play it here: ${
             import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/"
         }`;
     };
@@ -786,6 +791,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     score: 0,
                     didUndo: false,
                     achievedHighscore: false,
+                    moveCount: 0,
                 });
                 if (settingsPane.style.display !== "none") {
                     toggleSettings();
@@ -811,6 +817,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     score: 10000,
                     didUndo: false,
                     achievedHighscore: true,
+                    moveCount: 0,
                 });
                 if (settingsPane.style.display !== "none") {
                     toggleSettings();
@@ -834,6 +841,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     score: 0,
                     didUndo: false,
                     achievedHighscore: false,
+                    moveCount: 0,
                 });
                 if (settingsPane.style.display !== "none") {
                     toggleSettings();
@@ -918,12 +926,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
         import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
-    
+
     const changelogLink = document.querySelector("#changelog-link") as HTMLAnchorElement;
     changelogLink.addEventListener("click", async (e) => {
         e.preventDefault();
         const dialogElem = createDialogContentFromTemplate("#changelog-content");
-        const changelog = await marked.parse(changelogText)
+        const changelog = await marked.parse(changelogText);
         const changelogElem = dialogElem.querySelector("#changelog-text") as HTMLElement;
         changelogElem.innerHTML = changelog;
         // Capitalize title
@@ -933,7 +941,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         changelogElem.children.item(1)?.remove();
         changelogElem.children.item(1)?.remove();
         // All links in this section should open a new tab
-        changelogElem.querySelectorAll("a").forEach(elem => elem.target = "_blank");
+        changelogElem.querySelectorAll("a").forEach((elem) => (elem.target = "_blank"));
         renderDialog(dialogElem, {
             fadeIn: true,
             closable: true,

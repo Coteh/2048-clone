@@ -20,6 +20,7 @@ describe("tileset", () => {
                     score: 28,
                     didUndo: false,
                     achievedHighscore: false,
+                    moveCount: 0,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
@@ -46,23 +47,23 @@ describe("tileset", () => {
         });
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        
+
         cy.get(".setting.tileset-switch").click();
-        
+
         cy.get("body").should("have.class", "classic");
         cy.get("body").should("have.class", "tileset-classic");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        
+
         cy.get(".setting.tileset-switch").click();
-        
+
         cy.get("body").should("have.class", "classic");
         cy.get("body").should("have.class", "tileset-colorful");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        
+
         cy.get(".setting.tileset-switch").click();
-        
+
         cy.get("body").should("have.class", "classic");
         cy.get("body").should("have.class", "tileset-modern");
         cy.get(".settings-item").contains("Theme").should("be.visible");
@@ -75,7 +76,7 @@ describe("tileset", () => {
             JSON.stringify({
                 theme: "classic",
                 tileset: {
-                    "classic": "colorful",
+                    classic: "colorful",
                 },
             })
         );
@@ -112,7 +113,7 @@ describe("tileset", () => {
             JSON.stringify({
                 theme: "light",
                 tileset: {
-                    "light": "invalid",
+                    light: "invalid",
                 },
             })
         );
@@ -155,7 +156,7 @@ describe("tileset", () => {
             JSON.stringify({
                 theme: "standard",
                 tileset: {
-                    "standard": "standard",
+                    standard: "standard",
                 },
             })
         );

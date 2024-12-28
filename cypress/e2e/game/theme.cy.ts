@@ -20,6 +20,7 @@ describe("theme", () => {
                     score: 28,
                     didUndo: false,
                     achievedHighscore: false,
+                    moveCount: 0,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,

@@ -89,6 +89,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -121,6 +122,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -153,6 +155,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[3][0], 2);
@@ -185,6 +188,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][3], 2);
@@ -217,6 +221,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -248,6 +253,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -279,6 +285,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -312,6 +319,7 @@ describe("core game logic", () => {
             score: 2224,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -322,6 +330,7 @@ describe("core game logic", () => {
         console.log(gameState);
         assert.notDeepStrictEqual(gameState.board, prevBoard);
         assert.strictEqual(gameState.ended, true);
+        assert.strictEqual(gameState.moveCount, 1);
         // Should not be able to make any more moves upon game over
         mockSpawnManager.determineNextBlockValue.mockImplementation(() => {
             return 2;
@@ -330,6 +339,7 @@ describe("core game logic", () => {
         prevBoard = JSON.parse(JSON.stringify(gameState.board));
         assert.notStrictEqual(gameState.board, prevBoard);
         assert.strictEqual(gameState.ended, true);
+        assert.strictEqual(gameState.moveCount, 2);
     });
     it("should allow player to continue the game if board is full but adjacent blocks can be merged", async () => {
         mockSpawnManager.determineNextBlockLocation.mockImplementation(() => {
@@ -354,6 +364,7 @@ describe("core game logic", () => {
             score: 2224,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -366,6 +377,7 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[1][0], 2);
         assert.strictEqual(gameState.board[0][1], 2);
         assert.strictEqual(gameState.ended, false);
+        assert.strictEqual(gameState.moveCount, 1);
         // Should still be able to make a move at this point
         move(DIRECTION_RIGHT);
         console.log(gameState);
@@ -373,6 +385,7 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[1][0], 2);
         assert.strictEqual(gameState.board[0][1], 4);
         assert.strictEqual(gameState.ended, false);
+        assert.strictEqual(gameState.moveCount, 2);
     });
     it("should resolve merges bottom-up when moving down", async () => {
         mockSpawnManager.determineNextBlockLocation.mockImplementation(() => {
@@ -397,6 +410,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -433,6 +447,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);
@@ -469,6 +484,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
@@ -505,6 +521,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 8);
@@ -541,6 +558,7 @@ describe("core game logic", () => {
             score: 0,
             didUndo: false,
             achievedHighscore: false,
+            moveCount: 0,
         });
         console.log(gameState);
         assert.strictEqual(gameState.board[0][0], 2);

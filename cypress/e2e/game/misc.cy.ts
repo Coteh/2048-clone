@@ -115,6 +115,7 @@ describe("misc", () => {
                         score: 10000,
                         didUndo: false,
                         achievedHighscore: true,
+                        moveCount: 0,
                     };
                     const persistentState: GamePersistentState = {
                         highscore: 9000,

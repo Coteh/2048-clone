@@ -20,6 +20,7 @@ describe("gameplay", () => {
                     score: 0,
                     didUndo: false,
                     achievedHighscore: false,
+                    moveCount: 0,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
@@ -213,6 +214,7 @@ describe("gameplay", () => {
                     score: 100,
                     didUndo: false,
                     achievedHighscore: true,
+                    moveCount: 0,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 100,
@@ -247,5 +249,111 @@ describe("gameplay", () => {
 
         cy.contains("Score 0").should("be.visible");
         cy.contains("Best 100").should("be.visible");
+    });
+
+    it("should update move count after a normal move", () => {
+        cy.verifyBoardMatches([
+            [0, 0, 0, 0],
+            [0, 2, 0, 0],
+            [0, 0, 4, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        cy.get("body").type("{rightArrow}");
+
+        cy.verifyBoardMatches([
+            [undefined, undefined, undefined, undefined],
+            [undefined, undefined, undefined, 2],
+            [undefined, undefined, undefined, 4],
+            [undefined, undefined, undefined, undefined],
+        ]);
+
+        cy.get("#moveCount").should("have.text", "1");
+    });
+
+    it("should update move count after multiple moves", () => {
+        cy.verifyBoardMatches([
+            [0, 0, 0, 0],
+            [0, 2, 0, 0],
+            [0, 0, 4, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        cy.get("body").type("{rightArrow}");
+        cy.get("body").type("{downArrow}");
+
+        cy.get("#moveCount").should("have.text", "2");
+    });
+
+    it("should update move count after an undo", () => {
+        cy.visit("/", {
+            onBeforeLoad: () => {
+                const gameState: GameState = {
+                    board: [
+                        [0, 0, 0, 0],
+                        [0, 2, 2, 0],
+                        [0, 0, 0, 0],
+                        [0, 0, 0, 0],
+                    ],
+                    ended: false,
+                    won: false,
+                    score: 0,
+                    didUndo: false,
+                    achievedHighscore: true,
+                    moveCount: 0,
+                };
+                const persistentState: GamePersistentState = {
+                    highscore: 0,
+                    unlockables: {},
+                    hasPlayedBefore: true,
+                };
+                window.localStorage.setItem("game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
+            },
+        });
+
+        cy.verifyBoardMatches([
+            [0, 0, 0, 0],
+            [0, 2, 2, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        cy.get("body").type("{rightArrow}");
+        cy.get("body").type("{downArrow}");
+
+        cy.get("#moveCount").should("have.text", "2");
+
+        cy.get("#undo").click({
+            force: true,
+        });
+
+        cy.verifyBoardMatches([
+            [undefined, undefined, undefined, undefined],
+            [undefined, undefined, undefined, 4],
+            [undefined, undefined, undefined, undefined],
+            [undefined, undefined, undefined, undefined],
+        ]);
+
+        cy.get("#moveCount").should("have.text", "1");
+    });
+
+    it("should reset move count after starting a new game", () => {
+        cy.verifyBoardMatches([
+            [0, 0, 0, 0],
+            [0, 2, 0, 0],
+            [0, 0, 4, 0],
+            [0, 0, 0, 0],
+        ]);
+
+        cy.get("body").type("{rightArrow}");
+        cy.get("body").type("{downArrow}");
+
+        cy.get("#moveCount").should("have.text", "2");
+
+        cy.contains("New Game").click();
+        cy.contains("Yes").click();
+
+        cy.get("#moveCount").should("have.text", "0");
     });
 });

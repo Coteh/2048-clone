@@ -24,6 +24,7 @@ describe("sharing results", () => {
                     score: 28,
                     didUndo: false,
                     achievedHighscore: false,
+                    moveCount: 0,
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
@@ -102,7 +103,184 @@ describe("sharing results", () => {
                     try {
                         expect(shareStub).to.be.calledOnce;
                         expect(shareStub).to.be.calledWithExactly({
-                            text: `I got a score of 10000 in 2048-clone. Play it here: ${expectedUrl}`,
+                            text: `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`,
+                        });
+                        done();
+                    } catch (err) {
+                        done(err);
+                    }
+                });
+
+            cy.window().then(async (win) => {
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+        });
+
+        it("sends data to share sheet with 2048 achievement", (done) => {
+            const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
+            let shareStub;
+
+            cy.window().then(async (win) => {
+                // Create the property for canShare if it doesn't exist
+                if (!win.navigator.canShare) {
+                    Object.defineProperty(win.navigator, "canShare", {
+                        value: cy.stub().callsFake((data) => true),
+                        writable: true,
+                        configurable: true,
+                    });
+                }
+                // Define share function as a stub if it's a browser that doesn't support it normally, otherwise stub it directly
+                if (!win.navigator.share) {
+                    shareStub = cy.stub().resolves();
+                    Object.defineProperty(win.navigator, "share", {
+                        value: shareStub,
+                        writable: true,
+                        configurable: true,
+                    });
+                } else {
+                    shareStub = cy.stub(win.navigator, "share").resolves();
+                }
+
+                win.focus();
+                await win.navigator.clipboard.writeText(PREV_COPIED_TEXT);
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+
+            cy.get(".debug-link#debug").click();
+
+            cy.contains("New Winning Game").click();
+
+            cy.get("body").type("{rightArrow}");
+
+            cy.get(".share-button")
+                .click()
+                .then(() => {
+                    try {
+                        expect(shareStub).to.be.calledOnce;
+                        expect(shareStub).to.be.calledWithExactly({
+                            text: `I got a score of 2048 in 2048-clone, and I achieved 2048 in 1 move. Play it here: ${expectedUrl}`,
+                        });
+                        done();
+                    } catch (err) {
+                        done(err);
+                    }
+                });
+
+            cy.window().then(async (win) => {
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+        });
+
+        it("sends data to share sheet with multiple moves", (done) => {
+            const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
+            let shareStub;
+
+            cy.window().then(async (win) => {
+                // Create the property for canShare if it doesn't exist
+                if (!win.navigator.canShare) {
+                    Object.defineProperty(win.navigator, "canShare", {
+                        value: cy.stub().callsFake((data) => true),
+                        writable: true,
+                        configurable: true,
+                    });
+                }
+                // Define share function as a stub if it's a browser that doesn't support it normally, otherwise stub it directly
+                if (!win.navigator.share) {
+                    shareStub = cy.stub().resolves();
+                    Object.defineProperty(win.navigator, "share", {
+                        value: shareStub,
+                        writable: true,
+                        configurable: true,
+                    });
+                } else {
+                    shareStub = cy.stub(win.navigator, "share").resolves();
+                }
+
+                win.focus();
+                await win.navigator.clipboard.writeText(PREV_COPIED_TEXT);
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+
+            cy.get(".debug-link#debug").click();
+
+            cy.contains("New Winning Game").click();
+
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{rightArrow}");
+
+            cy.get(".share-button")
+                .click()
+                .then(() => {
+                    try {
+                        expect(shareStub).to.be.calledOnce;
+                        expect(shareStub).to.be.calledWithExactly({
+                            text: `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`,
+                        });
+                        done();
+                    } catch (err) {
+                        done(err);
+                    }
+                });
+
+            cy.window().then(async (win) => {
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+        });
+
+        it("sends data to share sheet with move count reflecting undos that may have been made", (done) => {
+            const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
+            let shareStub;
+
+            cy.window().then(async (win) => {
+                // Create the property for canShare if it doesn't exist
+                if (!win.navigator.canShare) {
+                    Object.defineProperty(win.navigator, "canShare", {
+                        value: cy.stub().callsFake((data) => true),
+                        writable: true,
+                        configurable: true,
+                    });
+                }
+                // Define share function as a stub if it's a browser that doesn't support it normally, otherwise stub it directly
+                if (!win.navigator.share) {
+                    shareStub = cy.stub().resolves();
+                    Object.defineProperty(win.navigator, "share", {
+                        value: shareStub,
+                        writable: true,
+                        configurable: true,
+                    });
+                } else {
+                    shareStub = cy.stub(win.navigator, "share").resolves();
+                }
+
+                win.focus();
+                await win.navigator.clipboard.writeText(PREV_COPIED_TEXT);
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+
+            cy.get(".debug-link#debug").click();
+
+            cy.contains("New Winning Game").click();
+
+            cy.get("body").type("{downArrow}");
+            cy.get("#undo").click({
+                force: true,
+            });
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{rightArrow}");
+
+            cy.get(".share-button")
+                .click()
+                .then(() => {
+                    try {
+                        expect(shareStub).to.be.calledOnce;
+                        expect(shareStub).to.be.calledWithExactly({
+                            text: `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`,
                         });
                         done();
                     } catch (err) {
@@ -213,7 +391,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
                 );
             });
 
@@ -274,7 +452,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
                 );
             });
         });
@@ -316,7 +494,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
                 );
             });
 
@@ -353,7 +531,100 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
+                );
+            });
+        });
+
+        it("should copy the results to clipboard with 2048 achievement when share button is pressed", () => {
+            const PREV_COPIED_TEXT =
+                "This text should not be in clipboard when the copy button is clicked";
+
+            cy.window().then(async (win) => {
+                win.focus();
+                await win.navigator.clipboard.writeText(PREV_COPIED_TEXT);
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+
+            cy.get(".debug-link#debug").click();
+
+            cy.contains("New Winning Game").click();
+
+            cy.get("body").type("{rightArrow}");
+
+            cy.get(".share-button").click();
+
+            cy.contains("Copied to clipboard").should("be.visible");
+
+            cy.window().then(async (win) => {
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(
+                    `I got a score of 2048 in 2048-clone, and I achieved 2048 in 1 move. Play it here: ${expectedUrl}`
+                );
+            });
+        });
+
+        it("should copy the results to clipboard with multiple moves when share button is pressed", () => {
+            const PREV_COPIED_TEXT =
+                "This text should not be in clipboard when the copy button is clicked";
+
+            cy.window().then(async (win) => {
+                win.focus();
+                await win.navigator.clipboard.writeText(PREV_COPIED_TEXT);
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+
+            cy.get(".debug-link#debug").click();
+
+            cy.contains("New Winning Game").click();
+
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{rightArrow}");
+
+            cy.get(".share-button").click();
+
+            cy.contains("Copied to clipboard").should("be.visible");
+
+            cy.window().then(async (win) => {
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(
+                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`
+                );
+            });
+        });
+
+        it("should copy the results to clipboard when share button is pressed with move count reflecting undos that may have been made", () => {
+            const PREV_COPIED_TEXT =
+                "This text should not be in clipboard when the copy button is clicked";
+
+            cy.window().then(async (win) => {
+                win.focus();
+                await win.navigator.clipboard.writeText(PREV_COPIED_TEXT);
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(PREV_COPIED_TEXT);
+            });
+
+            cy.get(".debug-link#debug").click();
+
+            cy.contains("New Winning Game").click();
+
+            cy.get("body").type("{downArrow}");
+            cy.get("#undo").click({
+                force: true,
+            });
+            cy.get("body").type("{downArrow}");
+            cy.get("body").type("{rightArrow}");
+
+            cy.get(".share-button").click();
+
+            cy.contains("Copied to clipboard").should("be.visible");
+
+            cy.window().then(async (win) => {
+                const copiedText = await win.navigator.clipboard.readText();
+                expect(copiedText).to.eq(
+                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`
                 );
             });
         });

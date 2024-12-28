@@ -100,6 +100,10 @@
                         <span>swipe status:</span>
                         <span id="swipeRegistered">false</span>
                     </div>
+                    <div class="debug-row">
+                        <span>moveCount:</span>
+                        <span id="moveCount">0</span>
+                    </div>
                 </div>
                 <noscript>
                     <div class="pane-overlay">
@@ -240,7 +244,7 @@
         </template>
         <template id="lose-dialog-content">
             <span>You lose!</span><br/>
-            <span>Your score was <span id="dialog-score"></span></span>
+            <span>You scored <span id="dialog-score"></span> points in <span id="dialog-move-count">0 moves</span>.</span>
             <span id="dialog-highscore" style="display:none">You got the high score!</span>
             <button class="button share-button" autofocus>
                 <i data-feather="share-2"></i>

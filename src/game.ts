@@ -12,6 +12,7 @@ export type GameState = {
     score: number;
     didUndo: boolean;
     achievedHighscore: boolean;
+    moveCount: number;
 };
 
 // Game state to last between games
@@ -96,6 +97,7 @@ const newState: () => GameState = () => {
         score: 0,
         didUndo: false,
         achievedHighscore: false,
+        moveCount: 0,
     };
 };
 
@@ -267,6 +269,7 @@ export const move = (direction: Direction) => {
     console.log("prev board is now", prevBoard);
 
     undoManager.pushGameState();
+    gameState.moveCount++;
 
     animationManager.resetState();
 
