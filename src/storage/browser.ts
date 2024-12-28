@@ -26,7 +26,7 @@ export class BrowserGameStorage implements IGameStorage {
     persistentStateExists = () => {
         return this.stateExists(PERSISTENT_STATE_KEY);
     };
-    
+
     preferencesExists = () => {
         return this.stateExists(PREFERENCES_KEY);
     };
@@ -65,11 +65,11 @@ export class BrowserGameStorage implements IGameStorage {
 
     loadState: <T>(key: string) => T = (key) => {
         try {
-            const preferences = JSON.parse(window.localStorage.getItem(key)!);
-            if (!preferences || typeof preferences !== "object") {
+            const state = JSON.parse(window.localStorage.getItem(key)!);
+            if (!state || typeof state !== "object") {
                 return {};
             }
-            return preferences;
+            return state;
         } catch (e) {
             console.error(`Could not load state for key '${key}', ${e}`);
             return {};
