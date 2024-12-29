@@ -103,13 +103,13 @@ const newState: () => GameState = () => {
 
 const initState = () => {
     if (gameStorage.gameExists()) {
-        gameState = gameStorage.loadGame();
-
-        // TODO: Loading state should first load default state, then overwrite that state with the values from local storage/file,
-        // this will prevent having to add checks like this to make sure required properties that were not present in previous versions are initialized in the state.
-        if (typeof gameState.moveCount === "undefined") {
-            gameState.moveCount = 0;
-        }
+        // First load default state, then overwrite it with loaded game state.
+        // This will allow for better backwards compatibility with previous versions
+        //  of the game that may have fields missing in its game state.
+        gameState = {
+            ...newState(),
+            ...gameStorage.loadGame(),
+        };
 
         spawnManager.setGameState(gameState);
     } else {
