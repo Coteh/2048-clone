@@ -356,4 +356,38 @@ describe("gameplay", () => {
 
         cy.get("#moveCount").should("have.text", "0");
     });
+
+    it("should not increment move count on no-op move", () => {
+        cy.visit("/", {
+            onBeforeLoad: () => {
+                const gameState: GameState = {
+                    board: [
+                        [2, 0, 0, 0],
+                        [2, 0, 0, 0],
+                        [2, 0, 0, 0],
+                        [2, 0, 0, 0],
+                    ],
+                    ended: false,
+                    won: false,
+                    score: 0,
+                    didUndo: false,
+                    achievedHighscore: false,
+                    moveCount: 0,
+                };
+                const persistentState: GamePersistentState = {
+                    highscore: 0,
+                    unlockables: {},
+                    hasPlayedBefore: true,
+                };
+                window.localStorage.setItem("game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
+            },
+        });
+
+        cy.get("#moveCount").should("have.text", "0");
+
+        cy.get("body").type("{leftArrow}"); // Perform a no-op move
+
+        cy.get("#moveCount").should("have.text", "0"); // Move count should not increment
+    });
 });

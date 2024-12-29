@@ -332,14 +332,11 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.ended, true);
         assert.strictEqual(gameState.moveCount, 1);
         // Should not be able to make any more moves upon game over
-        mockSpawnManager.determineNextBlockValue.mockImplementation(() => {
-            return 2;
-        });
         move(DIRECTION_RIGHT);
         prevBoard = JSON.parse(JSON.stringify(gameState.board));
         assert.notStrictEqual(gameState.board, prevBoard);
         assert.strictEqual(gameState.ended, true);
-        assert.strictEqual(gameState.moveCount, 2);
+        assert.strictEqual(gameState.moveCount, 1);
     });
     it("should allow player to continue the game if board is full but adjacent blocks can be merged", async () => {
         mockSpawnManager.determineNextBlockLocation.mockImplementation(() => {
@@ -571,5 +568,36 @@ describe("core game logic", () => {
         assert.strictEqual(gameState.board[1][0], 0);
         assert.strictEqual(gameState.board[2][0], 4);
         assert.strictEqual(gameState.board[3][0], 4);
+    });
+    it("should not increment move count on no-op move", async () => {
+        mockSpawnManager.determineNextBlockLocation.mockImplementation(() => {
+            return {
+                x: 0,
+                y: 0,
+            };
+        });
+        mockSpawnManager.determineNextBlockValue.mockImplementation(() => {
+            return 2;
+        });
+
+        const gameState = await setupGame({
+            board: [
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+                [2, 0, 0, 0],
+            ],
+            ended: false,
+            won: false,
+            score: 0,
+            didUndo: false,
+            achievedHighscore: false,
+            moveCount: 0,
+        });
+
+        const initialMoveCount = gameState.moveCount;
+        move(DIRECTION_LEFT); // Perform a no-op move
+
+        expect(gameState.moveCount).toBe(initialMoveCount); // Move count should not increment
     });
 });

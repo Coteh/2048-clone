@@ -275,7 +275,6 @@ export const move = (direction: Direction) => {
     console.log("prev board is now", prevBoard);
 
     undoManager.pushGameState();
-    gameState.moveCount++;
 
     animationManager.resetState();
 
@@ -286,8 +285,13 @@ export const move = (direction: Direction) => {
 
     // Keep looping through movement until no more moves can be made
     prevBoard = null;
-    let numMoves = 0;
+    let numShifts = 0;
     while (!isBoardSame(gameState.board, prevBoard)) {
+        // If at least one shift was performed, then count as a move.
+        // But do not count as a move for any subsequent shifts within this move.
+        if (numShifts === 1) {
+            gameState.moveCount++;
+        }
         prevBoard = [];
         for (let i = 0; i < gameState.board.length; i++) {
             prevBoard.push(gameState.board[i].slice());
@@ -371,10 +375,10 @@ export const move = (direction: Direction) => {
             }
         }
         console.log("current board is", gameState.board);
-        numMoves++;
+        numShifts++;
     }
 
-    if (numMoves > 1) {
+    if (numShifts > 1) {
         console.log("spawn next block and check game conditions");
 
         const location = spawnManager.determineNextBlockLocation();
