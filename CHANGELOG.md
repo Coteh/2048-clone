@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Number of moves stat, shown in game over screen and score text
 
+### Changed
+
+- Allow the game board in Snow theme to be see-through
+
 ## [1.0.2] - 2024-12-20
 
 ### Fixed

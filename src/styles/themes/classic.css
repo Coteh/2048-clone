@@ -8,6 +8,8 @@
 
     --standard-block-color: rgb(0, 0, 0, 0);
 
+    --back-layer-color: rgba(0, 0, 0, 0);
+
     --text-font-family: "Comic Sans MS", "Comic Neue", sans-serif;
 
     --share-button-background-color: #00d600;
@@ -198,7 +200,6 @@ body.classic .top-menu > .classic-logo {
 }
 
 body.classic .back-rows {
-    background-color: rgba(0, 0, 0, 0);
     border: 2px solid black;
     padding: 0px;
 }
