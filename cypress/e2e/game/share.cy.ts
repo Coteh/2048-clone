@@ -103,7 +103,7 @@ describe("sharing results", () => {
                     try {
                         expect(shareStub).to.be.calledOnce;
                         expect(shareStub).to.be.calledWithExactly({
-                            text: `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`,
+                            text: `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                         });
                         done();
                     } catch (err) {
@@ -391,7 +391,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
                 );
             });
 
@@ -452,7 +452,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
                 );
             });
         });
@@ -494,7 +494,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
                 );
             });
 
@@ -531,7 +531,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 1 move. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
                 );
             });
         });
