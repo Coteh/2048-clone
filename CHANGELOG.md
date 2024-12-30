@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Number of moves stat, shown in game over screen and score text
+- Number of moves stat, shown in game over screen and score share text
 
 ### Changed
 
