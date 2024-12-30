@@ -106,9 +106,6 @@ Features I started but have decided to cut for the initial release. Will come ba
 - Undo feature
     - Currently partially implemented for debugging purposes
     - Enable debug mode when running locally to access
-- Share Image feature ([share-image](https://github.com/Coteh/2048-clone/tree/share-image))
-    - Allows player to share an image of their game board upon game over instead of just their score
-    - Currently uses [html-to-image](https://github.com/bubkoo/html-to-image) to take a snapshot of the DOM to save as image that is then exported to share sheet
 
 ### Wishlist (Not Started)
 
