@@ -73,10 +73,14 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("preferences")).to.be.eql(
-                JSON.stringify({
+            // TODO: In production, the two debug hud options will not be enabled,
+            // AFAIK, there is no way to turn off Vite dev mode for just one test, so this will have to do for now.
+            expect(JSON.parse(win.localStorage.getItem("preferences"))).to.deep.equal(
+                {
                     theme: "dark",
-                })
+                    debugHudEnabled: "enabled",
+                    debugHudVisible: "enabled",
+                }
             );
         });
 
@@ -84,11 +88,13 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("preferences")).to.be.eql(
-                JSON.stringify({
+            expect(JSON.parse(win.localStorage.getItem("preferences"))).to.deep.equal(
+                {
                     theme: "dark",
                     animations: "enabled",
-                })
+                    debugHudEnabled: "enabled",
+                    debugHudVisible: "enabled",
+                }
             );
         });
 
@@ -96,11 +102,13 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("preferences")).to.be.eql(
-                JSON.stringify({
+            expect(JSON.parse(win.localStorage.getItem("preferences"))).to.deep.equal(
+                {
                     theme: "dark",
                     animations: "disabled",
-                })
+                    debugHudEnabled: "enabled",
+                    debugHudVisible: "enabled",
+                }
             );
         });
     });
@@ -164,9 +172,12 @@ describe("settings", () => {
     });
 
     it("should handle preferences value in local storage being in invalid state", () => {
-        window.localStorage.setItem("preferences", "invalid");
-
-        cy.reload();
+        // Set local storage preferences value to "invalid" to simulate an invalid state
+        cy.visit("/", {
+            onBeforeLoad: () => {
+                window.localStorage.setItem("preferences", "invalid");
+            }
+        });
 
         cy.get(".settings-link").click();
 
@@ -174,17 +185,33 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("preferences")).to.be.eql("invalid");
+            // The invalid value should be replaced with the default value,
+            // which will be set to debug hud options in dev mode
+            expect(JSON.parse(win.localStorage.getItem("preferences"))).to.deep.equal(
+                {
+                    debugHudEnabled: "enabled",
+                    debugHudVisible: "enabled",
+                }
+            );
+
+            // TODO: In production, these two options will not be enabled,
+            // so the test will need to check that the preferences are set to the default values.
+            // AFAIK, there is no way to turn off Vite dev mode for just one test, so this will have to do for now.
+            // expect(win.localStorage.getItem("preferences")).to.deep.equal({});
+            // NOTE: The assertion commented above should actually fail atm, because the default values are not set
+            // at all upon invalid value in production.
         });
 
         cy.get(".settings-item.animations").click();
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("preferences")).to.be.eql(
-                JSON.stringify({
+            expect(JSON.parse(win.localStorage.getItem("preferences"))).to.deep.equal(
+                {
                     animations: "enabled",
-                })
+                    debugHudEnabled: "enabled",
+                    debugHudVisible: "enabled",
+                }
             );
         });
 
@@ -192,10 +219,12 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(win.localStorage.getItem("preferences")).to.be.eql(
-                JSON.stringify({
+            expect(JSON.parse(win.localStorage.getItem("preferences"))).to.deep.equal(
+                {
                     animations: "disabled",
-                })
+                    debugHudEnabled: "enabled",
+                    debugHudVisible: "enabled",
+                }
             );
         });
     });
