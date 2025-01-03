@@ -596,8 +596,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 toggle.innerText = nextBlockStyle;
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
                 const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
-                (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
-                    "Are you sure you want to clear all game data? Preferences, high score, and unlockables will all be lost.";
+                (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerHTML =
+                    "Are you sure you want to clear all game data? <u>Preferences</u>, <u>high score</u>, and <u>unlockables</u> will <em>all be lost</em>.";
                 renderPromptDialog(dialogElem, {
                     fadeIn: true,
                     onConfirm: () => {
@@ -765,7 +765,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             childElement = parentElement.querySelector("i") as HTMLElement;
         }
-        (childElement as HTMLElement).setAttribute('data-feather', newIcon);
+        (childElement as HTMLElement).setAttribute("data-feather", newIcon);
         parentElement.appendChild(childElement as HTMLElement);
         if (iconsLoaded) {
             feather.replace();
@@ -781,7 +781,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         debugHudButton.style.display = isEnabled ? "" : "none";
         debugOverlay.style.display = isVisible ? "" : "none";
         changeIcon(debugHudButton, isVisible ? "eye-off" : "eye");
-        (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText = swipeSensitivity.toString();
+        (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText =
+            swipeSensitivity.toString();
     };
 
     debugHudButton.addEventListener("click", (e) => {
@@ -791,12 +792,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const toggleDebugHud = (isVisible: boolean) => {
         debugOverlay.style.display = isVisible ? "none" : "";
-        savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, !isVisible ? SETTING_ENABLED : SETTING_DISABLED);
+        savePreferenceValue(
+            DEBUG_HUD_VISIBLE_PREFERENCE_NAME,
+            !isVisible ? SETTING_ENABLED : SETTING_DISABLED
+        );
         updateDebugHudState(isDebugHudEnabled, !isVisible);
     };
 
-    let isDebugHudEnabled = getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
-    let isDebugHudVisible = getPreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME) === SETTING_ENABLED;
+    let isDebugHudEnabled =
+        getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
+    let isDebugHudVisible =
+        getPreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME) === SETTING_ENABLED;
 
     updateDebugHudState(isDebugHudEnabled, isDebugHudVisible);
 
@@ -1010,9 +1016,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (changelogTapCount >= changelogTapThreshold) {
                 changelogTapCount = 0;
                 clearTimeout(changelogTapTimer);
-                const isEnabled = getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
-                savePreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME, isEnabled ? SETTING_DISABLED : SETTING_ENABLED);
-                savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, isEnabled ? SETTING_DISABLED : SETTING_ENABLED);
+                const isEnabled =
+                    getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
+                savePreferenceValue(
+                    DEBUG_HUD_ENABLED_PREFERENCE_NAME,
+                    isEnabled ? SETTING_DISABLED : SETTING_ENABLED
+                );
+                savePreferenceValue(
+                    DEBUG_HUD_VISIBLE_PREFERENCE_NAME,
+                    isEnabled ? SETTING_DISABLED : SETTING_ENABLED
+                );
                 isDebugHudEnabled = isDebugHudVisible = !isEnabled;
                 updateDebugHudState(!isEnabled, !isEnabled);
                 renderNotification(`Debug HUD ${isEnabled ? "disabled" : "enabled"}`, 2500);
