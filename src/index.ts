@@ -59,6 +59,8 @@ const THEME_PREFERENCE_NAME = "theme";
 const TILESET_PREFERENCE_NAME = "tileset";
 const ANIMATIONS_PREFERENCE_NAME = "animations";
 const BLOCK_STYLE_PREFERENCE_NAME = "block";
+const DEBUG_HUD_ENABLED_PREFERENCE_NAME = "debugHudEnabled";
+const DEBUG_HUD_VISIBLE_PREFERENCE_NAME = "debugHudVisible";
 
 const THEME_SETTING_NAME = "theme-switch";
 const TILESET_SETTING_NAME = "tileset-switch";
@@ -84,6 +86,8 @@ import("../CHANGELOG.md").then((res) => {
 let isAnimationEnabled = false;
 
 let isPrompted = false;
+
+let iconsLoaded = false;
 
 console.info(`2048-clone v${GAME_VERSION}`);
 
@@ -758,7 +762,63 @@ document.addEventListener("DOMContentLoaded", async () => {
         swipeRegistered.style.color = "red";
     }
 
+    function changeIcon(parentElement: HTMLElement, newIcon: string) {
+        let childElement = parentElement.querySelector("svg") as HTMLOrSVGElement;
+        if (childElement) {
+            (childElement as SVGElement).remove();
+            childElement = document.createElement("i");
+        } else {
+            childElement = parentElement.querySelector("i") as HTMLElement;
+        }
+        (childElement as HTMLElement).setAttribute('data-feather', newIcon);
+        parentElement.appendChild(childElement as HTMLElement);
+        if (iconsLoaded) {
+            feather.replace();
+        }
+    }
+
     const undoButton = document.querySelector(".link-icon#undo") as HTMLElement;
+    const debugOverlay = document.querySelector("#debug-overlay") as HTMLDivElement;
+    const debugMenuButton = document.querySelector(".link-icon#debug") as HTMLElement;
+    const debugHudButton = document.querySelector(".link-icon#debug-hud") as HTMLElement;
+
+    const updateDebugHudState = (isEnabled: boolean, isVisible: boolean) => {
+        debugHudButton.style.display = isEnabled ? "" : "none";
+        debugOverlay.style.display = isVisible ? "" : "none";
+        changeIcon(debugHudButton, isVisible ? "eye-off" : "eye");
+        (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText = swipeSensitivity.toString();
+    };
+
+    debugHudButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleDebugHud();
+    });
+
+    const toggleDebugHud = () => {
+        const isDebugHudVisible = debugOverlay.style.display !== "none";
+        debugOverlay.style.display = isDebugHudVisible ? "none" : "";
+        savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, !isDebugHudVisible ? SETTING_ENABLED : SETTING_DISABLED);
+        updateDebugHudState(isDebugHudEnabled, !isDebugHudVisible);
+    };
+
+    let isDebugHudEnabled = getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
+    let isDebugHudVisible = getPreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME) === SETTING_ENABLED;
+
+    updateDebugHudState(isDebugHudEnabled, isDebugHudVisible);
+
+    if (import.meta.env.DEV && !import.meta.env.VITE_DEBUG_OFF) {
+        debugMenuButton.style.display = "";
+        undoButton.style.display = "";
+        // If no hud enabled preference is set, set it to enabled and visible
+        if (getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) == null) {
+            savePreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME, SETTING_ENABLED);
+            isDebugHudEnabled = true;
+            savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, SETTING_ENABLED);
+            isDebugHudVisible = true;
+        }
+        updateDebugHudState(isDebugHudEnabled, isDebugHudVisible);
+    }
+
     undoButton.addEventListener("click", (e) => {
         e.preventDefault();
         undo();
@@ -890,19 +950,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         debugButton.blur();
     });
 
-    if (import.meta.env.DEV && !import.meta.env.VITE_DEBUG_OFF) {
-        debugButton.style.display = "";
-        undoButton.style.display = "";
-        const debugOverlay = document.querySelector("#debug-overlay") as HTMLDivElement;
-        debugOverlay.style.display = "";
-        debugOverlay.addEventListener("click", (e) => {
-            e.preventDefault();
-            debugOverlay.style.opacity = debugOverlay.style.opacity !== "0" ? "0" : "1";
-        });
-        (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText =
-            swipeSensitivity.toString();
-    }
-
     (document.querySelector("#new-game") as HTMLElement).addEventListener("click", (e) => {
         e.preventDefault();
         promptNewGame(() => {
@@ -916,6 +963,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     (document.querySelector("[data-feather='settings']") as HTMLElement).innerText = "⚙";
     (document.querySelector(".settings [data-feather='x']") as HTMLElement).innerText = "X";
     feather.replace();
+    iconsLoaded = true;
 
     const versionElem = document.querySelector(".version-number") as HTMLElement;
     versionElem.innerText = `v${GAME_VERSION}`;
@@ -926,6 +974,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
         import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
+
+    let changelogTapCount = 0;
+    const changelogTapThreshold = 5;
+    const changelogTapTimeout = 1000;
+    let changelogTapTimer: NodeJS.Timeout;
 
     const changelogLink = document.querySelector("#changelog-link") as HTMLAnchorElement;
     changelogLink.addEventListener("click", async (e) => {
@@ -950,6 +1003,25 @@ document.addEventListener("DOMContentLoaded", async () => {
                 height: "75%",
                 maxWidth: "600px",
             },
+        });
+
+        const changelogTitle = changelogElem.querySelector("h1") as HTMLElement;
+        changelogTitle.addEventListener("click", () => {
+            changelogTapCount++;
+            if (changelogTapCount === 1) {
+                changelogTapTimer = setTimeout(() => {
+                    changelogTapCount = 0;
+                }, changelogTapTimeout);
+            }
+            if (changelogTapCount >= changelogTapThreshold) {
+                changelogTapCount = 0;
+                clearTimeout(changelogTapTimer);
+                const isEnabled = getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
+                savePreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME, isEnabled ? SETTING_DISABLED : SETTING_ENABLED);
+                savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, isEnabled ? SETTING_DISABLED : SETTING_ENABLED);
+                updateDebugHudState(!isEnabled, !isEnabled);
+                renderNotification(`Debug HUD ${isEnabled ? "disabled" : "enabled"}`, 2500);
+            }
         });
     });
 
