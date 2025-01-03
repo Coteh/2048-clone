@@ -232,6 +232,8 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    right: 0;
+    padding: 0.5rem 1rem 0.5rem 0;
 
     z-index: 1001;
 }
@@ -239,8 +241,4 @@
 .game.pane > .commands > * {
     padding-top: 0.5em;
     margin-left: 0.5em;
-}
-
-.game.pane > .commands > *:last-child {
-    padding-right: 0.5em;
 }
