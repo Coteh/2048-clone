@@ -1,6 +1,6 @@
 # 2048-clone
 
-[![Run Tests](https://github.com/Coteh/2048-clone/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Coteh/2048-clone/actions/workflows/run-tests.yml)
+[![CI](https://github.com/Coteh/2048-clone/actions/workflows/ci.yml/badge.svg)](https://github.com/Coteh/2048-clone/actions/workflows/ci.yml)
 
 ### [**Click here to play**](https://coteh.github.io/2048-clone)
 
