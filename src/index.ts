@@ -313,14 +313,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 move(DIRECTION_UP);
                 break;
             case "d":
-                if (import.meta.env.DEV) {
-                    if (debugButton.style.display === "") {
-                        debugButton.style.display = "none";
-                        undoButton.style.display = "none";
-                    } else {
-                        debugButton.style.display = "";
-                        undoButton.style.display = "";
-                    }
+                // Only toggle the debug HUD if debug HUD is enabled
+                if (isDebugHudEnabled) {
+                    toggleDebugHud(debugOverlay.style.display !== "none");
                 }
                 break;
         }
@@ -791,14 +786,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     debugHudButton.addEventListener("click", (e) => {
         e.preventDefault();
-        toggleDebugHud();
+        toggleDebugHud(debugOverlay.style.display !== "none");
     });
 
-    const toggleDebugHud = () => {
-        const isDebugHudVisible = debugOverlay.style.display !== "none";
-        debugOverlay.style.display = isDebugHudVisible ? "none" : "";
-        savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, !isDebugHudVisible ? SETTING_ENABLED : SETTING_DISABLED);
-        updateDebugHudState(isDebugHudEnabled, !isDebugHudVisible);
+    const toggleDebugHud = (isVisible: boolean) => {
+        debugOverlay.style.display = isVisible ? "none" : "";
+        savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, !isVisible ? SETTING_ENABLED : SETTING_DISABLED);
+        updateDebugHudState(isDebugHudEnabled, !isVisible);
     };
 
     let isDebugHudEnabled = getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
@@ -1019,6 +1013,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const isEnabled = getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
                 savePreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME, isEnabled ? SETTING_DISABLED : SETTING_ENABLED);
                 savePreferenceValue(DEBUG_HUD_VISIBLE_PREFERENCE_NAME, isEnabled ? SETTING_DISABLED : SETTING_ENABLED);
+                isDebugHudEnabled = isDebugHudVisible = !isEnabled;
                 updateDebugHudState(!isEnabled, !isEnabled);
                 renderNotification(`Debug HUD ${isEnabled ? "disabled" : "enabled"}`, 2500);
             }
