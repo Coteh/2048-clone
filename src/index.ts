@@ -33,6 +33,7 @@ import { UndoManager } from "./manager/undo";
 import { AssetManager } from "./manager/asset";
 import { formatTilesetName } from "./util/format";
 import * as marked from "marked";
+import { FullscreenManager } from "./manager/fullscreen";
 
 import "./styles/global.css";
 
@@ -61,11 +62,13 @@ const ANIMATIONS_PREFERENCE_NAME = "animations";
 const BLOCK_STYLE_PREFERENCE_NAME = "block";
 const DEBUG_HUD_ENABLED_PREFERENCE_NAME = "debugHudEnabled";
 const DEBUG_HUD_VISIBLE_PREFERENCE_NAME = "debugHudVisible";
+const FULLSCREEN_PREFERENCE_NAME = "fullscreen";
 
 const THEME_SETTING_NAME = "theme-switch";
 const TILESET_SETTING_NAME = "tileset-switch";
 const ANIMATIONS_SETTING_NAME = "animations";
 const BLOCK_STYLE_SETTING_NAME = "block";
+const FULLSCREEN_SETTING_NAME = "fullscreen";
 const CLEAR_DATA_SETTING_NAME = "clear-all-data";
 
 const SETTING_ENABLED = "enabled";
@@ -101,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let animationManager = new AnimationManager();
     let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
+    let fullscreenManager = new FullscreenManager(gameStorage);
     let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
     // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
@@ -110,6 +114,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     let howToPlay: HowToPlay = new HowToPlay();
 
     const swipeSensitivity = 50;
+
+    const md = new MobileDetect(window.navigator.userAgent);
+    const isMobile = md.mobile() !== null;
 
     const eventHandler = (event: string, data: any) => {
         switch (event) {
@@ -292,6 +299,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
             return;
         }
+        if (key === "f" && !isMobile) {
+            fullscreenManager.toggleFullscreen();
+            const knob = document.querySelector(".setting.fullscreen .knob") as HTMLElement;
+            if (fullscreenManager.isFullscreenEnabled()) {
+                knob.classList.add("enabled");
+            } else {
+                knob.classList.remove("enabled");
+            }
+            return;
+        }
         if (gameState.ended) {
             return;
         }
@@ -325,6 +342,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         handleKeyInput(e.key.toLowerCase());
     });
 
+    document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement) {
+            fullscreenManager.setFullscreenPreference(false);
+            const knob = document.querySelector(".setting.fullscreen .knob") as HTMLElement;
+            knob.classList.remove("enabled");
+        }
+    });
+
     const promptNewGame = (onNewGameStarted?: () => void) => {
         // If game ended, no need to prompt
         if (gameState.ended) {
@@ -344,6 +369,31 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (onNewGameStarted) {
                     onNewGameStarted();
                 }
+            },
+        });
+    };
+
+    const promptFullscreen = () => {
+        const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
+        (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
+            "Fullscreen mode is enabled. Do you want to turn it on?";
+        renderPromptDialog(dialogElem, {
+            fadeIn: true,
+            onConfirm: () => {
+                fullscreenManager.toggleFullscreen(true);
+                const setting = document.querySelector(
+                    `.setting.${FULLSCREEN_SETTING_NAME}`
+                ) as HTMLElement;
+                const knob = setting.querySelector(".knob") as HTMLElement;
+                knob.classList.add("enabled");
+            },
+            onCancel: () => {
+                fullscreenManager.toggleFullscreen(false);
+                const setting = document.querySelector(
+                    `.setting.${FULLSCREEN_SETTING_NAME}`
+                ) as HTMLElement;
+                const knob = setting.querySelector(".knob") as HTMLElement;
+                knob.classList.remove("enabled");
             },
         });
     };
@@ -594,6 +644,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 switchBlockStyle(nextBlockStyle);
                 savePreferenceValue(BLOCK_STYLE_PREFERENCE_NAME, nextBlockStyle);
                 toggle.innerText = nextBlockStyle;
+            } else if (elem.classList.contains(FULLSCREEN_SETTING_NAME)) {
+                fullscreenManager.toggleFullscreen();
+                const knob = setting.querySelector(".knob") as HTMLElement;
+                if (fullscreenManager.isFullscreenEnabled()) {
+                    knob.classList.add("enabled");
+                } else {
+                    knob.classList.remove("enabled");
+                }
             } else if (elem.classList.contains(CLEAR_DATA_SETTING_NAME)) {
                 const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerHTML =
@@ -615,6 +673,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
     });
+
+    // Hide fullscreen setting on mobile devices
+    const fullscreenOption = document.querySelector(".setting.fullscreen") as HTMLElement;
+    if (isMobile) {
+        fullscreenOption.style.display = "none";
+    }
 
     initPreferences(gameStorage, {
         [ANIMATIONS_PREFERENCE_NAME]: SETTING_ENABLED,
@@ -650,6 +714,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         `.setting.${BLOCK_STYLE_SETTING_NAME}`
     ) as HTMLElement;
     (blockStyleSetting.querySelector(".toggle") as HTMLElement).innerText = selectedBlockStyle;
+    if (getPreferenceValue(FULLSCREEN_PREFERENCE_NAME) === SETTING_ENABLED) {
+        promptFullscreen();
+    }
 
     const generateShareText = (gameState: GameState) => {
         return `I got a score of ${gameState.score} in 2048-clone${
