@@ -12,6 +12,8 @@ A clone of [2048](https://play2048.co/) created using TypeScript, HTML, and CSS.
 
 - Base game
 - Animations, with ability to toggle them on/off
+- Fullscreen mode (for desktop devices)
+- Mobile-friendly web app (can be added to mobile home screens as an app, runs in fullscreen)
 - Share score (using OS-native share sheet or copy to clipboard as fallback)
 - Themes
     - Standard
