@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ability to toggle Debug HUD
 
+### Changed
+
+- Improve 'Clear All Data' dialog clarity and emphasis
+
 ## [1.1.0] - 2024-12-30
 
 ### Added
