@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const promptFullscreen = () => {
         const dialogElem = createDialogContentFromTemplate("#prompt-dialog-content");
         (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText =
-            "Fullscreen mode is enabled. Do you want to turn it on?";
+            "Fullscreen mode was previously enabled. Do you want to re-enter fullscreen mode?";
         renderPromptDialog(dialogElem, {
             fadeIn: true,
             onConfirm: () => {

@@ -80,7 +80,7 @@ describe("fullscreen", () => {
     });
 
     it("should not show fullscreen prompt if fullscreen preference is disabled", () => {
-        cy.contains("Fullscreen mode is enabled. Do you want to turn it on?").should("not.exist");
+        cy.contains("Fullscreen mode").should("not.exist");
     });
 
     describe("fullscreen prompt if fullscreen preference is enabled", () => {
@@ -100,9 +100,7 @@ describe("fullscreen", () => {
                 cy.stub(doc, "exitFullscreen").as("exitFullscreen");
             });
 
-            cy.contains("Fullscreen mode is enabled. Do you want to turn it on?").should(
-                "be.visible"
-            );
+            cy.contains("Fullscreen mode").should("be.visible");
         });
 
         it("should enable fullscreen if user confirms the prompt", () => {
