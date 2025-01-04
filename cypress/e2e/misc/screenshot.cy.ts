@@ -30,6 +30,7 @@ describe("misc", () => {
                 const preferences: Preferences = {
                     theme: "standard",
                     animations: "enabled",
+                    debugHudEnabled: "enabled",
                 };
                 window.localStorage.setItem("game-state", JSON.stringify(gameState));
                 window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
