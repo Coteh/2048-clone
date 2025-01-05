@@ -18,7 +18,6 @@ import {
     renderNotification,
     renderPromptDialog,
 } from "./render";
-import feather from "feather-icons";
 import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
@@ -34,6 +33,7 @@ import { AssetManager } from "./manager/asset";
 import { formatTilesetName } from "./util/format";
 import * as marked from "marked";
 import { FullscreenManager } from "./manager/fullscreen";
+import { ActionIconManager, AppIconManager } from "./manager/icon";
 
 import "./styles/global.css";
 
@@ -90,8 +90,6 @@ let isAnimationEnabled = false;
 
 let isPrompted = false;
 
-let iconsLoaded = false;
-
 console.info(`2048-clone v${GAME_VERSION}`);
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -106,6 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let gameStorage = new BrowserGameStorage();
     let fullscreenManager = new FullscreenManager(gameStorage);
     let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
+    let actionIconManager = new ActionIconManager();
+    let appIconManager = new AppIconManager();
     // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
     let unlockedInitialCommit = false;
@@ -469,6 +469,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let classicTimeout: NodeJS.Timeout;
 
+    const setStandardAppIcon = () => {
+        if (import.meta.env.DEV) {
+            appIconManager.setAppIcon("standard_local");
+        } else if (import.meta.env.VITE_DEV_DEPLOYMENT) {
+            appIconManager.setAppIcon("standard_dev");
+        } else {
+            appIconManager.setAppIcon("standard");
+        }
+    };
+
+    setStandardAppIcon();
+
     const switchTheme = (theme: string) => {
         if (!theme || !selectableThemes.includes(theme)) {
             theme = STANDARD_THEME;
@@ -500,17 +512,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
             themeColor;
-        const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
         // TODO: Alter manifest.json icons as well so that it would work on Android and other platforms too
-        const appleTouchIcon = document.querySelector(
-            "link[rel='apple-touch-icon']"
-        ) as HTMLLinkElement;
         if (theme === CLASSIC_THEME) {
-            appleTouchIcon.href = "icon152_classic.png";
-            favicon.href = "favicon_classic.ico";
+            appIconManager.setAppIcon("classic");
         } else {
-            appleTouchIcon.href = "icon152.png";
-            favicon.href = "favicon.ico";
+            setStandardAppIcon();
         }
         selectedTheme = theme;
         selectedTileset = selectableTilesets[theme][0];
@@ -836,21 +842,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         swipeRegistered.style.color = "red";
     }
 
-    function changeIcon(parentElement: HTMLElement, newIcon: string) {
-        let childElement = parentElement.querySelector("svg") as HTMLOrSVGElement;
-        if (childElement) {
-            (childElement as SVGElement).remove();
-            childElement = document.createElement("i");
-        } else {
-            childElement = parentElement.querySelector("i") as HTMLElement;
-        }
-        (childElement as HTMLElement).setAttribute("data-feather", newIcon);
-        parentElement.appendChild(childElement as HTMLElement);
-        if (iconsLoaded) {
-            feather.replace();
-        }
-    }
-
     const undoButton = document.querySelector(".link-icon#undo") as HTMLElement;
     const debugOverlay = document.querySelector("#debug-overlay") as HTMLDivElement;
     const debugMenuButton = document.querySelector(".link-icon#debug") as HTMLElement;
@@ -859,7 +850,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updateDebugHudState = (isEnabled: boolean, isVisible: boolean) => {
         debugHudButton.style.display = isEnabled ? "" : "none";
         debugOverlay.style.display = isVisible ? "" : "none";
-        changeIcon(debugHudButton, isVisible ? "eye-off" : "eye");
+        actionIconManager.changeIcon(debugHudButton, isVisible ? "eye-off" : "eye");
         (document.querySelector("#swipeSensitivity") as HTMLSpanElement).innerText =
             swipeSensitivity.toString();
     };
@@ -1041,8 +1032,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // (document.querySelector("[data-feather='help-circle']") as HTMLElement).innerText = "?";
     (document.querySelector("[data-feather='settings']") as HTMLElement).innerText = "⚙";
     (document.querySelector(".settings [data-feather='x']") as HTMLElement).innerText = "X";
-    feather.replace();
-    iconsLoaded = true;
+    actionIconManager.loadIcons();
 
     const versionElem = document.querySelector(".version-number") as HTMLElement;
     versionElem.innerText = `v${GAME_VERSION}`;
