@@ -472,7 +472,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const setStandardAppIcon = () => {
         if (import.meta.env.DEV) {
             appIconManager.setAppIcon("standard_local");
-        } else if (import.meta.env.VITE_DEV_DEPLOYMENT) {
+        } else if (VITE_DEV_DEPLOYMENT) {
             appIconManager.setAppIcon("standard_dev");
         } else {
             appIconManager.setAppIcon("standard");

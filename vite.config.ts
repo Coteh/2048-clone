@@ -17,9 +17,7 @@ export default defineConfig(({ mode }) => {
         define: {
             GAME_VERSION: JSON.stringify(version),
             COMMIT_HASH: JSON.stringify(commitHash),
-            "import.meta.env.VITE_DEV_DEPLOYMENT": JSON.stringify(
-                process.env.VITE_DEV_DEPLOYMENT || false
-            ),
+            VITE_DEV_DEPLOYMENT: JSON.stringify(process.env.VITE_DEV_DEPLOYMENT || false),
         },
         build: {
             outDir: path.resolve(__dirname, "build"),
