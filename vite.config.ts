@@ -54,7 +54,7 @@ export default defineConfig(({ mode }) => {
                             let srcPath = path.join(inputDir, file);
                             let destPath = path.join(outputDir, file.replace(".png", "_nonprod.png"));
 
-                            const cmd = `magick ${srcPath} -gravity south -fill "white" -undercolor "#000000AA" -pointsize 42 -font "Lato-Black" -annotate +0+10 "${env.DEPLOY_ENV}" ${destPath}`;
+                            const cmd = `magick ${srcPath} -gravity south -fill "white" -undercolor "#000000AA" -pointsize 42 -font ./public/fonts/Lato/Lato-Black.ttf -annotate +0+10 "${env.DEPLOY_ENV}" ${destPath}`;
                             try {
                                 childProcess.execSync(cmd);
                                 console.log(`Processed ${file} -> ${path.basename(destPath)}`);
