@@ -42,6 +42,33 @@ export default defineConfig(({ mode }) => {
                 : undefined,
         },
         plugins: [
+            {
+                name: "Nonprod App Labels",
+                apply: "build",
+                closeBundle() {
+                    const inputDir = path.resolve(__dirname, "public");
+                    const outputDir = path.resolve(__dirname, "build");
+
+                    fs.readdirSync(inputDir).forEach((file) => {
+                        if (file.startsWith("icon")) {
+                            let srcPath = path.join(inputDir, file);
+                            let destPath = path.join(outputDir, file.replace(".png", "_nonprod.png"));
+
+                            const cmd = `magick ${srcPath} -gravity south -fill "white" -undercolor "#000000AA" -pointsize 42 -font "Lato-Black" -annotate +0+10 "${env.DEPLOY_ENV}" ${destPath}`;
+                            try {
+                                childProcess.execSync(cmd);
+                                console.log(`Processed ${file} -> ${path.basename(destPath)}`);
+                                srcPath = destPath;
+                                destPath = srcPath.replace("_nonprod.png", ".png")
+                                fs.renameSync(srcPath, destPath)
+                                console.log(`Renamed ${srcPath} -> ${destPath}`);
+                            } catch (e) {
+                                console.error(`Error processing ${file}: ${e.message}`);
+                            }
+                        }
+                    });
+                },
+            },
             // Must go after all other plugins
             sentryVitePlugin({
                 org: "james-cote",
