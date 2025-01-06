@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => {
         define: {
             GAME_VERSION: JSON.stringify(version),
             COMMIT_HASH: JSON.stringify(commitHash),
-            VITE_DEV_DEPLOYMENT: JSON.stringify(process.env.VITE_DEV_DEPLOYMENT || false),
         },
         build: {
             outDir: path.resolve(__dirname, "build"),
@@ -52,15 +51,18 @@ export default defineConfig(({ mode }) => {
                     fs.readdirSync(inputDir).forEach((file) => {
                         if (file.startsWith("icon")) {
                             let srcPath = path.join(inputDir, file);
-                            let destPath = path.join(outputDir, file.replace(".png", "_nonprod.png"));
+                            let destPath = path.join(
+                                outputDir,
+                                file.replace(".png", "_nonprod.png")
+                            );
 
                             const cmd = `magick ${srcPath} -gravity south -fill "white" -undercolor "#000000AA" -pointsize 42 -font ./public/fonts/Lato/Lato-Black.ttf -annotate +0+10 "${env.DEPLOY_ENV}" ${destPath}`;
                             try {
                                 childProcess.execSync(cmd);
                                 console.log(`Processed ${file} -> ${path.basename(destPath)}`);
                                 srcPath = destPath;
-                                destPath = srcPath.replace("_nonprod.png", ".png")
-                                fs.renameSync(srcPath, destPath)
+                                destPath = srcPath.replace("_nonprod.png", ".png");
+                                fs.renameSync(srcPath, destPath);
                                 console.log(`Renamed ${srcPath} -> ${destPath}`);
                             } catch (e) {
                                 console.error(`Error processing ${file}: ${e.message}`);
