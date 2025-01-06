@@ -41,7 +41,15 @@
     position: relative;
 }
 
-.dialog > div.dialog-content > div.dialog-text > *:last-child { 
+.dialog > div.dialog-content > div.dialog-text > ul > li {
+    margin-bottom: 8px;
+}
+
+.dialog > div.dialog-content > div.dialog-text > ul > li:last-child {
+    margin-bottom: 0;
+}
+
+.dialog > div.dialog-content > div.dialog-text > *:last-child {
     padding: 0 0 16px 0;
 }
 

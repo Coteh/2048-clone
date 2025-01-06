@@ -271,6 +271,26 @@ body.classic button.button.new-game > * {
     body.classic .settings .settings-item:hover * {
         color: var(--hovered-color);
     }
+
+    body.classic .settings .settings-item:hover .knob::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(173, 216, 230, 0.25);
+    }
+
+    body.classic .settings .settings-item:active .knob::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(50, 205, 50, 0.4);
+    }
 }
 
 body.classic .box {
