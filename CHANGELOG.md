@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fullscreen mode (for desktop devices)
 - Hover and active state colors for checkbox in 2048Clone theme
+- Special app icon and favicon for 2048Clone theme
 
 ### Changed
 
