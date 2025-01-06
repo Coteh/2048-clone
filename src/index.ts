@@ -469,18 +469,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let classicTimeout: NodeJS.Timeout;
 
-    const setStandardAppIcon = () => {
-        if (import.meta.env.DEV) {
-            appIconManager.setAppIcon("standard_local");
-        } else if (VITE_DEV_DEPLOYMENT) {
-            appIconManager.setAppIcon("standard_dev");
-        } else {
-            appIconManager.setAppIcon("standard");
-        }
-    };
-
-    setStandardAppIcon();
-
     const switchTheme = (theme: string) => {
         if (!theme || !selectableThemes.includes(theme)) {
             theme = STANDARD_THEME;
@@ -512,11 +500,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
             themeColor;
-        // TODO: Alter manifest.json icons as well so that it would work on Android and other platforms too
         if (theme === CLASSIC_THEME) {
             appIconManager.setAppIcon("classic");
         } else {
-            setStandardAppIcon();
+            appIconManager.setAppIcon("standard");
         }
         selectedTheme = theme;
         selectedTileset = selectableTilesets[theme][0];
