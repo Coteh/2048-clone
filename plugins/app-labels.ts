@@ -18,17 +18,19 @@ interface PluginOptions {
     output: string;
     environment: string;
     icons: IconConfig[];
-    position: 'top' | 'bottom' | { x: number, y: number };
+    position: "top" | "bottom" | { x: number; y: number };
 }
 
+// TODO: Support other filetypes besides PNG
 export default function appIconLabel(options: PluginOptions) {
     const { source, output, environment, icons, position } = options;
+    const buildDir = path.resolve(process.cwd(), "build");
 
     const buildIcons = (env: string) => {
         try {
-            childProcess.execSync('magick -version', { stdio: 'ignore' });
+            childProcess.execSync("magick -version", { stdio: "ignore" });
         } catch (e) {
-            console.warn('ImageMagick is not installed. Skipping icon labeling.');
+            console.warn("ImageMagick is not installed. Skipping icon labeling.");
             return;
         }
 
@@ -37,14 +39,17 @@ export default function appIconLabel(options: PluginOptions) {
             fs.mkdirSync(output, { recursive: true });
         }
 
-        icons.forEach(icon => {
+        icons.forEach((icon) => {
             const { name, font } = icon;
             const srcPath = path.join(source, name);
             const destPath = path.join(output, name.replace(".png", `_${env}.png`));
 
-            const positionOption = typeof position === 'string'
-                ? (position === 'bottom' ? '+0+10' : '+0-10')
-                : `+${position.x}+${position.y}`;
+            const positionOption =
+                typeof position === "string"
+                    ? position === "bottom"
+                        ? "+0+10"
+                        : "+0-10"
+                    : `+${position.x}+${position.y}`;
 
             const cmd = `magick ${srcPath} -strip -gravity south -fill "${font.color}" -undercolor "#000000AA" -pointsize ${font.size} -font ${font.family} -annotate ${positionOption} "${env}" ${destPath}`;
             try {
@@ -63,13 +68,27 @@ export default function appIconLabel(options: PluginOptions) {
             // Do not perform icon build or replacement in watch mode (ie. `vite dev`)
             if (this.meta.watchMode) return;
             buildIcons(environment);
+            // Copy icons to build directory
+            icons.forEach((icon) => {
+                const { name } = icon;
+                const srcPath = path.join(output, name.replace(".png", `_${environment}.png`));
+                const destPath = path.join(buildDir, name);
+
+                if (fs.existsSync(srcPath)) {
+                    console.log("Copying", srcPath, "to", destPath);
+                    fs.copyFileSync(srcPath, destPath);
+                }
+            });
         },
 
         configureServer(server) {
             buildIcons(environment);
             server.middlewares.use((req, res, next) => {
                 if (req.url.startsWith("/icon")) {
-                    const iconPath = path.join(output, req.url.replace(".png", `_${environment}.png`));
+                    const iconPath = path.join(
+                        output,
+                        req.url.replace(".png", `_${environment}.png`)
+                    );
                     if (fs.existsSync(iconPath)) {
                         res.setHeader("Content-Type", "image/png");
                         res.end(fs.readFileSync(iconPath));
