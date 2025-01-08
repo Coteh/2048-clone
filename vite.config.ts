@@ -4,7 +4,7 @@ import * as fs from "fs";
 import { version } from "./package.json";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import * as childProcess from "child_process";
-import appLabels from "./plugins/app-labels";
+import appIconLabel from './plugins/app-labels';
 
 const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString();
 
@@ -42,7 +42,46 @@ export default defineConfig(({ mode }) => {
                 : undefined,
         },
         plugins: [
-            appLabels(env),
+            appIconLabel({
+                source: './public',
+                output: './dist/icons',
+                environment: env.DEPLOY_ENV || 'DEV',
+                icons: [
+                    {
+                        name: 'icon128.png',
+                        font: {
+                            color: '#FFFFFF',
+                            size: 36,         
+                            family: './public/fonts/Lato/Lato-Black.ttf'   
+                        }
+                    },
+                    {
+                        name: 'icon128_classic.png',
+                        font: {
+                            color: '#FFFFFF',
+                            size: 36,         
+                            family: './public/fonts/Lato/Lato-Black.ttf'   
+                        }
+                    },
+                    {
+                        name: 'icon152.png',
+                        font: {
+                            color: '#FFFFFF',
+                            size: 42,         
+                            family: './public/fonts/Lato/Lato-Black.ttf'   
+                        }
+                    },
+                    {
+                        name: 'icon152_classic.png',
+                        font: {
+                            color: '#FFFFFF',
+                            size: 42,         
+                            family: './public/fonts/Lato/Lato-Black.ttf'   
+                        }
+                    },
+                ],
+                position: 'bottom',
+            }),
             // Must go after all other plugins
             sentryVitePlugin({
                 org: "james-cote",

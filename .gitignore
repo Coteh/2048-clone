@@ -23,3 +23,6 @@ ssl/
 
 # Misc
 .DS_Store
+
+# Icons
+/dist/icons
