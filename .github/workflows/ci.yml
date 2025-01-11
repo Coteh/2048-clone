@@ -7,7 +7,11 @@ jobs:
       - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Run node -v
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Print Node.js version
         run: node -v
       - name: Run npm clean install
         run: npm ci
