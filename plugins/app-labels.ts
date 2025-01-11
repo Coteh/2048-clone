@@ -21,6 +21,8 @@ interface PluginOptions {
     position: "top" | "bottom" | { x: number; y: number };
 }
 
+const MAGICK_COMMAND = "magick";
+
 // TODO: Support other filetypes besides PNG
 export default function appIconLabel(options: PluginOptions) {
     const { source, output, environment, icons, position } = options;
@@ -28,7 +30,7 @@ export default function appIconLabel(options: PluginOptions) {
 
     const buildIcons = (env: string) => {
         try {
-            childProcess.execSync("magick -version", { stdio: "ignore" });
+            childProcess.execSync(`${MAGICK_COMMAND} -version`, { stdio: "ignore" });
         } catch (e) {
             console.warn("ImageMagick is not installed. Skipping icon labeling.");
             return;
@@ -51,7 +53,7 @@ export default function appIconLabel(options: PluginOptions) {
                         : "+0-10"
                     : `+${position.x}+${position.y}`;
 
-            const cmd = `magick ${srcPath} -strip -gravity south -fill "${font.color}" -undercolor "#000000AA" -pointsize ${font.size} -font ${font.family} -annotate ${positionOption} "${env}" ${destPath}`;
+            const cmd = `${MAGICK_COMMAND} ${srcPath} -strip -gravity south -fill "${font.color}" -undercolor "#000000AA" -pointsize ${font.size} -font ${font.family} -annotate ${positionOption} "${env}" ${destPath}`;
             try {
                 childProcess.execSync(cmd);
                 console.log(`Processed ${name} -> ${path.basename(destPath)}`);

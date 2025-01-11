@@ -24,5 +24,14 @@ ssl/
 # Misc
 .DS_Store
 
-# Icons
-/dist/icons
+# Ignore everything in the dist directory
+dist/**
+
+# Allow access to the icons directory
+!dist/icons/
+
+# Ignore everything in the icons directory
+dist/icons/*
+
+# Allow specific icon files
+!dist/icons/icon*_LOCAL.png

@@ -77,6 +77,27 @@ npm run devs
 
 The game should render when navigating to https://localhost:5173.
 
+### Optional Components
+
+#### Nonprod App Icon
+
+With [ImageMagick](https://imagemagick.org/) installed, both the build script and the dev server are capable of generating a version of the app icon with a label (e.g., "LOCAL", "DEV") at the bottom. This helps distinguish the local version of the app from the production build when saving it to the home screen.
+
+![prod app icon](public/icon128.png)
+![local app icon](dist/icons/icon128_LOCAL.png)
+
+For systems without ImageMagick, the pregenerated version of the icon in the repo is used.
+
+To generate icons with different labels, set the `DEPLOY_ENV` environment variable to the desired label before running the build script or the dev server.
+
+Example:
+```sh
+# Deployment environment, (e.g. DEV) leave blank for production
+DEPLOY_ENV=DEV
+```
+
+In this example, the build script will use `DEPLOY_ENV` to create icons with the "DEV" label.
+
 ## Testing
 
 Run the following to launch unit tests:
