@@ -33,7 +33,8 @@ import { AssetManager } from "./manager/asset";
 import { formatTilesetName } from "./util/format";
 import * as marked from "marked";
 import { FullscreenManager } from "./manager/fullscreen";
-import { ActionIconManager, AppIconManager } from "./manager/icon";
+import { ActionIconManager } from "./manager/action-icon";
+import { AppIconManager } from "./manager/app-icon";
 
 import "./styles/global.css";
 

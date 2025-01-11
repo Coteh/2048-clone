@@ -222,6 +222,7 @@ export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
     overlayBackElem.style.display = "block";
 
     (document.querySelector(".dialog [data-feather='x']") as HTMLElement).innerText = "X";
+    // TODO: ActionIconManager should handle feather.replace()
     feather.replace();
 
     dialog.show();
