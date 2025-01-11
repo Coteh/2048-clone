@@ -3,6 +3,7 @@ export class AppIconManager {
 
     public setAppIcon(type: string) {
         this.setAppleTouchIcon(type);
+        this.loadManifest(type);
         this.setFavicon(type);
     }
 
@@ -17,6 +18,18 @@ export class AppIconManager {
                 break;
             default:
                 appleTouchIcon.href = "icon152.png";
+                break;
+        }
+    }
+
+    private loadManifest(type: string) {
+        const manifest = document.querySelector("link[rel='manifest']") as HTMLLinkElement;
+        switch (type) {
+            case "classic":
+                manifest.href = "manifest_classic.json";
+                break;
+            default:
+                manifest.href = "manifest.json";
                 break;
         }
     }

@@ -1,0 +1,19 @@
+{
+    "short_name": "2048 Clone",
+    "name": "2048 Clone",
+    "icons": [
+        {
+            "src": "icon128_classic.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "icon152_classic.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        }
+    ],
+    "start_url": ".",
+    "display": "fullscreen",
+    "orientation": "portrait"
+}
