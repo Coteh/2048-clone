@@ -31,7 +31,6 @@ import posthog from "posthog-js";
 import { UndoManager } from "./manager/undo";
 import { AssetManager } from "./manager/asset";
 import { formatTilesetName } from "./util/format";
-import * as marked from "marked";
 import { FullscreenManager } from "./manager/fullscreen";
 import { ActionIconManager } from "./manager/action-icon";
 import { AppIconManager } from "./manager/app-icon";
@@ -78,14 +77,6 @@ const SETTING_DISABLED = "disabled";
 const LANDSCAPE_CLASS_NAME = "landscape";
 
 const CLASSIC_THEME_LABEL = "2048Clone";
-
-let changelogText: string;
-// @ts-ignore TODO: Fix ts error saying that CHANGELOG.md cannot be found
-import("../CHANGELOG.md").then((res) => {
-    fetch(res.default)
-        .then((resp) => resp.text())
-        .then((text) => (changelogText = text));
-});
 
 let isAnimationEnabled = false;
 
@@ -1040,8 +1031,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const changelogLink = document.querySelector("#changelog-link") as HTMLAnchorElement;
     changelogLink.addEventListener("click", async (e) => {
         e.preventDefault();
+        // Fetch changelog
+        // TODO: Cache it
+        const changelog = await fetch("CHANGELOG.html").then((res) => res.text());
         const dialogElem = createDialogContentFromTemplate("#changelog-content");
-        const changelog = await marked.parse(changelogText);
         const changelogElem = dialogElem.querySelector("#changelog-text") as HTMLElement;
         changelogElem.innerHTML = changelog;
         // Capitalize title

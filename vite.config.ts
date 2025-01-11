@@ -5,6 +5,8 @@ import { version } from "./package.json";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import * as childProcess from "child_process";
 import appIconLabel from './plugins/app-labels';
+import fileTransformerPlugin from "./plugins/file-transformer";
+import * as marked from "marked";
 
 const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString();
 
@@ -81,6 +83,11 @@ export default defineConfig(({ mode }) => {
                     },
                 ],
                 position: 'bottom',
+            }),
+            fileTransformerPlugin({
+                input: 'CHANGELOG.md',
+                transformer: (content) => marked.parse(content),
+                output: 'CHANGELOG.html',
             }),
             // Must go after all other plugins
             sentryVitePlugin({

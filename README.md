@@ -35,7 +35,7 @@ A clone of [2048](https://play2048.co/) created using TypeScript, HTML, and CSS.
 - Confetti animation when player achieves 2048 (using [canvas-confetti](https://github.com/catdad/canvas-confetti) library)
 - Changelog Dialog
     - Shows the contents of [CHANGELOG.md](CHANGELOG.md) in a dialog box in-game
-    - Uses [marked](https://github.com/markedjs/marked) to parse the changelog markdown file into HTML to be displayed in the dialog
+    - Uses [marked](https://github.com/markedjs/marked) during build time to parse the changelog markdown file into HTML to be displayed in the dialog
 
 ## Development Setup
 
