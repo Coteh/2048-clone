@@ -27,11 +27,13 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Set DEPLOY_ENV environment variable
-      run: echo DEPLOY_ENV=DEV >> $GITHUB_ENV
+      run: echo DEPLOY_ENV=${{ vars.DEV_DEPLOY_ENV }} >> $GITHUB_ENV
+    - name: Echo DEV_NODE_ENV environment variable
+      run: echo ${{ vars.DEV_NODE_ENV }}
     - name: Build
       run: npm run build
       env:
-        NODE_ENV: ${{ env.DEV_NODE_ENV }}
+        NODE_ENV: ${{ vars.DEV_NODE_ENV }}
 
     # Deploy to Cloudflare Pages
     - name: Publish to Cloudflare Pages
