@@ -212,4 +212,28 @@ describe("misc", () => {
             cy.contains("Please enable JavaScript to play this game.").should("not.be.visible");
         });
     });
+
+    describe("changelog", () => {
+        beforeEach(() => {
+            cy.visit("/");
+            cy.get(".settings-link").click();
+        });
+
+        it("should successfully open the changelog", () => {
+            cy.intercept("GET", "/CHANGELOG.html").as("getChangelog");
+            cy.contains("Changelog").should("not.exist");
+            cy.get("#changelog-link").click({ force: true });
+            cy.wait("@getChangelog");
+            cy.get(".dialog").contains("Changelog").should("be.visible");
+        });
+        
+        it("should display an error message if the changelog cannot be retrieved", () => {
+            cy.intercept("GET", "/CHANGELOG.html", { statusCode: 404 }).as("getChangelog");
+            cy.contains("Changelog").should("not.exist");
+            cy.get(".dialog .changelog-error").should("not.exist");
+            cy.get("#changelog-link").click({ force: true });
+            cy.wait("@getChangelog");
+            cy.get(".dialog .changelog-error").should("be.visible");
+        });
+    });
 });

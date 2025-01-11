@@ -1033,18 +1033,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         // Fetch changelog
         // TODO: Cache it
-        const changelog = await fetch("CHANGELOG.html").then((res) => res.text());
+        let changelog: string;
+        let changelogFetchSuccess = false;
+        try {
+            const res = await fetch("CHANGELOG.html");
+            if (res.status !== 200) {
+                console.error("Could not fetch changelog:", res.statusText);
+                changelog = `<p class="changelog-error">Could not retrieve changelog.</p>`;
+            } else {
+                changelog = await res.text();
+                changelogFetchSuccess = true;
+            }
+        } catch (e) {
+            console.error("Could not fetch changelog:", e);
+            changelog = `<p class="changelog-error">Could not retrieve changelog.</p>`;
+        }
         const dialogElem = createDialogContentFromTemplate("#changelog-content");
         const changelogElem = dialogElem.querySelector("#changelog-text") as HTMLElement;
         changelogElem.innerHTML = changelog;
-        // Capitalize title
-        (changelogElem.children.item(0) as HTMLElement).style.textTransform = "uppercase";
-        // Remove Keep a Changelog and Unreleased sections
-        changelogElem.children.item(1)?.remove();
-        changelogElem.children.item(1)?.remove();
-        changelogElem.children.item(1)?.remove();
-        // All links in this section should open a new tab
-        changelogElem.querySelectorAll("a").forEach((elem) => (elem.target = "_blank"));
+        if (changelogFetchSuccess) {
+            // Capitalize title
+            (changelogElem.children.item(0) as HTMLElement).style.textTransform = "uppercase";
+            // Remove Keep a Changelog and Unreleased sections
+            changelogElem.children.item(1)?.remove();
+            changelogElem.children.item(1)?.remove();
+            changelogElem.children.item(1)?.remove();
+            // All links in this section should open a new tab
+            changelogElem.querySelectorAll("a").forEach((elem) => (elem.target = "_blank"));
+        }
         renderDialog(dialogElem, {
             fadeIn: true,
             closable: true,
@@ -1054,6 +1070,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 maxWidth: "600px",
             },
         });
+
+        // Do not proceed further if changelog fetch was not successful
+        if (!changelogFetchSuccess) {
+            return;
+        }
 
         const changelogTitle = changelogElem.querySelector("h1") as HTMLElement;
         changelogTitle.addEventListener("click", () => {
