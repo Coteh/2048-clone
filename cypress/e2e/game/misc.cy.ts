@@ -219,12 +219,14 @@ describe("misc", () => {
             cy.get(".settings-link").click();
         });
 
-        it("should successfully open the changelog", () => {
+        it("should successfully toggle the changelog on/off", () => {
             cy.intercept("GET", "/CHANGELOG.html").as("getChangelog");
             cy.contains("Changelog").should("not.exist");
             cy.get("#changelog-link").click({ force: true });
             cy.wait("@getChangelog");
             cy.get(".dialog").contains("Changelog").should("be.visible");
+            cy.get(".dialog .close").click();
+            cy.contains("Changelog").should("not.exist");
         });
         
         it("should display an error message if the changelog cannot be retrieved", () => {
