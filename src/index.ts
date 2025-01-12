@@ -1027,30 +1027,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     const changelogTapThreshold = 5;
     const changelogTapTimeout = 1000;
     let changelogTapTimer: NodeJS.Timeout;
+    let changelogFetchSuccess = false;
+    let changelogHTML: string;
 
     const changelogLink = document.querySelector("#changelog-link") as HTMLAnchorElement;
     changelogLink.addEventListener("click", async (e) => {
         e.preventDefault();
-        // Fetch changelog
-        // TODO: Cache it
-        let changelog: string;
-        let changelogFetchSuccess = false;
-        try {
-            const res = await fetch("CHANGELOG.html");
-            if (res.status !== 200) {
-                console.error("Could not fetch changelog:", res.statusText);
-                changelog = `<p class="changelog-error">Could not retrieve changelog.</p>`;
-            } else {
-                changelog = await res.text();
-                changelogFetchSuccess = true;
+        // Fetch changelog (or use cached version if already fetched)
+        if (!changelogFetchSuccess) {
+            try {
+                const res = await fetch("CHANGELOG.html");
+                if (res.status !== 200) {
+                    console.error("Could not fetch changelog:", res.statusText);
+                    changelogHTML = `<p class="changelog-error">Could not retrieve changelog.</p>`;
+                } else {
+                    changelogHTML = await res.text();
+                    changelogFetchSuccess = true;
+                }
+            } catch (e) {
+                console.error("Could not fetch changelog:", e);
+                changelogHTML = `<p class="changelog-error">Could not retrieve changelog.</p>`;
             }
-        } catch (e) {
-            console.error("Could not fetch changelog:", e);
-            changelog = `<p class="changelog-error">Could not retrieve changelog.</p>`;
         }
         const dialogElem = createDialogContentFromTemplate("#changelog-content");
         const changelogElem = dialogElem.querySelector("#changelog-text") as HTMLElement;
-        changelogElem.innerHTML = changelog;
+        changelogElem.innerHTML = changelogHTML;
         if (changelogFetchSuccess) {
             // Capitalize title
             (changelogElem.children.item(0) as HTMLElement).style.textTransform = "uppercase";
