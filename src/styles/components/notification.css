@@ -15,7 +15,7 @@
 
 .notification-area > .notification {
     background-color: var(--notification-background-color);
-    border: 1px solid var(--notification-background-color);
+    border: var(--notification-border);
     border-radius: 0.25rem;
     margin: 0.2rem;
 

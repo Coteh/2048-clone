@@ -26,13 +26,13 @@
     width: 100%;
     justify-content: space-around;
     align-items: center;
-    border-top: var(--settings-item-border-color);
+    border-top: var(--settings-item-border);
     border-bottom: none;
     height: 2em;
 }
 
 .settings .settings-item:last-child {
-    border-bottom: var(--settings-item-border-color);
+    border-bottom: var(--settings-item-border);
 }
 
 .settings .settings-item > * {

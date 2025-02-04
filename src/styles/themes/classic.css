@@ -12,6 +12,9 @@
 
     --text-font-family: "Comic Sans MS", "Comic Neue", sans-serif;
 
+    --notification-background-color: var(--white);
+    --notification-border: 2px solid var(--black);
+
     --share-button-background-color: #00d600;
     --share-button-background-color-hover: #00ae00;
 
@@ -399,4 +402,13 @@ body.classic .landscape-overlay > .overlay-content {
 
 body.classic .landscape-overlay > .overlay-content > * {
     color: white;
+}
+
+/* Notification */
+
+body.classic .notification-area > .notification {
+    border-radius: 0;
+    margin: 0;
+
+    font-family: var(--text-font-family);
 }

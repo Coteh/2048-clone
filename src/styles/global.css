@@ -67,7 +67,7 @@
     --box-border-color: var(--gray-3);
     --box-border-color-highlighted: var(--gray-5);
 
-    --settings-item-border-color: 1px solid var(--gray-4);
+    --settings-item-border: 1px solid var(--gray-4);
 
     --background-color: var(--beige);
     --fallback-background-color: var(--background-color);
@@ -82,6 +82,7 @@
     --text-font-family: sans-serif;
 
     --notification-background-color: var(--gray-7);
+    --notification-border: 1px solid var(--gray-7);
     --notification-text-color: var(--black);
 
     --share-button-background-color: var(--green);
