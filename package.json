@@ -32,7 +32,7 @@
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
     "marked": "^14.1.4",
-    "memfs": "^4.9.3",
+    "memfs": "^4.17.0",
     "mobile-detect": "^1.4.5",
     "posthog-js": "^1.203.1",
     "sinon": "^15.2.0",
