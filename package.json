@@ -35,7 +35,7 @@
     "memfs": "^4.9.3",
     "mobile-detect": "^1.4.5",
     "posthog-js": "^1.203.1",
-    "sinon": "^15.2.0",
+    "sinon": "^19.0.2",
     "ts-jest": "^29.2.3",
     "typescript": "^5.5.3",
     "vite": "^5.4.6"
