@@ -63,10 +63,6 @@ jobs:
     needs: [test-game-logic, cypress-run]
     runs-on: ubuntu-latest
     permissions:
-      # TODO: Remove this permission upon making repo public
-      contents: read
-      # TODO: Remove this permission upon making repo public
-      issues: read
       checks: write
       pull-requests: write
     steps:
