@@ -492,6 +492,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
             themeColor;
+        // Set body background color for iOS 26+ compatibility (iOS no longer reads theme-color meta tag)
+        document.body.style.backgroundColor = themeColor;
         if (theme === CLASSIC_THEME) {
             appIconManager.setAppIcon("classic");
         } else {
@@ -542,6 +544,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
             (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content =
                 themeColor;
+            // Set body background color for iOS 26+ compatibility (iOS no longer reads theme-color meta tag)
+            document.body.style.backgroundColor = themeColor;
         }
         selectedTileset = tileset;
         document.body.classList.add(`tileset-${selectedTileset}`);
