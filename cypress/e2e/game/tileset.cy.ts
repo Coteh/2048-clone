@@ -47,6 +47,8 @@ describe("tileset", () => {
         });
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.tileset-switch").click();
 
@@ -54,6 +56,8 @@ describe("tileset", () => {
         cy.get("body").should("have.class", "tileset-classic");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.tileset-switch").click();
 
@@ -61,6 +65,8 @@ describe("tileset", () => {
         cy.get("body").should("have.class", "tileset-colorful");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.tileset-switch").click();
 
@@ -68,6 +74,8 @@ describe("tileset", () => {
         cy.get("body").should("have.class", "tileset-modern");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
     });
 
     it("should set the tileset on page reload if it's enabled in local storage for the selected theme", () => {
@@ -167,5 +175,27 @@ describe("tileset", () => {
 
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("not.be.visible");
+    });
+
+    it("should set the special blue background color for the initial-commit tileset", () => {
+        window.localStorage.setItem(
+            "preferences",
+            JSON.stringify({
+                theme: "classic",
+                tileset: {
+                    classic: "initial-commit",
+                },
+            })
+        );
+
+        cy.reload();
+
+        cy.get("body").should(($el) => {
+            const classList = $el[0].classList;
+            expect(classList.contains("classic")).to.be.true;
+            expect(classList.contains("tileset-initial-commit")).to.be.true;
+        });
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(100, 149, 237)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#6495ed");
     });
 });
