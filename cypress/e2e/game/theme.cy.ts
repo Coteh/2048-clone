@@ -243,4 +243,90 @@ describe("theme", () => {
             expect(classList.contains("tileset-standard")).to.be.true;
         });
     });
+
+    it("should apply dimmed theme-color when a dialog is opened", () => {
+        cy.get(".settings-link").click();
+        cy.get(".setting.clear-all-data").click();
+        
+        // When dialog opens, the theme color should be dimmed
+        // Standard theme is bisque (rgb(255, 228, 196))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(128, 114, 98)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 114, 98)");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 114, 98)");
+    });
+
+    it("should restore normal theme-color when a dialog is closed", () => {
+        cy.get(".settings-link").click();
+        cy.get(".setting.clear-all-data").click();
+        
+        // Close the dialog
+        cy.get(".dialog button.cancel").click();
+        
+        // Theme color should be restored to bisque
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: bisque");
+    });
+
+    it("should update dimmed theme-color when theme is switched while dialog is open", () => {
+        // Open settings
+        cy.get(".settings-link").click();
+        
+        // Open clear data dialog
+        cy.get(".setting.clear-all-data").click();
+        
+        // Verify dimmed standard theme color
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 114, 98)");
+        
+        // Close the dialog
+        cy.get(".dialog button.cancel").click();
+        
+        // Switch to light theme
+        cy.get(".setting.theme-switch").click();
+        
+        // Open clear data dialog again
+        cy.get(".setting.clear-all-data").click();
+        
+        // Light theme is #FFF (rgb(255, 255, 255))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(128, 128, 128)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
+        
+        // Close dialog and verify light theme is restored
+        cy.get(".dialog button.cancel").click();
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#FFF");
+    });
+
+    it("should apply dimmed theme-color for dark theme dialog", () => {
+        cy.get(".settings-link").click();
+        
+        // Switch to dark theme
+        cy.get(".setting.theme-switch").click();
+        cy.get(".setting.theme-switch").click();
+        
+        // Open clear data dialog
+        cy.get(".setting.clear-all-data").click();
+        
+        // Dark theme is #1c1c1c (rgb(28, 28, 28))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(14, 14, 14)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(14, 14, 14)");
+    });
+
+    it("should apply dimmed theme-color for snow theme dialog", () => {
+        cy.get(".settings-link").click();
+        
+        // Switch to snow theme
+        cy.get(".setting.theme-switch").click();
+        cy.get(".setting.theme-switch").click();
+        cy.get(".setting.theme-switch").click();
+        
+        // Open clear data dialog
+        cy.get(".setting.clear-all-data").click();
+        
+        // Snow theme is #020024 (rgb(2, 0, 36))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(1, 0, 18)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(1, 0, 18)");
+    });
 });
