@@ -34,14 +34,19 @@ function colorToRgb(color: string): string {
         return color;
     }
 
-    // Create a temporary element to compute the color
-    const tempElem = document.createElement('div');
-    tempElem.style.color = color;
-    document.body.appendChild(tempElem);
-    const computedColor = window.getComputedStyle(tempElem).color;
-    document.body.removeChild(tempElem);
-
-    return computedColor;
+    // Use canvas to convert color to RGB
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        // Fallback: return the color as-is if canvas context is not available
+        return color;
+    }
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, 1, 1);
+    const imageData = ctx.getImageData(0, 0, 1, 1).data;
+    return `rgb(${imageData[0]}, ${imageData[1]}, ${imageData[2]})`;
 }
 
 /**
@@ -97,7 +102,10 @@ export class ThemeManager {
      * @param color - Color to apply
      */
     private applyThemeColor(color: string): void {
-        (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content = color;
+        const metaElement = document.querySelector("meta[name='theme-color']") as HTMLMetaElement;
+        if (metaElement) {
+            metaElement.content = color;
+        }
         // Set body background color for iOS 26+ compatibility (iOS no longer reads theme-color meta tag)
         document.body.style.backgroundColor = color;
     }
