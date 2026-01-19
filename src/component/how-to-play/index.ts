@@ -1,5 +1,6 @@
 import { GameBoard } from "../../game";
 import { AnimationManager } from "../../manager/animation";
+import { ThemeManager } from "../../manager/theme";
 import { renderDialog, createDialogContentFromTemplate, renderBoard } from "../../render";
 import { isMobile } from "../../util/mobile";
 
@@ -11,8 +12,10 @@ export class HowToPlay {
     stepIntervals: NodeJS.Timeout[];
 
     stepBoards: GameBoard[];
+    themeManager?: ThemeManager;
 
-    constructor() {
+    constructor(themeManager?: ThemeManager) {
+        this.themeManager = themeManager;
         this.stepBoards = new Array(6);
         this.stepBoards[0] = [
             [0, 0, 2, 0],
@@ -62,6 +65,7 @@ export class HowToPlay {
         
         renderDialog(howToPlayElem, {
             fadeIn: true,
+            themeManager: this.themeManager,
             style: {
                 width: "75%",
                 height: "75%",
