@@ -173,6 +173,23 @@ export type DialogOptions = {
     themeManager?: ThemeManager;
 };
 
+/**
+ * Helper function to restore theme color and clean up dialog
+ */
+const closeDialogAndRestoreTheme = (
+    dialog: HTMLDialogElement,
+    overlayBackElem: HTMLElement,
+    themeManager?: ThemeManager
+) => {
+    dialog.close();
+    dialog.remove();
+    overlayBackElem.style.display = "none";
+    // Restore normal theme color when dialog closes
+    if (themeManager) {
+        themeManager.restoreNormalThemeColor();
+    }
+};
+
 export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
@@ -206,13 +223,7 @@ export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
             closeBtn.addEventListener("click", (e) => {
                 e.preventDefault();
                 const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-                dialog.close();
-                dialog.remove();
-                overlayBackElem.style.display = "none";
-                // Restore normal theme color when dialog closes
-                if (options.themeManager) {
-                    options.themeManager.restoreNormalThemeColor();
-                }
+                closeDialogAndRestoreTheme(dialog, overlayBackElem, options.themeManager);
             });
         } else {
             closeBtn.style.display = "none";
@@ -286,13 +297,7 @@ export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogO
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-        dialog.close();
-        dialog.remove();
-        overlayBackElem.style.display = "none";
-        // Restore normal theme color when dialog closes
-        if (options && options.themeManager) {
-            options.themeManager.restoreNormalThemeColor();
-        }
+        closeDialogAndRestoreTheme(dialog, overlayBackElem, options?.themeManager);
         if (options && options.onCancel) {
             options.onCancel();
         }
@@ -301,13 +306,7 @@ export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogO
     confirmBtn.addEventListener("click", (e) => {
         e.preventDefault();
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-        dialog.close();
-        dialog.remove();
-        overlayBackElem.style.display = "none";
-        // Restore normal theme color when dialog closes
-        if (options && options.themeManager) {
-            options.themeManager.restoreNormalThemeColor();
-        }
+        closeDialogAndRestoreTheme(dialog, overlayBackElem, options?.themeManager);
         if (options && options.onConfirm) {
             options.onConfirm();
         }
