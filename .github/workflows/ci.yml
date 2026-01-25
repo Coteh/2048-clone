@@ -24,6 +24,8 @@ jobs:
         run: pnpm install
       - name: Run type check
         run: pnpm run type-check
+      - name: Run linting
+        run: pnpm run lint
       - name: Run test
         run: npm run test-ci
       - name: Upload test results
