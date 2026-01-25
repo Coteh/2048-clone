@@ -12,7 +12,7 @@ export const renderBoard = (
     parentElem: HTMLElement,
     board: GameBoard,
     animationManager: AnimationManager,
-    options: RenderBoardOptions
+    options: RenderBoardOptions,
 ) => {
     const newBlocks = animationManager.newBlocks;
     const movedBlocks = animationManager.movedBlocks;
@@ -64,7 +64,7 @@ export const renderBoard = (
                     if (mergedBlocks) {
                         const mergedBlock = mergedBlocks.find(
                             (mergedBlock) =>
-                                mergedBlock.position.x === x && mergedBlock.position.y === y
+                                mergedBlock.position.x === x && mergedBlock.position.y === y,
                         );
                         if (mergedBlock) {
                             numberBox.style.transform = "scale(0.1)";
@@ -128,7 +128,7 @@ export const renderBackRow = (parentElem: HTMLElement, rowLength: number) => {
 export const renderNumberBox = (
     parentElem: HTMLElement,
     number: number,
-    options?: RenderBoardOptions
+    options?: RenderBoardOptions,
 ) => {
     const numberBox = document.createElement("div");
     numberBox.classList.add("box");
@@ -312,7 +312,7 @@ export const renderNotification = (msg: string, timeoutMS: number = 1000) => {
 
     // The original reference is a DocumentFragment, need to find the notification element in the DOM tree to continue using it
     const notificationList = notificationArea.querySelectorAll(
-        ".notification-area > .notification"
+        ".notification-area > .notification",
     ) as NodeListOf<HTMLDialogElement>;
     const notification = notificationList[notificationList.length - 1];
 
@@ -337,7 +337,7 @@ const applyClassicThemeBlockStyles = (
     x: number,
     y: number,
     row: number[],
-    board: GameBoard
+    board: GameBoard,
 ) => {
     const invisibleBorder = "1px solid rgba(0,0,0,0)";
     if (x === row.length - 1) {

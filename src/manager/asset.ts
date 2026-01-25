@@ -29,7 +29,7 @@ export class AssetManager {
 
     preloadImages(
         imagesList: string[],
-        onProgressCallback: (progress: number) => void
+        onProgressCallback: (progress: number) => void,
     ): Promise<void> {
         return new Promise((resolve, reject) => {
             var loadedCount = 0;
@@ -38,7 +38,7 @@ export class AssetManager {
                 loadedCount++;
                 const progress = loadedCount / imagesList.length;
                 console.log(
-                    "Asset loaded: " + url + ", Progress: " + Math.round(progress * 100) + "%"
+                    "Asset loaded: " + url + ", Progress: " + Math.round(progress * 100) + "%",
                 );
 
                 onProgressCallback(progress);
@@ -52,7 +52,11 @@ export class AssetManager {
                 loadedCount++;
                 const progress = loadedCount / imagesList.length;
                 console.error(
-                    "Asset did not load: " + url + ", Progress: " + Math.round(progress * 100) + "%"
+                    "Asset did not load: " +
+                        url +
+                        ", Progress: " +
+                        Math.round(progress * 100) +
+                        "%",
                 );
 
                 this.loadingLabel.innerText = "Could not load asset: " + url;

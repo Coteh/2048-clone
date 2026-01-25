@@ -3,11 +3,13 @@ import * as path from "path";
 
 export default function fileTransformerPlugin({ input, transformer, output }) {
     if (!input || !transformer || !output) {
-        throw new Error('fileTransformerPlugin requires "input", "transformer", and "output" options.');
+        throw new Error(
+            'fileTransformerPlugin requires "input", "transformer", and "output" options.',
+        );
     }
 
     return {
-        name: 'file-transformer',
+        name: "file-transformer",
         async buildStart() {
             // Do not perform emit file operation in watch mode (ie. `vite dev`)
             if (this.meta.watchMode) return;
@@ -17,7 +19,7 @@ export default function fileTransformerPlugin({ input, transformer, output }) {
             let fileContent;
 
             try {
-                fileContent = fs.readFileSync(filePath, 'utf-8');
+                fileContent = fs.readFileSync(filePath, "utf-8");
             } catch (err) {
                 throw new Error(`Failed to read file: ${input} - ${err.message}`);
             }
@@ -27,7 +29,7 @@ export default function fileTransformerPlugin({ input, transformer, output }) {
 
             // Emit the processed file as an asset
             this.emitFile({
-                type: 'asset',
+                type: "asset",
                 fileName: output,
                 source: transformedContent,
             });
@@ -36,9 +38,9 @@ export default function fileTransformerPlugin({ input, transformer, output }) {
             server.middlewares.use(async (req, res, next) => {
                 if (req.url === `/${output}`) {
                     try {
-                        const content = fs.readFileSync(input, 'utf-8');
+                        const content = fs.readFileSync(input, "utf-8");
                         const transformed = await transformer(content);
-                        res.setHeader('Content-Type', 'text/html');
+                        res.setHeader("Content-Type", "text/html");
                         res.end(transformed);
                     } catch (err) {
                         next(err);

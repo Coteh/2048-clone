@@ -129,7 +129,7 @@ export class Tutorial {
                     return;
                 }
                 const arrowElem = document.getElementById(
-                    arrowIDs[Math.floor(i / 2)]
+                    arrowIDs[Math.floor(i / 2)],
                 ) as HTMLDivElement;
                 if (i % 2 === 0) {
                     arrowElem.classList.add("pressed");

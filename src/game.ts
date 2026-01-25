@@ -144,7 +144,7 @@ export const initGame = async (
     _spawnManager: ISpawnManager,
     _animationManager: IAnimationManager,
     _undoManager: IUndoManager,
-    _gameStorage: IGameStorage
+    _gameStorage: IGameStorage,
 ) => {
     eventHandler = _eventHandler;
     spawnManager = _spawnManager;

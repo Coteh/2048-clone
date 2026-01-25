@@ -46,8 +46,8 @@ Cypress.Commands.add("grantClipboardPermission", () => {
             // Electron (v106 and newer) will land here, but that's ok, cause the permissions will be granted anyway
             // https://github.com/cypress-io/cypress/issues/18675#issuecomment-1403483477
             // https://gist.github.com/mbinic/e75a8910ec51a27a041f967e5b3a5345
-            Cypress.log({ message: `Permission request failed: ${error.message}` })
-        )
+            Cypress.log({ message: `Permission request failed: ${error.message}` }),
+        ),
     );
 });
 
@@ -86,14 +86,14 @@ Cypress.Commands.add("waitUntilDialogAppears", () => {
     cy.waitUntil(() =>
         cy.window().then((win) => {
             cy.get(".dialog").then(
-                (dialog) => parseInt(win.getComputedStyle(dialog[0]).opacity) === 1
+                (dialog) => parseInt(win.getComputedStyle(dialog[0]).opacity) === 1,
             );
-        })
+        }),
     );
 });
 
 // Extended cy.intercept to add a log when the request gets intercepted.
 // See https://glebbahmutov.com/blog/cypress-intercept-problems/
 Cypress.Commands.overwrite("intercept", (intercept, ...args) =>
-    cy.log("intercept", args).then(() => intercept(...args))
+    cy.log("intercept", args).then(() => intercept(...args)),
 );

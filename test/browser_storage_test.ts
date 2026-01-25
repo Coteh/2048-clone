@@ -60,7 +60,7 @@ describe("browser storage", () => {
             sinon.assert.calledWithMatch(
                 stubbedLocalStorage.setItem,
                 GAME_STATE_KEY,
-                JSON.stringify(initialGameState)
+                JSON.stringify(initialGameState),
             );
         });
 
@@ -129,7 +129,7 @@ describe("browser storage", () => {
             sinon.assert.calledWithMatch(
                 stubbedLocalStorage.setItem,
                 PERSISTENT_STATE_KEY,
-                JSON.stringify(initialPersistentState)
+                JSON.stringify(initialPersistentState),
             );
         });
 
@@ -192,7 +192,7 @@ describe("browser storage", () => {
             sinon.assert.calledWithMatch(
                 stubbedLocalStorage.setItem,
                 PREFERENCES_KEY,
-                JSON.stringify(preferences)
+                JSON.stringify(preferences),
             );
         });
 

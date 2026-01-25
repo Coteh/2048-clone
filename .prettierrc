@@ -7,6 +7,12 @@
             "options": {
                 "tabWidth": 2
             }
+        },
+        {
+            "files": "pnpm*.yaml",
+            "options": {
+                "tabWidth": 2
+            }
         }
     ]
 }
