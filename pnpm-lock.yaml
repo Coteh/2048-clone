@@ -27,6 +27,9 @@ importers:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.14
+      '@types/node':
+        specifier: ^25.0.10
+        version: 25.0.10
       '@types/sinon':
         specifier: ^17.0.3
         version: 17.0.4
