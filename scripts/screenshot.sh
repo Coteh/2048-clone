@@ -1,5 +1,6 @@
 #!/bin/sh
 
+CYPRESS="./node_modules/.bin/cypress"
 OUTPUT_FILE=screenshot.gif
 
 WIDTH=286
@@ -7,9 +8,12 @@ HEIGHT=624
 X=722
 Y=80
 
-# Install Cypress first before running this script
+if [ ! -f "$CYPRESS" ]; then
+    echo 1>&2 "Please install Cypress first before running this script"
+    exit 1
+fi
 
-./node_modules/.bin/cypress run --spec cypress/e2e/misc/screenshot.cy.ts
+$CYPRESS run --spec cypress/e2e/misc/screenshot.cy.ts
 
 # Crop filter adapted from: https://video.stackexchange.com/a/4571
 # GIF filters adapted from: https://superuser.com/a/556031
