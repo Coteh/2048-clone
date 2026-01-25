@@ -86,7 +86,6 @@ console.info(`2048-clone v${GAME_VERSION}`);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle") as HTMLElement;
-    const bottomElem = document.querySelector("#bottom") as HTMLElement;
 
     let gameState: GameState;
     let persistentState: GamePersistentState;
@@ -176,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     e.preventDefault();
                     if (!(await triggerShare(shareText))) {
                         console.log(
-                            "Triggering share not successful, swapping out for copy to clipboard button..."
+                            "Triggering share not successful, swapping out for copy to clipboard button...",
                         );
                         copyButton.style.display = "";
                         shareButton.style.display = "none";
@@ -216,7 +215,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     e.preventDefault();
                     if (!(await triggerShare(shareText))) {
                         console.log(
-                            "Triggering share not successful, swapping out for copy to clipboard button..."
+                            "Triggering share not successful, swapping out for copy to clipboard button...",
                         );
                         copyButton.style.display = "";
                         shareButton.style.display = "none";
@@ -374,7 +373,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             onConfirm: () => {
                 fullscreenManager.toggleFullscreen(true);
                 const setting = document.querySelector(
-                    `.setting.${FULLSCREEN_SETTING_NAME}`
+                    `.setting.${FULLSCREEN_SETTING_NAME}`,
                 ) as HTMLElement;
                 const knob = setting.querySelector(".knob") as HTMLElement;
                 knob.classList.add("enabled");
@@ -382,7 +381,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             onCancel: () => {
                 fullscreenManager.toggleFullscreen(false);
                 const setting = document.querySelector(
-                    `.setting.${FULLSCREEN_SETTING_NAME}`
+                    `.setting.${FULLSCREEN_SETTING_NAME}`,
                 ) as HTMLElement;
                 const knob = setting.querySelector(".knob") as HTMLElement;
                 knob.classList.remove("enabled");
@@ -428,7 +427,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
-    overlayBackElem.addEventListener("click", (e) => {
+    overlayBackElem.addEventListener("click", () => {
         // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
         if (isPrompted) {
             return;
@@ -513,7 +512,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
         const scoreLabel = document.querySelector(".score-box > .score-label") as HTMLElement;
         const highscoreLabel = document.querySelector(
-            ".highscore-box > .score-label"
+            ".highscore-box > .score-label",
         ) as HTMLElement;
         if (selectedTheme === CLASSIC_THEME) {
             welcomeText.style.display = "block";
@@ -589,12 +588,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
                 }
                 const tilesetSettingItem = document.querySelector(
-                    ".settings-item.setting.tileset-switch"
+                    ".settings-item.setting.tileset-switch",
                 ) as HTMLElement;
                 if (selectableTilesets[selectedTheme].length > 1) {
                     tilesetSettingItem.style.display = "";
                     const tilesetToggle = tilesetSettingItem.querySelector(
-                        ".toggle"
+                        ".toggle",
                     ) as HTMLElement;
                     tilesetToggle.innerText = formatTilesetName(selectedTileset);
                 } else {
@@ -631,7 +630,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 savePreferenceValue(
                     ANIMATIONS_PREFERENCE_NAME,
-                    isAnimationEnabled ? SETTING_ENABLED : SETTING_DISABLED
+                    isAnimationEnabled ? SETTING_ENABLED : SETTING_DISABLED,
                 );
                 if (enabled) {
                     knob.classList.add("enabled");
@@ -693,7 +692,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
     }
     const tilesetSettingItem = document.querySelector(
-        `.settings-item.setting.${TILESET_SETTING_NAME}`
+        `.settings-item.setting.${TILESET_SETTING_NAME}`,
     ) as HTMLElement;
     if (selectableTilesets[selectedTheme].length > 1) {
         tilesetSettingItem.style.display = "";
@@ -705,14 +704,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (getPreferenceValue(ANIMATIONS_PREFERENCE_NAME) === SETTING_ENABLED) {
         isAnimationEnabled = true;
         const setting = document.querySelector(
-            `.setting.${ANIMATIONS_SETTING_NAME}`
+            `.setting.${ANIMATIONS_SETTING_NAME}`,
         ) as HTMLElement;
         const knob = setting.querySelector(".knob") as HTMLElement;
         knob.classList.add("enabled");
     }
     switchBlockStyle(getPreferenceValue(BLOCK_STYLE_PREFERENCE_NAME));
     const blockStyleSetting = document.querySelector(
-        `.setting.${BLOCK_STYLE_SETTING_NAME}`
+        `.setting.${BLOCK_STYLE_SETTING_NAME}`,
     ) as HTMLElement;
     (blockStyleSetting.querySelector(".toggle") as HTMLElement).innerText = selectedBlockStyle;
     if (getPreferenceValue(FULLSCREEN_PREFERENCE_NAME) === SETTING_ENABLED) {
@@ -847,7 +846,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         debugOverlay.style.display = isVisible ? "none" : "";
         savePreferenceValue(
             DEBUG_HUD_VISIBLE_PREFERENCE_NAME,
-            !isVisible ? SETTING_ENABLED : SETTING_DISABLED
+            !isVisible ? SETTING_ENABLED : SETTING_DISABLED,
         );
         updateDebugHudState(isDebugHudEnabled, !isVisible);
     };
@@ -910,7 +909,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     toggleSettings();
                 }
                 closeDialogAndOverlay();
-            }
+            },
         );
         (document.querySelector(".button.new-lose-game") as HTMLElement).addEventListener(
             "click",
@@ -936,7 +935,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     toggleSettings();
                 }
                 closeDialogAndOverlay();
-            }
+            },
         );
         (document.querySelector(".button.new-all-game") as HTMLElement).addEventListener(
             "click",
@@ -960,7 +959,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     toggleSettings();
                 }
                 closeDialogAndOverlay();
-            }
+            },
         );
         (document.querySelector(".button.prompt-dialog") as HTMLElement).addEventListener(
             "click",
@@ -978,7 +977,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         });
                     },
                 });
-            }
+            },
         );
         (document.querySelector(".button.non-closable-dialog") as HTMLElement).addEventListener(
             "click",
@@ -991,14 +990,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                     fadeIn: true,
                     closable: false,
                 });
-            }
+            },
         );
         (document.querySelector(".button.show-notification") as HTMLElement).addEventListener(
             "click",
             (e) => {
                 e.preventDefault();
                 renderNotification("This is a test notification", 2500);
-            }
+            },
         );
         debugButton.blur();
     });
@@ -1096,11 +1095,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     getPreferenceValue(DEBUG_HUD_ENABLED_PREFERENCE_NAME) === SETTING_ENABLED;
                 savePreferenceValue(
                     DEBUG_HUD_ENABLED_PREFERENCE_NAME,
-                    isEnabled ? SETTING_DISABLED : SETTING_ENABLED
+                    isEnabled ? SETTING_DISABLED : SETTING_ENABLED,
                 );
                 savePreferenceValue(
                     DEBUG_HUD_VISIBLE_PREFERENCE_NAME,
-                    isEnabled ? SETTING_DISABLED : SETTING_ENABLED
+                    isEnabled ? SETTING_DISABLED : SETTING_ENABLED,
                 );
                 isDebugHudEnabled = isDebugHudVisible = !isEnabled;
                 updateDebugHudState(!isEnabled, !isEnabled);

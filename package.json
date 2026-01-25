@@ -9,6 +9,7 @@
     "devs": "HTTPS=true vite",
     "build": "vite build",
     "preview": "vite preview",
+    "type-check": "tsc --noEmit",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "test-ci": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --ci",
     "cypress": "cypress",
