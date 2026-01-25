@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "test-ci": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --ci",
-    "cypress": "cypress"
+    "cypress": "cypress",
+    "cypress:run": "cypress run --spec 'cypress/e2e/**/*.cy.ts' --browser chrome"
   },
   "keywords": [],
   "author": "James Cote (Coteh)",
