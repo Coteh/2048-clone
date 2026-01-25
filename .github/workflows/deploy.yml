@@ -29,21 +29,28 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
-            - name: Set up Node.js
-              uses: actions/setup-node@v4
+              uses: actions/checkout@v6
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
               with:
-                node-version: 22
+                  version: 10
+            - name: Set up Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: 22
+                  cache: "pnpm"
             - name: Print Node.js version
               run: node -v
+            - name: Print pnpm version
+              run: pnpm -v
             - name: Install dependencies
-              run: npm install
+              run: pnpm install
             - name: Build
-              run: npm run build -- --base=/2048-clone/
+              run: pnpm run build -- --base=/2048-clone/
             - name: Setup Pages
               uses: actions/configure-pages@v5
             - name: Upload artifact
-              uses: actions/upload-pages-artifact@v3
+              uses: actions/upload-pages-artifact@v4
               with:
                   # Upload just the 'build' directory
                   path: './build'

@@ -6,15 +6,22 @@ jobs:
     steps:
       - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
+          cache: "pnpm"
       - name: Print Node.js version
         run: node -v
-      - name: Run npm clean install
-        run: npm ci
+      - name: Print pnpm version
+        run: pnpm -v
+      - name: Run pnpm CI install
+        run: pnpm install
       - name: Run test
         run: npm run test-ci
       - name: Upload test results
@@ -28,7 +35,16 @@ jobs:
     steps:
       - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
       - name: Install mkcert
         run: |
           sudo apt-get update
@@ -47,11 +63,12 @@ jobs:
       - name: Set Cypress browser timeout environment variable
         run: echo CYPRESS_INTERNAL_BROWSER_CONNECT_TIMEOUT=300000 >> $GITHUB_ENV # 5 minutes
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           browser: edge
           start: npm run devs
           wait-on: 'https://localhost:5173'
+          package-manager-cache: false
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
