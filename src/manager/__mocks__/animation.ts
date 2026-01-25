@@ -1,4 +1,3 @@
-import { jest } from "@jest/globals";
 import { IAnimationManager } from "../animation";
 import { GameState, Position } from "../../game";
 
@@ -12,7 +11,7 @@ export class MockAnimationManager implements IAnimationManager {
         oldY: number,
         newX: number,
         newY: number,
-        points: number
+        points: number,
     ) => void;
     public updateBlocksNonMerge: (oldX: number, oldY: number, newX: number, newY: number) => void;
 
