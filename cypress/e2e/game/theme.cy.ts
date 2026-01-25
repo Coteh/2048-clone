@@ -49,28 +49,36 @@ describe("theme", () => {
 
         cy.get("body").should("have.class", "light");
         cy.get("body").should("have.class", "tileset-light");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 255, 255)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(255, 255, 255)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#FFF");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "dark");
         cy.get("body").should("have.class", "tileset-dark");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(28, 28, 28)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(28, 28, 28)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#1c1c1c");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "snow");
         cy.get("body").should("have.class", "tileset-snow");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(2, 0, 36)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(2, 0, 36)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#020024");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "classic");
         cy.get("body").should("have.class", "tileset-modern");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(128, 128, 128)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.theme-switch").click();
@@ -136,7 +144,7 @@ describe("theme", () => {
             "preferences",
             JSON.stringify({
                 theme: "standard",
-            })
+            }),
         );
 
         cy.reload();
@@ -154,7 +162,7 @@ describe("theme", () => {
             "preferences",
             JSON.stringify({
                 theme: "light",
-            })
+            }),
         );
 
         cy.reload();
@@ -169,7 +177,7 @@ describe("theme", () => {
             "preferences",
             JSON.stringify({
                 theme: "dark",
-            })
+            }),
         );
 
         cy.reload();
@@ -184,7 +192,7 @@ describe("theme", () => {
             "preferences",
             JSON.stringify({
                 theme: "snow",
-            })
+            }),
         );
 
         cy.reload();
@@ -199,7 +207,7 @@ describe("theme", () => {
             "preferences",
             JSON.stringify({
                 theme: "classic",
-            })
+            }),
         );
 
         cy.reload();
@@ -233,7 +241,7 @@ describe("theme", () => {
             "preferences",
             JSON.stringify({
                 theme: "invalid",
-            })
+            }),
         );
 
         cy.reload();

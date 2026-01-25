@@ -56,7 +56,7 @@ describe("core game logic", () => {
             mockSpawnManager,
             mockAnimationManager,
             undoManager,
-            mockGameStorage
+            mockGameStorage,
         );
         return getGameState();
     }

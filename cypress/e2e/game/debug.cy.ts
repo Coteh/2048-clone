@@ -26,7 +26,7 @@ describe("debug HUD", () => {
         // Check that the debug HUD is not enabled
         cy.get("#debug-overlay").should("not.be.visible");
         cy.get(".link-icon#debug-hud").should("not.be.visible");
-        
+
         // Open the settings pane
         cy.get(".settings-link").click();
 
@@ -101,9 +101,12 @@ describe("debug HUD", () => {
     it("should enable the debug HUD on load if the preference is set", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
-                window.localStorage.setItem("preferences", JSON.stringify({
-                    debugHudEnabled: "enabled",
-                }));
+                window.localStorage.setItem(
+                    "preferences",
+                    JSON.stringify({
+                        debugHudEnabled: "enabled",
+                    }),
+                );
             },
         });
 
@@ -115,10 +118,13 @@ describe("debug HUD", () => {
     it("should enable and make the debug HUD visible on load if the preferences are set", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
-                window.localStorage.setItem("preferences", JSON.stringify({
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }));
+                window.localStorage.setItem(
+                    "preferences",
+                    JSON.stringify({
+                        debugHudEnabled: "enabled",
+                        debugHudVisible: "enabled",
+                    }),
+                );
             },
         });
 
@@ -130,9 +136,12 @@ describe("debug HUD", () => {
     it("should toggle the visibility of the debug HUD via the debug HUD button", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
-                window.localStorage.setItem("preferences", JSON.stringify({
-                    debugHudEnabled: "enabled",
-                }));
+                window.localStorage.setItem(
+                    "preferences",
+                    JSON.stringify({
+                        debugHudEnabled: "enabled",
+                    }),
+                );
             },
         });
 
@@ -164,9 +173,12 @@ describe("debug HUD", () => {
     it("should toggle the debug HUD using the keyboard shortcut", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
-                window.localStorage.setItem("preferences", JSON.stringify({
-                    debugHudEnabled: "enabled",
-                }));
+                window.localStorage.setItem(
+                    "preferences",
+                    JSON.stringify({
+                        debugHudEnabled: "enabled",
+                    }),
+                );
             },
         });
 
@@ -194,10 +206,13 @@ describe("debug HUD", () => {
     it("should not toggle the debug HUD using the keyboard shortcut if the debug HUD is disabled", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
-                window.localStorage.setItem("preferences", JSON.stringify({
-                    debugHudEnabled: "disabled",
-                    debugHudVisible: "disabled",
-                }));
+                window.localStorage.setItem(
+                    "preferences",
+                    JSON.stringify({
+                        debugHudEnabled: "disabled",
+                        debugHudVisible: "disabled",
+                    }),
+                );
             },
         });
 

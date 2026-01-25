@@ -125,7 +125,7 @@ describe("misc", () => {
                     window.localStorage.setItem("game-state", JSON.stringify(gameState));
                     window.localStorage.setItem(
                         "persistent-state",
-                        JSON.stringify(persistentState)
+                        JSON.stringify(persistentState),
                     );
                 },
             }); // visit the page
@@ -152,7 +152,7 @@ describe("misc", () => {
                         "preferences",
                         JSON.stringify({
                             theme: "snow",
-                        })
+                        }),
                     );
                 },
             });

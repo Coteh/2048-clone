@@ -82,14 +82,14 @@ export const triggerShare = async (shareText: string) => {
     };
     if (navigator.canShare && !navigator.canShare(data)) {
         console.log(
-            "Share data cannot be validated for share sheet, falling back to clipboard for share..."
+            "Share data cannot be validated for share sheet, falling back to clipboard for share...",
         );
         // Fallback to copy to clipboard
         return copyShareText(shareText);
     }
     if (!navigator.share) {
         console.log(
-            "Share sheet not available for this browser, falling back to clipboard for share..."
+            "Share sheet not available for this browser, falling back to clipboard for share...",
         );
         // Fallback to copy to clipboard
         return copyShareText(shareText);

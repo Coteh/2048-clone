@@ -99,7 +99,7 @@ describe("viewport", () => {
                         {
                             capture: "viewport",
                             overwrite: true,
-                        }
+                        },
                     );
 
                     cy.get(".settings-link").click();
@@ -116,7 +116,7 @@ describe("viewport", () => {
                         {
                             capture: "viewport",
                             overwrite: true,
-                        }
+                        },
                     );
                 });
             });

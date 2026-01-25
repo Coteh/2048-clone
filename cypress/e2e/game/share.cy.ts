@@ -360,7 +360,7 @@ describe("sharing results", () => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate permission issue
                     return Promise.reject(
-                        new DOMException("User or app denied permission", "NotAllowedError")
+                        new DOMException("User or app denied permission", "NotAllowedError"),
                     );
                 };
                 // Define share function as a stub if it's a browser that doesn't support it normally, otherwise stub it directly
@@ -391,7 +391,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
 
@@ -452,7 +452,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -494,7 +494,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
 
@@ -531,7 +531,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -560,7 +560,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 2048 in 2048-clone, and I achieved 2048 in 1 move. Play it here: ${expectedUrl}`
+                    `I got a score of 2048 in 2048-clone, and I achieved 2048 in 1 move. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -590,7 +590,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -624,7 +624,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });

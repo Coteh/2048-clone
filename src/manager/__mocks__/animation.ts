@@ -12,7 +12,7 @@ export class MockAnimationManager implements IAnimationManager {
         oldY: number,
         newX: number,
         newY: number,
-        points: number
+        points: number,
     ) => void;
     public updateBlocksNonMerge: (oldX: number, oldY: number, newX: number, newY: number) => void;
 
