@@ -1024,9 +1024,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     commitElem.innerText = COMMIT_HASH;
     (commitElem.parentElement as HTMLAnchorElement).href += COMMIT_HASH;
 
-    (document.querySelector("link[rel='canonical']") as HTMLLinkElement).href =
-        import.meta.env.VITE_WEBSITE_URL || "https://coteh.github.io/2048-clone/";
-
     let changelogTapCount = 0;
     const changelogTapThreshold = 5;
     const changelogTapTimeout = 1000;

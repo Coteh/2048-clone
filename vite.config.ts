@@ -7,6 +7,7 @@ import * as childProcess from "child_process";
 import appIconLabel from './plugins/app-labels';
 import fileTransformerPlugin from "./plugins/file-transformer";
 import * as marked from "marked";
+import { removeCanonicalInDev } from "./plugins/remove-canonical-in-dev";
 
 const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString();
 
@@ -44,6 +45,9 @@ export default defineConfig(({ mode }) => {
                 : undefined,
         },
         plugins: [
+            removeCanonicalInDev({
+                environment: env.DEPLOY_ENV || "",
+            }),
             appIconLabel({
                 source: './public',
                 output: './dist/icons',
