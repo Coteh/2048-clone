@@ -4,7 +4,7 @@ import * as fs from "fs";
 import { version } from "./package.json";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import * as childProcess from "child_process";
-import appIconLabel from './plugins/app-labels';
+import appIconLabel from "./plugins/app-labels";
 import fileTransformerPlugin from "./plugins/file-transformer";
 import * as marked from "marked";
 import { removeCanonicalInDev } from "./plugins/remove-canonical-in-dev";
@@ -49,49 +49,49 @@ export default defineConfig(({ mode }) => {
                 environment: env.DEPLOY_ENV || "",
             }),
             appIconLabel({
-                source: './public',
-                output: './dist/icons',
-                environment: env.DEPLOY_ENV || 'DEV',
+                source: "./public",
+                output: "./dist/icons",
+                environment: env.DEPLOY_ENV || "DEV",
                 icons: [
                     {
-                        name: 'icon128.png',
+                        name: "icon128.png",
                         font: {
-                            color: '#FFFFFF',
-                            size: 36,         
-                            family: './public/fonts/Lato/Lato-Black.ttf'   
-                        }
+                            color: "#FFFFFF",
+                            size: 36,
+                            family: "./public/fonts/Lato/Lato-Black.ttf",
+                        },
                     },
                     {
-                        name: 'icon128_classic.png',
+                        name: "icon128_classic.png",
                         font: {
-                            color: '#FFFFFF',
-                            size: 36,         
-                            family: './public/fonts/Lato/Lato-Black.ttf'   
-                        }
+                            color: "#FFFFFF",
+                            size: 36,
+                            family: "./public/fonts/Lato/Lato-Black.ttf",
+                        },
                     },
                     {
-                        name: 'icon152.png',
+                        name: "icon152.png",
                         font: {
-                            color: '#FFFFFF',
-                            size: 42,         
-                            family: './public/fonts/Lato/Lato-Black.ttf'   
-                        }
+                            color: "#FFFFFF",
+                            size: 42,
+                            family: "./public/fonts/Lato/Lato-Black.ttf",
+                        },
                     },
                     {
-                        name: 'icon152_classic.png',
+                        name: "icon152_classic.png",
                         font: {
-                            color: '#FFFFFF',
-                            size: 42,         
-                            family: './public/fonts/Lato/Lato-Black.ttf'   
-                        }
+                            color: "#FFFFFF",
+                            size: 42,
+                            family: "./public/fonts/Lato/Lato-Black.ttf",
+                        },
                     },
                 ],
-                position: 'bottom',
+                position: "bottom",
             }),
             fileTransformerPlugin({
-                input: 'CHANGELOG.md',
+                input: "CHANGELOG.md",
                 transformer: (content) => marked.parse(content),
-                output: 'CHANGELOG.html',
+                output: "CHANGELOG.html",
             }),
             // Must go after all other plugins
             sentryVitePlugin({
