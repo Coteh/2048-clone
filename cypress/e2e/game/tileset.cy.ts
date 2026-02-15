@@ -30,9 +30,9 @@ describe("tileset", () => {
                 const preferences: Preferences = {
                     theme: "classic",
                 };
-                window.localStorage.setItem("game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
-                window.localStorage.setItem("preferences", JSON.stringify(preferences));
+                window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
     });
@@ -80,7 +80,7 @@ describe("tileset", () => {
 
     it("should set the tileset on page reload if it's enabled in local storage for the selected theme", () => {
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "classic",
                 tileset: {
@@ -100,7 +100,7 @@ describe("tileset", () => {
 
     it("should default to the first tileset for a theme if there's no selected tileset in local storage", () => {
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "classic",
             })
@@ -117,7 +117,7 @@ describe("tileset", () => {
 
     it("should default to the first tileset for a theme if the tileset in local storage for the selected theme is invalid", () => {
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "light",
                 tileset: {
@@ -137,7 +137,7 @@ describe("tileset", () => {
 
     it("should default to the first tileset for a theme if tileset is set to invalid value in local storage", () => {
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "classic",
                 tileset: "invalid",
@@ -160,7 +160,7 @@ describe("tileset", () => {
         cy.get(".settings-item").contains("Tileset").should("be.visible");
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "standard",
                 tileset: {
@@ -179,7 +179,7 @@ describe("tileset", () => {
 
     it("should set the special blue background color for the initial-commit tileset", () => {
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "classic",
                 tileset: {

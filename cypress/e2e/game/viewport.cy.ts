@@ -27,8 +27,8 @@ describe("viewport", () => {
                     unlockables: {},
                     hasPlayedBefore: true,
                 };
-                window.localStorage.setItem("game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
             },
         });
     });
@@ -74,7 +74,7 @@ describe("viewport", () => {
                         theme: theme,
                         block: blockStyle,
                     };
-                    window.localStorage.setItem("preferences", JSON.stringify(preferences));
+                    window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
 
                     cy.reload();
 
