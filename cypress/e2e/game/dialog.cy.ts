@@ -26,8 +26,8 @@ describe("dialogs", () => {
                     unlockables: {},
                     hasPlayedBefore: true,
                 };
-                window.localStorage.setItem("game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
             },
         });
     });

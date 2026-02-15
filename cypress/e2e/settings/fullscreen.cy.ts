@@ -37,9 +37,9 @@ describe("fullscreen", () => {
                 const preferences: Preferences = {
                     theme: "dark",
                 };
-                window.localStorage.setItem("game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
-                window.localStorage.setItem("preferences", JSON.stringify(preferences));
+                window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
         cy.document().then((doc) => {
@@ -91,7 +91,7 @@ describe("fullscreen", () => {
                         theme: "dark",
                         fullscreen: "enabled",
                     };
-                    win.localStorage.setItem("preferences", JSON.stringify(preferences));
+                    win.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
                 },
             });
 

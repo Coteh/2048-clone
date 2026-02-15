@@ -30,9 +30,9 @@ describe("theme", () => {
                 const preferences: Preferences = {
                     theme: "standard",
                 };
-                window.localStorage.setItem("game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
-                window.localStorage.setItem("preferences", JSON.stringify(preferences));
+                window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
+                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
     });
@@ -94,8 +94,8 @@ describe("theme", () => {
                 const preferences: Preferences = {
                     theme: "standard",
                 };
-                window.localStorage.setItem("persistent-state", JSON.stringify(persistentState));
-                window.localStorage.setItem("preferences", JSON.stringify(preferences));
+                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
 
@@ -133,7 +133,7 @@ describe("theme", () => {
         cy.get("body").should("not.have.class", "");
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "standard",
             })
@@ -151,7 +151,7 @@ describe("theme", () => {
         cy.get("body").should("not.have.class", "light");
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "light",
             })
@@ -166,7 +166,7 @@ describe("theme", () => {
         cy.get("body").should("not.have.class", "dark");
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "dark",
             })
@@ -181,7 +181,7 @@ describe("theme", () => {
         cy.get("body").should("not.have.class", "snow");
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "snow",
             })
@@ -196,7 +196,7 @@ describe("theme", () => {
         cy.get("body").should("not.have.class", "classic");
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "classic",
             })
@@ -213,7 +213,7 @@ describe("theme", () => {
             expect(classList.contains("tileset-standard")).to.be.true;
         });
 
-        window.localStorage.removeItem("preferences");
+        window.localStorage.removeItem("2048-preferences");
 
         cy.reload();
 
@@ -230,7 +230,7 @@ describe("theme", () => {
         });
 
         window.localStorage.setItem(
-            "preferences",
+            "2048-preferences",
             JSON.stringify({
                 theme: "invalid",
             })
