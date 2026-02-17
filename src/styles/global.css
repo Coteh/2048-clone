@@ -138,9 +138,17 @@ html {
 
 body {
     background: var(--fallback-background-color);
-    background: var(--background-color);
     margin: 0;
     overflow: hidden;
+}
+
+body > div.game-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -100;
+    background: var(--fallback-background-color);
+    background: var(--background-color);
 }
 
 svg {
