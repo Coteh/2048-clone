@@ -1,5 +1,4 @@
-import { renderDialog, renderNotification, DialogOptions } from "../render";
-import { ThemeManager } from "../manager/theme";
+import { renderDialog, renderNotification } from "../render";
 
 const isiOS = () => {
     return navigator.userAgent.match(/ipad|iphone/i);
@@ -7,7 +6,7 @@ const isiOS = () => {
 
 // Use legacy document.execCommand API for older browsers that do not have navigator.clipboard
 // https://stackoverflow.com/a/30810322
-const fallbackCopyShareText = (shareText: string, themeManager?: ThemeManager) => {
+const fallbackCopyShareText = (shareText: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = shareText;
 
@@ -41,14 +40,12 @@ const fallbackCopyShareText = (shareText: string, themeManager?: ThemeManager) =
             message.innerText = "Copied to clipboard!";
             renderDialog(message, {
                 fadeIn: true,
-                themeManager: themeManager,
             });
         } else {
             const message = document.createElement("span");
             message.innerText = "Could not copy to clipboard";
             renderDialog(message, {
                 fadeIn: true,
-                themeManager: themeManager,
             });
         }
     } catch (e) {
@@ -57,7 +54,6 @@ const fallbackCopyShareText = (shareText: string, themeManager?: ThemeManager) =
         message.innerText = "Could not copy to clipboard due to error";
         renderDialog(message, {
             fadeIn: true,
-            themeManager: themeManager,
         });
     } finally {
         textArea.remove();
@@ -65,9 +61,9 @@ const fallbackCopyShareText = (shareText: string, themeManager?: ThemeManager) =
     return successful;
 };
 
-export const copyShareText = async (shareText: string, themeManager?: ThemeManager) => {
+export const copyShareText = async (shareText: string) => {
     if (!navigator.clipboard) {
-        return fallbackCopyShareText(shareText, themeManager);
+        return fallbackCopyShareText(shareText);
     }
     try {
         await navigator.clipboard.writeText(shareText);
@@ -80,7 +76,7 @@ export const copyShareText = async (shareText: string, themeManager?: ThemeManag
     return true;
 };
 
-export const triggerShare = async (shareText: string, themeManager?: ThemeManager) => {
+export const triggerShare = async (shareText: string) => {
     const data = {
         text: shareText,
     };
@@ -89,14 +85,14 @@ export const triggerShare = async (shareText: string, themeManager?: ThemeManage
             "Share data cannot be validated for share sheet, falling back to clipboard for share..."
         );
         // Fallback to copy to clipboard
-        return copyShareText(shareText, themeManager);
+        return copyShareText(shareText);
     }
     if (!navigator.share) {
         console.log(
             "Share sheet not available for this browser, falling back to clipboard for share..."
         );
         // Fallback to copy to clipboard
-        return copyShareText(shareText, themeManager);
+        return copyShareText(shareText);
     }
     try {
         await navigator.share(data);
@@ -104,13 +100,13 @@ export const triggerShare = async (shareText: string, themeManager?: ThemeManage
         if (err.name === "NotAllowedError") {
             console.log("Sharing was not allowed by the user or platform");
             // Fallback to copy to clipboard
-            return copyShareText(shareText, themeManager);
+            return copyShareText(shareText);
         } else if (err.name === "AbortError") {
             console.log("User aborted share operation");
         } else if (err.name === "NotSupportedError") {
             console.error("Share sheet operation not supported");
             // Fallback to copy to clipboard
-            return copyShareText(shareText, themeManager);
+            return copyShareText(shareText);
         } else {
             console.error("Error sharing content:", err);
             renderNotification("Could not share due to error");

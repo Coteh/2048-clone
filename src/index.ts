@@ -17,6 +17,7 @@ import {
     renderDialog,
     renderNotification,
     renderPromptDialog,
+    setThemeManager,
 } from "./render";
 import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
@@ -100,12 +101,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     let actionIconManager = new ActionIconManager();
     let appIconManager = new AppIconManager();
     let themeManager = new ThemeManager();
+    setThemeManager(themeManager); // Set the global theme manager reference
     // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
     let unlockedInitialCommit = false;
 
     let tutorial: Tutorial = new Tutorial();
-    let howToPlay: HowToPlay = new HowToPlay(themeManager);
+    let howToPlay: HowToPlay = new HowToPlay();
 
     const swipeSensitivity = 50;
 
@@ -154,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
                 renderDialog(loseElem, {
                     fadeIn: true,
-                    themeManager: themeManager,
+                    
                 });
                 const dialog = document.querySelector(".dialog") as HTMLDialogElement;
                 dialog.classList.add("game-over");
@@ -177,7 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareText = generateShareText(gameState);
                 shareButton.addEventListener("click", async (e) => {
                     e.preventDefault();
-                    if (!(await triggerShare(shareText, themeManager))) {
+                    if (!(await triggerShare(shareText))) {
                         console.log(
                             "Triggering share not successful, swapping out for copy to clipboard button...",
                         );
@@ -187,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 copyButton.addEventListener("click", (e) => {
                     e.preventDefault();
-                    copyShareText(shareText, themeManager);
+                    copyShareText(shareText);
                 });
                 undoButton.classList.add("disabled");
                 break;
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 renderDialog(winElem, {
                     fadeIn: true,
-                    themeManager: themeManager,
+                    
                 });
                 const dialog = document.querySelector(".dialog") as HTMLElement;
                 dialog.classList.add("win");
@@ -218,7 +220,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const shareText = generateShareText(gameState);
                 shareButton.addEventListener("click", async (e) => {
                     e.preventDefault();
-                    if (!(await triggerShare(shareText, themeManager))) {
+                    if (!(await triggerShare(shareText))) {
                         console.log(
                             "Triggering share not successful, swapping out for copy to clipboard button...",
                         );
@@ -228,7 +230,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 copyButton.addEventListener("click", (e) => {
                     e.preventDefault();
-                    copyShareText(shareText, themeManager);
+                    copyShareText(shareText);
                 });
                 setTimeout(() => {
                     // TODO: Refine the particle effects a bit more
@@ -360,7 +362,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "Are you sure you want to start a new game? All progress will be lost.";
         renderPromptDialog(dialogElem, {
             fadeIn: true,
-            themeManager: themeManager,
+            
             onConfirm: () => {
                 newGame();
                 if (onNewGameStarted) {
@@ -376,7 +378,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "Fullscreen mode was previously enabled. Do you want to re-enter fullscreen mode?";
         renderPromptDialog(dialogElem, {
             fadeIn: true,
-            themeManager: themeManager,
+            
             onConfirm: () => {
                 fullscreenManager.toggleFullscreen(true);
                 const setting = document.querySelector(
@@ -659,7 +661,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "Are you sure you want to clear all game data? <u>Preferences</u>, <u>high score</u>, and <u>unlockables</u> will <em>all be lost</em>.";
                 renderPromptDialog(dialogElem, {
                     fadeIn: true,
-                    themeManager: themeManager,
+                    
                     onConfirm: () => {
                         isPrompted = false;
                         gameStorage.clearPersistentState();
@@ -883,7 +885,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), {
             fadeIn: true,
-            themeManager: themeManager,
+            
         });
         const closeDialogAndOverlay = () => {
             const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
@@ -972,13 +974,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Answer?";
                 renderPromptDialog(dialogElem, {
                     fadeIn: true,
-                    themeManager: themeManager,
+                    
                     onConfirm: () => {
                         const dialogElem = document.createElement("span");
                         dialogElem.innerText = "Confirmed";
                         renderDialog(dialogElem, {
                             fadeIn: true,
-                            themeManager: themeManager,
+                            
                         });
                     },
                 });
@@ -994,7 +996,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderDialog(dialogElem, {
                     fadeIn: true,
                     closable: false,
-                    themeManager: themeManager,
+                    
                 });
             },
         );
@@ -1071,7 +1073,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(dialogElem, {
             fadeIn: true,
             closable: true,
-            themeManager: themeManager,
+            
             style: {
                 width: "75%",
                 height: "75%",
@@ -1168,7 +1170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(elem, {
             fadeIn: true,
             closable: false,
-            themeManager: themeManager,
+            
         });
     }
 });
