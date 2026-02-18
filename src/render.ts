@@ -4,6 +4,21 @@ import { GameBoard } from "./game";
 import type * as CSS from "csstype";
 import { ThemeManager } from "./manager/theme";
 
+// Module-level reference to the ThemeManager
+let themeManagerRef: ThemeManager | null = null;
+
+/**
+ * Set the ThemeManager reference for dialog color dimming
+ * Must be called during initialization
+ */
+export const setThemeManager = (themeManager: ThemeManager) => {
+    if (!themeManager) {
+        console.warn('setThemeManager: Attempted to set null or undefined ThemeManager');
+        return;
+    }
+    themeManagerRef = themeManager;
+};
+
 interface RenderBoardOptions {
     theme?: string;
     blockStyle?: string;
@@ -170,7 +185,6 @@ export type DialogOptions = {
     fadeIn?: boolean;
     closable?: boolean;
     style?: CSS.Properties;
-    themeManager?: ThemeManager;
 };
 
 /**
@@ -178,15 +192,14 @@ export type DialogOptions = {
  */
 const closeDialogAndRestoreTheme = (
     dialog: HTMLDialogElement,
-    overlayBackElem: HTMLElement,
-    themeManager?: ThemeManager
+    overlayBackElem: HTMLElement
 ) => {
     dialog.close();
     dialog.remove();
     overlayBackElem.style.display = "none";
     // Restore normal theme color when dialog closes
-    if (themeManager) {
-        themeManager.restoreNormalThemeColor();
+    if (themeManagerRef) {
+        themeManagerRef.restoreNormalThemeColor();
     }
 };
 
@@ -223,7 +236,7 @@ export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
             closeBtn.addEventListener("click", (e) => {
                 e.preventDefault();
                 const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-                closeDialogAndRestoreTheme(dialog, overlayBackElem, options.themeManager);
+                closeDialogAndRestoreTheme(dialog, overlayBackElem);
             });
         } else {
             closeBtn.style.display = "none";
@@ -239,8 +252,8 @@ export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
     overlayBackElem.style.display = "block";
 
     // Apply dimmed theme color when dialog opens
-    if (options && options.themeManager) {
-        options.themeManager.applyDimmedThemeColor();
+    if (themeManagerRef) {
+        themeManagerRef.applyDimmedThemeColor();
     }
 
     (document.querySelector(".dialog [data-feather='x']") as HTMLElement).innerText = "X";
@@ -255,7 +268,6 @@ export type PromptDialogOptions = {
     style?: CSS.Properties;
     onConfirm?: Function;
     onCancel?: Function;
-    themeManager?: ThemeManager;
 };
 
 export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogOptions) => {
@@ -297,7 +309,7 @@ export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogO
     cancelBtn.addEventListener("click", (e) => {
         e.preventDefault();
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-        closeDialogAndRestoreTheme(dialog, overlayBackElem, options?.themeManager);
+        closeDialogAndRestoreTheme(dialog, overlayBackElem);
         if (options && options.onCancel) {
             options.onCancel();
         }
@@ -306,7 +318,7 @@ export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogO
     confirmBtn.addEventListener("click", (e) => {
         e.preventDefault();
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-        closeDialogAndRestoreTheme(dialog, overlayBackElem, options?.themeManager);
+        closeDialogAndRestoreTheme(dialog, overlayBackElem);
         if (options && options.onConfirm) {
             options.onConfirm();
         }
@@ -317,8 +329,8 @@ export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogO
     overlayBackElem.style.display = "block";
 
     // Apply dimmed theme color when dialog opens
-    if (options && options.themeManager) {
-        options.themeManager.applyDimmedThemeColor();
+    if (themeManagerRef) {
+        themeManagerRef.applyDimmedThemeColor();
     }
 
     dialog.show();
