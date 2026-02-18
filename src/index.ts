@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const copyButton = loseElem.querySelector(".clipboard-button") as HTMLElement;
                 renderDialog(loseElem, {
                     fadeIn: true,
-                    
+
                 });
                 const dialog = document.querySelector(".dialog") as HTMLDialogElement;
                 dialog.classList.add("game-over");
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 renderDialog(winElem, {
                     fadeIn: true,
-                    
+
                 });
                 const dialog = document.querySelector(".dialog") as HTMLElement;
                 dialog.classList.add("win");
@@ -362,7 +362,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "Are you sure you want to start a new game? All progress will be lost.";
         renderPromptDialog(dialogElem, {
             fadeIn: true,
-            
+
             onConfirm: () => {
                 newGame();
                 if (onNewGameStarted) {
@@ -378,7 +378,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "Fullscreen mode was previously enabled. Do you want to re-enter fullscreen mode?";
         renderPromptDialog(dialogElem, {
             fadeIn: true,
-            
+
             onConfirm: () => {
                 fullscreenManager.toggleFullscreen(true);
                 const setting = document.querySelector(
@@ -661,7 +661,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "Are you sure you want to clear all game data? <u>Preferences</u>, <u>high score</u>, and <u>unlockables</u> will <em>all be lost</em>.";
                 renderPromptDialog(dialogElem, {
                     fadeIn: true,
-                    
+
                     onConfirm: () => {
                         isPrompted = false;
                         gameStorage.clearPersistentState();
@@ -885,7 +885,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), {
             fadeIn: true,
-            
+
         });
         const closeDialogAndOverlay = () => {
             const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
@@ -974,13 +974,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 (dialogElem.querySelector(".prompt-text") as HTMLSpanElement).innerText = "Answer?";
                 renderPromptDialog(dialogElem, {
                     fadeIn: true,
-                    
+
                     onConfirm: () => {
                         const dialogElem = document.createElement("span");
                         dialogElem.innerText = "Confirmed";
                         renderDialog(dialogElem, {
                             fadeIn: true,
-                            
+
                         });
                     },
                 });
@@ -996,7 +996,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderDialog(dialogElem, {
                     fadeIn: true,
                     closable: false,
-                    
+
                 });
             },
         );
@@ -1073,7 +1073,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(dialogElem, {
             fadeIn: true,
             closable: true,
-            
+
             style: {
                 width: "75%",
                 height: "75%",
@@ -1170,7 +1170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(elem, {
             fadeIn: true,
             closable: false,
-            
+
         });
     }
 });
