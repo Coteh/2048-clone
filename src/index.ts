@@ -413,10 +413,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             settingsPane.style.display = "flex";
             swipeArea.style.display = "none";
             tutorial.stop();
+            // Apply dimmed theme color when settings opens
+            themeManager.applyDimmedThemeColor();
         } else {
             gamePane.style.display = "flex";
             settingsPane.style.display = "none";
             swipeArea.style.display = "flex";
+            // Restore normal theme color when settings closes
+            themeManager.applyThemeColor();
         }
     };
 
