@@ -196,6 +196,6 @@ describe("tileset", () => {
             expect(classList.contains("tileset-initial-commit")).to.be.true;
         });
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(100, 149, 237)");
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#6495ed");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(100, 149, 237)");
     });
 });
