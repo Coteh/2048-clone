@@ -249,7 +249,7 @@ describe("theme", () => {
 
     it("should apply and restore dimmed theme-color when settings dialog is opened and closed", () => {
         // Verify normal theme color before opening dialog
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
         
         // Open settings (which is itself a dialog with overlay)
@@ -272,7 +272,7 @@ describe("theme", () => {
 
     it("should apply dimmed theme-color for all themes", () => {
         // Test standard theme (default)
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
         cy.get(".settings-link").click();
         // Standard theme is bisque (rgb(255, 228, 196))
         // Overlay is rgba(0, 0, 0, 0.5)
