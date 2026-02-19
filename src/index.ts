@@ -880,7 +880,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         renderDialog(createDialogContentFromTemplate("#debug-dialog-content"), {
             fadeIn: true,
-
         });
         const closeDialogAndOverlay = () => {
             const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
@@ -1065,7 +1064,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(dialogElem, {
             fadeIn: true,
             closable: true,
-
             style: {
                 width: "75%",
                 height: "75%",
@@ -1162,7 +1160,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDialog(elem, {
             fadeIn: true,
             closable: false,
-
         });
     }
 });
