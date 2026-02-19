@@ -989,7 +989,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderDialog(dialogElem, {
                     fadeIn: true,
                     closable: false,
-
                 });
             }
         );

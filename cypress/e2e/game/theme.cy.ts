@@ -24,7 +24,10 @@ describe("theme", () => {
                 };
                 const persistentState: GamePersistentState = {
                     highscore: 0,
-                    unlockables: { classic: true },
+                    unlockables: { 
+                        classic: true,
+                        initialCommit: true,
+                    },
                     hasPlayedBefore: true,
                 };
                 const preferences: Preferences = {
@@ -308,21 +311,7 @@ describe("theme", () => {
         cy.get(".settings .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#020024");
         
-        // Test classic theme (requires unlocking)
-        // Unlock classic theme by winning
-        cy.window().then((win) => {
-            const gameState = (win as any).gameState;
-            gameState.board = [
-                [2048, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-            ];
-            gameState.won = true;
-        });
-        cy.get("button.win-continue").click();
-        
-        // Now switch to classic theme
+        // Test classic theme (pre-unlocked in beforeEach)
         cy.get(".settings-link").click();
         cy.get(".setting.theme-switch").click();
         // Classic theme is rgb(169, 169, 169)
@@ -332,18 +321,14 @@ describe("theme", () => {
         cy.get(".settings .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(169, 169, 169)");
         
-        // Test classic theme with initial-commit tileset (requires unlocking)
-        // Unlock initial commit tileset by achieving score of 2048
-        cy.window().then((win) => {
-            const persistentState = (win as any).persistentState;
-            persistentState.unlockables.initialCommit = true;
-        });
-        
+        // Test classic theme with initial-commit tileset (pre-unlocked in beforeEach)
         cy.get(".settings-link").click();
         cy.get(".setting.tileset-switch").click();
-        // Still same classic theme color with different tileset
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(85, 85, 85)");
+        // Initial Commit tileset has different background: #6495ed (rgb(100, 149, 237))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(50, 74, 118)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(50, 74, 118)");
         cy.get(".settings .close").click();
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(169, 169, 169)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#6495ed");
     });
 });
