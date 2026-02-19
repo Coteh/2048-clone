@@ -135,7 +135,7 @@
     --block-max-text-color: var(--black);
 }
 
-body.classic:not(.tileset-initial-commit) {
+body.classic:not(.tileset-initial-commit) > .game-background {
     background-image: url("/images/CheckerboardTiles.png");
 }
 
@@ -391,7 +391,7 @@ body.classic .knob > .knob-inside {
 
 /* Landscape Overlay */
 
-body.classic .landscape-overlay {
+body.classic:not(.tileset-initial-commit) .landscape-overlay {
     background-image: url("/images/CheckerboardTiles.png");
 }
 
