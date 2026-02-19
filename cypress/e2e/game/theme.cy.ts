@@ -339,7 +339,5 @@ describe("theme", () => {
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(50, 75, 119)");
         cy.get(".dialog .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(100, 149, 237)");
-
-        cy.get(".settings .close").click();
     });
 });
