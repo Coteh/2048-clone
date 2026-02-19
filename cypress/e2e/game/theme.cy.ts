@@ -267,61 +267,83 @@ describe("theme", () => {
         cy.get("body").should("have.attr", "style").and("include", "background-color: bisque");
     });
 
-    it("should update dimmed theme-color when theme is switched in settings", () => {
-        // Verify normal standard theme color
+    it("should apply dimmed theme-color for all themes", () => {
+        // Test standard theme (default)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
+        cy.get(".settings-link").click();
+        // Standard theme is bisque (rgb(255, 228, 196))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(128, 114, 98)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 114, 98)");
+        cy.get(".settings .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
         
-        // Open settings
+        // Test light theme
         cy.get(".settings-link").click();
-        
-        // Verify dimmed standard theme color
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 114, 98)");
-        
-        // Switch to light theme
         cy.get(".setting.theme-switch").click();
-        
         // Light theme is #FFF (rgb(255, 255, 255))
         // Overlay is rgba(0, 0, 0, 0.5)
         // Blended: rgb(128, 128, 128)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
-        
-        // Close settings and verify light theme is restored
         cy.get(".settings .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#FFF");
-    });
-
-    it("should apply dimmed theme-color for dark theme", () => {
+        
+        // Test dark theme
         cy.get(".settings-link").click();
-        
-        // Switch to dark theme
         cy.get(".setting.theme-switch").click();
-        cy.get(".setting.theme-switch").click();
-        
         // Dark theme is #1c1c1c (rgb(28, 28, 28))
         // Overlay is rgba(0, 0, 0, 0.5)
         // Blended: rgb(14, 14, 14)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(14, 14, 14)");
-        
-        // Close settings and verify dark theme is restored
         cy.get(".settings .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#1c1c1c");
-    });
-
-    it("should apply dimmed theme-color for snow theme", () => {
+        
+        // Test snow theme
         cy.get(".settings-link").click();
-        
-        // Switch to snow theme
         cy.get(".setting.theme-switch").click();
-        cy.get(".setting.theme-switch").click();
-        cy.get(".setting.theme-switch").click();
-        
         // Snow theme is #020024 (rgb(2, 0, 36))
         // Overlay is rgba(0, 0, 0, 0.5)
         // Blended: rgb(1, 0, 18)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(1, 0, 18)");
-        
-        // Close settings and verify snow theme is restored
         cy.get(".settings .close").click();
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "#020024");
+        
+        // Test classic theme (requires unlocking)
+        // Unlock classic theme by winning
+        cy.window().then((win) => {
+            const gameState = (win as any).gameState;
+            gameState.board = [
+                [2048, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ];
+            gameState.won = true;
+        });
+        cy.get("button.win-continue").click();
+        
+        // Now switch to classic theme
+        cy.get(".settings-link").click();
+        cy.get(".setting.theme-switch").click();
+        // Classic theme is rgb(169, 169, 169)
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(85, 85, 85)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(85, 85, 85)");
+        cy.get(".settings .close").click();
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(169, 169, 169)");
+        
+        // Test classic theme with initial-commit tileset (requires unlocking)
+        // Unlock initial commit tileset by achieving score of 2048
+        cy.window().then((win) => {
+            const persistentState = (win as any).persistentState;
+            persistentState.unlockables.initialCommit = true;
+        });
+        
+        cy.get(".settings-link").click();
+        cy.get(".setting.tileset-switch").click();
+        // Still same classic theme color with different tileset
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(85, 85, 85)");
+        cy.get(".settings .close").click();
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(169, 169, 169)");
     });
 });
