@@ -102,12 +102,15 @@ export class ThemeManager {
      * @param color - Color to apply
      */
     private applyThemeColor(color: string): void {
+        // Convert color to RGB format for consistency
+        const rgbColor = colorToRgb(color);
+        
         const metaElement = document.querySelector("meta[name='theme-color']") as HTMLMetaElement;
         if (metaElement) {
-            metaElement.content = color;
+            metaElement.content = rgbColor;
         }
         // Set body background color for iOS 26+ compatibility (iOS no longer reads theme-color meta tag)
-        document.body.style.backgroundColor = color;
+        document.body.style.backgroundColor = rgbColor;
     }
 
     /**
