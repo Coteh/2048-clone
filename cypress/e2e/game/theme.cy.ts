@@ -53,21 +53,21 @@ describe("theme", () => {
         cy.get("body").should("have.class", "light");
         cy.get("body").should("have.class", "tileset-light");
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 255, 255)");
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#FFF");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 255, 255)");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "dark");
         cy.get("body").should("have.class", "tileset-dark");
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(28, 28, 28)");
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#1c1c1c");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(28, 28, 28)");
 
         cy.get(".setting.theme-switch").click();
 
         cy.get("body").should("have.class", "snow");
         cy.get("body").should("have.class", "tileset-snow");
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(2, 0, 36)");
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#020024");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(2, 0, 36)");
 
         cy.get(".setting.theme-switch").click();
 
@@ -249,7 +249,7 @@ describe("theme", () => {
 
     it("should apply and restore dimmed theme-color when settings dialog is opened and closed", () => {
         // Verify normal theme color before opening dialog
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
         
         // Open settings (which is itself a dialog with overlay)
@@ -272,7 +272,7 @@ describe("theme", () => {
 
     it("should apply dimmed theme-color for all themes", () => {
         // Test standard theme (default)
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
         cy.get(".settings-link").click();
         // Standard theme is bisque (rgb(255, 228, 196))
         // Overlay is rgba(0, 0, 0, 0.5)
@@ -289,7 +289,7 @@ describe("theme", () => {
         // Blended: rgb(128, 128, 128)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
         cy.get(".settings .close").click();
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#FFF");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 255, 255)");
         
         // Test dark theme
         cy.get(".settings-link").click();
@@ -299,7 +299,7 @@ describe("theme", () => {
         // Blended: rgb(14, 14, 14)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(14, 14, 14)");
         cy.get(".settings .close").click();
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#1c1c1c");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(28, 28, 28)");
         
         // Test snow theme
         cy.get(".settings-link").click();
@@ -309,7 +309,7 @@ describe("theme", () => {
         // Blended: rgb(1, 0, 18)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(1, 0, 18)");
         cy.get(".settings .close").click();
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#020024");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(2, 0, 36)");
         
         // Test classic theme (pre-unlocked in beforeEach)
         cy.get(".settings-link").click();
@@ -329,6 +329,6 @@ describe("theme", () => {
         // Blended: rgb(50, 74, 118)
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(50, 74, 118)");
         cy.get(".settings .close").click();
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "#6495ed");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(100, 149, 237)");
     });
 });
