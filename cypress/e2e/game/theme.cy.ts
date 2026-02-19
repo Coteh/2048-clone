@@ -82,8 +82,8 @@ describe("theme", () => {
             const classList = $el[0].classList;
             expect(classList.contains("tileset-standard")).to.be.true;
         });
-        cy.get("body").should("have.attr", "style").and("include", "background-color: bisque");
-        cy.get('meta[name="theme-color"]').should("have.attr", "content", "bisque");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
     });
 
     it("should not be able to select 2048Clone theme if it's locked", () => {
