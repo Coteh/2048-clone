@@ -38,47 +38,41 @@ import { AppIconManager } from "./manager/app-icon";
 import { ThemeManager } from "./manager/theme";
 
 import "./styles/global.css";
-
-const STANDARD_THEME = "standard";
-const LIGHT_THEME = "light";
-const DARK_THEME = "dark";
-const SNOW_THEME = "snow";
-const CLASSIC_THEME = "classic";
-
-const STANDARD_STANDARD_TILESET = "standard";
-const LIGHT_LIGHT_TILESET = "light";
-const DARK_DARK_TILESET = "dark";
-const SNOW_SNOW_TILESET = "snow";
-const SNOW_CHRISTMAS_TILESET = "christmas";
-const CLASSIC_MODERN_TILESET = "modern";
-const CLASSIC_CLASSIC_TILESET = "classic";
-const CLASSIC_COLORFUL_TILESET = "colorful";
-const CLASSIC_INITIAL_COMMIT_TILESET = "initial-commit";
-
-const STANDARD_BLOCK_STYLE = "standard";
-const COMPACT_BLOCK_STYLE = "compact";
-
-const THEME_PREFERENCE_NAME = "theme";
-const TILESET_PREFERENCE_NAME = "tileset";
-const ANIMATIONS_PREFERENCE_NAME = "animations";
-const BLOCK_STYLE_PREFERENCE_NAME = "block";
-const DEBUG_HUD_ENABLED_PREFERENCE_NAME = "debugHudEnabled";
-const DEBUG_HUD_VISIBLE_PREFERENCE_NAME = "debugHudVisible";
-const FULLSCREEN_PREFERENCE_NAME = "fullscreen";
-
-const THEME_SETTING_NAME = "theme-switch";
-const TILESET_SETTING_NAME = "tileset-switch";
-const ANIMATIONS_SETTING_NAME = "animations";
-const BLOCK_STYLE_SETTING_NAME = "block";
-const FULLSCREEN_SETTING_NAME = "fullscreen";
-const CLEAR_DATA_SETTING_NAME = "clear-all-data";
-
-const SETTING_ENABLED = "enabled";
-const SETTING_DISABLED = "disabled";
-
-const LANDSCAPE_CLASS_NAME = "landscape";
-
-const CLASSIC_THEME_LABEL = "2048Clone";
+import {
+    FULLSCREEN_SETTING_NAME,
+    STANDARD_THEME,
+    STANDARD_STANDARD_TILESET,
+    STANDARD_BLOCK_STYLE,
+    LIGHT_THEME,
+    DARK_THEME,
+    SNOW_THEME,
+    CLASSIC_THEME,
+    LIGHT_LIGHT_TILESET,
+    DARK_DARK_TILESET,
+    SNOW_SNOW_TILESET,
+    SNOW_CHRISTMAS_TILESET,
+    CLASSIC_MODERN_TILESET,
+    CLASSIC_CLASSIC_TILESET,
+    CLASSIC_COLORFUL_TILESET,
+    CLASSIC_INITIAL_COMMIT_TILESET,
+    COMPACT_BLOCK_STYLE,
+    THEME_SETTING_NAME,
+    THEME_PREFERENCE_NAME,
+    CLASSIC_THEME_LABEL,
+    TILESET_SETTING_NAME,
+    TILESET_PREFERENCE_NAME,
+    ANIMATIONS_SETTING_NAME,
+    ANIMATIONS_PREFERENCE_NAME,
+    SETTING_ENABLED,
+    SETTING_DISABLED,
+    BLOCK_STYLE_SETTING_NAME,
+    BLOCK_STYLE_PREFERENCE_NAME,
+    CLEAR_DATA_SETTING_NAME,
+    FULLSCREEN_PREFERENCE_NAME,
+    LANDSCAPE_CLASS_NAME,
+    DEBUG_HUD_VISIBLE_PREFERENCE_NAME,
+    DEBUG_HUD_ENABLED_PREFERENCE_NAME,
+} from "./consts";
 
 let isAnimationEnabled = false;
 
@@ -88,7 +82,6 @@ console.info(`2048-clone v${GAME_VERSION}`);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const middleElem = document.querySelector("#middle") as HTMLElement;
-    const bottomElem = document.querySelector("#bottom") as HTMLElement;
 
     let gameState: GameState;
     let persistentState: GamePersistentState;
@@ -100,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
     let actionIconManager = new ActionIconManager();
     let appIconManager = new AppIconManager();
-    let themeManager = new ThemeManager();
+    let themeManager = new ThemeManager(appIconManager);
     setThemeManager(themeManager); // Set the global theme manager reference
     // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
@@ -131,8 +124,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "draw":
                 renderBoard(middleElem, gameState.board, animationManager, {
-                    theme: selectedTheme,
-                    blockStyle: selectedBlockStyle,
+                    theme: themeManager.getCurrentTheme(),
+                    blockStyle: themeManager.getCurrentBlockStyle(),
                 });
                 (document.querySelector("#score") as HTMLElement).innerText =
                     gameState.score.toString();
@@ -444,10 +437,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     let snowEmbed = document.getElementById("embedim--snow");
     if (snowEmbed) snowEmbed.style.display = "none";
 
-    let selectedTheme = STANDARD_THEME;
-    let selectedTileset = STANDARD_STANDARD_TILESET;
-    let selectedBlockStyle = STANDARD_BLOCK_STYLE;
-
     const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, SNOW_THEME, CLASSIC_THEME];
     const selectableTilesets: { [key: string]: string[] } = {
         [STANDARD_THEME]: [STANDARD_STANDARD_TILESET],
@@ -465,50 +454,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let classicTimeout: NodeJS.Timeout;
 
-    const switchTheme = (theme: string) => {
-        if (!theme || !selectableThemes.includes(theme)) {
-            theme = STANDARD_THEME;
-        }
-        document.body.classList.remove(selectedTheme);
-        document.body.classList.remove(`tileset-${selectedTileset}`);
-        if (theme !== STANDARD_THEME) {
-            document.body.classList.add(theme);
-        }
-        let themeColor = "#000";
-        if (snowEmbed) snowEmbed.style.display = "none";
-        switch (theme) {
-            case STANDARD_THEME:
-                themeColor = "bisque";
-                break;
-            case LIGHT_THEME:
-                themeColor = "#FFF";
-                break;
-            case DARK_THEME:
-                themeColor = "#1c1c1c";
-                break;
-            case SNOW_THEME:
-                themeColor = "#020024";
-                if (snowEmbed) snowEmbed.style.display = "initial";
-                break;
-            case CLASSIC_THEME:
-                themeColor = "rgb(128, 128, 128)";
-                break;
-        }
-        themeManager.setThemeColor(themeColor);
-        if (theme === CLASSIC_THEME) {
-            appIconManager.setAppIcon("classic");
-        } else {
-            appIconManager.setAppIcon("standard");
-        }
-        selectedTheme = theme;
-        selectedTileset = selectableTilesets[theme][0];
-        document.body.classList.add(`tileset-${selectedTileset}`);
+    const handlePostThemeSwitch = () => {
+        const currentTheme = themeManager.getCurrentTheme();
         // Redraw the board to remove any theme-specific modifiers on any of the DOM elements
         if (gameState) {
             animationManager.resetState();
             renderBoard(middleElem, gameState.board, animationManager, {
-                theme: selectedTheme,
-                blockStyle: selectedBlockStyle,
+                theme: currentTheme,
+                blockStyle: themeManager.getCurrentBlockStyle(),
             });
         }
         const welcomeText = document.querySelector(".classic-welcome-text") as HTMLElement;
@@ -516,7 +469,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const highscoreLabel = document.querySelector(
             ".highscore-box > .score-label",
         ) as HTMLElement;
-        if (selectedTheme === CLASSIC_THEME) {
+        if (currentTheme === CLASSIC_THEME) {
             welcomeText.style.display = "block";
             classicTimeout = setTimeout(() => {
                 welcomeText.style.display = "";
@@ -531,37 +484,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
-    const switchTileset = (theme: string, tileset: string) => {
-        const selectableTilesetsForTheme = selectableTilesets[theme];
-        if (!tileset || !selectableTilesetsForTheme.includes(tileset)) {
-            tileset = selectableTilesetsForTheme[0];
-        }
-        document.body.classList.remove(`tileset-${selectedTileset}`);
-        // The "Initial Commit" tileset in 2048Clone theme has a special background and meta theme color
-        if (theme === CLASSIC_THEME) {
-            let themeColor = "rgb(128, 128, 128)";
-            if (tileset === CLASSIC_INITIAL_COMMIT_TILESET) {
-                themeColor = "#6495ed";
-            }
-            themeManager.setThemeColor(themeColor);
-        }
-        selectedTileset = tileset;
-        document.body.classList.add(`tileset-${selectedTileset}`);
-    };
-
-    const switchBlockStyle = (blockStyle: string) => {
-        if (!blockStyle || !selectableBlockStyles.includes(blockStyle)) {
-            blockStyle = selectableBlockStyles[0];
-        }
-        document.body.classList.remove(`block-style-${selectedBlockStyle}`);
-        selectedBlockStyle = blockStyle;
-        document.body.classList.add(`block-style-${selectedBlockStyle}`);
+    const handlePostBlockStyleSwitch = () => {
         // Redraw the board to reset the font sizes for the different block styles
         if (gameState) {
             animationManager.resetState();
             renderBoard(middleElem, gameState.board, animationManager, {
-                theme: selectedTheme,
-                blockStyle: selectedBlockStyle,
+                theme: themeManager.getCurrentTheme(),
+                blockStyle: themeManager.getCurrentBlockStyle(),
             });
         }
     };
@@ -573,41 +502,46 @@ document.addEventListener("DOMContentLoaded", async () => {
             const toggle = setting.querySelector(".toggle") as HTMLElement;
             let enabled = false;
             if (elem.classList.contains(THEME_SETTING_NAME)) {
-                const themeIndex = selectableThemes.indexOf(selectedTheme);
+                const themeIndex = selectableThemes.indexOf(themeManager.getCurrentTheme());
                 let nextTheme = selectableThemes[(themeIndex + 1) % selectableThemes.length];
                 // If classic theme isn't unlocked yet, skip to next theme
                 if (nextTheme === CLASSIC_THEME && !persistentState.unlockables.classic) {
                     nextTheme = selectableThemes[(themeIndex + 2) % selectableThemes.length];
                 }
-                switchTheme(nextTheme);
+                themeManager.switchTheme(nextTheme);
+                handlePostThemeSwitch();
                 savePreferenceValue(THEME_PREFERENCE_NAME, nextTheme);
                 toggle.innerText = nextTheme === "classic" ? CLASSIC_THEME_LABEL : nextTheme;
                 // If player has a tileset selected for this theme, use it. Otherwise, it will default to the first one for the theme.
-                if (tilesetPreferences && tilesetPreferences[selectedTheme]) {
-                    switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
+                const currentTheme = themeManager.getCurrentTheme();
+                if (tilesetPreferences && tilesetPreferences[currentTheme]) {
+                    themeManager.switchTileset(currentTheme, tilesetPreferences[currentTheme]);
                 }
                 const tilesetSettingItem = document.querySelector(
                     ".settings-item.setting.tileset-switch",
                 ) as HTMLElement;
-                if (selectableTilesets[selectedTheme].length > 1) {
+                if (selectableTilesets[currentTheme].length > 1) {
                     tilesetSettingItem.style.display = "";
                     const tilesetToggle = tilesetSettingItem.querySelector(
                         ".toggle",
                     ) as HTMLElement;
-                    tilesetToggle.innerText = formatTilesetName(selectedTileset);
+                    tilesetToggle.innerText = formatTilesetName(themeManager.getCurrentTileset());
                 } else {
                     tilesetSettingItem.style.display = "none";
                 }
             } else if (elem.classList.contains(TILESET_SETTING_NAME)) {
-                const selectableTilesetsForTheme = selectableTilesets[selectedTheme];
-                const tilesetIndex = selectableTilesetsForTheme.indexOf(selectedTileset);
+                const currentTheme = themeManager.getCurrentTheme();
+                const selectableTilesetsForTheme = selectableTilesets[currentTheme];
+                const tilesetIndex = selectableTilesetsForTheme.indexOf(
+                    themeManager.getCurrentTileset(),
+                );
                 let nextTileset =
                     selectableTilesetsForTheme[
                         (tilesetIndex + 1) % selectableTilesetsForTheme.length
                     ];
                 // If classic theme is selected and initial commit tileset is not unlocked, skip to the next tileset
                 if (
-                    selectedTheme === CLASSIC_THEME &&
+                    currentTheme === CLASSIC_THEME &&
                     nextTileset === CLASSIC_INITIAL_COMMIT_TILESET &&
                     !persistentState.unlockables.initialCommit
                 ) {
@@ -616,11 +550,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                             (tilesetIndex + 2) % selectableTilesetsForTheme.length
                         ];
                 }
-                switchTileset(selectedTheme, nextTileset);
+                themeManager.switchTileset(currentTheme, nextTileset);
                 if (!tilesetPreferences) {
                     tilesetPreferences = {};
                 }
-                tilesetPreferences[selectedTheme] = nextTileset;
+                tilesetPreferences[currentTheme] = nextTileset;
                 savePreferenceValue(TILESET_PREFERENCE_NAME, tilesetPreferences);
                 toggle.innerText = formatTilesetName(nextTileset);
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
@@ -637,10 +571,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     knob.classList.remove("enabled");
                 }
             } else if (elem.classList.contains(BLOCK_STYLE_SETTING_NAME)) {
-                const blockStyleIndex = selectableBlockStyles.indexOf(selectedBlockStyle);
+                const currentBlockStyle = themeManager.getCurrentBlockStyle();
+                const blockStyleIndex = selectableBlockStyles.indexOf(currentBlockStyle);
                 let nextBlockStyle =
                     selectableBlockStyles[(blockStyleIndex + 1) % selectableBlockStyles.length];
-                switchBlockStyle(nextBlockStyle);
+                themeManager.switchBlockStyle(nextBlockStyle);
+                handlePostBlockStyleSwitch();
                 savePreferenceValue(BLOCK_STYLE_PREFERENCE_NAME, nextBlockStyle);
                 toggle.innerText = nextBlockStyle;
             } else if (elem.classList.contains(FULLSCREEN_SETTING_NAME)) {
@@ -682,21 +618,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     initPreferences(gameStorage, {
         [ANIMATIONS_PREFERENCE_NAME]: SETTING_ENABLED,
     });
-    switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
+    themeManager.switchTheme(getPreferenceValue(THEME_PREFERENCE_NAME));
+    handlePostThemeSwitch();
     const themeSetting = document.querySelector(`.setting.${THEME_SETTING_NAME}`) as HTMLElement;
+    const currentTheme = themeManager.getCurrentTheme();
     (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
-        selectedTheme === "classic" ? CLASSIC_THEME_LABEL : selectedTheme;
+        currentTheme === "classic" ? CLASSIC_THEME_LABEL : currentTheme;
     let tilesetPreferences = getPreferenceValue(TILESET_PREFERENCE_NAME);
     if (tilesetPreferences) {
-        switchTileset(selectedTheme, tilesetPreferences[selectedTheme]);
+        themeManager.switchTileset(currentTheme, tilesetPreferences[currentTheme]);
     }
     const tilesetSettingItem = document.querySelector(
         `.settings-item.setting.${TILESET_SETTING_NAME}`,
     ) as HTMLElement;
-    if (selectableTilesets[selectedTheme].length > 1) {
+    const currentTileset = themeManager.getCurrentTileset();
+    if (selectableTilesets[currentTheme].length > 1) {
         tilesetSettingItem.style.display = "";
         const tilesetToggle = tilesetSettingItem.querySelector(".toggle") as HTMLElement;
-        tilesetToggle.innerText = formatTilesetName(selectedTileset);
+        tilesetToggle.innerText = formatTilesetName(currentTileset);
     } else {
         tilesetSettingItem.style.display = "none";
     }
@@ -708,11 +647,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const knob = setting.querySelector(".knob") as HTMLElement;
         knob.classList.add("enabled");
     }
-    switchBlockStyle(getPreferenceValue(BLOCK_STYLE_PREFERENCE_NAME));
+    themeManager.switchBlockStyle(getPreferenceValue(BLOCK_STYLE_PREFERENCE_NAME));
+    handlePostBlockStyleSwitch();
+    const currentBlockStyle = themeManager.getCurrentBlockStyle();
     const blockStyleSetting = document.querySelector(
         `.setting.${BLOCK_STYLE_SETTING_NAME}`,
     ) as HTMLElement;
-    (blockStyleSetting.querySelector(".toggle") as HTMLElement).innerText = selectedBlockStyle;
+    (blockStyleSetting.querySelector(".toggle") as HTMLElement).innerText = currentBlockStyle;
     if (getPreferenceValue(FULLSCREEN_PREFERENCE_NAME) === SETTING_ENABLED) {
         promptFullscreen();
     }

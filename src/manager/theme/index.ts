@@ -1,6 +1,43 @@
-/**
- * Theme manager for handling theme colors and status bar color updates
- */
+import {
+    STANDARD_THEME,
+    LIGHT_THEME,
+    DARK_THEME,
+    SNOW_THEME,
+    CLASSIC_THEME,
+    STANDARD_STANDARD_TILESET,
+    CLASSIC_CLASSIC_TILESET,
+    CLASSIC_COLORFUL_TILESET,
+    CLASSIC_INITIAL_COMMIT_TILESET,
+    CLASSIC_MODERN_TILESET,
+    COMPACT_BLOCK_STYLE,
+    DARK_DARK_TILESET,
+    LIGHT_LIGHT_TILESET,
+    SNOW_CHRISTMAS_TILESET,
+    SNOW_SNOW_TILESET,
+    STANDARD_BLOCK_STYLE,
+} from "../../consts";
+import { AppIconManager } from "../app-icon";
+import { SnowTheme } from "./snow";
+
+const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, SNOW_THEME, CLASSIC_THEME];
+const selectableTilesets: { [key: string]: string[] } = {
+    [STANDARD_THEME]: [STANDARD_STANDARD_TILESET],
+    [LIGHT_THEME]: [LIGHT_LIGHT_TILESET],
+    [DARK_THEME]: [DARK_DARK_TILESET],
+    [SNOW_THEME]: [SNOW_SNOW_TILESET, SNOW_CHRISTMAS_TILESET],
+    [CLASSIC_THEME]: [
+        CLASSIC_MODERN_TILESET,
+        CLASSIC_CLASSIC_TILESET,
+        CLASSIC_COLORFUL_TILESET,
+        CLASSIC_INITIAL_COMMIT_TILESET,
+    ],
+};
+const selectableBlockStyles = [STANDARD_BLOCK_STYLE, COMPACT_BLOCK_STYLE];
+
+export interface Theme {
+    apply(): void;
+    teardown(): void;
+}
 
 /**
  * Blends two RGB colors together based on an alpha value
@@ -50,13 +87,40 @@ function colorToRgb(color: string): string {
 }
 
 /**
- * ThemeManager class handles theme color management and status bar updates
+ * ThemeManager facilitates the switching of the game's theme,
+ * theme color calculations, and status bar updates
  */
 export class ThemeManager {
+    private currentTheme: string = STANDARD_THEME;
+    private currentTileset: string = STANDARD_STANDARD_TILESET;
+    private currentBlockStyle: string = STANDARD_BLOCK_STYLE;
     private currentThemeColor: string = "#000";
     private isDimmed: boolean = false;
     private overlayColor: string = "rgba(0, 0, 0, 0.5)";
     private overlayAlpha: number = 0.5;
+    private appIconManager: AppIconManager;
+    private selectableThemesMap: { [theme: string]: Theme };
+
+    constructor(appIconManager: AppIconManager) {
+        this.appIconManager = appIconManager;
+        // Themes need to be initialized in the constructor, as some theme elements need to be loaded in the DOM first
+        // and theme manager gets initialized after the DOM is loaded
+        this.selectableThemesMap = {
+            [SNOW_THEME]: new SnowTheme(),
+        };
+    }
+
+    getCurrentTheme(): string {
+        return this.currentTheme;
+    }
+
+    getCurrentTileset(): string {
+        return this.currentTileset;
+    }
+
+    getCurrentBlockStyle(): string {
+        return this.currentBlockStyle;
+    }
 
     /**
      * Set the current theme color
@@ -118,5 +182,89 @@ export class ThemeManager {
      */
     isDimmedState(): boolean {
         return this.isDimmed;
+    }
+
+    /**
+     * Switches theme
+     * @param theme - Theme to switch to
+     */
+    switchTheme(theme: string) {
+        if (!theme || !selectableThemes.includes(theme)) {
+            theme = STANDARD_THEME;
+        }
+        document.body.classList.remove(this.currentTheme);
+        document.body.classList.remove(`tileset-${this.currentTileset}`);
+        if (theme !== STANDARD_THEME) {
+            document.body.classList.add(theme);
+        }
+        let themeColor = "#000";
+        if (this.selectableThemesMap[this.currentTheme]) {
+            this.selectableThemesMap[this.currentTheme].teardown();
+        }
+        if (this.selectableThemesMap[theme]) {
+            this.selectableThemesMap[theme].apply();
+        }
+        switch (theme) {
+            case STANDARD_THEME:
+                themeColor = "bisque";
+                break;
+            case LIGHT_THEME:
+                themeColor = "#FFF";
+                break;
+            case DARK_THEME:
+                themeColor = "#1c1c1c";
+                break;
+            case SNOW_THEME:
+                themeColor = "#020024";
+                break;
+            case CLASSIC_THEME:
+                themeColor = "rgb(128, 128, 128)";
+                break;
+        }
+        this.setThemeColor(themeColor);
+        if (theme === CLASSIC_THEME) {
+            this.appIconManager.setAppIcon("classic");
+        } else {
+            this.appIconManager.setAppIcon("standard");
+        }
+        this.currentTheme = theme;
+        this.currentTileset = selectableTilesets[theme][0];
+        document.body.classList.add(`tileset-${this.currentTileset}`);
+    }
+
+    /**
+     * Switches tileset
+     * @param theme - Theme that contains the desired tileset
+     * @param tileset - Tileset to switch to
+     */
+    switchTileset(theme: string, tileset: string) {
+        const selectableTilesetsForTheme = selectableTilesets[theme];
+        if (!tileset || !selectableTilesetsForTheme.includes(tileset)) {
+            tileset = selectableTilesetsForTheme[0];
+        }
+        document.body.classList.remove(`tileset-${this.currentTileset}`);
+        // The "Initial Commit" tileset in 2048Clone theme has a special background and meta theme color
+        if (theme === CLASSIC_THEME) {
+            let themeColor = "rgb(128, 128, 128)";
+            if (tileset === CLASSIC_INITIAL_COMMIT_TILESET) {
+                themeColor = "#6495ed";
+            }
+            this.setThemeColor(themeColor);
+        }
+        this.currentTileset = tileset;
+        document.body.classList.add(`tileset-${this.currentTileset}`);
+    }
+
+    /**
+     * Switches block style
+     * @param blockStyle - Block style to switch to
+     */
+    switchBlockStyle(blockStyle: string) {
+        if (!blockStyle || !selectableBlockStyles.includes(blockStyle)) {
+            blockStyle = selectableBlockStyles[0];
+        }
+        document.body.classList.remove(`block-style-${this.currentBlockStyle}`);
+        this.currentBlockStyle = blockStyle;
+        document.body.classList.add(`block-style-${this.currentBlockStyle}`);
     }
 }
