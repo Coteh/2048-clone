@@ -30,15 +30,15 @@ export function blendColors(topColor: string, bottomColor: string, alphaTop: num
  */
 function colorToRgb(color: string): string {
     // If already in RGB format, return as is
-    if (color.startsWith('rgb')) {
+    if (color.startsWith("rgb")) {
         return color;
     }
 
     // Use canvas to convert color to RGB
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = 1;
     canvas.height = 1;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) {
         // Fallback: return the color as-is if canvas context is not available
         return color;
@@ -53,9 +53,9 @@ function colorToRgb(color: string): string {
  * ThemeManager class handles theme color management and status bar updates
  */
 export class ThemeManager {
-    private currentThemeColor: string = '#000';
+    private currentThemeColor: string = "#000";
     private isDimmed: boolean = false;
-    private overlayColor: string = 'rgba(0, 0, 0, 0.5)';
+    private overlayColor: string = "rgba(0, 0, 0, 0.5)";
     private overlayAlpha: number = 0.5;
 
     /**
@@ -104,7 +104,7 @@ export class ThemeManager {
     private applyThemeColor(color: string): void {
         // Convert color to RGB format for consistency
         const rgbColor = colorToRgb(color);
-        
+
         const metaElement = document.querySelector("meta[name='theme-color']") as HTMLMetaElement;
         if (metaElement) {
             metaElement.content = rgbColor;
