@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Browser interface and/or status bar colour will dim alongside the rest of the game's elements when a dialog is open
+
+### Fixed
+
+- Status bar colour on iOS 26 not matching the selected theme's colour
+
 ## [1.3.1] - 2025-02-06
 
 ### Changed
