@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Browser interface and/or status bar colour will dim alongside the rest of the game's elements when a dialog is open
+- Browser interface and status bar colour dim with the game when dialogs are open in supported browsers
 
 ### Fixed
 
