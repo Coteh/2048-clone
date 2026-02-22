@@ -5,7 +5,6 @@ export class SnowTheme implements Theme {
 
     constructor() {
         this.snowEmbed = document.getElementById("embedim--snow");
-        console.log("snow embed", this.snowEmbed);
         if (this.snowEmbed) {
             this.snowEmbed.style.display = "none";
         }
