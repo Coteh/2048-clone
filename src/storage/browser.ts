@@ -8,6 +8,25 @@ export const GAME_STATE_KEY = `${STORAGE_PREFIX}game-state`;
 export const PERSISTENT_STATE_KEY = `${STORAGE_PREFIX}persistent-state`;
 export const PREFERENCES_KEY = `${STORAGE_PREFIX}preferences`;
 
+export const LEGACY_GAME_STATE_KEY = "game-state";
+export const LEGACY_PERSISTENT_STATE_KEY = "persistent-state";
+export const LEGACY_PREFERENCES_KEY = "preferences";
+
+const LEGACY_KEY_MAP: Record<string, string> = {
+    [LEGACY_GAME_STATE_KEY]: GAME_STATE_KEY,
+    [LEGACY_PERSISTENT_STATE_KEY]: PERSISTENT_STATE_KEY,
+    [LEGACY_PREFERENCES_KEY]: PREFERENCES_KEY,
+};
+
+export const migrateLocalStorage = () => {
+    for (const [legacyKey, newKey] of Object.entries(LEGACY_KEY_MAP)) {
+        const legacyValue = window.localStorage.getItem(legacyKey);
+        if (legacyValue != null && window.localStorage.getItem(newKey) == null) {
+            window.localStorage.setItem(newKey, legacyValue);
+        }
+    }
+};
+
 export class BrowserGameStorage implements IGameStorage {
     saveGame = (gameState: GameState) => {
         this.saveState(GAME_STATE_KEY, gameState);
