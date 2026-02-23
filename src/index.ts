@@ -22,7 +22,7 @@ import {
 import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
-import { BrowserGameStorage } from "./storage/browser";
+import { BrowserGameStorage, migrateLocalStorage } from "./storage/browser";
 import { copyShareText, triggerShare } from "./share/browser";
 import confetti from "canvas-confetti";
 import { Tutorial } from "./component/tutorial";
@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let animationManager = new AnimationManager();
     let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
+    migrateLocalStorage();
     let fullscreenManager = new FullscreenManager(gameStorage);
     let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
     let actionIconManager = new ActionIconManager();

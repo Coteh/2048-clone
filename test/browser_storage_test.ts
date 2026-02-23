@@ -5,6 +5,10 @@ import {
     GAME_STATE_KEY,
     PERSISTENT_STATE_KEY,
     PREFERENCES_KEY,
+    LEGACY_GAME_STATE_KEY,
+    LEGACY_PERSISTENT_STATE_KEY,
+    LEGACY_PREFERENCES_KEY,
+    migrateLocalStorage,
 } from "../src/storage/browser";
 
 import { GamePersistentState, GameState } from "../src/game";
@@ -253,6 +257,86 @@ describe("browser storage", () => {
                 sinon.assert.calledOnce(getItemStub);
                 sinon.assert.calledWithMatch(getItemStub, PREFERENCES_KEY);
                 assert.deepStrictEqual(loadedPreferences, expected);
+            } finally {
+                window.localStorage.getItem = origFunc;
+            }
+        });
+    });
+
+    describe("migrateLocalStorage", () => {
+        it("should migrate all legacy keys to new keys when new keys do not exist", () => {
+            const origFunc = window.localStorage.getItem;
+            const getItemStub = (window.localStorage.getItem = sinon.stub());
+            const gameStateValue = JSON.stringify({ score: 10 });
+            const persistentStateValue = JSON.stringify({ highscore: 100 });
+            const preferencesValue = JSON.stringify({ theme: "dark" });
+            getItemStub.withArgs(LEGACY_GAME_STATE_KEY).returns(gameStateValue);
+            getItemStub.withArgs(LEGACY_PERSISTENT_STATE_KEY).returns(persistentStateValue);
+            getItemStub.withArgs(LEGACY_PREFERENCES_KEY).returns(preferencesValue);
+            getItemStub.withArgs(GAME_STATE_KEY).returns(null);
+            getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
+            getItemStub.withArgs(PREFERENCES_KEY).returns(null);
+            try {
+                migrateLocalStorage();
+                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, GAME_STATE_KEY, gameStateValue);
+                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
+                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PREFERENCES_KEY, preferencesValue);
+                sinon.assert.callCount(stubbedLocalStorage.setItem, 3);
+            } finally {
+                window.localStorage.getItem = origFunc;
+            }
+        });
+
+        it("should not overwrite new key if it already exists", () => {
+            const origFunc = window.localStorage.getItem;
+            const getItemStub = (window.localStorage.getItem = sinon.stub());
+            const gameStateValue = JSON.stringify({ score: 10 });
+            const existingNewValue = JSON.stringify({ score: 99 });
+            getItemStub.withArgs(LEGACY_GAME_STATE_KEY).returns(gameStateValue);
+            getItemStub.withArgs(LEGACY_PERSISTENT_STATE_KEY).returns(null);
+            getItemStub.withArgs(LEGACY_PREFERENCES_KEY).returns(null);
+            getItemStub.withArgs(GAME_STATE_KEY).returns(existingNewValue);
+            getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
+            getItemStub.withArgs(PREFERENCES_KEY).returns(null);
+            try {
+                migrateLocalStorage();
+                sinon.assert.notCalled(stubbedLocalStorage.setItem);
+            } finally {
+                window.localStorage.getItem = origFunc;
+            }
+        });
+
+        it("should not migrate a key if legacy key does not exist", () => {
+            const origFunc = window.localStorage.getItem;
+            const getItemStub = (window.localStorage.getItem = sinon.stub());
+            getItemStub.withArgs(LEGACY_GAME_STATE_KEY).returns(null);
+            getItemStub.withArgs(LEGACY_PERSISTENT_STATE_KEY).returns(null);
+            getItemStub.withArgs(LEGACY_PREFERENCES_KEY).returns(null);
+            getItemStub.withArgs(GAME_STATE_KEY).returns(null);
+            getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
+            getItemStub.withArgs(PREFERENCES_KEY).returns(null);
+            try {
+                migrateLocalStorage();
+                sinon.assert.notCalled(stubbedLocalStorage.setItem);
+            } finally {
+                window.localStorage.getItem = origFunc;
+            }
+        });
+
+        it("should selectively migrate only legacy keys that exist", () => {
+            const origFunc = window.localStorage.getItem;
+            const getItemStub = (window.localStorage.getItem = sinon.stub());
+            const persistentStateValue = JSON.stringify({ highscore: 200 });
+            getItemStub.withArgs(LEGACY_GAME_STATE_KEY).returns(null);
+            getItemStub.withArgs(LEGACY_PERSISTENT_STATE_KEY).returns(persistentStateValue);
+            getItemStub.withArgs(LEGACY_PREFERENCES_KEY).returns(null);
+            getItemStub.withArgs(GAME_STATE_KEY).returns(null);
+            getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
+            getItemStub.withArgs(PREFERENCES_KEY).returns(null);
+            try {
+                migrateLocalStorage();
+                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
+                sinon.assert.callCount(stubbedLocalStorage.setItem, 1);
             } finally {
                 window.localStorage.getItem = origFunc;
             }
