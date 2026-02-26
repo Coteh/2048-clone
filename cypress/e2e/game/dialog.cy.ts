@@ -103,6 +103,23 @@ describe("dialogs", () => {
             cy.get(".overlay-back").should("not.be.visible");
         });
 
+        it("restores the status bar theme color when closed by clicking the overlay", () => {
+            cy.get(".dialog").should("be.visible");
+            cy.get(".overlay-back").should("be.visible");
+
+            // Status bar should be dimmed while dialog is open
+            cy.get('meta[name="theme-color"]').should("not.have.attr", "content", "rgb(255, 228, 196)");
+
+            cy.get(".overlay-back").click("topLeft");
+
+            cy.get(".dialog").should("not.exist");
+            cy.get(".overlay-back").should("not.be.visible");
+
+            // Status bar should be restored after dialog is closed via overlay
+            cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
+            cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
+        });
+
         it("can not be closed by pressing enter key", () => {
             cy.get(".dialog").should("be.visible");
             cy.get(".overlay-back").should("be.visible");
