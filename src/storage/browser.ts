@@ -18,13 +18,16 @@ const LEGACY_KEY_MAP: Record<string, string> = {
     [LEGACY_PREFERENCES_KEY]: PREFERENCES_KEY,
 };
 
-export const migrateLocalStorage = () => {
+export const migrateLocalStorage = (): boolean => {
+    let migrated = false;
     for (const [legacyKey, newKey] of Object.entries(LEGACY_KEY_MAP)) {
         const legacyValue = window.localStorage.getItem(legacyKey);
         if (legacyValue != null && window.localStorage.getItem(newKey) == null) {
             window.localStorage.setItem(newKey, legacyValue);
+            migrated = true;
         }
     }
+    return migrated;
 };
 
 export class BrowserGameStorage implements IGameStorage {

@@ -277,7 +277,8 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                migrateLocalStorage();
+                const result = migrateLocalStorage();
+                assert.strictEqual(result, true);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, GAME_STATE_KEY, gameStateValue);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PREFERENCES_KEY, preferencesValue);
@@ -299,7 +300,8 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                migrateLocalStorage();
+                const result = migrateLocalStorage();
+                assert.strictEqual(result, false);
                 sinon.assert.notCalled(stubbedLocalStorage.setItem);
             } finally {
                 window.localStorage.getItem = origFunc;
@@ -316,7 +318,8 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                migrateLocalStorage();
+                const result = migrateLocalStorage();
+                assert.strictEqual(result, false);
                 sinon.assert.notCalled(stubbedLocalStorage.setItem);
             } finally {
                 window.localStorage.getItem = origFunc;
@@ -334,7 +337,8 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                migrateLocalStorage();
+                const result = migrateLocalStorage();
+                assert.strictEqual(result, true);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
                 sinon.assert.callCount(stubbedLocalStorage.setItem, 1);
             } finally {
