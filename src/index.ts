@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // but if an invalid dialog is being passed, it might not be on the screen either.
         // In this case, it may be better to leave this as-is and always have the backdrop close so that players can still play.
         overlayBackElem.style.display = "none";
+        themeManager.restoreNormalThemeColor();
     };
 
     const handleKeyInput = (key: string) => {
