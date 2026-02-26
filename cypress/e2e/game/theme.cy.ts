@@ -294,6 +294,30 @@ describe("theme", () => {
         cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
     });
 
+    it("should restore dimmed theme-color when dialog is closed by pressing escape", () => {
+        // Verify normal theme color before opening dialog
+        // Standard theme is bisque (rgb(255, 228, 196))
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
+
+        // Open help dialog
+        cy.get(".help-link").click();
+
+        // Theme color should be dimmed
+        // Standard theme is bisque (rgb(255, 228, 196))
+        // Overlay is rgba(0, 0, 0, 0.5)
+        // Blended: rgb(128, 114, 98)
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 114, 98)");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 114, 98)");
+
+        // Close dialog by pressing escape
+        cy.get("body").type("{esc}");
+
+        // Theme color should be restored to bisque
+        cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(255, 228, 196)");
+        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(255, 228, 196)");
+    });
+
     it("should apply dimmed theme-color for all themes", () => {
         cy.get(".settings-link").click();
 
