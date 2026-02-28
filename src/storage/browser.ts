@@ -18,7 +18,7 @@ const LEGACY_KEY_MAP: Record<string, string> = {
     [LEGACY_PREFERENCES_KEY]: PREFERENCES_KEY,
 };
 
-export const migrateLocalStorage = (): boolean => {
+export const migrateLocalStorage_v1_3_1 = (): boolean => {
     let migrated = false;
     for (const [legacyKey, newKey] of Object.entries(LEGACY_KEY_MAP)) {
         const legacyValue = window.localStorage.getItem(legacyKey);

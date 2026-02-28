@@ -22,7 +22,7 @@ import {
 import { AnimationManager } from "./manager/animation";
 import { SpawnManager } from "./manager/spawn";
 import MobileDetect from "mobile-detect";
-import { BrowserGameStorage, migrateLocalStorage } from "./storage/browser";
+import { BrowserGameStorage, migrateLocalStorage_v1_3_1 } from "./storage/browser";
 import { copyShareText, triggerShare } from "./share/browser";
 import confetti from "canvas-confetti";
 import { Tutorial } from "./component/tutorial";
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let animationManager = new AnimationManager();
     let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
-    const migrated = migrateLocalStorage();
+    const migrated = migrateLocalStorage_v1_3_1();
     if (migrated) {
         const migrationElem = createDialogContentFromTemplate("#migration-dialog-content");
         renderDialog(migrationElem, {
