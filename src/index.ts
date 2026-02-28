@@ -90,13 +90,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     let undoManager = new UndoManager();
     let gameStorage = new BrowserGameStorage();
     const migrated = migrateLocalStorage_v1_3_1();
-    if (migrated) {
-        const migrationElem = createDialogContentFromTemplate("#migration-dialog-content");
-        renderDialog(migrationElem, {
-            fadeIn: true,
-            closable: true,
-        });
-    }
     let fullscreenManager = new FullscreenManager(gameStorage);
     let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
     let actionIconManager = new ActionIconManager();
@@ -927,6 +920,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             },
         );
+        (document.querySelector(".button.ok-dialog") as HTMLElement).addEventListener(
+            "click",
+            (e) => {
+                e.preventDefault();
+                const dialogElem = document.createDocumentFragment();
+                const textElem = document.createElement("span");
+                textElem.innerText = "This is a dialog with an OK button.";
+                dialogElem.appendChild(textElem);
+                const okBtn = document.createElement("button");
+                okBtn.className = "button ok";
+                okBtn.innerHTML = "<span>OK</span>";
+                dialogElem.appendChild(okBtn);
+                renderDialog(dialogElem, {
+                    fadeIn: true,
+                    closable: true,
+                });
+            },
+        );
         (document.querySelector(".button.non-closable-dialog") as HTMLElement).addEventListener(
             "click",
             (e) => {
@@ -1096,6 +1107,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         ]);
 
         (document.querySelector(".loader-wrapper") as HTMLElement).style.display = "none";
+
+        if (migrated) {
+            const migrationElem = createDialogContentFromTemplate("#migration-dialog-content");
+            renderDialog(migrationElem, {
+                fadeIn: true,
+                closable: true,
+            });
+        }
 
         await initGame(eventHandler, spawnManager, animationManager, undoManager, gameStorage);
     } catch (e: any) {

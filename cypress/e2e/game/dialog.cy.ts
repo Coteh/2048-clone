@@ -27,7 +27,10 @@ describe("dialogs", () => {
                     hasPlayedBefore: true,
                 };
                 window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
             },
         });
     });
@@ -116,6 +119,66 @@ describe("dialogs", () => {
         });
 
         it("can be closed by pressing escape key", () => {
+            cy.get(".dialog").should("be.visible");
+            cy.get(".overlay-back").should("be.visible");
+
+            cy.get("body").type("{esc}");
+
+            cy.get(".dialog").should("not.exist");
+            cy.get(".overlay-back").should("not.be.visible");
+        });
+
+        it("functions without an OK button", () => {
+            // The Debug dialog does not have an OK button
+            cy.get(".dialog").should("be.visible");
+            cy.get(".dialog .ok").should("not.exist");
+
+            // Dialog can still be closed via X button
+            cy.get(".dialog > .close").click();
+
+            cy.get(".dialog").should("not.exist");
+            cy.get(".overlay-back").should("not.be.visible");
+        });
+    });
+
+    describe("closable dialogs with OK button", () => {
+        beforeEach(() => {
+            cy.get(".debug-link#debug").click();
+            cy.contains("OK Dialog").click();
+            cy.waitUntilDialogAppears();
+        });
+
+        it("can be closed by clicking the OK button", () => {
+            cy.get(".dialog").should("be.visible");
+            cy.get(".overlay-back").should("be.visible");
+
+            cy.get(".dialog .ok").should("be.visible").click();
+
+            cy.get(".dialog").should("not.exist");
+            cy.get(".overlay-back").should("not.be.visible");
+        });
+
+        it("can still be closed by clicking the X button", () => {
+            cy.get(".dialog").should("be.visible");
+            cy.get(".overlay-back").should("be.visible");
+
+            cy.get(".dialog > .close").click();
+
+            cy.get(".dialog").should("not.exist");
+            cy.get(".overlay-back").should("not.be.visible");
+        });
+
+        it("can still be closed by clicking outside the dialog", () => {
+            cy.get(".dialog").should("be.visible");
+            cy.get(".overlay-back").should("be.visible");
+
+            cy.get("body").click("left");
+
+            cy.get(".dialog").should("not.exist");
+            cy.get(".overlay-back").should("not.be.visible");
+        });
+
+        it("can still be closed by pressing escape key", () => {
             cy.get(".dialog").should("be.visible");
             cy.get(".overlay-back").should("be.visible");
 

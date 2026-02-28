@@ -200,7 +200,7 @@ const closeDialogAndRestoreTheme = (dialog: HTMLDialogElement, overlayBackElem: 
     }
 };
 
-export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
+export const renderDialog = (content: HTMLElement | DocumentFragment, options?: DialogOptions) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
@@ -244,6 +244,15 @@ export const renderDialog = (content: HTMLElement, options?: DialogOptions) => {
         }
     }
 
+    const okBtn = clone.querySelector("button.ok") as HTMLElement;
+    if (okBtn) {
+        okBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const dialog = document.querySelector(".dialog") as HTMLDialogElement;
+            closeDialogAndRestoreTheme(dialog, overlayBackElem);
+        });
+    }
+
     document.body.appendChild(clone);
 
     overlayBackElem.style.display = "block";
@@ -267,7 +276,10 @@ export type PromptDialogOptions = {
     onCancel?: Function;
 };
 
-export const renderPromptDialog = (content: HTMLElement, options?: PromptDialogOptions) => {
+export const renderPromptDialog = (
+    content: HTMLElement | DocumentFragment,
+    options?: PromptDialogOptions,
+) => {
     // Close any currently existing dialogs
     const dialogElem = document.querySelector(".dialog");
     if (dialogElem) dialogElem.remove();
