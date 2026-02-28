@@ -191,6 +191,48 @@ describe("v1.3.1 localStorage migration", () => {
         });
     });
 
+    describe("migration does not run for brand new players", () => {
+        it("should not show migration dialog or create legacy keys when localStorage is completely empty", () => {
+            cy.clearBrowserCache();
+            cy.visit("/");
+
+            // The tutorial dialog may appear for first-time players, but the migration dialog should not
+            cy.contains("Your save data has been migrated").should("not.exist");
+
+            // Theme should be the standard one (body should only have tileset and block-style classes)
+            cy.get("body")
+                .invoke("attr", "class")
+                .then((classes) => {
+                    const nonThemeClasses = (classes ?? "")
+                        .split(" ")
+                        .filter(
+                            (cls) =>
+                                cls.length > 0 &&
+                                !cls.startsWith("tileset-") &&
+                                !cls.startsWith("block-style-"),
+                        );
+                    expect(nonThemeClasses).to.be.empty;
+                });
+
+            cy.window().then((win) => {
+                // No legacy keys should exist
+                expect(win.localStorage.getItem("game-state")).to.be.null;
+                expect(win.localStorage.getItem("persistent-state")).to.be.null;
+                expect(win.localStorage.getItem("preferences")).to.be.null;
+
+                // New prefixed keys should reflect a fresh game (not legacy data)
+                const persistentState = JSON.parse(
+                    win.localStorage.getItem("2048-persistent-state")!,
+                );
+                expect(persistentState.highscore).to.equal(0);
+
+                // Game state should be fresh (it should be null since no moves were done yet)
+                const gameState = JSON.parse(win.localStorage.getItem("2048-game-state")!);
+                expect(gameState).to.be.null;
+            });
+        });
+    });
+
     describe("migration dialog interactions", () => {
         beforeEach(() => {
             cy.clearBrowserCache();
