@@ -8,7 +8,7 @@ import {
     LEGACY_GAME_STATE_KEY,
     LEGACY_PERSISTENT_STATE_KEY,
     LEGACY_PREFERENCES_KEY,
-    migrateLocalStorage,
+    migrateLocalStorage_v1_3_1,
 } from "../src/storage/browser";
 
 import { GamePersistentState, GameState } from "../src/game";
@@ -263,7 +263,7 @@ describe("browser storage", () => {
         });
     });
 
-    describe("migrateLocalStorage", () => {
+    describe("migrateLocalStorage_v1_3_1", () => {
         it("should migrate all legacy keys to new keys when new keys do not exist", () => {
             const origFunc = window.localStorage.getItem;
             const getItemStub = (window.localStorage.getItem = sinon.stub());
@@ -277,7 +277,7 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                const result = migrateLocalStorage();
+                const result = migrateLocalStorage_v1_3_1();
                 assert.strictEqual(result, true);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, GAME_STATE_KEY, gameStateValue);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
@@ -300,7 +300,7 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                const result = migrateLocalStorage();
+                const result = migrateLocalStorage_v1_3_1();
                 assert.strictEqual(result, false);
                 sinon.assert.notCalled(stubbedLocalStorage.setItem);
             } finally {
@@ -318,7 +318,7 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                const result = migrateLocalStorage();
+                const result = migrateLocalStorage_v1_3_1();
                 assert.strictEqual(result, false);
                 sinon.assert.notCalled(stubbedLocalStorage.setItem);
             } finally {
@@ -337,7 +337,7 @@ describe("browser storage", () => {
             getItemStub.withArgs(PERSISTENT_STATE_KEY).returns(null);
             getItemStub.withArgs(PREFERENCES_KEY).returns(null);
             try {
-                const result = migrateLocalStorage();
+                const result = migrateLocalStorage_v1_3_1();
                 assert.strictEqual(result, true);
                 sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
                 sinon.assert.callCount(stubbedLocalStorage.setItem, 1);
