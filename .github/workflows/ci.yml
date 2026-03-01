@@ -23,7 +23,7 @@ jobs:
       - name: Run pnpm CI install
         run: pnpm install
       - name: Run type check
-        run: pnpm run type-check
+        run: pnpm run type-check:all
       - name: Run test
         run: pnpm run test-ci
       - name: Upload test results
