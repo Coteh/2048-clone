@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+import { jest, expect } from "@jest/globals";
 import {
     initGame,
     move,
@@ -56,7 +56,7 @@ describe("core game logic", () => {
             mockSpawnManager,
             mockAnimationManager,
             undoManager,
-            mockGameStorage
+            mockGameStorage,
         );
         return getGameState();
     }

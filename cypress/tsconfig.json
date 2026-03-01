@@ -1,9 +1,7 @@
 {
+    "extends": "../tsconfig.json",
     "compilerOptions": {
-        "target": "es5",
-        "lib": ["es5", "dom"],
-        "types": ["cypress", "node", "cypress-real-events"],
-        "resolveJsonModule": true
+        "types": ["cypress", "node", "cypress-real-events"]
     },
     "include": ["**/*.ts"]
 }

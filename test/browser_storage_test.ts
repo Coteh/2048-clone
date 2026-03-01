@@ -64,7 +64,7 @@ describe("browser storage", () => {
             sinon.assert.calledWithMatch(
                 stubbedLocalStorage.setItem,
                 GAME_STATE_KEY,
-                JSON.stringify(initialGameState)
+                JSON.stringify(initialGameState),
             );
         });
 
@@ -133,7 +133,7 @@ describe("browser storage", () => {
             sinon.assert.calledWithMatch(
                 stubbedLocalStorage.setItem,
                 PERSISTENT_STATE_KEY,
-                JSON.stringify(initialPersistentState)
+                JSON.stringify(initialPersistentState),
             );
         });
 
@@ -196,7 +196,7 @@ describe("browser storage", () => {
             sinon.assert.calledWithMatch(
                 stubbedLocalStorage.setItem,
                 PREFERENCES_KEY,
-                JSON.stringify(preferences)
+                JSON.stringify(preferences),
             );
         });
 
@@ -279,9 +279,21 @@ describe("browser storage", () => {
             try {
                 const result = migrateLocalStorage_v1_3_1();
                 assert.strictEqual(result, true);
-                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, GAME_STATE_KEY, gameStateValue);
-                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
-                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PREFERENCES_KEY, preferencesValue);
+                sinon.assert.calledWithMatch(
+                    stubbedLocalStorage.setItem,
+                    GAME_STATE_KEY,
+                    gameStateValue,
+                );
+                sinon.assert.calledWithMatch(
+                    stubbedLocalStorage.setItem,
+                    PERSISTENT_STATE_KEY,
+                    persistentStateValue,
+                );
+                sinon.assert.calledWithMatch(
+                    stubbedLocalStorage.setItem,
+                    PREFERENCES_KEY,
+                    preferencesValue,
+                );
                 sinon.assert.callCount(stubbedLocalStorage.setItem, 3);
             } finally {
                 window.localStorage.getItem = origFunc;
@@ -339,7 +351,11 @@ describe("browser storage", () => {
             try {
                 const result = migrateLocalStorage_v1_3_1();
                 assert.strictEqual(result, true);
-                sinon.assert.calledWithMatch(stubbedLocalStorage.setItem, PERSISTENT_STATE_KEY, persistentStateValue);
+                sinon.assert.calledWithMatch(
+                    stubbedLocalStorage.setItem,
+                    PERSISTENT_STATE_KEY,
+                    persistentStateValue,
+                );
                 sinon.assert.callCount(stubbedLocalStorage.setItem, 1);
             } finally {
                 window.localStorage.getItem = origFunc;

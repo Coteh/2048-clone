@@ -427,7 +427,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const overlayBackElem = document.querySelector(".overlay-back") as HTMLElement;
-    overlayBackElem.addEventListener("click", (e) => {
+    overlayBackElem.addEventListener("click", () => {
         // Do not allow player to close the dialog if they're presented with a prompt dialog asking for Yes/No
         if (isPrompted) {
             return;
