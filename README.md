@@ -39,16 +39,18 @@ A clone of [2048](https://play2048.co/) created using TypeScript, HTML, and CSS.
 
 ## Development Setup
 
+First, [pnpm](https://pnpm.io/) will need to be installed.
+
 Clone this repository, then run the following:
 
 ```
-npm install
+pnpm install
 ```
 
 At this point, run the following to start a local dev server:
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 The game should render when navigating to http://localhost:5173.
@@ -72,7 +74,7 @@ mkcert localhost 127.0.0.1 ::1
 Then run the following to start up the local HTTPS server:
 
 ```sh
-npm run devs
+pnpm run devs
 ```
 
 The game should render when navigating to https://localhost:5173.
@@ -103,13 +105,13 @@ In this example, the build script will use `DEPLOY_ENV` to create icons with the
 Run the following to launch unit tests:
 
 ```
-npm run test
+pnpm run test
 ```
 
 Cypress tests can be accessed by running the following:
 
 ```
-npm run cypress open
+pnpm run cypress open
 ```
 
 This will launch the tests in the Cypress UI. 
@@ -117,7 +119,7 @@ This will launch the tests in the Cypress UI.
 Alternatively, you can run the tests directly on CLI:
 
 ```
-npm run cypress run
+pnpm run cypress run
 ```
 
 ## Future Improvements
