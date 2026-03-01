@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import { IAnimationManager } from "../animation";
 import { GameState, Position } from "../../game";
 

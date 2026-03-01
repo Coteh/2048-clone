@@ -1,3 +1,7 @@
+publicHoistPattern:
+    - "@jest/globals"
+    - "jest-mock"
+
 onlyBuiltDependencies:
     - "@sentry/cli"
     - core-js
