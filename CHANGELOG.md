@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Status bar colour on iOS 26 not matching the selected theme's colour
+- Landscape overlay for 2048Clone theme while using initial commit tileset still shows checkerboard background
 
 ## [1.3.1] - 2025-02-06
 
