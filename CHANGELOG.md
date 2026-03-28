@@ -9,13 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Local storage entry names have been updated to disambiguate between entries used by other games on my site. A one-time migration should occur upon launch to move everything over.
-- Browser interface and status bar colour dim with the game when dialogs are open in supported browsers
+- Local storage entry names updated to disambiguate from other games, with a one-time migration on launch
+- Browser interface and status bar colour dim when dialogs are open in supported browsers
 
 ### Fixed
 
-- Status bar colour on iOS 26 not matching the selected theme's colour
-- Landscape overlay for 2048Clone theme while using initial commit tileset still shows checkerboard background
+- Status bar colour on iOS 26 not matching selected theme colour
+- Landscape overlay for 2048Clone theme with initial commit tileset shows checkerboard background
 
 ## [1.3.1] - 2025-02-06
 
