@@ -101,7 +101,8 @@ const newState: () => GameState = () => {
     };
 };
 
-const initState = () => {
+const initState = (): boolean => {
+    let isNewGame: boolean;
     if (gameStorage.gameExists()) {
         // First load default state, then overwrite it with loaded game state.
         // This will allow for better backwards compatibility with previous versions
@@ -110,8 +111,7 @@ const initState = () => {
             ...newState(),
             ...gameStorage.loadGame(),
         };
-
-        spawnManager.setGameState(gameState);
+        isNewGame = false;
     } else {
         gameState = newState();
 
@@ -122,9 +122,13 @@ const initState = () => {
 
         location = spawnManager.determineNextBlockLocation();
         spawnBlock(location.x, location.y, spawnManager.determineNextBlockValue());
+
+        isNewGame = true;
     }
+    spawnManager.setGameState(gameState);
     animationManager.setGameState(gameState);
     undoManager.setGameState(gameState);
+    return isNewGame;
 };
 
 const initPersistentState = () => {
@@ -152,14 +156,16 @@ export const initGame = async (
     undoManager = _undoManager;
     gameStorage = _gameStorage;
 
-    initState();
+    const isNewGame = initState();
     initPersistentState();
 
     eventHandler("init", { gameState, persistentState });
 
     if (debugEnabled) console.log(gameState);
 
-    animationManager.initNewBlocks();
+    if (isNewGame) {
+        animationManager.initNewBlocks();
+    }
 
     eventHandler("draw", {
         undoInfo: {
