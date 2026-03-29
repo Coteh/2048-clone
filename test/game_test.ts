@@ -43,6 +43,27 @@ class MockGameStorage implements IGameStorage {
     clearPreferences: () => void = () => {};
 }
 
+class MockNewGameStorage implements IGameStorage {
+    saveGame = (_gameState: GameState) => {};
+    savePersistentState = (_persistentState: GamePersistentState) => {};
+    savePreferences = (_preferences: Preferences) => {};
+    gameExists = () => false;
+    persistentStateExists = () => false;
+    preferencesExists = () => false;
+    loadGame: () => GameState = () => {
+        throw new Error("No saved game");
+    };
+    loadPersistentState: () => GamePersistentState = () => ({
+        highscore: 0,
+        unlockables: {},
+        hasPlayedBefore: false,
+    });
+    loadPreferences: () => Preferences = () => ({});
+    clearGame: () => void = () => {};
+    clearPersistentState: () => void = () => {};
+    clearPreferences: () => void = () => {};
+}
+
 describe("core game logic", () => {
     let eventHandlerStub: Mock;
     const mockSpawnManager = new MockSpawnManager();
@@ -599,5 +620,51 @@ describe("core game logic", () => {
         move(DIRECTION_LEFT); // Perform a no-op move
 
         expect(gameState.moveCount).toBe(initialMoveCount); // Move count should not increment
+    });
+    it("should not call initNewBlocks when loading a saved game", async () => {
+        const mockAnimationManagerLocal = new MockAnimationManager();
+        const mockGameStorage = new MockGameStorage({
+            board: [
+                [2, 4, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ],
+            ended: false,
+            won: false,
+            score: 0,
+            didUndo: false,
+            achievedHighscore: false,
+            moveCount: 0,
+        });
+        await initGame(
+            eventHandlerStub,
+            mockSpawnManager,
+            mockAnimationManagerLocal,
+            undoManager,
+            mockGameStorage
+        );
+        expect(mockAnimationManagerLocal.initNewBlocks).not.toHaveBeenCalled();
+    });
+    it("should call initNewBlocks when starting a new game", async () => {
+        mockSpawnManager.determineNextBlockLocation.mockImplementation(() => {
+            return {
+                x: 0,
+                y: 0,
+            };
+        });
+        mockSpawnManager.determineNextBlockValue.mockImplementation(() => {
+            return 2;
+        });
+        const mockAnimationManagerLocal = new MockAnimationManager();
+        const mockNewGameStorage = new MockNewGameStorage();
+        await initGame(
+            eventHandlerStub,
+            mockSpawnManager,
+            mockAnimationManagerLocal,
+            undoManager,
+            mockNewGameStorage
+        );
+        expect(mockAnimationManagerLocal.initNewBlocks).toHaveBeenCalledTimes(1);
     });
 });
