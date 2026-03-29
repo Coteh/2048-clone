@@ -1107,7 +1107,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             "images/Checkbox_checked.png",
         ]);
 
-        (document.querySelector(".loader-wrapper") as HTMLElement).style.display = "none";
+        const loaderWrapper = document.querySelector(".loader-wrapper") as HTMLElement;
+        const loaderElem = loaderWrapper.querySelector(".loader") as HTMLElement;
+
+        // Duration must match the `transition: background-color` value in index.css
+        const LOADER_FADE_DURATION_MS = 1000;
+
+        loaderElem.style.display = "none";
+        loaderWrapper.style.backgroundColor = "rgba(0,0,0,0)";
+        setTimeout(() => {
+            loaderWrapper.style.display = "none";
+        }, LOADER_FADE_DURATION_MS);
 
         if (migrated) {
             const migrationElem = createDialogContentFromTemplate("#migration-dialog-content");
