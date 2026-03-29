@@ -111,6 +111,8 @@ const initState = (): boolean => {
             ...newState(),
             ...gameStorage.loadGame(),
         };
+
+        spawnManager.setGameState(gameState);
         isNewGame = false;
     } else {
         gameState = newState();
@@ -125,7 +127,6 @@ const initState = (): boolean => {
 
         isNewGame = true;
     }
-    spawnManager.setGameState(gameState);
     animationManager.setGameState(gameState);
     undoManager.setGameState(gameState);
     return isNewGame;
