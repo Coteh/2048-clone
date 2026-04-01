@@ -73,9 +73,11 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
+            const storedPreferences = win.localStorage.getItem("2048-preferences");
+            expect(storedPreferences).to.not.be.null;
             // TODO: In production, the two debug hud options will not be enabled,
             // AFAIK, there is no way to turn off Vite dev mode for just one test, so this will have to do for now.
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            expect(JSON.parse(storedPreferences || "{}")).to.deep.equal(
                 {
                     theme: "dark",
                     debugHudEnabled: "enabled",
@@ -88,7 +90,9 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const storedPreferences = win.localStorage.getItem("2048-preferences");
+            expect(storedPreferences).to.not.be.null;
+            expect(JSON.parse(storedPreferences || "{}")).to.deep.equal(
                 {
                     theme: "dark",
                     animations: "enabled",
@@ -102,7 +106,9 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const storedPreferences = win.localStorage.getItem("2048-preferences");
+            expect(storedPreferences).to.not.be.null;
+            expect(JSON.parse(storedPreferences || "{}")).to.deep.equal(
                 {
                     theme: "dark",
                     animations: "disabled",
@@ -185,9 +191,11 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
+            const storedPreferences = win.localStorage.getItem("2048-preferences");
+            expect(storedPreferences).to.not.be.null;
             // The invalid value should be replaced with the default value,
             // which will be set to debug hud options in dev mode
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            expect(JSON.parse(storedPreferences || "{}")).to.deep.equal(
                 {
                     debugHudEnabled: "enabled",
                     debugHudVisible: "enabled",
@@ -206,7 +214,9 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const storedPreferences = win.localStorage.getItem("2048-preferences");
+            expect(storedPreferences).to.not.be.null;
+            expect(JSON.parse(storedPreferences || "{}")).to.deep.equal(
                 {
                     animations: "enabled",
                     debugHudEnabled: "enabled",
@@ -219,7 +229,9 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const storedPreferences = win.localStorage.getItem("2048-preferences");
+            expect(storedPreferences).to.not.be.null;
+            expect(JSON.parse(storedPreferences || "{}")).to.deep.equal(
                 {
                     animations: "disabled",
                     debugHudEnabled: "enabled",

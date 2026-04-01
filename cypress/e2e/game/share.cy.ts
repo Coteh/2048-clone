@@ -35,7 +35,10 @@ describe("sharing results", () => {
                     theme: "dark",
                 };
                 window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
                 window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
@@ -44,7 +47,7 @@ describe("sharing results", () => {
     const stubShare = () => {
         cy.window().then((win) => {
             // Return false so that it will fallback to clipboard option
-            const canShareFunc = (data) => false;
+            const canShareFunc = (_data: ShareData) => false;
             // Create the property for canShare if it doesn't exist (ie. browser does not support share sheet), otherwise stub directly
             if (!win.navigator.canShare) {
                 Object.defineProperty(win.navigator, "canShare", {
@@ -62,13 +65,14 @@ describe("sharing results", () => {
     describe("share sheet method", () => {
         it("sends data to share sheet", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            // NOTE: This initial stub is only set to infer the type (Cypress's built-in SinonStub type is incompatible with SinonStub from sinon type package)
+            let shareStub = cy.stub().resolves();
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -119,13 +123,14 @@ describe("sharing results", () => {
 
         it("sends data to share sheet with 2048 achievement", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            // NOTE: This initial stub is only set to infer the type (Cypress's built-in SinonStub type is incompatible with SinonStub from sinon type package)
+            let shareStub = cy.stub().resolves();
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -176,13 +181,14 @@ describe("sharing results", () => {
 
         it("sends data to share sheet with multiple moves", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            // NOTE: This initial stub is only set to infer the type (Cypress's built-in SinonStub type is incompatible with SinonStub from sinon type package)
+            let shareStub = cy.stub().resolves();
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -234,13 +240,14 @@ describe("sharing results", () => {
 
         it("sends data to share sheet with move count reflecting undos that may have been made", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            // NOTE: This initial stub is only set to infer the type (Cypress's built-in SinonStub type is incompatible with SinonStub from sinon type package)
+            let shareStub = cy.stub().resolves();
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -301,12 +308,12 @@ describe("sharing results", () => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
                 }
-                const shareFunc = (data) => {
+                const shareFunc = (data: ShareData) => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate cancelling share operation
                     return Promise.reject(new DOMException("Share canceled", "AbortError"));
@@ -351,16 +358,16 @@ describe("sharing results", () => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
                 }
-                const shareFunc = (data) => {
+                const shareFunc = (data: ShareData) => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate permission issue
                     return Promise.reject(
-                        new DOMException("User or app denied permission", "NotAllowedError")
+                        new DOMException("User or app denied permission", "NotAllowedError"),
                     );
                 };
                 // Define share function as a stub if it's a browser that doesn't support it normally, otherwise stub it directly
@@ -391,7 +398,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
 
@@ -405,12 +412,12 @@ describe("sharing results", () => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data: ShareData) => true),
                         writable: true,
                         configurable: true,
                     });
                 }
-                const shareFunc = (data) => {
+                const shareFunc = (data: ShareData) => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate unknown error
                     return Promise.reject(new DOMException("Unknown error", "UnknownError"));
@@ -452,7 +459,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -461,7 +468,7 @@ describe("sharing results", () => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
 
             cy.window().then(async (win) => {
-                const canShareFunc = (data) => {
+                const canShareFunc = (data: ShareData) => {
                     console.log("Shared data to be validated:", data);
                     // Return false to indicate that sharing cannot be done due to invalid data
                     return false;
@@ -494,7 +501,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
 
@@ -531,7 +538,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 10000 in 2048-clone in 0 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -560,7 +567,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 2048 in 2048-clone, and I achieved 2048 in 1 move. Play it here: ${expectedUrl}`
+                    `I got a score of 2048 in 2048-clone, and I achieved 2048 in 1 move. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -590,7 +597,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
@@ -624,7 +631,7 @@ describe("sharing results", () => {
             cy.window().then(async (win) => {
                 const copiedText = await win.navigator.clipboard.readText();
                 expect(copiedText).to.eq(
-                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`
+                    `I got a score of 4096 in 2048-clone, and I achieved 2048 in 2 moves. Play it here: ${expectedUrl}`,
                 );
             });
         });
