@@ -1111,7 +1111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const loaderElem = loaderWrapper.querySelector(".loader") as HTMLElement;
 
         // Duration must match the `transition: background-color` value in index.css
-        const LOADER_FADE_DURATION_MS = 1000;
+        const LOADER_FADE_DURATION_MS = 500;
 
         loaderElem.style.display = "none";
         loaderWrapper.style.backgroundColor = "rgba(0,0,0,0)";
