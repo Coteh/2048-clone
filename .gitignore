@@ -35,4 +35,3 @@ dist/icons/*
 
 # Allow specific icon files
 !dist/icons/icon*_LOCAL.png
-package-lock.json

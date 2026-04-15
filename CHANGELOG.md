@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Saved game blocks no longer play the appearance animation on load
+- Loader overlay now fades out smoothly instead of disappearing instantly
 - Status bar colour on iOS 26 not matching selected theme colour
 - Landscape overlay for 2048Clone theme with initial commit tileset shows checkerboard background
 
