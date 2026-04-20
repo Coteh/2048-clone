@@ -8,7 +8,7 @@ Cypress.Commands.add("verifyBoardMatches", (expectedBoard: (number | undefined)[
                     expect(boxes).to.have.length(expectedBoard[i].length);
                     for (let j = 0; j < expectedBoard[i].length; j++) {
                         const expectedVal = expectedBoard[i][j];
-                        if (expectedVal > 0) {
+                        if (expectedVal && expectedVal > 0) {
                             expect(boxes.eq(j)).to.have.text(expectedVal.toString());
                         } else if (expectedVal === 0) {
                             expect(boxes.eq(j)).to.have.text("");
@@ -33,7 +33,7 @@ Cypress.Commands.add("verifyBoardDoesNotMatch", (expectedBoard: (number | undefi
                     for (let j = 0; j < expectedBoard[i].length; j++) {
                         const expectedVal = expectedBoard[i][j];
                         const boxElem = boxes.eq(j);
-                        if (boxElem.text() === expectedVal.toString()) {
+                        if (expectedVal && boxElem.text() === expectedVal.toString()) {
                             numMatches++;
                         }
                     }

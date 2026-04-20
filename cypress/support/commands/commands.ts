@@ -72,8 +72,8 @@ Cypress.Commands.add("shouldNotBeActionable", { prevSubject: "element" }, (subje
 Cypress.Commands.add("shouldBeInViewport", { prevSubject: true }, (subject) => {
     // @ts-ignore TODO: Fix cy.state type error
     const window = Cypress.$(cy.state("window"));
-    const bottom = window.height();
-    const right = window.width();
+    const bottom = window.height() ?? 0;
+    const right = window.width() ?? 0;
     const rect = subject[0].getBoundingClientRect();
 
     expect(rect.top).not.to.be.greaterThan(bottom).and.not.to.be.lessThan(0);
