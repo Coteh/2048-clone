@@ -124,7 +124,6 @@ export class HowToPlay {
             ];
             const step1Animation = new AnimationManager();
             step1Animation.isAnimationEnabled = true;
-            // @ts-ignore
             renderBoard(stepSections[0], this.stepBoards[0], step1Animation, {
                 blockStyle: "compact",
             });
@@ -159,7 +158,6 @@ export class HowToPlay {
             ];
             const step2Animation = new AnimationManager();
             step2Animation.isAnimationEnabled = true;
-            // @ts-ignore
             renderBoard(stepSections[1], this.stepBoards[1], step2Animation, {
                 blockStyle: "compact",
             });
@@ -192,7 +190,6 @@ export class HowToPlay {
             ];
             const step3Animation = new AnimationManager();
             step3Animation.isAnimationEnabled = true;
-            // @ts-ignore
             renderBoard(stepSections[2], this.stepBoards[2], step3Animation, {
                 blockStyle: "compact",
             });

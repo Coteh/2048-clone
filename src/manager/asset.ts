@@ -32,7 +32,7 @@ export class AssetManager {
         onProgressCallback: (progress: number) => void,
     ): Promise<void> {
         return new Promise((resolve, reject) => {
-            var loadedCount = 0;
+            let loadedCount = 0;
 
             const onAssetLoaded = (url: string) => {
                 loadedCount++;

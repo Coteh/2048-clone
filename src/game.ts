@@ -29,14 +29,12 @@ export type Position = {
     y: number;
 };
 
-let debugEnabled = false;
-// @ts-ignore TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
+const debugEnabled = false;
+// TODO: Resolve this type issue "Property 'env' does not exist on type 'ImportMeta'."
 // TODO: Fix "SyntaxError: Cannot use 'import.meta' outside a module" when trying to run in Jest
 // Either restrict the usage of import.meta to the browser code only, bring in debugEnabled from there into game.ts
 // or, might have to bring in Babel.
 // let debugEnabled = import.meta.env.DEV ?? false;
-
-const GAME_IS_OVER_ERROR_ID = "GameIsOver";
 
 export const DIRECTION_LEFT = 1;
 export const DIRECTION_RIGHT = 2;
@@ -74,7 +72,15 @@ export const getErrorMessage = (errorID: string) => {
     }
 };
 
-export type EventHandler = (eventID: string, data?: any) => void;
+export type GameEventData = {
+    gameState?: GameState;
+    persistentState?: GamePersistentState;
+    undoInfo?: {
+        undoStack: readonly GameState[];
+    };
+};
+
+export type EventHandler = (eventID: string, data?: GameEventData) => void;
 
 let gameState: GameState = {} as GameState;
 let persistentState: GamePersistentState = {} as GamePersistentState;

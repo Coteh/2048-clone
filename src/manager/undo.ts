@@ -50,7 +50,7 @@ export class UndoManager {
             // Object is possibly 'null'.ts(2531)
             // Type 'number | boolean | GameBoard' is not assignable to type 'never'.
             // Type 'number' is not assignable to type 'never'.ts(2322)
-            // @ts-ignore
+            // @ts-expect-error TODO: indexed assignment type mismatch (see type errors above)
             this.gameState[key] = gameStateCopy[key];
         });
         return gameStateCopy;

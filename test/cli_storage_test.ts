@@ -64,7 +64,7 @@ describe("CLI storage", () => {
                 },
             );
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(stateContents), initialState);
 
             gameStorage.saveGame(expectedState);
@@ -73,7 +73,7 @@ describe("CLI storage", () => {
                 encoding: "utf-8",
             });
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(stateContents), expectedState);
         });
 
@@ -134,7 +134,7 @@ describe("CLI storage", () => {
         it("should load default values if no previous state was stored", () => {
             vol.reset();
 
-            let state = gameStorage.loadGame();
+            const state = gameStorage.loadGame();
 
             assert.deepStrictEqual(state, {});
         });
@@ -168,7 +168,7 @@ describe("CLI storage", () => {
                 },
             );
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(stateContents), initialPersistentState);
 
             gameStorage.savePersistentState(expectedState);
@@ -180,7 +180,7 @@ describe("CLI storage", () => {
                 },
             );
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(stateContents), expectedState);
         });
 
@@ -223,7 +223,7 @@ describe("CLI storage", () => {
         it("should load default values if no previous state was stored", () => {
             vol.reset();
 
-            let state = gameStorage.loadGame();
+            const state = gameStorage.loadGame();
 
             assert.deepStrictEqual(state, {});
         });
@@ -254,7 +254,7 @@ describe("CLI storage", () => {
                 },
             );
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(preferencesFileContents), preferences);
         });
 
@@ -288,7 +288,7 @@ describe("CLI storage", () => {
                 },
             );
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(preferencesFileContents), expectedPreferences);
 
             gameStorage.clearPreferences();
@@ -300,7 +300,7 @@ describe("CLI storage", () => {
                 },
             );
 
-            // @ts-ignore TODO: fix Buffer to string type error
+            // @ts-expect-error TODO: fix Buffer to string type error
             assert.deepStrictEqual(JSON.parse(preferencesFileContents), {});
         });
 

@@ -272,8 +272,8 @@ export const renderDialog = (content: HTMLElement | DocumentFragment, options?: 
 export type PromptDialogOptions = {
     fadeIn?: boolean;
     style?: CSS.Properties;
-    onConfirm?: Function;
-    onCancel?: Function;
+    onConfirm?: () => void;
+    onCancel?: () => void;
 };
 
 export const renderPromptDialog = (
