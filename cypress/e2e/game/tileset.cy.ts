@@ -31,7 +31,10 @@ describe("tileset", () => {
                     theme: "classic",
                 };
                 window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
                 window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
@@ -47,7 +50,9 @@ describe("tileset", () => {
         });
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(128, 128, 128)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.tileset-switch").click();
@@ -56,7 +61,9 @@ describe("tileset", () => {
         cy.get("body").should("have.class", "tileset-classic");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(128, 128, 128)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.tileset-switch").click();
@@ -65,7 +72,9 @@ describe("tileset", () => {
         cy.get("body").should("have.class", "tileset-colorful");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(128, 128, 128)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
 
         cy.get(".setting.tileset-switch").click();
@@ -74,7 +83,9 @@ describe("tileset", () => {
         cy.get("body").should("have.class", "tileset-modern");
         cy.get(".settings-item").contains("Theme").should("be.visible");
         cy.get(".settings-item").contains("Tileset").should("be.visible");
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(128, 128, 128)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(128, 128, 128)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(128, 128, 128)");
     });
 
@@ -86,7 +97,7 @@ describe("tileset", () => {
                 tileset: {
                     classic: "colorful",
                 },
-            })
+            }),
         );
 
         cy.reload();
@@ -103,7 +114,7 @@ describe("tileset", () => {
             "2048-preferences",
             JSON.stringify({
                 theme: "classic",
-            })
+            }),
         );
 
         cy.reload();
@@ -123,7 +134,7 @@ describe("tileset", () => {
                 tileset: {
                     light: "invalid",
                 },
-            })
+            }),
         );
 
         cy.reload();
@@ -141,7 +152,7 @@ describe("tileset", () => {
             JSON.stringify({
                 theme: "classic",
                 tileset: "invalid",
-            })
+            }),
         );
 
         cy.reload();
@@ -166,7 +177,7 @@ describe("tileset", () => {
                 tileset: {
                     standard: "standard",
                 },
-            })
+            }),
         );
 
         cy.reload();
@@ -185,7 +196,7 @@ describe("tileset", () => {
                 tileset: {
                     classic: "initial-commit",
                 },
-            })
+            }),
         );
 
         cy.reload();
@@ -195,7 +206,9 @@ describe("tileset", () => {
             expect(classList.contains("classic")).to.be.true;
             expect(classList.contains("tileset-initial-commit")).to.be.true;
         });
-        cy.get("body").should("have.attr", "style").and("include", "background-color: rgb(100, 149, 237)");
+        cy.get("body")
+            .should("have.attr", "style")
+            .and("include", "background-color: rgb(100, 149, 237)");
         cy.get('meta[name="theme-color"]').should("have.attr", "content", "rgb(100, 149, 237)");
     });
 });

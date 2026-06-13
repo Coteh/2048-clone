@@ -61,7 +61,7 @@ describe("CLI storage", () => {
                 path.resolve(process.cwd(), GAME_STATE_JSON_FILENAME),
                 {
                     encoding: "utf-8",
-                }
+                },
             );
 
             // @ts-ignore TODO: fix Buffer to string type error
@@ -165,7 +165,7 @@ describe("CLI storage", () => {
                 path.resolve(process.cwd(), PERSISTENT_STATE_JSON_FILENAME),
                 {
                     encoding: "utf-8",
-                }
+                },
             );
 
             // @ts-ignore TODO: fix Buffer to string type error
@@ -177,7 +177,7 @@ describe("CLI storage", () => {
                 path.resolve(process.cwd(), PERSISTENT_STATE_JSON_FILENAME),
                 {
                     encoding: "utf-8",
-                }
+                },
             );
 
             // @ts-ignore TODO: fix Buffer to string type error
@@ -251,7 +251,7 @@ describe("CLI storage", () => {
                 path.resolve(process.cwd(), PREFERENCES_JSON_FILENAME),
                 {
                     encoding: "utf-8",
-                }
+                },
             );
 
             // @ts-ignore TODO: fix Buffer to string type error
@@ -285,7 +285,7 @@ describe("CLI storage", () => {
                 path.resolve(process.cwd(), PREFERENCES_JSON_FILENAME),
                 {
                     encoding: "utf-8",
-                }
+                },
             );
 
             // @ts-ignore TODO: fix Buffer to string type error
@@ -297,7 +297,7 @@ describe("CLI storage", () => {
                 path.resolve(process.cwd(), PREFERENCES_JSON_FILENAME),
                 {
                     encoding: "utf-8",
-                }
+                },
             );
 
             // @ts-ignore TODO: fix Buffer to string type error

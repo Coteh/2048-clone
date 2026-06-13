@@ -10,7 +10,7 @@ export class AppIconManager {
     // TODO: Alter manifest.json icons as well so that it would work on Android and other platforms too
     private setAppleTouchIcon(type: string) {
         const appleTouchIcon = document.querySelector(
-            "link[rel='apple-touch-icon']"
+            "link[rel='apple-touch-icon']",
         ) as HTMLLinkElement;
         switch (type) {
             case "classic":

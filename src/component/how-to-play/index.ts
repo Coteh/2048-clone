@@ -57,9 +57,14 @@ export class HowToPlay {
         const howToPlayElem = createDialogContentFromTemplate("#how-to-play");
         const keyboardElem = howToPlayElem.querySelector(".keyboard-visual") as HTMLElement;
         const touchscreenElem = howToPlayElem.querySelector(".pointing-hand") as HTMLElement;
-        const arrowElems = ["right-arrow"].map(id => howToPlayElem.querySelector(`#${id}`));
-        const stepSections = new Array(6).fill(0).map((_, i) => howToPlayElem.querySelector(`.section[data-step='${i + 1}']`) as HTMLElement);
-        
+        const arrowElems = ["right-arrow"].map((id) => howToPlayElem.querySelector(`#${id}`));
+        const stepSections = new Array(6)
+            .fill(0)
+            .map(
+                (_, i) =>
+                    howToPlayElem.querySelector(`.section[data-step='${i + 1}']`) as HTMLElement,
+            );
+
         renderDialog(howToPlayElem, {
             fadeIn: true,
             style: {
@@ -73,7 +78,7 @@ export class HowToPlay {
             console.log("Closing dialog. Removing listeners...");
             clearInterval(this.step1KeyboardInterval);
             clearInterval(this.step1VisualsInterval);
-            this.stepIntervals.forEach(interval => clearInterval(interval));
+            this.stepIntervals.forEach((interval) => clearInterval(interval));
         });
 
         let i = 0;

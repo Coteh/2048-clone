@@ -38,7 +38,10 @@ describe("fullscreen", () => {
                     theme: "dark",
                 };
                 window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
                 window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });

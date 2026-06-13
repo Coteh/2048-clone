@@ -59,7 +59,10 @@
     justify-content: center;
     align-items: center;
 
-    transition: transform 0.25s ease, top 0.1s ease, left 0.1s ease;
+    transition:
+        transform 0.25s ease,
+        top 0.1s ease,
+        left 0.1s ease;
 }
 
 .box .box-letter {

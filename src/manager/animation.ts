@@ -76,7 +76,7 @@ export class AnimationManager {
             this.movedBlocks[oldY][oldX] = undefined;
             this.movedBlocks[newY][newX] = oldMovedValue;
             const movedBlockIndex = this.mergedBlocks.findIndex(
-                (mergedBlock) => mergedBlock.position.x === oldX && mergedBlock.position.y === oldY
+                (mergedBlock) => mergedBlock.position.x === oldX && mergedBlock.position.y === oldY,
             );
             if (movedBlockIndex >= 0) {
                 this.mergedBlocks.splice(movedBlockIndex, 1);
@@ -102,7 +102,7 @@ export class AnimationManager {
         this.movedBlocks[oldY][oldX] = undefined;
         this.movedBlocks[newY][newX] = oldMovedValue;
         const movedBlockIndex = this.mergedBlocks.findIndex(
-            (mergedBlock) => mergedBlock.position.x === oldX && mergedBlock.position.y === oldY
+            (mergedBlock) => mergedBlock.position.x === oldX && mergedBlock.position.y === oldY,
         );
         if (movedBlockIndex >= 0) {
             const oldMergedBlock = this.mergedBlocks[movedBlockIndex];

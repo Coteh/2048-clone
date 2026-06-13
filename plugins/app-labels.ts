@@ -89,7 +89,7 @@ export default function appIconLabel(options: PluginOptions) {
                 if (req.url.startsWith("/icon")) {
                     const iconPath = path.join(
                         output,
-                        req.url.replace(".png", `_${environment}.png`)
+                        req.url.replace(".png", `_${environment}.png`),
                     );
                     if (fs.existsSync(iconPath)) {
                         res.setHeader("Content-Type", "image/png");

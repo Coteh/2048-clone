@@ -28,7 +28,10 @@ describe("viewport", () => {
                     hasPlayedBefore: true,
                 };
                 window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
             },
         });
     });
@@ -99,7 +102,7 @@ describe("viewport", () => {
                         {
                             capture: "viewport",
                             overwrite: true,
-                        }
+                        },
                     );
 
                     cy.get(".settings-link").click();
@@ -116,7 +119,7 @@ describe("viewport", () => {
                         {
                             capture: "viewport",
                             overwrite: true,
-                        }
+                        },
                     );
                 });
             });

@@ -1,14 +1,8 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-        "types": [
-            "cypress",
-            "node",
-            "cypress-real-events"
-        ],
+        "types": ["cypress", "node", "cypress-real-events"],
         "resolveJsonModule": true
     },
-    "include": [
-        "**/*.ts"
-    ]
+    "include": ["**/*.ts"]
 }

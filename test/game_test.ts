@@ -77,7 +77,7 @@ describe("core game logic", () => {
             mockSpawnManager,
             mockAnimationManager,
             undoManager,
-            mockGameStorage
+            mockGameStorage,
         );
         return getGameState();
     }
@@ -642,7 +642,7 @@ describe("core game logic", () => {
             mockSpawnManager,
             mockAnimationManagerLocal,
             undoManager,
-            mockGameStorage
+            mockGameStorage,
         );
         expect(mockAnimationManagerLocal.initNewBlocks).not.toHaveBeenCalled();
     });
@@ -663,7 +663,7 @@ describe("core game logic", () => {
             mockSpawnManager,
             mockAnimationManagerLocal,
             undoManager,
-            mockNewGameStorage
+            mockNewGameStorage,
         );
         expect(mockAnimationManagerLocal.initNewBlocks).toHaveBeenCalledTimes(1);
     });

@@ -17,7 +17,10 @@ describe("misc", () => {
                     unlockables: {},
                     hasPlayedBefore: true,
                 };
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
             },
         });
     });
@@ -126,7 +129,7 @@ describe("misc", () => {
                     window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
                     window.localStorage.setItem(
                         "2048-persistent-state",
-                        JSON.stringify(persistentState)
+                        JSON.stringify(persistentState),
                     );
                 },
             }); // visit the page
@@ -153,7 +156,7 @@ describe("misc", () => {
                         "2048-preferences",
                         JSON.stringify({
                             theme: "snow",
-                        })
+                        }),
                     );
                 },
             });

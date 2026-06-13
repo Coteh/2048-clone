@@ -18,7 +18,9 @@
 
     opacity: 1;
 
-    transition: transform 0.5s, opacity 0.75s;
+    transition:
+        transform 0.5s,
+        opacity 0.75s;
 }
 
 .dialog > div.dialog-content {

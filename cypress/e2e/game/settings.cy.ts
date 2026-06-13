@@ -33,7 +33,10 @@ describe("settings", () => {
                     theme: "dark",
                 };
                 window.localStorage.setItem("2048-game-state", JSON.stringify(gameState));
-                window.localStorage.setItem("2048-persistent-state", JSON.stringify(persistentState));
+                window.localStorage.setItem(
+                    "2048-persistent-state",
+                    JSON.stringify(persistentState),
+                );
                 window.localStorage.setItem("2048-preferences", JSON.stringify(preferences));
             },
         });
@@ -75,59 +78,53 @@ describe("settings", () => {
         cy.window().then((win) => {
             // TODO: In production, the two debug hud options will not be enabled,
             // AFAIK, there is no way to turn off Vite dev mode for just one test, so this will have to do for now.
-            const preferences = win.localStorage.getItem('2048-preferences');
+            const preferences = win.localStorage.getItem("2048-preferences");
 
             if (!preferences) {
-                throw new Error('Expected preferences to exist in localStorage.');
+                throw new Error("Expected preferences to exist in localStorage.");
             }
-            
-            expect(JSON.parse(preferences)).to.deep.equal(
-                {
-                    theme: "dark",
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }
-            );
+
+            expect(JSON.parse(preferences)).to.deep.equal({
+                theme: "dark",
+                debugHudEnabled: "enabled",
+                debugHudVisible: "enabled",
+            });
         });
 
         cy.get(".settings-item.animations").click();
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            const preferences = win.localStorage.getItem('2048-preferences');
+            const preferences = win.localStorage.getItem("2048-preferences");
 
             if (!preferences) {
-                throw new Error('Expected preferences to exist in localStorage.');
+                throw new Error("Expected preferences to exist in localStorage.");
             }
 
-            expect(JSON.parse(preferences)).to.deep.equal(
-                {
-                    theme: "dark",
-                    animations: "enabled",
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }
-            );
+            expect(JSON.parse(preferences)).to.deep.equal({
+                theme: "dark",
+                animations: "enabled",
+                debugHudEnabled: "enabled",
+                debugHudVisible: "enabled",
+            });
         });
 
         cy.get(".settings-item.animations").click();
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            const preferences = win.localStorage.getItem('2048-preferences');
+            const preferences = win.localStorage.getItem("2048-preferences");
 
             if (!preferences) {
-                throw new Error('Expected preferences to exist in localStorage.');
+                throw new Error("Expected preferences to exist in localStorage.");
             }
 
-            expect(JSON.parse(preferences)).to.deep.equal(
-                {
-                    theme: "dark",
-                    animations: "disabled",
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }
-            );
+            expect(JSON.parse(preferences)).to.deep.equal({
+                theme: "dark",
+                animations: "disabled",
+                debugHudEnabled: "enabled",
+                debugHudVisible: "enabled",
+            });
         });
     });
 
@@ -136,7 +133,7 @@ describe("settings", () => {
             "2048-preferences",
             JSON.stringify({
                 animations: "enabled",
-            })
+            }),
         );
 
         cy.reload();
@@ -172,7 +169,7 @@ describe("settings", () => {
             "2048-preferences",
             JSON.stringify({
                 theme: "snow",
-            })
+            }),
         );
 
         cy.reload();
@@ -194,7 +191,7 @@ describe("settings", () => {
         cy.visit("/", {
             onBeforeLoad: () => {
                 window.localStorage.setItem("2048-preferences", "invalid");
-            }
+            },
         });
 
         cy.get(".settings-link").click();
@@ -205,15 +202,15 @@ describe("settings", () => {
         cy.window().then((win) => {
             // The invalid value should be replaced with the default value,
             // which will be set to debug hud options in dev mode
-            const preferences = win.localStorage.getItem('2048-preferences');
+            const preferences = win.localStorage.getItem("2048-preferences");
 
             if (!preferences) {
-                throw new Error('Expected preferences to exist in localStorage.');
+                throw new Error("Expected preferences to exist in localStorage.");
             }
 
             expect(JSON.parse(preferences)).to.deep.equal({
-                debugHudEnabled: 'enabled',
-                debugHudVisible: 'enabled',
+                debugHudEnabled: "enabled",
+                debugHudVisible: "enabled",
             });
 
             // TODO: In production, these two options will not be enabled,
@@ -228,38 +225,34 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            const preferences = win.localStorage.getItem('2048-preferences');
+            const preferences = win.localStorage.getItem("2048-preferences");
 
             if (!preferences) {
-                throw new Error('Expected preferences to exist in localStorage.');
+                throw new Error("Expected preferences to exist in localStorage.");
             }
 
-            expect(JSON.parse(preferences)).to.deep.equal(
-                {
-                    animations: "enabled",
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }
-            );
+            expect(JSON.parse(preferences)).to.deep.equal({
+                animations: "enabled",
+                debugHudEnabled: "enabled",
+                debugHudVisible: "enabled",
+            });
         });
 
         cy.get(".settings-item.animations").click();
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            const preferences = win.localStorage.getItem('2048-preferences');
+            const preferences = win.localStorage.getItem("2048-preferences");
 
             if (!preferences) {
-                throw new Error('Expected preferences to exist in localStorage.');
+                throw new Error("Expected preferences to exist in localStorage.");
             }
 
-            expect(JSON.parse(preferences)).to.deep.equal(
-                {
-                    animations: "disabled",
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }
-            );
+            expect(JSON.parse(preferences)).to.deep.equal({
+                animations: "disabled",
+                debugHudEnabled: "enabled",
+                debugHudVisible: "enabled",
+            });
         });
     });
 });
