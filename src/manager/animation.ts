@@ -16,12 +16,9 @@ export type MergedBlock = {
 
 export class AnimationManager {
     public isAnimationEnabled: boolean;
-    // @ts-expect-error TODO: This field is assigned in the constructor via resetState but TS is not smart enough to realize that
-    public newBlocks: Position[];
-    // @ts-expect-error TODO: This field is assigned in the constructor via resetState but TS is not smart enough to realize that
-    public movedBlocks: (Position | undefined)[][];
-    // @ts-expect-error TODO: This field is assigned in the constructor via resetState but TS is not smart enough to realize that
-    public mergedBlocks: MergedBlock[];
+    public newBlocks!: Position[];
+    public movedBlocks!: (Position | undefined)[][];
+    public mergedBlocks!: MergedBlock[];
 
     private gameState: GameState | null = null;
 
