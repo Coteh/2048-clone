@@ -17,7 +17,7 @@ import { IGameStorage } from "../src/storage";
 global.window = {} as Window & typeof globalThis;
 
 class MockStorage {
-    setItem: (key: string, value: any) => void = (_keyName, _keyValue) => {};
+    setItem: (key: string, value: string) => void = (_keyName, _keyValue) => {};
     getItem: (key: string) => string = (_keyName) => "";
     removeItem: (key: string) => void = (_keyName) => {};
     clear: () => void = () => {};

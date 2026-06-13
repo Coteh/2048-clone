@@ -31,7 +31,7 @@ export default function appIconLabel(options: PluginOptions) {
     const buildIcons = (env: string) => {
         try {
             childProcess.execSync(`${MAGICK_COMMAND} -version`, { stdio: "ignore" });
-        } catch (e) {
+        } catch (_e) {
             console.warn("ImageMagick is not installed. Skipping icon labeling.");
             return;
         }

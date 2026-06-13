@@ -11,7 +11,7 @@ import { removeCanonicalInDev } from "./plugins/remove-canonical-in-dev";
 
 const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString();
 
-// @ts-ignore Resolve type issue with function parameter
+// @ts-expect-error Resolve type issue with function parameter
 export default defineConfig(({ mode }) => {
     // Load env file based on `mode` in the current working directory.
     // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
         build: {
             outDir: path.resolve(__dirname, "build"),
             terserOptions: {
-                // @ts-ignore TODO: Resolve type error with this field
+                // @ts-expect-error TODO: Resolve type error with this field
                 ecma: 6,
                 compress: { drop_console: true },
                 output: { comments: false, beautify: false },

@@ -19,7 +19,7 @@
 - Converted from JavaScript to TypeScript
 */
 const zIndex = -10;
-var embedimSnow = document.getElementById("embedim--snow");
+let embedimSnow = document.getElementById("embedim--snow");
 if (!embedimSnow) {
     function embRand(a, b) {
         return Math.floor(Math.random() * (b - a + 1)) + a;
@@ -29,7 +29,7 @@ if (!embedimSnow) {
         let snowCSS = "";
         for (let i = 1; i < 200; i++) {
             snowHTML += '<i class="embedim-snow"></i>';
-            var rndX = embRand(0, 1000000) * 0.0001,
+            const rndX = embRand(0, 1000000) * 0.0001,
                 rndO = embRand(-100000, 100000) * 0.0001,
                 rndT = (embRand(3, 8) * 10).toFixed(2),
                 rndS = (embRand(0, 10000) * 0.0001).toFixed(2);
@@ -88,9 +88,9 @@ if (!embedimSnow) {
             "</style>" +
             snowElements.html;
     };
-    var baseEmbCSS =
+    const baseEmbCSS =
         ".embedim-snow{position: absolute;width: 10px;height: 10px;background: white;border-radius: 50%;margin-top:-10px}";
-    var snowElements = generateSnowflakeElements();
+    let snowElements = generateSnowflakeElements();
 
     embedimSnow = document.createElement("div");
     embedimSnow.id = "embedim--snow";
@@ -99,7 +99,7 @@ if (!embedimSnow) {
 
     document.body.appendChild(embedimSnow);
 
-    addEventListener("resize", (e) => {
+    addEventListener("resize", () => {
         snowElements = generateSnowflakeElements();
         setSnowElementInnerHTML();
     });

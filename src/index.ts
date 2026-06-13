@@ -9,6 +9,7 @@ import {
     DIRECTION_UP,
     GameState,
     GamePersistentState,
+    GameEventData,
 } from "./game";
 import { getPreferenceValue, initPreferences, savePreferenceValue } from "./preferences";
 import {
@@ -85,34 +86,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let gameState: GameState;
     let persistentState: GamePersistentState;
-    let spawnManager = new SpawnManager();
-    let animationManager = new AnimationManager();
-    let undoManager = new UndoManager();
-    let gameStorage = new BrowserGameStorage();
+    const spawnManager = new SpawnManager();
+    const animationManager = new AnimationManager();
+    const undoManager = new UndoManager();
+    const gameStorage = new BrowserGameStorage();
     const migrated = migrateLocalStorage_v1_3_1();
-    let fullscreenManager = new FullscreenManager(gameStorage);
-    let assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
-    let actionIconManager = new ActionIconManager();
-    let appIconManager = new AppIconManager();
-    let themeManager = new ThemeManager(appIconManager);
+    const fullscreenManager = new FullscreenManager(gameStorage);
+    const assetManager = new AssetManager(document.querySelector(".loader-wrapper") as HTMLElement);
+    const actionIconManager = new ActionIconManager();
+    const appIconManager = new AppIconManager();
+    const themeManager = new ThemeManager(appIconManager);
     setThemeManager(themeManager); // Set the global theme manager reference
     // Store unlockable statuses so that their unlock messages don't display again if player achieved the same conditions again
     let unlockedClassic = false;
     let unlockedInitialCommit = false;
 
-    let tutorial: Tutorial = new Tutorial();
-    let howToPlay: HowToPlay = new HowToPlay();
+    const tutorial: Tutorial = new Tutorial();
+    const howToPlay: HowToPlay = new HowToPlay();
 
     const swipeSensitivity = 50;
 
     const md = new MobileDetect(window.navigator.userAgent);
     const isMobile = md.mobile() !== null;
 
-    const eventHandler = (event: string, data: any) => {
+    const eventHandler = (event: string, data?: GameEventData) => {
         switch (event) {
             case "init":
-                gameState = data.gameState;
-                persistentState = data.persistentState;
+                gameState = data!.gameState!;
+                persistentState = data!.persistentState!;
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 unlockedClassic = persistentState.unlockables.classic;
                 unlockedInitialCommit = persistentState.unlockables.initialCommit;
@@ -134,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     persistentState.highscore.toString();
                 (document.querySelector("#moveCount") as HTMLSpanElement).innerText =
                     gameState.moveCount.toString();
-                if (data.undoInfo) {
+                if (data?.undoInfo) {
                     if (data.undoInfo.undoStack.length > 0) {
                         undoButton.classList.remove("disabled");
                     } else {
@@ -200,15 +201,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 const dialog = document.querySelector(".dialog") as HTMLElement;
                 dialog.classList.add("win");
-                if (!unlockedClassic && data.persistentState.unlockables.classic) {
+                if (!unlockedClassic && data!.persistentState!.unlockables.classic) {
                     renderNotification("2048Clone theme unlocked", 2500);
                     unlockedClassic = true;
                 }
-                if (!unlockedInitialCommit && data.persistentState.unlockables.initialCommit) {
+                if (!unlockedInitialCommit && data!.persistentState!.unlockables.initialCommit) {
                     renderNotification("Initial Commit tileset unlocked", 2500);
                     unlockedInitialCommit = true;
                 }
-                persistentState = data.persistentState;
+                persistentState = data!.persistentState!;
                 const shareText = generateShareText(gameState);
                 shareButton.addEventListener("click", async (e) => {
                     e.preventDefault();
@@ -436,7 +437,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         closeDialog(dialog, overlayBackElem);
     });
 
-    let snowEmbed = document.getElementById("embedim--snow");
+    const snowEmbed = document.getElementById("embedim--snow");
     if (snowEmbed) snowEmbed.style.display = "none";
 
     const selectableThemes = [STANDARD_THEME, LIGHT_THEME, DARK_THEME, SNOW_THEME, CLASSIC_THEME];
@@ -502,7 +503,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         setting.addEventListener("click", (e) => {
             const elem = e.target as HTMLElement;
             const toggle = setting.querySelector(".toggle") as HTMLElement;
-            let enabled = false;
             if (elem.classList.contains(THEME_SETTING_NAME)) {
                 const themeIndex = selectableThemes.indexOf(themeManager.getCurrentTheme());
                 let nextTheme = selectableThemes[(themeIndex + 1) % selectableThemes.length];
@@ -561,7 +561,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 toggle.innerText = formatTilesetName(nextTileset);
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
                 const knob = setting.querySelector(".knob") as HTMLElement;
-                enabled = isAnimationEnabled = !isAnimationEnabled;
+                const enabled = (isAnimationEnabled = !isAnimationEnabled);
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 savePreferenceValue(
                     ANIMATIONS_PREFERENCE_NAME,
@@ -575,7 +575,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else if (elem.classList.contains(BLOCK_STYLE_SETTING_NAME)) {
                 const currentBlockStyle = themeManager.getCurrentBlockStyle();
                 const blockStyleIndex = selectableBlockStyles.indexOf(currentBlockStyle);
-                let nextBlockStyle =
+                const nextBlockStyle =
                     selectableBlockStyles[(blockStyleIndex + 1) % selectableBlockStyles.length];
                 themeManager.switchBlockStyle(nextBlockStyle);
                 handlePostBlockStyleSwitch();
@@ -626,7 +626,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const currentTheme = themeManager.getCurrentTheme();
     (themeSetting.querySelector(".toggle") as HTMLElement).innerText =
         currentTheme === "classic" ? CLASSIC_THEME_LABEL : currentTheme;
-    let tilesetPreferences = getPreferenceValue(TILESET_PREFERENCE_NAME);
+    let tilesetPreferences = getPreferenceValue<Record<string, string>>(TILESET_PREFERENCE_NAME);
     if (tilesetPreferences) {
         themeManager.switchTileset(currentTheme, tilesetPreferences[currentTheme]);
     }
@@ -1078,7 +1078,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Session Replay
             replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
             replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
-            // @ts-ignore TODO: Fix type issue with event param
             beforeSend(event) {
                 if (
                     event.request &&
@@ -1128,13 +1127,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         await initGame(eventHandler, spawnManager, animationManager, undoManager, gameStorage);
-    } catch (e: any) {
+    } catch (e) {
         if (typeof Sentry !== "undefined") Sentry.captureException(e);
         const elem = createDialogContentFromTemplate("#error-dialog-content");
         const errorContent = elem.querySelector(".error-text") as HTMLElement;
 
         console.error("Could not initialize game due to error:", e);
-        errorContent.innerText = e.message;
+        errorContent.innerText = (e as Error).message;
 
         renderDialog(elem, {
             fadeIn: true,

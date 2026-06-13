@@ -96,14 +96,15 @@ export const triggerShare = async (shareText: string) => {
     }
     try {
         await navigator.share(data);
-    } catch (err: any) {
-        if (err.name === "NotAllowedError") {
+    } catch (err) {
+        const error = err as Error;
+        if (error.name === "NotAllowedError") {
             console.log("Sharing was not allowed by the user or platform");
             // Fallback to copy to clipboard
             return copyShareText(shareText);
-        } else if (err.name === "AbortError") {
+        } else if (error.name === "AbortError") {
             console.log("User aborted share operation");
-        } else if (err.name === "NotSupportedError") {
+        } else if (error.name === "NotSupportedError") {
             console.error("Share sheet operation not supported");
             // Fallback to copy to clipboard
             return copyShareText(shareText);

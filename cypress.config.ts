@@ -3,7 +3,7 @@ import { defineConfig } from "cypress";
 export default defineConfig({
     e2e: {
         baseUrl: "https://localhost:5173",
-        setupNodeEvents(on, config) {
+        setupNodeEvents(on, _config) {
             // implement node event listeners here
 
             // Log messages in command line output using Node.js runner

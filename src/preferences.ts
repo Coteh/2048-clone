@@ -1,7 +1,7 @@
 import { IGameStorage } from "./storage";
 
 export class Preferences {
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 let preferences: Preferences = {};
@@ -16,11 +16,11 @@ export const initPreferences = (_gameStorage: IGameStorage, initialPreferences: 
     }
 };
 
-export const getPreferenceValue = (key: string) => {
-    return preferences[key];
+export const getPreferenceValue = <T = unknown>(key: string): T => {
+    return preferences[key] as T;
 };
 
-export const savePreferenceValue = (key: string, value: any) => {
+export const savePreferenceValue = (key: string, value: unknown) => {
     preferences[key] = value;
     gameStorage.savePreferences(preferences);
 };

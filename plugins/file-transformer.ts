@@ -21,7 +21,9 @@ export default function fileTransformerPlugin({ input, transformer, output }) {
             try {
                 fileContent = fs.readFileSync(filePath, "utf-8");
             } catch (err) {
-                throw new Error(`Failed to read file: ${input} - ${err.message}`);
+                throw new Error(`Failed to read file: ${input} - ${(err as Error).message}`, {
+                    cause: err,
+                });
             }
 
             // Transform the content using the provided transformer function
