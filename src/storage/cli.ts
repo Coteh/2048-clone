@@ -71,8 +71,7 @@ export class CLIGameStorage implements IGameStorage {
 
     loadFile: <T>(filename: string) => T = (filename) => {
         try {
-            const jsonStr = fs.readFileSync(filename);
-            // @ts-expect-error TODO: Resolve Buffer cannot be assigned to string param type issue
+            const jsonStr = fs.readFileSync(filename, "utf8");
             const json = JSON.parse(jsonStr);
             if (typeof json !== "object") {
                 return {};

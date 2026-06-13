@@ -561,13 +561,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 toggle.innerText = formatTilesetName(nextTileset);
             } else if (elem.classList.contains(ANIMATIONS_SETTING_NAME)) {
                 const knob = setting.querySelector(".knob") as HTMLElement;
-                const enabled = (isAnimationEnabled = !isAnimationEnabled);
+                isAnimationEnabled = !isAnimationEnabled;
                 animationManager.isAnimationEnabled = isAnimationEnabled;
                 savePreferenceValue(
                     ANIMATIONS_PREFERENCE_NAME,
                     isAnimationEnabled ? SETTING_ENABLED : SETTING_DISABLED,
                 );
-                if (enabled) {
+                if (isAnimationEnabled) {
                     knob.classList.add("enabled");
                 } else {
                     knob.classList.remove("enabled");

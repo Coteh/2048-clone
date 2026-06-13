@@ -25,8 +25,7 @@ export default defineConfig(({ mode }) => {
         build: {
             outDir: path.resolve(__dirname, "build"),
             terserOptions: {
-                // @ts-expect-error TODO: Resolve type error with this field
-                ecma: 6,
+                ecma: 2015,
                 compress: { drop_console: true },
                 output: { comments: false, beautify: false },
             },
