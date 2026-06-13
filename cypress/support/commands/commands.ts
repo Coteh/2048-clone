@@ -74,6 +74,10 @@ Cypress.Commands.add("shouldBeInViewport", { prevSubject: true }, (subject) => {
     const window = Cypress.$(cy.state("window"));
     const bottom = window.height();
     const right = window.width();
+
+    if (bottom === undefined || right === undefined) {
+        throw new Error('Expected window dimensions to be available.');
+    }
     const rect = subject[0].getBoundingClientRect();
 
     expect(rect.top).not.to.be.greaterThan(bottom).and.not.to.be.lessThan(0);

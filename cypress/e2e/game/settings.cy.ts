@@ -75,7 +75,13 @@ describe("settings", () => {
         cy.window().then((win) => {
             // TODO: In production, the two debug hud options will not be enabled,
             // AFAIK, there is no way to turn off Vite dev mode for just one test, so this will have to do for now.
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const preferences = win.localStorage.getItem('2048-preferences');
+
+            if (!preferences) {
+                throw new Error('Expected preferences to exist in localStorage.');
+            }
+            
+            expect(JSON.parse(preferences)).to.deep.equal(
                 {
                     theme: "dark",
                     debugHudEnabled: "enabled",
@@ -88,7 +94,13 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const preferences = win.localStorage.getItem('2048-preferences');
+
+            if (!preferences) {
+                throw new Error('Expected preferences to exist in localStorage.');
+            }
+
+            expect(JSON.parse(preferences)).to.deep.equal(
                 {
                     theme: "dark",
                     animations: "enabled",
@@ -102,7 +114,13 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const preferences = win.localStorage.getItem('2048-preferences');
+
+            if (!preferences) {
+                throw new Error('Expected preferences to exist in localStorage.');
+            }
+
+            expect(JSON.parse(preferences)).to.deep.equal(
                 {
                     theme: "dark",
                     animations: "disabled",
@@ -187,12 +205,16 @@ describe("settings", () => {
         cy.window().then((win) => {
             // The invalid value should be replaced with the default value,
             // which will be set to debug hud options in dev mode
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
-                {
-                    debugHudEnabled: "enabled",
-                    debugHudVisible: "enabled",
-                }
-            );
+            const preferences = win.localStorage.getItem('2048-preferences');
+
+            if (!preferences) {
+                throw new Error('Expected preferences to exist in localStorage.');
+            }
+
+            expect(JSON.parse(preferences)).to.deep.equal({
+                debugHudEnabled: 'enabled',
+                debugHudVisible: 'enabled',
+            });
 
             // TODO: In production, these two options will not be enabled,
             // so the test will need to check that the preferences are set to the default values.
@@ -206,7 +228,13 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const preferences = win.localStorage.getItem('2048-preferences');
+
+            if (!preferences) {
+                throw new Error('Expected preferences to exist in localStorage.');
+            }
+
+            expect(JSON.parse(preferences)).to.deep.equal(
                 {
                     animations: "enabled",
                     debugHudEnabled: "enabled",
@@ -219,7 +247,13 @@ describe("settings", () => {
 
         cy.get(".settings-item.animations .knob").should("not.have.class", "enabled");
         cy.window().then((win) => {
-            expect(JSON.parse(win.localStorage.getItem("2048-preferences"))).to.deep.equal(
+            const preferences = win.localStorage.getItem('2048-preferences');
+
+            if (!preferences) {
+                throw new Error('Expected preferences to exist in localStorage.');
+            }
+
+            expect(JSON.parse(preferences)).to.deep.equal(
                 {
                     animations: "disabled",
                     debugHudEnabled: "enabled",

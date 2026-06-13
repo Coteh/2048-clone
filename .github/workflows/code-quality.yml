@@ -1,0 +1,28 @@
+name: Code Quality
+on: [push]
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Checking out ${{ github.ref }} from ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v6
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "pnpm"
+      - name: Run pnpm CI install
+        run: pnpm install
+      - name: Run type check
+        run: pnpm run type-check
+      - name: Run Cypress type check
+        run: pnpm run type-check:cypress
+      - name: Run lint
+        run: pnpm run lint
+      - name: Run format check
+        run: pnpm run format:check

@@ -44,7 +44,7 @@ describe("sharing results", () => {
     const stubShare = () => {
         cy.window().then((win) => {
             // Return false so that it will fallback to clipboard option
-            const canShareFunc = (data) => false;
+            const canShareFunc = (_data?: ShareData) => false;
             // Create the property for canShare if it doesn't exist (ie. browser does not support share sheet), otherwise stub directly
             if (!win.navigator.canShare) {
                 Object.defineProperty(win.navigator, "canShare", {
@@ -62,13 +62,13 @@ describe("sharing results", () => {
     describe("share sheet method", () => {
         it("sends data to share sheet", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            let shareStub: (data?: ShareData) => boolean;
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -119,13 +119,13 @@ describe("sharing results", () => {
 
         it("sends data to share sheet with 2048 achievement", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            let shareStub: (data?: ShareData) => boolean;
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -176,13 +176,13 @@ describe("sharing results", () => {
 
         it("sends data to share sheet with multiple moves", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            let shareStub: (data?: ShareData) => boolean;
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -234,13 +234,13 @@ describe("sharing results", () => {
 
         it("sends data to share sheet with move count reflecting undos that may have been made", (done) => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
-            let shareStub;
+            let shareStub: (data?: ShareData) => boolean;
 
             cy.window().then(async (win) => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
@@ -301,12 +301,12 @@ describe("sharing results", () => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
                 }
-                const shareFunc = (data) => {
+                const shareFunc = (data?: ShareData) => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate cancelling share operation
                     return Promise.reject(new DOMException("Share canceled", "AbortError"));
@@ -351,12 +351,12 @@ describe("sharing results", () => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
                 }
-                const shareFunc = (data) => {
+                const shareFunc = (data?: ShareData) => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate permission issue
                     return Promise.reject(
@@ -405,12 +405,12 @@ describe("sharing results", () => {
                 // Create the property for canShare if it doesn't exist
                 if (!win.navigator.canShare) {
                     Object.defineProperty(win.navigator, "canShare", {
-                        value: cy.stub().callsFake((data) => true),
+                        value: cy.stub().callsFake((_data) => true),
                         writable: true,
                         configurable: true,
                     });
                 }
-                const shareFunc = (data) => {
+                const shareFunc = (data?: ShareData) => {
                     console.log("Shared data:", data);
                     // Return a Promise to simulate unknown error
                     return Promise.reject(new DOMException("Unknown error", "UnknownError"));
@@ -461,7 +461,7 @@ describe("sharing results", () => {
             const PREV_COPIED_TEXT = "This data should still be in clipboard when share is clicked";
 
             cy.window().then(async (win) => {
-                const canShareFunc = (data) => {
+                const canShareFunc = (data?: ShareData) => {
                     console.log("Shared data to be validated:", data);
                     // Return false to indicate that sharing cannot be done due to invalid data
                     return false;

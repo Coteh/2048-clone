@@ -1,11 +1,12 @@
 /// <reference types="cypress" />
 
+import { CyHttpMessages } from "cypress/types/net-stubbing";
 import { GamePersistentState, GameState } from "../../../src/game";
 
 const MOBILE_DEVICE_USER_AGENT =
     "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1";
-const DESKTOP_USER_AGENT =
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0";
+// const DESKTOP_USER_AGENT =
+//     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0) Gecko/20100101 Firefox/107.0";
 
 describe("misc", () => {
     beforeEach(() => {
@@ -248,7 +249,7 @@ describe("misc", () => {
         });
 
         it("should only make one request to the changelog", () => {
-            const interceptedRequests = [];
+            const interceptedRequests: CyHttpMessages.IncomingHttpRequest[] = [];
 
             // Intercept network requests to /CHANGELOG.html
             cy.intercept("GET", "/CHANGELOG.html", (req) => {

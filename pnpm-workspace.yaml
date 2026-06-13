@@ -1,9 +1,13 @@
-onlyBuiltDependencies:
-    - "@sentry/cli"
-    - core-js
-    - cypress
-    - esbuild
-    - protobufjs
+allowBuilds:
+  '@sentry/cli': true
+  core-js: true
+  cypress: true
+  esbuild: true
+  protobufjs: true
+
+publicHoistPattern:
+  - '@jest/globals'
+  - 'jest-mock'
 
 # pnpm's side effects caching is incompatible with Cypress' own caching
 # https://docs.cypress.io/app/get-started/install-cypress#pnpm-configuration

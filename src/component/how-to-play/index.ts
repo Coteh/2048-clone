@@ -69,7 +69,7 @@ export class HowToPlay {
             },
         });
         const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-        dialog.addEventListener("close", (e) => {
+        dialog.addEventListener("close", (_e) => {
             console.log("Closing dialog. Removing listeners...");
             clearInterval(this.step1KeyboardInterval);
             clearInterval(this.step1VisualsInterval);
