@@ -9,7 +9,7 @@ import fileTransformerPlugin from "./plugins/file-transformer";
 import * as marked from "marked";
 import { removeCanonicalInDev } from "./plugins/remove-canonical-in-dev";
 
-const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString();
+const commitHash = childProcess.execSync("git rev-parse --short HEAD").toString().trim();
 
 // @ts-expect-error Resolve type issue with function parameter
 export default defineConfig(({ mode }) => {
