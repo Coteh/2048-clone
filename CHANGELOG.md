@@ -12,12 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Local storage entry names updated to disambiguate from other games, with a one-time migration on launch
 - Browser interface and status bar colour dim when dialogs are open in supported browsers
 
+### Changed
+
+- Tiles no longer animate in when loading a saved game
+- Loader overlay now fades out smoothly instead of disappearing instantly
+
 ### Fixed
 
-- Saved game blocks no longer play the appearance animation on load
-- Loader overlay now fades out smoothly instead of disappearing instantly
 - Status bar colour on iOS 26 not matching selected theme colour
-- Landscape overlay for 2048Clone theme with initial commit tileset shows checkerboard background
+- Landscape overlay for 2048Clone theme with Initial Commit tileset shows checkerboard background
 
 ## [1.3.1] - 2025-02-06
 
