@@ -5,6 +5,9 @@ on: [push]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
 
     steps:
     # Checkout the code
@@ -22,8 +25,10 @@ jobs:
     - name: Install ImageMagick 7
       env:
         IMAGEMAGICK_VERSION: 7.1.2-26
+        IMAGEMAGICK_SHA256: 6366d353b81871929a653ad81158e805f3611d1be7836f2490b6afc38b64c92f
       run: |
         curl -fL "https://github.com/ImageMagick/ImageMagick/releases/download/${IMAGEMAGICK_VERSION}/ImageMagick-${IMAGEMAGICK_VERSION}-gcc-x86_64.AppImage" -o magick
+        echo "${IMAGEMAGICK_SHA256}  magick" | sha256sum --check
         chmod +x magick
         sudo mv magick /usr/local/bin/magick
         echo "APPIMAGE_EXTRACT_AND_RUN=1" >> "$GITHUB_ENV"
