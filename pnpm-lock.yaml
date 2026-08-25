@@ -6,10 +6,6 @@ settings:
 
 importers:
   .:
-    dependencies:
-      clipboardy:
-        specifier: ^3.0.0
-        version: 3.0.0
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.1
@@ -2256,13 +2252,6 @@ packages:
       }
     engines: { node: '>=8' }
 
-  clipboardy@3.0.0:
-    resolution:
-      {
-        integrity: sha512-Su+uU5sr1jkUy1sGRpLKjKrvEOVXgSgiSInwa/qeID6aJ07yh+5NWc3h2QfjHjBnfX4LhtFcuAWKUsJ3r+fjbg==,
-      }
-    engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
-
   cliui@8.0.1:
     resolution:
       {
@@ -3173,14 +3162,6 @@ packages:
       }
     engines: { node: '>= 0.4' }
 
-  is-docker@2.2.1:
-    resolution:
-      {
-        integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==,
-      }
-    engines: { node: '>=8' }
-    hasBin: true
-
   is-extglob@2.1.1:
     resolution:
       {
@@ -3249,13 +3230,6 @@ packages:
         integrity: sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==,
       }
     engines: { node: '>=10' }
-
-  is-wsl@2.2.0:
-    resolution:
-      {
-        integrity: sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww==,
-      }
-    engines: { node: '>=8' }
 
   isexe@2.0.0:
     resolution:
@@ -6351,12 +6325,6 @@ snapshots:
       slice-ansi: 3.0.0
       string-width: 4.2.3
 
-  clipboardy@3.0.0:
-    dependencies:
-      arch: 2.2.0
-      execa: 5.1.1
-      is-wsl: 2.2.0
-
   cliui@8.0.1:
     dependencies:
       string-width: 4.2.3
@@ -6934,8 +6902,6 @@ snapshots:
     dependencies:
       hasown: 2.0.2
 
-  is-docker@2.2.1: {}
-
   is-extglob@2.1.1: {}
 
   is-fullwidth-code-point@3.0.0: {}
@@ -6960,10 +6926,6 @@ snapshots:
   is-typedarray@1.0.0: {}
 
   is-unicode-supported@0.1.0: {}
-
-  is-wsl@2.2.0:
-    dependencies:
-      is-docker: 2.2.1
 
   isexe@2.0.0: {}
 

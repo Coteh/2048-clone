@@ -8,6 +8,8 @@ export const GAME_STATE_JSON_FILENAME = "state.json";
 export const PERSISTENT_STATE_JSON_FILENAME = "persistent_state.json";
 export const PREFERENCES_JSON_FILENAME = "preferences.json";
 
+// No CLI entry point currently uses this; kept for a future CLI front-end
+// and covered by test/cli_storage_test.ts in the meantime.
 export class CLIGameStorage implements IGameStorage {
     saveGame = (gameState: GameState) => {
         this.saveFile(this.resolvedFilename(GAME_STATE_JSON_FILENAME), gameState);
