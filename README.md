@@ -131,9 +131,3 @@ Features I started but have decided to cut for the initial release. Will come ba
 - Undo feature
     - Currently partially implemented for debugging purposes
     - Enable debug mode when running locally to access
-
-### Wishlist (Not Started)
-
-- CLI interface
-- Landscape mode
-- Sound effects
