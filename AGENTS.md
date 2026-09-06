@@ -15,9 +15,10 @@ follows is only what it does not say.
   pnpm 10.
 - `pnpm test` — Jest through `node --experimental-vm-modules` (the flag is in the script; run
   it via pnpm, not bare `jest`). Two suites, a couple of seconds. Run it on every change.
-- The local gate is five commands, the same ones CI runs: `pnpm test`, `pnpm lint`,
-  `pnpm type-check`, `pnpm type-check:cypress`, `pnpm format:check`. `pnpm format` fixes the
-  last one.
+- The local gate is five commands: `pnpm test`, `pnpm lint`, `pnpm type-check`,
+  `pnpm type-check:cypress`, `pnpm format:check`. `pnpm format` fixes the last one. CI covers
+  the same ground with `pnpm run test-ci` in place of `pnpm test`, and adds the Cypress suite
+  on top.
 - `pnpm cypress:run` expects the **HTTPS** dev server — `baseUrl` in `cypress.config.ts` is
   `https://localhost:5173` — so it needs `pnpm devs` and the mkcert certs in `ssl/`, not
   `pnpm dev`.
@@ -142,8 +143,9 @@ duplicated instructions drift apart and nothing says which copy is current.
 
 - Cypress binaries download from `download.cypress.io`, which is blocked in sandboxed agent
   environments, so `pnpm cypress:run` cannot run there. Install with `CYPRESS_INSTALL_BINARY=0`
-  to get the rest of the dependencies, run the Jest suite and the three static checks, and
-  drive the app in a real browser to check behaviour. CI runs the real suite.
+  to get the rest of the dependencies, run the Jest suite and the four static checks (`lint`,
+  both type checks, `format:check`), and drive the app in a real browser to check behaviour.
+  CI runs the real suite.
 - Where the sandbox ships Chromium and Playwright — Claude Code web sessions have them, with
   the browsers at `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` — pointing them at
   `pnpm run dev` is how DOM, theme, and input changes get verified.
